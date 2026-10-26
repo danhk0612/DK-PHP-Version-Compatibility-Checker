@@ -1,0 +1,21 @@
+# Local IDE state
+.vs/
+.idea/
+*.user
+*.suo
+
+# Build and dependency output
+**/bin/
+**/obj/
+**/vendor/
+artifacts/
+
+# Prepared external runtime (source and manifests remain tracked)
+tools/php/
+
+# Local secrets and temporary output
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
