@@ -1,47 +1,71 @@
 # T01 검사 엔진 검증 보고
 
-상태: **부분 검증·Windows 실행 차단**. 2026-10-29 (한국 시간) 공식 자료 조사와 최소 실험 입력·절차 준비 및 정적 점검을 수행했다. 실제 엔진 검사는 실행하지 못했다. 기준 main `c875900a630bbd5c78b8f26d62c7a604edf8400c`. 제품 채택·공식 지원·라이선스 판단이 아니다.
+상태: **부분 검증**. Windows 실행 환경 차단은 해소됐습니다. 기본 엔진·24개 사례 실행은 성공했지만 T01 전체 완료 조건은 아직 충족하지 않았습니다. 제품 채택·공식 지원·라이선스 최종 판단이 아닙니다.
 
-## 환경과 차단
+## 실행 근거
 
-작업 환경은 Linux x86_64 (`uname -a`: Linux 6.18.55); `command -v`로 php, composer, wine, wine64, powershell, pwsh, docker, podman이 모두 없음을 확인했다. 실제 Windows x64 호스트는 제공되지 않았다. 따라서 Windows 버전, 실제 PHP/Composer/엔진 버전, PHP ZIP과 의존성의 실측 SHA-256, Composer lock, 필수 DLL/확장의 실제 목록은 **없음**. 도구 다운로드·설치·fixture 실행도 하지 않았다. 최소 fixture와 manifest·ruleset·Windows 명령 초안은 준비했으며 실제 Composer/PHP로 검증하지 않았다. Composer가 생성하지 않은 lock이나 실제 실행하지 않은 JSON을 만들어 검증 결과로 제시하지 않는다. 아래의 기대는 검증 목표이며 실제 결과가 아니다.
+- 실행일: 2026-10-29 (한국 시간)
+- [Windows workflow 실행 #1](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40757585741): completed / success
+- 소스 head: `67d96a1dc9b2198283d5fb6b685738de8ef8c4a5`; 실행한 PR merge ref: `21dbb91d614f43abff88a8767094a0ac89854d83`; 기준 main: `c875900a630bbd5c78b8f26d62c7a604edf8400c`
+- Windows Server 2022 x64 / OS 10.0.20348 / runner image 20261026.347.1 / Python 3.12.10
+- PHP CLI **8.4.27 NTS Visual C++ 2022 x64**, Composer **2.10.3**. setup-php가 확보한 실행 파일이며 ZIP의 원본 URL·공식 ZIP 해시는 아직 확보하지 않았습니다.
+- php.exe 실측 SHA-256: `e40fb5aa840778d9c058cb5e5dafde5d87790edc1dc764cb409a11599049c7d3`
+- 실제 해석·설치: PHPCompatibility 10.0.0-alpha2 / PHP_CodeSniffer 4.0.4 / PHPCSUtils 1.2.3 / installer v1.1.0
+- [실제 Composer lock](probe/composer.lock) SHA-256: `8e096e4d39ccfbacd6251e428ec329124b776ebfb0da7f59836e887093ef5272`
+- Composer validate는 경고와 함께 유효 판정, update 및 audit 종료값 0. 고정 버전 요구와 라이선스 미기재 경고는 내부 실험 manifest의 상태이며 제품 라이선스 선언이 아닙니다. audit 통과는 모든 보안 위험이 없다는 보장이 아닙니다.
+- [실제 결과 JSON](probe/evidence/windows-2022-summary.json)은 workflow 로그에서 추출했습니다. 실제 경로·명령별 raw stdout/stderr·lock은 [artifact](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40757585741/artifacts/12846882328)에도 있으며 7일 후 만료됩니다. 버전별 메시지·파일·줄·심각도와 핵심 관찰은 저장소 JSON으로 보존합니다.
+
+## 실제 결과
+
+**21개 기대값 비교가 모두 일치했고 탐색용 동적 속성 3개는 미탐지였습니다.** workflow의 24건 성공은 실행·기대 비교의 성공이며, 탐색용 3건을 호환성 탐지 성공으로 포함하지 않습니다.
+
+| 사례 | 대상 8.2 | 대상 8.3 | 대상 8.4 |
+| --- | --- | --- | --- |
+| mysql_query 제거 함수 | ERROR 2건, exit 2 | ERROR 2건, exit 2 | ERROR 2건, exit 2 |
+| mysqli 대조 | 0건, exit 0 | 0건, exit 0 | 0건, exit 0 |
+| get_class 인자 생략 | 0건, exit 0 | WARNING 1건, exit 2 | WARNING 1건, exit 2 |
+| get_class 인자 명시 | 0건, exit 0 | 0건, exit 0 | 0건, exit 0 |
+| 암묵적 nullable | 0건, exit 0 | 0건, exit 0 | WARNING 1건, exit 2 |
+| 명시적 nullable | 0건, exit 0 | 0건, exit 0 | 0건, exit 0 |
+| 동적 속성(탐색) | **미탐지** | **미탐지** | **미탐지** |
+| 선언된 속성 대조 | 0건, exit 0 | 0건, exit 0 | 0건, exit 0 |
+
+mysql_query 한 줄에 제거 확장과 제거 함수의 서로 다른 규칙이 각각 보고됐습니다. 임의 중복 제거를 하지 않았습니다. mysql은 PHP 7.0부터 제거된 문제이며 8.2 신규 제거로 해석하지 않습니다. 동적 속성 예제는 PHP 8.2 변경에 해당해도 이 조합에서 탐지되지 않았으므로 사용자 안내와 지원 한계에 반영해야 합니다. 다른 모든 동적 속성을 절대 탐지하지 못한다고 일반화하지 않습니다.
+
+모든 단일 파일 JSON은 files 1개이며 messages와 totals의 오류/경고 수가 일치했습니다. file/line/column/message/type/source/severity 필드를 수집했습니다. 이는 대규모 폴더·읽기 실패에서 파일 수 계약이 검증됐다는 뜻은 아닙니다.
+
+| 추가 검증 | 실제 결과와 한계 |
+| --- | --- |
+| 성공·탐지 전후 입력 보호 | fixture 파일·디렉터리 목록 및 SHA-256 동일 |
+| 실패 전후 입력 보호 | 빈 폴더·잘못된 ruleset 검사 후 목록 및 해시 동일 |
+| 빈 폴더 | exit 16, 정상 JSON 없음. 완료 0건으로 취급하면 안 됨 |
+| 잘못된 ruleset | exit 16, 정상 JSON 없음 |
+| 한글·공백·& 경로 | 개별 파일 정상 검사, exit 0, 원본 불변 |
+| 대상 설정·소스 격리 사례 | 대상에 phpcs.xml/bootstrap/vendor autoload/Composer scripts/php.ini를 둔 상태에서 명시적 관리 ruleset과 -n으로 개별 subject.php 검사 성공. throw가 있는 대상 코드를 실행하지 않았고 원본 불변 |
+| -n 필수 확장 | 해당 Windows PHP에서 libxml/SimpleXML/tokenizer/xmlwriter 활성 확인 |
+
+격리 사례는 위 조합·명령·단일 파일에서의 근거입니다. 외부 환경 설정 주입, 전체 폴더 탐색 또는 OS sandbox를 전부 검증한 것은 아닙니다. 정적 검사 성공은 실제 서비스·DB·외부 라이브러리 런타임 정상 동작을 보장하지 않습니다.
 
 ## 공식 자료와 보안 확인
 
 2026-10-29 다음 자료를 열어 확인했다. 자료 확인은 실행이나 전체 보안 감사가 아니다.
 
-- [PHPCompatibility 릴리스](https://github.com/PHPCompatibility/PHPCompatibility/releases): 10.0.0-alpha2는 2025-11-28 사전 공개판이다. [태그 manifest](https://github.com/PHPCompatibility/PHPCompatibility/blob/10.0.0-alpha2/composer.json)의 요구 범위는 PHPCS `^3.13.3 || ^4.0`, Utils `^1.1.2`; 설치·해석 결과는 미검증.
+- [PHPCompatibility 릴리스](https://github.com/PHPCompatibility/PHPCompatibility/releases): 10.0.0-alpha2는 2025-11-28 사전 공개판이다. [태그 manifest](https://github.com/PHPCompatibility/PHPCompatibility/blob/10.0.0-alpha2/composer.json)의 요구 범위는 PHPCS `^3.13.3 || ^4.0`, Utils `^1.1.2`; 기본 설치·해석은 위 Windows 실행에서 검증했다.
 - [PHPCS 릴리스](https://github.com/PHPCSStandards/PHP_CodeSniffer/releases): 4.0.4는 4.0.2의 보안 수정 내용을 포함한다고 설명한다. [GHSA-hmqg-cxww-wqhq](https://github.com/advisories/GHSA-hmqg-cxww-wqhq)는 특정 blame 보고서에서 파일명 메타문자를 통한 명령 실행을 다루며 일반 JSON 보고서의 실행 안전성을 증명하지 않는다.
-- [Utils 보안 공지 GHSA-r6hr-vr92-vv28](https://github.com/advisories/GHSA-r6hr-vr92-vv28): `>=1.0.0-alpha1, <1.2.3`은 특정 추상 sniff 메서드를 호출하는 경우 신뢰하지 않는 입력으로 임의 코드 실행 위험이 있으며 1.2.3이 수정판이다. 기존 후보 1.1.2가 영향 범위에 포함된다. PHPCompatibility의 해당 경로 도달 여부는 확인하지 않았다. [릴리스](https://github.com/PHPCSStandards/PHPCSUtils/releases)는 1.2.3을 보안 릴리스로 명시한다. 수정판은 위 선언된 버전 범위에는 들어가지만 실제 의존성 해석·실행은 미검증이다.
-- [PHP Windows 다운로드](https://www.php.net/downloads.php?os=windows&osvariant=windows-downloads): x64 및 CLI용 NTS 안내와 Visual C++ 재배포 패키지 요구를 확인했다. 실제 사용할 ZIP은 선택·다운로드하지 않았다. [지원 기간](https://www.php.net/supported-versions.php)은 8.2 보안 지원 2026-12-31, 8.3 2027-12-31, 8.4 2028-12-31까지로 표시한다. 실행 PHP 버전과 검사 대상 버전은 별개다.
+- [Utils 보안 공지 GHSA-r6hr-vr92-vv28](https://github.com/advisories/GHSA-r6hr-vr92-vv28): `>=1.0.0-alpha1, <1.2.3`은 특정 추상 sniff 메서드를 호출하는 경우 신뢰하지 않는 입력으로 임의 코드 실행 위험이 있으며 1.2.3이 수정판이다. 기존 후보 1.1.2가 영향 범위에 포함된다. PHPCompatibility의 해당 경로 도달 여부는 확인하지 않았다. [릴리스](https://github.com/PHPCSStandards/PHPCSUtils/releases)는 1.2.3을 보안 릴리스로 명시한다. 수정판은 위 선언된 버전 범위에는 들어가지만 기본 의존성 해석·실행은 위 Windows 결과에서 확인했으나 전체 입력 안전성을 증명한 것은 아니다.
+- [PHP Windows 다운로드](https://www.php.net/downloads.php?os=windows&osvariant=windows-downloads): x64 및 CLI용 NTS 안내와 Visual C++ 재배포 패키지 요구를 확인했다. 최종 제품 ZIP은 미선정이며 이번 실행에서는 setup-php가 확보한 PHP CLI를 사용했다. [지원 기간](https://www.php.net/supported-versions.php)은 8.2 보안 지원 2026-12-31, 8.3 2027-12-31, 8.4 2028-12-31까지로 표시한다. 실행 PHP 버전과 검사 대상 버전은 별개다.
 - PHP 공식 변경: [8.2 동적 속성](https://www.php.net/manual/en/migration82.deprecated.php), [8.3 인자 없는 get_class](https://www.php.net/manual/en/migration83.deprecated.php), [8.4 암묵적 nullable](https://www.php.net/manual/en/migration84.deprecated.php). 이 문서는 PHP 동작 근거일 뿐 alpha2의 탐지 근거가 아니다.
 
-## 결과와 남은 재현 작업
+## 아직 수행하지 않은 검증
 
-| 대상/항목 | 기대 및 확인할 비교 | 실제 결과 |
-| --- | --- | --- |
-| 7.4→8.2 | 제거된 mysql 계열과 동적 속성 양성/음성; 규칙의 태그별 적용 확인 | 실행·탐지·누락 모두 미확인 |
-| 8.2→8.3 | 클래스 내부 인자 없는 get_class와 인자 있는 대조 | 실행·탐지·누락 모두 미확인 |
-| 8.2→8.4 | `T $x = null`과 `?T $x = null` 대조 | 실행·탐지·누락 모두 미확인 |
-| JSON·종료·파일 수 | 0건, 오류/경고, 빈 폴더, 잘못된 설정, 읽기 불가, 출력 오염 각각의 stdout/stderr, exit, JSON file/line/type/source/severity 및 실제 처리 파일 수 대조 | 샘플·종료 코드·파일 수 모두 미측정. 소스상 종료 코드 및 JSON 초안은 ARCHITECTURE.md 참조; 실행 검증 아님 |
-| 경로·탐색 | 한글·공백·메타문자 경로, 재귀·확장자·제외·symlink/junction 후보와 실제 처리 목록 비교 | 미실행; 정책 미결정 |
-| 대상 보호 | 성공·탐지·실패 전후 파일과 디렉터리 목록 및 SHA-256 동일; 대상 설정·bootstrap·autoload·Composer·외부 PHP 설정과 대상 코드의 부작용 감지 | 미실행; 차단을 보장할 수 없음 |
-| 오프라인 | 도구 준비 후 네트워크와 Composer 없이 실행; CRT·확장·DLL을 별도 확인 | 미실행 |
+- PHP ZIP 원본 다운로드 URL·공식 해시와 실측 ZIP 해시, 깨끗한 PC의 CRT·DLL 전제
+- 실제 네트워크 차단 상태의 오프라인 재검사 (이번 실행은 Composer 없이 PHPCS를 호출했지만 네트워크 자체는 활성)
+- 일반 사용자 읽기 거부, 하위 폴더·확장자·제외·junction/symlink 탐색
+- 외부 PHPRC/PHP_INI_SCAN_DIR 주입 감지, stdout 오염·잘못된 JSON 처리 및 실패의 세부 계약
+- 대규모/부분 처리의 실제 검사 파일 수 비교와 추가 대표 변경 사례
 
-탐지/누락 표에서 각 버전의 모든 사례는 **미검증**이며 0건이나 미지원으로 해석하지 않는다. 정적 분석은 실제 서비스·DB·외부 라이브러리의 런타임 호환을 보장하지 않는다.
+## 다음 작업과 T02 전달
 
-## T02에 전달할 자료와 다음 실행
+Windows 환경 부재 자체는 더 이상 차단 사유가 아닙니다. 위 미검증 항목을 T01에서 보완합니다. T02는 필수 근거 확보 후 사용자와 alpha 채택·지원 범위·탐색·결과 계약을 결정합니다. 기본 조합이 실행된다는 근거는 확보했으나 동적 속성 사례의 탐지 누락이 있어 PHP 8.2~8.4 전체 지원을 선언하지 않습니다.
 
-alpha2는 최신 PHP 변경을 다루는 후보이나 사전 공개판이며 완전한 탐지와 안정성은 입증되지 않았다. 수정된 Utils 1.2.3 조합을 격리된 Windows x64 검증 환경에서 우선 재검토할 것을 추천한다. 이는 버전 변경 승인이나 제품 채택이 아니다. 알려진 취약 후보를 신뢰하지 않는 입력에 사용하지 말고, 공지의 도달 조건과 추가 보안 공지를 확인한다.
-
-Windows 환경에서 도구 관리 영역과 별도의 자체 작성 fixture를 준비한 뒤 실제 PHP ZIP URL·실측 SHA-256·버전·CRT/확장, Composer 버전·manifest·생성된 lock·설치 버전을 기록한다. 대상 밖의 명시적 ruleset/ini와 인자 분리 실행을 검증하고, 각 명령의 작업 경로·환경·기대/실제 stdout/stderr/종료 코드 및 전후 목록/해시를 보존한다. 대상의 코드와 설정을 실행하거나 대상에 도구·캐시·결과를 쓰지 않는다. 오프라인 시험은 준비 후 네트워크 차단 상태를 확인해 수행한다. 명령 초안과 fixture는 아래에 준비했으나 검증된 완성 절차가 아니다. 실제 명령 검증·lock 및 결과가 확보되어야 T01 완료를 판정할 수 있다.
-
-## 준비한 검증 입력과 절차
-
-- [실험 manifest](probe/composer.json): alpha2 / PHPCS 4.0.4 / Utils **1.2.3** / installer 1.1.0을 고정 요청한다. 제품 채택이 아니며 Composer 의존성 해석은 아직 하지 않았다.
-- [전용 ruleset](probe/ruleset.xml): 관리 영역의 PHPCompatibility만 참조한다. 대상 설정 차단의 실제 증명은 아니다.
-- [Windows 명령 초안](probe/README.md): 도구 준비, 개별 사례별 3개 대상 버전 검사, 대상 밖 JSON·stdout·stderr·종료값 수집, 추가 검증 목록을 준비했다. PowerShell 실행·구문 검증은 미실시다.
-- [8개 최소 PHP 입력·케이스 정의](../tests/fixtures/README.md): 제거 함수/대조, get_class 인자 생략/명시, 암묵/명시 nullable, 동적/선언 속성을 준비했다. 예측과 실제 결과를 분리했으며 동적 속성은 탐색 사례다. mysql 계열은 7.0에서 이미 제거된 항목이지 8.2 신규 변경이 아니다.
-- 1.2.3 manifest의 PHPCS 요구 `^3.13.5 || ^4.0.1`과 실험 4.0.4는 선언상 일치한다. [고정 태그 manifest](https://github.com/PHPCSStandards/PHPCSUtils/blob/1.2.3/composer.json)와 보안 릴리스를 재확인했다.
-
-수행한 정적 점검: JSON·XML 파싱, manifest와 사례의 후보 버전 일치, 8개 파일·대상 3개 및 예상 줄 번호/소스 토큰, 로컬 Markdown 링크·코드펜스, Git 공백 오류를 확인했다. 이는 PHP 구문 검사, Composer validate/update, PowerShell 실행, 실제 탐지 결과가 아니다. 실제 JSON·lock·측정 해시는 없으며 앞 표의 실행 항목은 모두 미검증 상태다.
+[실행 수집기](probe/run_probe.py), [기대 사례](../tests/fixtures/cases.json), [Windows 안내](probe/README.md), workflow를 이용하여 동일 범위의 검사를 재현할 수 있습니다. 커밋한 lock을 기준으로 후속 workflow는 Composer install을 수행합니다. 사전 공개판 사용·공식 지원·자체 라이선스는 아직 승인하지 않았습니다.

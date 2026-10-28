@@ -15,19 +15,18 @@ T00 최초 구축 범위로 README, 6개 기준 문서, AGENTS 및 최소 폴더
 
 ## 검증한 것
 
-- 최신 main과 커밋·관련 PR, 작업 전 로컬 상태를 확인했습니다.
-- 공식 릴리스·고정 태그 composer/라이선스·PHPCS JSON/종료 코드 소스 및 Microsoft/PHP 공식 문서를 읽었습니다. 근거는 ARCHITECTURE.md에 있습니다.
-- 문서의 로컬 링크, 요구 문서 존재, Task ID·선행 조건 및 Git diff 공백 오류를 점검했습니다.
-- T01의 공식 릴리스와 보안 자료를 재확인했습니다. PHPCSUtils 1.1.2는 공개 취약 버전 범위에 해당하며, 1.2.3이 수정판입니다. 영향 코드의 실제 도달 여부와 대체 조합은 미검증입니다. 상세 근거는 [ENGINE_PROBE.md](tools/ENGINE_PROBE.md)에 있습니다.
+- 공식 자료와 태그 규칙·보안 공지를 확인하고 최소 입력·도구 구성을 준비했습니다.
+- 사용자 승인으로 Windows workflow를 추가하고 [실행 #1](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40757585741)을 성공시켰습니다.
+- Windows Server 2022 x64, PHP 8.4.27 NTS, Composer 2.10.3에서 alpha2/PHPCS 4.0.4/Utils 1.2.3 조합 설치·기본 실행을 검증했습니다. 실제 lock·결과 JSON을 보존했습니다.
+- 21개 필수 기대값 비교 일치, 동적 속성 탐색 3건은 미탐지입니다. 입력 보호·한글/공백/& 경로·단일 파일 설정 격리를 확인했습니다. 빈 폴더와 잘못된 ruleset은 exit 16입니다.
+- 자세한 범위·환경·해시·증거는 [ENGINE_PROBE.md](tools/ENGINE_PROBE.md)를 따릅니다. 전체 지원이나 원본 보호의 모든 경우를 보장하지 않습니다.
 
-## 구현·검증하지 않은 것
+## 미구현·미검증
 
-제품 실행 프로그램, solution/csproj, Composer lock, 설치된 도구, 실행 테스트 결과, CI, 빌드, GUI, Windows ZIP, Release/tag는 없습니다. T01용 실험 manifest·전용 ruleset·8개 PHP fixture·케이스 정의·Windows 명령 초안을 준비하고 정적 구조만 점검했습니다. PHP/.NET/Composer·Windows 실행 도구가 없는 Linux 환경으로 실제 엔진·PowerShell 실행 검증은 하지 않았습니다.
+제품 GUI/검사 코드는 없으며 T02 이후 Task는 선행 대기입니다. Windows 기본 엔진 실행은 검증했지만 PHP ZIP 출처/해시·깨끗한 PC의 CRT·실제 네트워크 차단·읽기 거부·링크/재귀 탐색·출력 오염·대규모 부분 처리 등은 아직 미검증입니다. 실제 엔진의 동적 속성 미탐지는 알려진 한계입니다.
 
-현재 요청한 실험 후보는 PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + PHPCSUtils 1.2.3입니다. 기존 1.1.2는 공개 보안 문제로 사용하지 않습니다. 수정판의 의존성 범위는 확인했으나 실제 조합은 미검증입니다. PHP 8.2·8.3·8.4 공식 지원, 사전 공개판 안정성, 원본 보호 동작, 완전 오프라인 실행, CRT 없는 PC 실행, 라이선스 최종 적합성을 검증 완료로 보지 않습니다. 자체 MIT 목표는 있으나 LICENSE 선언은 대기입니다.
+실험 조합이 제품 채택으로 확정된 것은 아닙니다. 자체 MIT 라이선스 선언·공식 지원 범위·배포 판정도 대기입니다. 병합·Release/tag는 하지 않았습니다.
 
 ## 다음 작업
 
-**T01 부분 검증·Windows 실행 차단 / Windows x64 실행 환경과 PHP CLI·Composer 필요.** [보고서](tools/ENGINE_PROBE.md)의 보안 사항을 고려하여 도구 조합을 검증하고 TASKS.md의 완료 조건을 수행해야 합니다. [Windows 준비 절차](tools/probe/README.md)로 실험을 이어갈 수 있으나 아직 명령도 실제 검증되지 않았습니다. 사전 공개판 사용 승인이나 공식 지원 선언은 하지 않았습니다.
-
-T01의 핵심 검증을 보완한 뒤 T02에서 사용자와 필수 결정을 논의합니다. T03~T09는 선행 대기입니다.
+**T01 부분 검증 / Windows 실행 차단 해소.** 기존 PR #1에서 보고서의 미검증 항목을 보완합니다. T01 완료 조건이 충족되기 전 전체 완료로 처리하거나 T03~T09 구현을 시작하지 않습니다. T02 판단에는 이번 실측과 탐지 누락을 함께 전달해야 합니다.

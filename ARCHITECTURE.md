@@ -2,7 +2,7 @@
 
 ## 상태와 결정 원칙
 
-2026-10-26 공식 자료를 확인한 **설계 기준안**입니다. 구현·Windows 실험으로 검증한 아키텍처는 아직 없습니다. 확정 요구는 REQUIREMENTS.md가 관리하며 D01~D13을 사용자 판단 없이 확정하지 않습니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
+2026-10-26 공식 자료를 확인한 **설계 기준안**입니다. 제품 구현은 아직 없습니다. T01의 Windows 기본 엔진 실행은 검증했으며 범위·한계는 [보고서](tools/ENGINE_PROBE.md)를 따릅니다. 확정 요구는 REQUIREMENTS.md가 관리하며 D01~D13을 사용자 판단 없이 확정하지 않습니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
 
 ## 기술 검토 결과
 
@@ -12,7 +12,7 @@
 | .NET 배포 | self-contained는 .NET 런타임 포함; framework-dependent는 런타임 필요 [S8] | 간단한 실행을 위해 전자 추천. ZIP 크기·업데이트 부담 비교 후 D05 결정 |
 | PHPCompatibility | 공개 릴리스 최신은 10.0.0-alpha2, 안정판은 9.3.5 [S1] | 8.x 규칙을 포함한 alpha2를 고정 실험. 채택은 D02 승인 필요 |
 | 고정판 의존성 | alpha2는 PHP >=5.4, PHPCS ^3.13.3 또는 ^4.0, PHPCSUtils ^1.1.2 요구 [S2] | 실행 PHP 최저 요구와 검사 대상 PHP 버전을 혼동하지 않음 |
-| PHPCS | 4.0.4 composer는 PHP >=7.2.0 및 libxml/simplexml/tokenizer/xmlwriter 요구 [S3] | alpha2 + 4.0.4 + Utils 1.2.3을 실험 후보로 요청. 기존 1.1.2는 보안 공지로 제외. 실제 Composer 해석·실행 미검증 |
+| PHPCS | 4.0.4 composer는 PHP >=7.2.0 및 libxml/simplexml/tokenizer/xmlwriter 요구 [S3] | alpha2 + 4.0.4 + Utils 1.2.3을 실험 후보로 요청. 기존 1.1.2는 보안 공지로 제외. Windows 기본 Composer 해석·실행 검증; 전체 T01은 미완료 |
 | 설치 | alpha2는 Composer 설치를 공식 지원 경로로 안내 [S2] | 개발·패키징 단계의 도구 전용 Composer 환경에서 의존성을 구성; 사용자 프로젝트에 설치하지 않음 |
 | PHP CLI | 공식 Windows 다운로드 목록 접근 확인 [S9]; CRT 필요 [S10] | 지원 중인 보안 수정판 x64 NTS 후보. 정확한 버전·해시·배포 DLL은 T01에서 선정하여 제안 |
 
@@ -33,7 +33,7 @@ PHPCompatibility는 탐지 범위가 완전하지 않음을 명시합니다 [S2]
 | JSON 해석 | 엔진 JSON을 결과 데이터로 변환 | 엔진 오류를 성공 결과로 변환하지 않음 |
 | 도구 영역 | 버전 고정 PHP·엔진·설정·고지 | 대상 프로젝트와 분리; 사용자 전역 PHP/Composer 변경 없음 |
 
-초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 역할 README만 있으며 tools/probe/와 tests/fixtures/에는 T01 미실행 준비물이 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
+초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 역할 README만 있으며 tools/probe/와 tests/fixtures/에는 T01 검증 입력·수집기·실제 lock/결과이 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
 
 ## 검사 흐름 및 보호 경계
 

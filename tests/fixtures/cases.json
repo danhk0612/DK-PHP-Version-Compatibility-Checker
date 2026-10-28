@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "unexecuted",
+  "status": "expectation_definitions",
   "engine_candidate": {
     "phpcompatibility/php-compatibility": "10.0.0-alpha2",
     "squizlabs/php_codesniffer": "4.0.4",

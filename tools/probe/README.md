@@ -1,10 +1,10 @@
 # T01 Windows 검증 준비
 
-상태: **미실행 준비안**. 이 manifest는 제품의 엔진 채택 결정이 아닙니다. Composer validate/update, PHP 실행, 아래 PowerShell 절차는 아직 실행하지 않았습니다. composer.lock과 실제 JSON 결과를 임의로 만들지 않았습니다.
+상태: **Windows workflow 기본 실행 검증 완료, T01 전체는 부분 검증**. 이 manifest는 제품 채택 결정이 아닙니다. 실제 lock·결과는 ENGINE_PROBE.md와 evidence/windows-2022-summary.json을 따릅니다. 아래 수동 PowerShell 절차는 별도 실행하지 않았으며 실제 검증된 경로는 workflow와 run_probe.py입니다.
 
 ## 실험 조합
 
-PHPCompatibility 10.0.0-alpha2 / PHP_CodeSniffer 4.0.4 / PHPCSUtils 1.2.3 / Composer installer 1.1.0을 정확한 버전으로 요청합니다. Utils 1.1.2의 공개 보안 문제 때문에 수정판 1.2.3을 후보로 사용합니다. 실제 의존성 해석·추가 보안 검사는 미완료입니다. Composer 보안 차단이 발생하면 우회하지 않고 원인을 보고합니다.
+PHPCompatibility 10.0.0-alpha2 / PHP_CodeSniffer 4.0.4 / PHPCSUtils 1.2.3 / Composer installer 1.1.0을 정확한 버전으로 요청합니다. Utils 1.1.2의 공개 보안 문제 때문에 수정판 1.2.3을 후보로 사용합니다. Windows workflow에서 실제 의존성 해석·설치·audit는 성공했습니다. 추가 배포·보안 검증은 별도입니다. Composer 보안 차단이 발생하면 우회하지 않고 원인을 보고합니다.
 
 - [Utils 1.2.3 manifest](https://github.com/PHPCSStandards/PHPCSUtils/blob/1.2.3/composer.json): PHPCS ^3.13.5 또는 ^4.0.1 요구. 4.0.4는 선언 범위에 포함됩니다.
 - [Utils 보안 공지](https://github.com/PHPCSStandards/PHPCSUtils/security/advisories/GHSA-r6hr-vr92-vv28)
@@ -32,15 +32,15 @@ Get-FileHash $composer -Algorithm SHA256
 & $php $composer --version
 & $php $composer --working-dir=$probe validate --no-check-publish
 if ($LASTEXITCODE -ne 0) { throw 'Composer validate failed; record the error.' }
-& $php $composer --working-dir=$probe update --no-dev --prefer-dist --no-interaction --no-scripts
+& $php $composer --working-dir=$probe install --no-dev --prefer-dist --no-interaction --no-scripts
 # 실패하면 검사를 시작하지 않고 원인을 기록합니다.
-if ($LASTEXITCODE -ne 0) { throw 'Composer update failed; record the error.' }
+if ($LASTEXITCODE -ne 0) { throw 'Composer install failed; record the error.' }
 & $php $composer --working-dir=$probe show --format=json
 & $php $composer --working-dir=$probe audit --format=json
 if ($LASTEXITCODE -ne 0) { throw 'Composer audit failed; record the error.' }
 ```
 
-Composer는 검증 호스트의 도구 설정을 사용합니다. PHP 설정이 필요하면 검증 전용 ini를 명시하고 내용을 보존합니다. PHPCS 필수 확장 libxml/SimpleXML/tokenizer/xmlwriter가 `-n -m`에서 유효한지 확인합니다. 부족하면 이 명령을 그대로 실행하지 않고 전용 ini와 명시한 확장만으로 재시험하여 방법을 기록합니다. Composer 플러그인 허용은 표준 등록용 installer에 한정합니다. 생성된 composer.lock과 실제 설치 목록을 검증 후 기록·커밋하며 vendor/는 커밋하지 않습니다. manifest는 내부 실험용이므로 자체 프로그램의 최종 라이선스를 선언하지 않습니다. 라이선스 미기재 경고와 버전 해석 오류를 구분하여 기록합니다.
+Composer는 검증 호스트의 도구 설정을 사용합니다. PHP 설정이 필요하면 검증 전용 ini를 명시하고 내용을 보존합니다. PHPCS 필수 확장 libxml/SimpleXML/tokenizer/xmlwriter가 `-n -m`에서 유효한지 확인합니다. 부족하면 이 명령을 그대로 실행하지 않고 전용 ini와 명시한 확장만으로 재시험하여 방법을 기록합니다. Composer 플러그인 허용은 표준 등록용 installer에 한정합니다. 실제 실행에서 생성된 composer.lock을 커밋했습니다. 후속 실행은 install로 고정하며 vendor/는 커밋하지 않습니다. manifest는 내부 실험용이므로 자체 프로그램의 최종 라이선스를 선언하지 않습니다. 라이선스 미기재 경고와 버전 해석 오류를 구분하여 기록합니다.
 
 ## 2. 최소 사례를 하나씩 정적 검사
 
@@ -93,3 +93,5 @@ Windows 실험 결과, 명령 확정, lock, 원본 해시, 실제 JSON, 보호·
 `run_probe.py`는 표준 라이브러리만 사용하는 검증용 수집기입니다. 24개 버전별 사례, 입력 전후 파일·디렉터리/해시, 빈 폴더·잘못된 ruleset 관찰, 한글·공백·메타문자 경로와 대상 설정·소스 비실행 감지를 수집합니다. PHP 소스를 직접 실행하지 않습니다. 원본 fixture를 대상 밖 artifacts/t01/inputs에 복사해 검사합니다. raw stdout/stderr·실행 인자·종료값·summary.json·composer.lock은 7일간 workflow artifact로 보존합니다. 실제 결과 확인 전 통과로 기록하지 않습니다.
 
 이 workflow의 성공은 T01 전체 완료와 다릅니다. 실제 네트워크 차단, 읽기 거부, 링크 탐색, 깨끗한 PC의 CRT 의존성 및 PHP ZIP 원본 출처/해시는 별도 검증 항목입니다. 초기 JSON 기대값과 차이가 발생하면 실제 원인을 검토하며 결과에 맞춰 조용히 기준을 낮추지 않습니다.
+
+실제 첫 실행은 성공했으며 21개 기대 비교가 일치했습니다. 동적 속성 탐색 3건은 미탐지였습니다. 빈 폴더·잘못된 ruleset exit 16, 입력 불변, 한글/공백/& 경로와 개별 대상의 설정 격리를 관찰했습니다. 전체 T01 완료로 해석하지 않습니다. 남은 검증은 [보고서](../ENGINE_PROBE.md)를 따릅니다.

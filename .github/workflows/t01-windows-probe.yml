@@ -27,14 +27,14 @@ jobs:
           extensions: libxml, simplexml, tokenizer, xmlwriter
           coverage: none
           tools: composer:v2
-      - name: Resolve isolated probe dependencies
+      - name: Install locked probe dependencies
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force artifacts/t01 | Out-Null
           composer --version | Out-File artifacts/t01/composer-version.txt
           composer --working-dir=tools/probe validate --no-check-publish
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          composer --working-dir=tools/probe update --no-dev --prefer-dist --no-interaction --no-scripts
+          composer --working-dir=tools/probe install --no-dev --prefer-dist --no-interaction --no-scripts
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           composer --working-dir=tools/probe show --format=json | Out-File artifacts/t01/packages.json
           composer --working-dir=tools/probe audit --format=json | Out-File artifacts/t01/audit.json

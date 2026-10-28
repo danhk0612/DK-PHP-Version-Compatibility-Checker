@@ -1,6 +1,6 @@
 # T01 최소 정적 검사 입력
 
-8개 PHP 파일과 [cases.json](cases.json)을 준비했습니다. **모든 실제 엔진 결과는 미측정**입니다. 실행용 애플리케이션이나 실제 프로젝트 소스가 아닙니다. 파일을 PHP로 직접 실행하지 않습니다. 도구 설치와 명령 초안은 [검증 준비 안내](../../tools/probe/README.md)를 따릅니다.
+8개 PHP 파일과 [cases.json](cases.json)을 준비했습니다. Windows workflow의 실제 결과는 [보고서](../../tools/ENGINE_PROBE.md)와 [결과 JSON](../../tools/probe/evidence/windows-2022-summary.json)을 따릅니다. 21개 필수 기대 비교는 일치했고 동적 속성 3건은 미탐지였습니다. 실행용 애플리케이션이나 실제 프로젝트 소스가 아닙니다. 파일을 PHP로 직접 실행하지 않습니다. 도구 설치와 명령 초안은 [검증 준비 안내](../../tools/probe/README.md)를 따릅니다.
 
 | 사례 | 목표 | 기대 기준 |
 | --- | --- | --- |
@@ -24,4 +24,4 @@ finding의 source_prefix는 태그 규칙을 읽은 예측이며 실제 오류 �
 - [alpha2 RemovedGetClassNoArgs](https://github.com/PHPCompatibility/PHPCompatibility/blob/10.0.0-alpha2/PHPCompatibility/Sniffs/ParameterValues/RemovedGetClassNoArgsSniff.php)
 - [alpha2 RemovedImplicitlyNullableParam](https://github.com/PHPCompatibility/PHPCompatibility/blob/10.0.0-alpha2/PHPCompatibility/Sniffs/FunctionDeclarations/RemovedImplicitlyNullableParamSniff.php)
 
-원본 보호·설정 부작용·읽기 실패·빈 폴더·경로/탐색·오프라인 시험은 아직 이 fixture에 포함하지 않았습니다. 전체 완료 조건은 TASKS.md를 따릅니다.
+별도 수집기에서 입력 보호·설정 격리·빈 폴더·특수 경로 일부를 검증했습니다. 읽기 거부·전체 탐색·오프라인 시험 등은 남아 있습니다. 전체 완료 조건은 TASKS.md를 따릅니다.
