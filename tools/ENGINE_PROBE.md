@@ -69,3 +69,9 @@ mysql_query 한 줄에 제거 확장과 제거 함수의 서로 다른 규칙이
 Windows 환경 부재 자체는 더 이상 차단 사유가 아닙니다. 위 미검증 항목을 T01에서 보완합니다. T02는 필수 근거 확보 후 사용자와 alpha 채택·지원 범위·탐색·결과 계약을 결정합니다. 기본 조합이 실행된다는 근거는 확보했으나 동적 속성 사례의 탐지 누락이 있어 PHP 8.2~8.4 전체 지원을 선언하지 않습니다.
 
 [실행 수집기](probe/run_probe.py), [기대 사례](../tests/fixtures/cases.json), [Windows 안내](probe/README.md), workflow를 이용하여 동일 범위의 검사를 재현할 수 있습니다. 커밋한 lock을 기준으로 후속 workflow는 Composer install을 수행합니다. 사전 공개판 사용·공식 지원·자체 라이선스는 아직 승인하지 않았습니다.
+
+## lock 설치 재현 확인
+
+[Windows 실행 #2](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40758275512)도 completed / success입니다. 소스 head `0317fc79f66256b37d57e8276483277eff076a83`의 커밋된 lock으로 Composer install을 수행하고 같은 24개 사례·보호 검사를 다시 실행했습니다. 필수 비교 실패는 0건이고 탐색용 동적 속성 미탐지도 동일합니다.
+
+두 번째 Windows checkout의 lock SHA-256은 `1b7c997436fc8878e9cd09a637f6e4c62f86439f32251f804d6ca36e8c6e3486`입니다. 첫 실행 lock은 LF, 두 번째 checkout은 390개 CRLF 줄바꿈을 사용했습니다. 실제 두 lock을 비교하여 JSON 전체 및 줄바꿈 정규화 후 바이트가 같음을 확인했습니다. 버전·참조·메타데이터 변경은 없으며 원시 파일 해시가 같다고 기록하지 않습니다. 이 재현 성공은 남은 T01 검증 항목을 대체하지 않습니다.
