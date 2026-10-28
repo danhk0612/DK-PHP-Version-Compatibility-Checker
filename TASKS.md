@@ -33,7 +33,7 @@
 ## T01 — 검사 엔진 기술 검증
 
 - 목적: 추천 엔진으로 필요한 검사가 가능한지 재현 가능한 근거 확보.
-- 범위: tools/ 아래 검증 전용 Composer manifest/lock 및 실행 절차, tests/ 아래 작은 자체 작성 fixture·기대 결과, tools/ENGINE_PROBE.md 보고서. 제품 코드 작성은 하지 않음.
+- 범위: tools/ 아래 검증 전용 Composer manifest/lock 및 실행 절차, tests/ 아래 작은 자체 작성 fixture·기대 결과, tools/ENGINE_PROBE.md 보고서. 2026-10-29 사용자 승인으로 .github/workflows/t01-windows-probe.yml의 Windows 검증 실행을 포함함. 제품 코드 작성은 하지 않음.
 - 선행: T00. 실제 Windows x64와 PHP CLI·Composer 사용 가능 환경. 도구는 검증 관리 영역에만 설치.
 - 검증 후보: PHPCompatibility 10.0.0-alpha2, PHPCS 4.0.4, Utils 1.2.3. 기존 1.1.2는 공개 보안 문제로 실험에 사용하지 않음. 착수 시 공식 릴리스·보안 상태 재확인. 실험 버전 변경은 이유와 실제 lock을 기록하되 제품 채택으로 선언하지 않음.
 - 완료 조건:

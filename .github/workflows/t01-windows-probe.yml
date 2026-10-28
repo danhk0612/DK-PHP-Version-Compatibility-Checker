@@ -1,0 +1,53 @@
+name: T01 Windows engine probe
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/workflows/t01-windows-probe.yml'
+      - 'tools/probe/**'
+      - 'tests/fixtures/**'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Prepare experimental PHP CLI
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.4'
+          extensions: libxml, simplexml, tokenizer, xmlwriter
+          coverage: none
+          tools: composer:v2
+      - name: Resolve isolated probe dependencies
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts/t01 | Out-Null
+          composer --version | Out-File artifacts/t01/composer-version.txt
+          composer --working-dir=tools/probe validate --no-check-publish
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          composer --working-dir=tools/probe update --no-dev --prefer-dist --no-interaction --no-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          composer --working-dir=tools/probe show --format=json | Out-File artifacts/t01/packages.json
+          composer --working-dir=tools/probe audit --format=json | Out-File artifacts/t01/audit.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item tools/probe/composer.lock artifacts/t01/composer.lock
+      - name: Run fixtures and protection probes
+        shell: pwsh
+        run: python tools/probe/run_probe.py
+      - name: Preserve raw evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: t01-windows-evidence
+          path: artifacts/t01/
+          if-no-files-found: warn
+          retention-days: 7

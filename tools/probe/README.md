@@ -85,3 +85,11 @@ JSON은 PHPCS 자체가 검사 대상 밖의 artifacts/에 씁니다. PowerShell
 - 준비 후 네트워크를 실제 차단하고 Composer를 호출하지 않은 채 PHPCS만으로 같은 시험을 실행합니다. CRT 미설치 환경도 구분합니다.
 
 Windows 실험 결과, 명령 확정, lock, 원본 해시, 실제 JSON, 보호·탐색·오프라인 시험이 확보되기 전 T01을 완료로 처리하지 않습니다.
+
+## GitHub Actions Windows 검증
+
+2026-10-29 사용자가 Windows 검증용 workflow 추가·실행을 승인했습니다. `.github/workflows/t01-windows-probe.yml`은 이 PR의 검사 준비물 변경 시 Windows Server 2022에서 실행합니다. checkout, setup-php, upload-artifact는 조회한 커밋 SHA로 고정했으며 제품 의존성이 아닙니다. setup-php의 PHP 8.4 계열은 실험 실행용이며 실제 패치 버전·실행 파일 SHA-256을 결과에 기록합니다.
+
+`run_probe.py`는 표준 라이브러리만 사용하는 검증용 수집기입니다. 24개 버전별 사례, 입력 전후 파일·디렉터리/해시, 빈 폴더·잘못된 ruleset 관찰, 한글·공백·메타문자 경로와 대상 설정·소스 비실행 감지를 수집합니다. PHP 소스를 직접 실행하지 않습니다. 원본 fixture를 대상 밖 artifacts/t01/inputs에 복사해 검사합니다. raw stdout/stderr·실행 인자·종료값·summary.json·composer.lock은 7일간 workflow artifact로 보존합니다. 실제 결과 확인 전 통과로 기록하지 않습니다.
+
+이 workflow의 성공은 T01 전체 완료와 다릅니다. 실제 네트워크 차단, 읽기 거부, 링크 탐색, 깨끗한 PC의 CRT 의존성 및 PHP ZIP 원본 출처/해시는 별도 검증 항목입니다. 초기 JSON 기대값과 차이가 발생하면 실제 원인을 검토하며 결과에 맞춰 조용히 기준을 낮추지 않습니다.
