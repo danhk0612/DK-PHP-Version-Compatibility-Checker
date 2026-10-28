@@ -42,7 +42,10 @@ jobs:
           Copy-Item tools/probe/composer.lock artifacts/t01/composer.lock
       - name: Run fixtures and protection probes
         shell: pwsh
-        run: python tools/probe/run_probe.py
+        run: |
+          python tools/probe/run_probe.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/probe/run_extended_probe.py
       - name: Preserve raw evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
