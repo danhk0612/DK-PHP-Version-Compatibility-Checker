@@ -1,6 +1,6 @@
 # T01 검사 엔진 검증 보고
 
-상태: **부분 검증**. Windows 실행 환경 차단은 해소됐습니다. 기본 엔진·24개 사례 실행은 성공했지만 T01 전체 완료 조건은 아직 충족하지 않았습니다. 제품 채택·공식 지원·라이선스 최종 판단이 아닙니다.
+상태: **T01 기술 검증 완료**. 기본·추가 실험을 실제 Windows에서 수행하고 탐지 누락·실행 실패와 환경 제약을 확인했습니다. 이는 엔진의 모든 사례 통과, 제품 채택·공식 지원·배포 적합성 승인이 아닙니다. 최신 유효 실험은 아래 공식 ZIP 기반 추가 검증입니다.
 
 ## 실행 근거
 
@@ -56,19 +56,66 @@ mysql_query 한 줄에 제거 확장과 제거 함수의 서로 다른 규칙이
 - [PHP Windows 다운로드](https://www.php.net/downloads.php?os=windows&osvariant=windows-downloads): x64 및 CLI용 NTS 안내와 Visual C++ 재배포 패키지 요구를 확인했다. 최종 제품 ZIP은 미선정이며 이번 실행에서는 setup-php가 확보한 PHP CLI를 사용했다. [지원 기간](https://www.php.net/supported-versions.php)은 8.2 보안 지원 2026-12-31, 8.3 2027-12-31, 8.4 2028-12-31까지로 표시한다. 실행 PHP 버전과 검사 대상 버전은 별개다.
 - PHP 공식 변경: [8.2 동적 속성](https://www.php.net/manual/en/migration82.deprecated.php), [8.3 인자 없는 get_class](https://www.php.net/manual/en/migration83.deprecated.php), [8.4 암묵적 nullable](https://www.php.net/manual/en/migration84.deprecated.php). 이 문서는 PHP 동작 근거일 뿐 alpha2의 탐지 근거가 아니다.
 
-## 아직 수행하지 않은 검증
+## 공식 ZIP 기반 추가 검증
 
-- PHP ZIP 원본 다운로드 URL·공식 해시와 실측 ZIP 해시, 깨끗한 PC의 CRT·DLL 전제
-- 실제 네트워크 차단 상태의 오프라인 재검사 (이번 실행은 Composer 없이 PHPCS를 호출했지만 네트워크 자체는 활성)
-- 일반 사용자 읽기 거부, 하위 폴더·확장자·제외·junction/symlink 탐색
-- 외부 PHPRC/PHP_INI_SCAN_DIR 주입 감지, stdout 오염·잘못된 JSON 처리 및 실패의 세부 계약
-- 대규모/부분 처리의 실제 검사 파일 수 비교와 추가 대표 변경 사례
+[최종 Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40761510481)은 completed / success입니다. 소스 head는 `4c3572d99576a2bfecc44fb61c6b1acc5c2fbd5b`, 실행 merge ref는 `d73b9e174ce39e18dcfcc02c22a8727eb3afa35e`입니다. [기본·추가 실측 JSON](T01_WINDOWS_RESULTS.json)에 결과를 보존했습니다. files 배열의 경로만 저장소 상대 경로로 정규화했으며 원래 raw 출력·명령은 해당 workflow artifact에 있습니다.
 
-## 다음 작업과 T02 전달
+최신 검사 runtime은 setup-php의 실행 파일이 아니라 공식 배포 ZIP에서 준비했습니다. setup-php는 Composer 준비용이고, 실제 분석 프로세스는 아래 공식 파일을 사용했습니다.
 
-Windows 환경 부재 자체는 더 이상 차단 사유가 아닙니다. 위 미검증 항목을 T01에서 보완합니다. T02는 필수 근거 확보 후 사용자와 alpha 채택·지원 범위·탐색·결과 계약을 결정합니다. 기본 조합이 실행된다는 근거는 확보했으나 동적 속성 사례의 탐지 누락이 있어 PHP 8.2~8.4 전체 지원을 선언하지 않습니다.
+- [공식 metadata](https://downloads.php.net/~windows/releases/releases.json): 배포 버전 **8.4.27-1**, x64 NTS VS17
+- [실제 다운로드 ZIP](https://downloads.php.net/~windows/releases/php-8.4.27-1-nts-Win32-vs17-x64.zip)
+- 공식·실측 ZIP SHA-256 일치: `dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7`
+- 실제 분석 php.exe SHA-256: `69f59f1e561c24c5204800ad8ecc1585d79dfa03d07a644d66f4241c86b5991e`
+- 공식 ZIP 내 php.exe 및 DLL과 실제 분석 runtime의 파일 해시가 일치했습니다. CLI 표시 버전은 8.4.27이며 배포 revision -1과 구별합니다.
+- Windows Server 2022 x64 / runner image 20261022.344.1. 필수 libxml/SimpleXML/tokenizer/xmlwriter는 -n에서 유효했습니다. 소스·도구 원본은 수정하지 않았습니다.
 
-[실행 수집기](probe/run_probe.py), [기대 사례](../tests/fixtures/cases.json), [Windows 안내](probe/README.md), workflow를 이용하여 동일 범위의 검사를 재현할 수 있습니다. 커밋한 lock을 기준으로 후속 workflow는 Composer install을 수행합니다. 사전 공개판 사용·공식 지원·자체 라이선스는 아직 승인하지 않았습니다.
+기존 setup-php 실행 파일은 같은 CLI 버전 표시라도 공식 revision -1 ZIP의 실행 파일과 달랐습니다. [대조 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40761046871)에서 ZIP 해시는 일치했지만 실행 파일 비교가 실패하여 workflow를 실패로 남겼고, 공식 ZIP으로 검증 runtime을 준비한 뒤 전체 실험을 다시 수행했습니다. 이를 변조의 증거로 해석하지 않으며, 버전 문자열만으로 바이너리 출처·동일성을 보장할 수 없다는 근거로 남깁니다.
+
+| 추가 항목 | 공식 runtime에서의 실제 결과 | 판단 |
+| --- | --- | --- |
+| 온라인 기본 24개 | 기존 결과와 동일. 21개 필수 기대 비교 일치, 동적 속성 3개 미탐지 | 탐지 한계 유지 |
+| PHP 외부 통신 차단 | 차단 전 repo.packagist.org:443 접속 성공, PHP 실행 파일 전용 outbound block 후 접속 실패. 같은 상태에서 Composer 없이 24개 결과 모두 동일, 입력 불변 | 검사 프로세스의 오프라인 실행 확인. 전체 호스트 네트워크 차단은 아님 |
+| 방화벽 복구 | 임시 PHP 전용 규칙 제거 후 같은 접속 다시 성공 | runner·업로드 프로세스는 차단하지 않음 |
+| 읽기 거부 | 자체 fixture ACL로 실제 PHP 읽기 실패 확인. 엔진 exit 255, 정상 JSON 없음 | 16 외의 비정상 종료도 실패로 처리해야 함 |
+| 읽기 거부 복구 | 임시 deny ACE 제거 후 원본 해시 동일 | 일반 사용자 계정 전체 동작 시험은 별도 |
+| PHPRC/INI scan 주입 | -n 없는 관리용 양성 대조는 주입 마커 출력, -n 엔진 검사는 정상 JSON·0건·원본 불변 | 주입이 실제 활성인 대조와 차단 확인 |
+| stdout 오염 | 관리용 PHPCS bootstrap으로 마커를 출력하면 수집기의 JSON 판정 실패 | 프로세스 exit만으로 검사 완료 판정 불가 |
+| 하위 포함 PHP | 예상 131개 = JSON files 131개, exit 0 | 대표 batch에서 실제 파일 수 일치 |
+| 현재 폴더만(-l) | 1개 | 탐색 옵션 후보 검증이며 최종 UI 정책 아님 |
+| php,inc 확장자 | 132개 | TXT는 제외 |
+| skip 폴더 제외 | 130개 | --ignore 후보 검증 |
+| junction 직접 탐색 | exit 255, 정상 JSON 없음. junction을 fopen하려다 Permission denied로 비정상 종료 | **정상 탐색으로 합격 처리하지 않음** |
+| symlink 직접 탐색 | 선택한 폴더 밖 outside.php까지 JSON에 포함 | **선택 폴더 경계가 자동 보장되지 않음** |
+| 링크 제외 명시적 file-list | junction/symlink 각각 131개만 정상 검사. 외부 파일 미포함·원본 불변 | T02의 파일 탐색 계약에 추천할 방식 |
+
+추가 수집기의 scope_passed는 위 관찰·비교 조건이 충족됐다는 뜻입니다. junction_observation의 passed=true는 알려진 exit 255 실패 양상을 재현했다는 의미이며 engine_succeeded=false를 함께 기록합니다. 엔진의 junction 처리나 동적 속성 탐지가 정상이라는 뜻이 아닙니다. 스니프나 외부 엔진 코드는 변경하지 않았습니다.
+
+첫 추가 실행에서는 검증 도구가 --extensions를 두 번 전달하여 php,inc 기대 비교가 실패했습니다. [실패 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40760523515)의 근거를 보존하고, 검증 도구가 확장자 인자를 한 번만 전달하도록 고친 뒤 132개를 실제 확인했습니다. 기대 파일 수를 줄이지 않았습니다. 같은 실행에서 확인한 junction 실패도 숨기지 않고 최종 실험에서 재현·회피 방식을 구분했습니다.
+
+## 완료 조건 대조와 남은 범위
+
+| TASKS T01 조건 | 확보한 근거 |
+| --- | --- |
+| 1. 환경·출처·해시·lock·명령 | 공식 ZIP·실측 SHA-256, 실제 php.exe/DLL 대조, Composer lock, workflow·실행 인자 artifact |
+| 2. 버전별 양성·음성 | 8개 소스×3개 대상. 제거 함수·인자 생략·nullable·동적 속성의 대조와 미탐지 기록 |
+| 3. JSON·종료·실패·파일 수 | 0/2/16/255, 필드·총수·단일 및 batch 파일 수, 빈 폴더/불량 ruleset/읽기 거부/출력 오염 |
+| 4. 경로·탐색 | 한글/공백/& 경로, 재귀/현재 폴더/확장자/제외/junction/symlink·명시적 file-list |
+| 5. 원본·설정 격리 | 대상 설정·bootstrap·autoload·Composer scripts·PHP 소스 비실행 감지, PHPRC/scan dir 양성 대조, 파일·디렉터리/해시 비교 |
+| 6. 오프라인·환경 제약 | PHP 프로세스 outbound 차단 양성/음성 대조·24개 재검사·복구, 필수 확장·CRT 전제와 제약 기록 |
+| 7. 지원/누락·추천 | 위 표와 아래 T02 판단안. 공식 지원/사전 공개판 채택은 미확정 |
+
+깨끗한 일반 사용자 Windows PC의 CRT 미설치 동작·최소 DLL 배포 구성·GUI 응답·대규모 제품 성능은 아직 검증하지 않았으며 T04/T07/T09에서 실제 배포 구성으로 수행합니다. 131개 실험의 시간은 보편적 성능 보장이 아닙니다. 임의 링크 순환, 모든 경로 문자·권한 조합, 모든 PHP 변경, 실제 서비스의 런타임 호환성을 완전 검증한 것으로 간주하지 않습니다. T01은 이러한 한계와 환경 제약을 남긴 기술 검증이며 제품 완료가 아닙니다.
+
+## T02에 전달할 추천안 (사용자 승인 전)
+
+- 엔진 후보: PHPCompatibility alpha2 + PHPCS 4.0.4 + Utils 1.2.3. 안정판 선택으로 8.x 검사 범위를 오해하게 하지 않으며 사전 공개판·미탐지 한계를 표시합니다.
+- 실행 PHP 후보: 이번에 검증한 공식 8.4.27-1 x64 NTS 계열. 제품 내장판은 보안 상태를 다시 확인해 결정합니다.
+- 탐색: 초기에는 프로그램이 승인한 PHP 파일 목록을 만들고 링크/junction을 기본 제외하는 안을 우선 추천합니다. 사용자 결정 없이 구현·기본값으로 확정하지 않습니다.
+- 결과: 엔진 규칙·ERROR/WARNING·severity 원값 보존. 같은 줄의 다른 규칙을 임의 중복 제거하지 않습니다. exit 0이라도 JSON 불량이면 실패, 16/255와 부분 처리도 완료 0건으로 표시하지 않습니다.
+- 지원 표시: 선택 대상 8.2/8.3/8.4의 정적 문제 탐지 범위로 설명하되 완전 호환 보장으로 표시하지 않습니다. 이번 동적 속성 사례 미탐지를 알려진 한계로 명시합니다.
+- 나머지 D04/D05/D11~D13은 기존 WPF/.NET 10·간단한 ZIP 배포·자체 MIT 목표 등 기준안을 사용자와 확정합니다. PHPStan·업데이트·내보내기를 선행 구현하지 않습니다.
+
+T02는 T01 PR #1의 현재 branch 근거를 읽어 진행할 수 있으나 main에는 아직 병합하지 않았습니다. 제품 코드·최종 라이선스·배포·Release/tag는 이번 작업에서 수행하지 않았습니다.
 
 ## lock 설치 재현 확인
 

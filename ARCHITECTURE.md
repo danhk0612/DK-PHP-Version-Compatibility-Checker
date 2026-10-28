@@ -12,7 +12,7 @@
 | .NET 배포 | self-contained는 .NET 런타임 포함; framework-dependent는 런타임 필요 [S8] | 간단한 실행을 위해 전자 추천. ZIP 크기·업데이트 부담 비교 후 D05 결정 |
 | PHPCompatibility | 공개 릴리스 최신은 10.0.0-alpha2, 안정판은 9.3.5 [S1] | 8.x 규칙을 포함한 alpha2를 고정 실험. 채택은 D02 승인 필요 |
 | 고정판 의존성 | alpha2는 PHP >=5.4, PHPCS ^3.13.3 또는 ^4.0, PHPCSUtils ^1.1.2 요구 [S2] | 실행 PHP 최저 요구와 검사 대상 PHP 버전을 혼동하지 않음 |
-| PHPCS | 4.0.4 composer는 PHP >=7.2.0 및 libxml/simplexml/tokenizer/xmlwriter 요구 [S3] | alpha2 + 4.0.4 + Utils 1.2.3을 실험 후보로 요청. 기존 1.1.2는 보안 공지로 제외. Windows 기본 Composer 해석·실행 검증; 전체 T01은 미완료 |
+| PHPCS | 4.0.4 composer는 PHP >=7.2.0 및 libxml/simplexml/tokenizer/xmlwriter 요구 [S3] | alpha2 + 4.0.4 + Utils 1.2.3을 실험 후보로 요청. 기존 1.1.2는 보안 공지로 제외. Windows 기본·추가 기술 검증 완료. 탐지·탐색 한계와 제품 결정은 보고서/T02 참조 |
 | 설치 | alpha2는 Composer 설치를 공식 지원 경로로 안내 [S2] | 개발·패키징 단계의 도구 전용 Composer 환경에서 의존성을 구성; 사용자 프로젝트에 설치하지 않음 |
 | PHP CLI | 공식 Windows 다운로드 목록 접근 확인 [S9]; CRT 필요 [S10] | 지원 중인 보안 수정판 x64 NTS 후보. 정확한 버전·해시·배포 DLL은 T01에서 선정하여 제안 |
 
@@ -48,6 +48,8 @@ PHPCompatibility는 탐지 범위가 완전하지 않음을 명시합니다 [S2]
 PHP를 `-n`만으로 실행하면 PHPCS 필수 확장이 빠질 수 있습니다. 프로그램 전용 ini 또는 -n과 명시 확장 로딩 중 실제 ZIP에서 동작하는 방법을 T01에서 검증합니다. 원본 보호는 현재 설계 의도이며 OS 수준 sandbox가 구현됐다는 뜻이 아닙니다.
 
 개념적 인자는 `php <관리영역의 phpcs> --standard=<관리 ruleset 절대 경로> --runtime-set testVersion <대상 단일 버전> --report=json -q --no-cache <승인된 입력>`입니다. 실행 가능한 최종 명령은 T01 결과로 고정합니다. 파일 목록 사용·재귀 여부·제외·annotation 정책도 함께 검증하며 임의 기본값을 숨기지 않습니다.
+
+T01 추가 실험에서는 PHP 프로세스의 통신 차단·설정 주입 차단·원본 불변을 확인했습니다. native junction 탐색은 exit255, symlink는 선택 폴더 밖 파일까지 추적했습니다. 링크 제외 명시적 file-list 방식이 검증됐으므로 D09에서 사용자와 이 정책을 판단해야 합니다. 제품 탐색 구현이나 기본값을 이 조사만으로 확정하지 않습니다.
 
 ## 결과 계약 초안
 

@@ -8,7 +8,7 @@
 | 저성능 Work | 확정 요구 구현, 반복 수정, 빌드·테스트, Windows 검증, 지정 Git 작업 | 구조 문제·범위 확대가 필요하면 근거와 영향 정리 후 판단 요청 |
 | 고성능 Chat | 좁은 기술 판단·오류 분석·대안 비교·코드 검토·사용자 미확정 선택 | 저장소 실행 작업이 많거나 복잡한 구조 문제면 적절한 Work로 인계 |
 
-모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. 다음 T01은 저성능 Work, 이후 T02는 고성능 Chat을 우선합니다.
+모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01은 기술 검증을 마쳤으며 다음 T02는 고성능 Chat을 우선합니다.
 
 ## 모든 작업의 시작
 
@@ -41,7 +41,7 @@ Task별 완료 조건을 실제 수행하고 환경·명령·기대/실제 결�
 
 CURRENT_STATE는 현재 구현·검증·미완료·다음 작업만 유지하며 날짜별 일지를 쌓지 않습니다. TASKS는 실제 상태·의존성·완료 근거를 갱신합니다. 요구나 결정이 바뀐 문서만 최소 수정합니다. Git에 남는 과거 이력을 문서에 복제하지 않습니다.
 
-## 다음 T01에 그대로 사용할 지시문
+## T01 재검증에 사용할 지시문
 
 ```text
 GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T01 검사 엔진 기술 검증만 수행해.
@@ -57,7 +57,7 @@ Windows x64 실행 환경에서 도구 전용 Composer 환경과 최소 자체 f
 실제 버전·다운로드 출처·해시·lock·명령·환경·기대/실제 결과를 기록해.
 Windows 환경이 없으면 실행 검증을 완료 처리하지 말고 가능한 근거와 차단을 남겨.
 
-tools/probe/README.md와 tests/fixtures/cases.json의 미실행 준비안을 확인하고,
+tools/probe/README.md와 tests/fixtures/cases.json의 검증 입력·기록을 확인하고,
 tools/ENGINE_PROBE.md에 재현 결과·지원/누락/미검증 표·T02 추천안을 정리하고
 CURRENT_STATE.md와 TASKS.md를 실제 상태에 맞게 갱신해.
 제품 GUI/검사 코드·PHPStan·다운로드/업데이트·자동 수정은 구현하지 마.
@@ -72,3 +72,17 @@ Task 작업 브랜치에 commit/push하고 검토용 PR까지 제출해.
 ## 이후 인계 템플릿
 
 저장소와 Task ID, 기준 브랜치/확인 커밋, 우선 문서, 목적·범위·선행 조건, 금지 영역, 완료 검증, 허용 Git 동작을 명시합니다. 문서에 있는 요구를 대화에 전부 복사하지 않습니다. T02 결정 뒤에는 해당 Task와 계약을 다시 읽고 지시문을 조정합니다.
+
+## 현재 다음 T02 지시문
+
+```text
+DK-PHP-Version-Compatibility-Checker의 T02 판단·계약 확정만 진행해.
+최신 main과 PR #1(t01-engine-probe-blocked)의 문서·실제 상태를 확인해.
+AGENTS.md 및 6개 기준 문서, tools/ENGINE_PROBE.md와
+ tools/T01_WINDOWS_RESULTS.json을 읽고 TASKS.md T02 범위를 따라.
+T01의 공식 PHP ZIP/lock/실측과 동적 속성 미탐지·junction 종료255·
+symlink 경계 이탈을 근거로 D01~D05·D08~D09·D11~D13의 추천안을 정리해.
+사용자 판단을 받아 계약과 관련 문서만 갱신해.
+미확정 선택·PHPStan·업데이트·내보내기·제품 코드를 임의 구현하지 마.
+PR #1은 아직 main에 병합하지 않았으며 직접 병합·Release/tag는 하지 마.
+```

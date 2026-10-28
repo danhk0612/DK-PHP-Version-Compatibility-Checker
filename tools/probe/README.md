@@ -1,6 +1,6 @@
 # T01 Windows 검증 준비
 
-상태: **Windows workflow 기본 실행 검증 완료, T01 전체는 부분 검증**. 이 manifest는 제품 채택 결정이 아닙니다. 실제 lock·결과는 ENGINE_PROBE.md와 evidence/windows-2022-summary.json을 따릅니다. 아래 수동 PowerShell 절차는 별도 실행하지 않았으며 실제 검증된 경로는 workflow와 run_probe.py입니다.
+상태: **T01 기술 검증 완료(알려진 한계 포함)**. 이 manifest는 제품 채택 결정이 아닙니다. 실제 lock·결과는 ENGINE_PROBE.md와 evidence/windows-2022-summary.json을 따릅니다. 아래 수동 PowerShell 절차는 별도 실행하지 않았으며 실제 검증된 경로는 workflow와 run_probe.py입니다.
 
 ## 실험 조합
 
@@ -95,3 +95,13 @@ Windows 실험 결과, 명령 확정, lock, 원본 해시, 실제 JSON, 보호·
 이 workflow의 성공은 T01 전체 완료와 다릅니다. 실제 네트워크 차단, 읽기 거부, 링크 탐색, 깨끗한 PC의 CRT 의존성 및 PHP ZIP 원본 출처/해시는 별도 검증 항목입니다. 초기 JSON 기대값과 차이가 발생하면 실제 원인을 검토하며 결과에 맞춰 조용히 기준을 낮추지 않습니다.
 
 실제 첫 실행은 성공했으며 21개 기대 비교가 일치했습니다. 동적 속성 탐색 3건은 미탐지였습니다. 빈 폴더·잘못된 ruleset exit 16, 입력 불변, 한글/공백/& 경로와 개별 대상의 설정 격리를 관찰했습니다. 전체 T01 완료로 해석하지 않습니다. 남은 검증은 [보고서](../ENGINE_PROBE.md)를 따릅니다.
+
+## 추가 검증과 공식 PHP runtime
+
+workflow는 Composer 준비 뒤 공식 releases.json의 PHP 8.4 x64 NTS ZIP을 내려받아 공개 SHA-256과 대조하고, 분리된 임시 영역에서 실제 분석 runtime을 준비합니다. Composer 도구 준비용 setup-php 바이너리와 구분합니다. 실제 검증된 배포 revision·URL·해시는 [최신 보고서](../ENGINE_PROBE.md)를 따릅니다.
+
+run_extended_probe.py는 관리용 양성 대조로 외부 ini 주입·오염 출력을 확인하고, 자체 fixture만으로 ACL 읽기 거부·복구, 재귀/확장자/제외/링크 탐색을 조사합니다. 임시 PHP 실행 파일 전용 방화벽 규칙은 try/finally에서 제거하며, 차단 전/중/후 접속 대조와 차단 중 기존 24개 결과 일치를 확인합니다. runner·artifact 업로드 전체 네트워크를 끊는 방식이 아닙니다.
+
+추가 수집기에서 junction_observation이 통과해도 native junction 탐색이 성공한 것이 아닙니다. engine_succeeded=false와 exit255 재현을 확인한 실험 조건 통과입니다. symlink의 선택 폴더 밖 추적도 관찰했습니다. 명시적 파일 목록은 두 링크 유형을 모두 제외한 경우만 별도로 합격 확인합니다. 최종 제품 탐색 정책은 T02의 사용자 결정이 필요합니다.
+
+최신 실측은 tools/T01_WINDOWS_RESULTS.json에 보존했습니다. 깨끗한 PC의 CRT·최소 배포 DLL과 제품 GUI/성능 시험은 T04/T07/T09에 남아 있으며 기술 검증 완료를 제품 배포 완료로 해석하지 않습니다.
