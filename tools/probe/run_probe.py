@@ -33,10 +33,12 @@ def save_json(path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
-def scan(label, target, version='8.4', standard=RULESET, extra_args=(), env=None):
+def scan(label, target, version='8.4', standard=RULESET, extra_args=(), env=None, extensions='php'):
     command = [PHP, '-n', str(PHPCS), '--standard=' + str(standard),
                '--runtime-set', 'testVersion', version, '--report=json', '-q',
-               '--no-cache', '--extensions=php', *extra_args, str(target)]
+               '--no-cache', '--extensions=' + extensions, *extra_args]
+    if target is not None:
+        command.append(str(target))
     result = subprocess.run(command, cwd=PROBE, env=ENV if env is None else env, capture_output=True, timeout=120)
     (OUT / (label + '.stdout')).write_bytes(result.stdout)
     (OUT / (label + '.stderr')).write_bytes(result.stderr)
@@ -54,7 +56,9 @@ def scan(label, target, version='8.4', standard=RULESET, extra_args=(), env=None
         return {'exit': result.returncode, 'json_valid': valid,
                 'files': list(report['files']), 'totals': report['totals'], 'messages': messages}
     except (ValueError, KeyError, TypeError):
-        return {'exit': result.returncode, 'json_valid': False, 'messages': []}
+        return {'exit': result.returncode, 'json_valid': False, 'messages': [],
+                'stdout_excerpt': result.stdout.decode('utf-8', 'replace')[-3000:],
+                'stderr_excerpt': result.stderr.decode('utf-8', 'replace')[-3000:]}
 
 
 def main():

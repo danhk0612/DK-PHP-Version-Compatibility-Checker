@@ -1,5 +1,9 @@
 """Additional T01 experiments; only disposable Windows runner fixtures are changed."""
 import json
+import hashlib
+import io
+import urllib.request
+import zipfile
 import os
 from pathlib import Path
 import shutil
@@ -33,7 +37,7 @@ def main():
     AREA.mkdir(exist_ok=False)
     results = {'run_id': os.environ.get('GITHUB_RUN_ID'),
                'commit': os.environ.get('GITHUB_SHA'), 'checks': {}, 'failures': [],
-               'unverified': ['official PHP ZIP provenance/hash', 'clean-PC CRT/DLL requirements',
+               'unverified': ['clean-PC CRT/DLL requirements',
                               'general non-admin user behavior', 'arbitrary link cycles',
                               'all possible PHP changes and application runtime behavior']}
 
@@ -77,15 +81,19 @@ def main():
         (tree / 'bulk' / f'file-{i:03}.php').write_text('<?php\n$value = 1;\n', encoding='utf-8')
     before = base.snapshot(tree)
     for name, flags, expected in [('recursive_php', [], 131), ('local_only', ['-l'], 1),
-                                  ('php_and_inc', ['--extensions=php,inc'], 132),
+                                  ('php_and_inc', [], 132),
                                   ('exclude_skip', ['--ignore=*/skip/*'], 130)]:
         started = time.monotonic()
-        actual = base.scan('extended-' + name, tree, extra_args=flags)
+        actual = base.scan('extended-' + name, tree, extra_args=flags,
+                           extensions='php,inc' if name == 'php_and_inc' else 'php')
         actual['elapsed_seconds'] = round(time.monotonic() - started, 3)
         check(name, actual['json_valid'] and actual['exit'] == 0 and not actual['messages']
               and len(actual.get('files', [])) == expected and base.snapshot(tree) == before, actual)
 
     # Observe whether native directory traversal crosses a junction or symlink.
+    file_list = AREA / 'selected-files.txt'
+    file_list.write_text('\n'.join(str(tree / name) for name, kind in before.items()
+                                  if kind != 'directory' and name.endswith('.php')) + '\n', encoding='utf-8')
     outside = AREA / 'outside-selected-root'
     outside.mkdir()
     (outside / 'outside.php').write_text('<?php\n$value = 1;\n', encoding='utf-8')
@@ -104,7 +112,19 @@ def main():
                 observation['scan'] = actual
                 observation['outside_file_reported'] = any(
                     Path(p).name == 'outside.php' for p in actual.get('files', []))
-                check(kind + '_observation', actual['json_valid'] and actual['exit'] == 0, observation)
+                observation['engine_succeeded'] = actual['json_valid'] and actual['exit'] == 0
+                if kind == 'junction':
+                    # Reproduce the observed engine crash; do not label native traversal safe.
+                    observed = actual['exit'] == 255 and not actual['json_valid']
+                    observation['known_native_failure_reproduced'] = observed
+                else:
+                    observed = actual['json_valid'] and actual['exit'] == 0
+                check(kind + '_observation', observed, observation)
+                selected = base.scan('extended-selected-' + kind, None,
+                                     extra_args=['--file-list=' + str(file_list)])
+                check(kind + '_explicit_file_list', selected['json_valid'] and selected['exit'] == 0
+                      and len(selected.get('files', [])) == 131
+                      and not any(Path(p).name == 'outside.php' for p in selected.get('files', [])), selected)
             else:
                 check(kind + '_observation', False, observation)
         finally:
@@ -130,6 +150,29 @@ def main():
     finally:
         restored = command('restore-acl', ['icacls', str(denied), '/remove:d', user])
     check('read_denied_restored', restored['exit'] == 0 and base.digest(denied) == original_hash, restored)
+
+    # Verify the official candidate ZIP, without treating it as a product selection.
+    metadata_url = 'https://downloads.php.net/~windows/releases/releases.json'
+    metadata_bytes = urllib.request.urlopen(metadata_url, timeout=45).read()
+    metadata = json.loads(metadata_bytes)['8.4']
+    entry = metadata['nts-vs17-x64']['zip']
+    zip_url = 'https://downloads.php.net/~windows/releases/' + entry['path']
+    archive_bytes = urllib.request.urlopen(zip_url, timeout=90).read()
+    archive_hash = hashlib.sha256(archive_bytes).hexdigest()
+    (base.OUT / 'official-php-metadata.json').write_bytes(metadata_bytes)
+    with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
+        exe_hash = hashlib.sha256(archive.read('php.exe')).hexdigest()
+        dll_differences = []
+        for name in archive.namelist():
+            if name.lower().endswith('.dll'):
+                installed = Path(base.PHP).parent / name
+                if not installed.is_file() or base.digest(installed) != hashlib.sha256(archive.read(name)).hexdigest():
+                    dll_differences.append(name)
+    check('official_php_zip', archive_hash == entry['sha256'] and exe_hash == base.digest(Path(base.PHP)),
+          {'metadata_url': metadata_url, 'distribution_version': metadata['version'],
+           'zip_url': zip_url, 'official_sha256': entry['sha256'], 'downloaded_sha256': archive_hash,
+           'php_exe_sha256': exe_hash, 'runtime_exe_matches': exe_hash == base.digest(Path(base.PHP)),
+           'dll_missing_or_different_from_setup_runtime': dll_differences})
 
     # Firewall rule applies only to this PHP executable; runner/upload processes keep networking.
     rule_env = dict(ENV, T01_RULE_NAME='DK-T01-' + os.environ.get('GITHUB_RUN_ID', 'local'),
