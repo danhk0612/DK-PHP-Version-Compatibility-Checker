@@ -1,10 +1,10 @@
 # T01 검사 엔진 검증 보고
 
-상태: **차단**. 2026-10-29 (한국 시간) 공식 자료 조사만 수행했고 실제 검사 실행은 하지 못했다. 기준 main `c875900a630bbd5c78b8f26d62c7a604edf8400c`. 제품 채택·공식 지원·라이선스 판단이 아니다.
+상태: **부분 검증·Windows 실행 차단**. 2026-10-29 (한국 시간) 공식 자료 조사와 최소 실험 입력·절차 준비 및 정적 점검을 수행했다. 실제 엔진 검사는 실행하지 못했다. 기준 main `c875900a630bbd5c78b8f26d62c7a604edf8400c`. 제품 채택·공식 지원·라이선스 판단이 아니다.
 
 ## 환경과 차단
 
-작업 환경은 Linux x86_64 (`uname -a`: Linux 6.18.55); `command -v`로 php, composer, wine, wine64, powershell, pwsh, docker, podman이 모두 없음을 확인했다. 실제 Windows x64 호스트는 제공되지 않았다. 따라서 Windows 버전, 실제 PHP/Composer/엔진 버전, PHP ZIP과 의존성의 실측 SHA-256, Composer lock, 필수 DLL/확장의 실제 목록은 **없음**. 도구 다운로드·설치·fixture 실행도 하지 않았다. Composer가 생성하지 않은 lock이나 실제 실행하지 않은 JSON을 만들어 검증 결과로 제시하지 않는다. 아래의 기대는 검증 목표이며 실제 결과가 아니다.
+작업 환경은 Linux x86_64 (`uname -a`: Linux 6.18.55); `command -v`로 php, composer, wine, wine64, powershell, pwsh, docker, podman이 모두 없음을 확인했다. 실제 Windows x64 호스트는 제공되지 않았다. 따라서 Windows 버전, 실제 PHP/Composer/엔진 버전, PHP ZIP과 의존성의 실측 SHA-256, Composer lock, 필수 DLL/확장의 실제 목록은 **없음**. 도구 다운로드·설치·fixture 실행도 하지 않았다. 최소 fixture와 manifest·ruleset·Windows 명령 초안은 준비했으며 실제 Composer/PHP로 검증하지 않았다. Composer가 생성하지 않은 lock이나 실제 실행하지 않은 JSON을 만들어 검증 결과로 제시하지 않는다. 아래의 기대는 검증 목표이며 실제 결과가 아니다.
 
 ## 공식 자료와 보안 확인
 
@@ -34,4 +34,14 @@
 
 alpha2는 최신 PHP 변경을 다루는 후보이나 사전 공개판이며 완전한 탐지와 안정성은 입증되지 않았다. 수정된 Utils 1.2.3 조합을 격리된 Windows x64 검증 환경에서 우선 재검토할 것을 추천한다. 이는 버전 변경 승인이나 제품 채택이 아니다. 알려진 취약 후보를 신뢰하지 않는 입력에 사용하지 말고, 공지의 도달 조건과 추가 보안 공지를 확인한다.
 
-Windows 환경에서 도구 관리 영역과 별도의 자체 작성 fixture를 준비한 뒤 실제 PHP ZIP URL·실측 SHA-256·버전·CRT/확장, Composer 버전·manifest·생성된 lock·설치 버전을 기록한다. 대상 밖의 명시적 ruleset/ini와 인자 분리 실행을 검증하고, 각 명령의 작업 경로·환경·기대/실제 stdout/stderr/종료 코드 및 전후 목록/해시를 보존한다. 대상의 코드와 설정을 실행하거나 대상에 도구·캐시·결과를 쓰지 않는다. 오프라인 시험은 준비 후 네트워크 차단 상태를 확인해 수행한다. 이 단계는 아직 실행 가능한 완성 절차가 아니며, 정확한 명령·fixture·lock 및 결과가 확보되어야 T01 완료를 판정할 수 있다.
+Windows 환경에서 도구 관리 영역과 별도의 자체 작성 fixture를 준비한 뒤 실제 PHP ZIP URL·실측 SHA-256·버전·CRT/확장, Composer 버전·manifest·생성된 lock·설치 버전을 기록한다. 대상 밖의 명시적 ruleset/ini와 인자 분리 실행을 검증하고, 각 명령의 작업 경로·환경·기대/실제 stdout/stderr/종료 코드 및 전후 목록/해시를 보존한다. 대상의 코드와 설정을 실행하거나 대상에 도구·캐시·결과를 쓰지 않는다. 오프라인 시험은 준비 후 네트워크 차단 상태를 확인해 수행한다. 명령 초안과 fixture는 아래에 준비했으나 검증된 완성 절차가 아니다. 실제 명령 검증·lock 및 결과가 확보되어야 T01 완료를 판정할 수 있다.
+
+## 준비한 검증 입력과 절차
+
+- [실험 manifest](probe/composer.json): alpha2 / PHPCS 4.0.4 / Utils **1.2.3** / installer 1.1.0을 고정 요청한다. 제품 채택이 아니며 Composer 의존성 해석은 아직 하지 않았다.
+- [전용 ruleset](probe/ruleset.xml): 관리 영역의 PHPCompatibility만 참조한다. 대상 설정 차단의 실제 증명은 아니다.
+- [Windows 명령 초안](probe/README.md): 도구 준비, 개별 사례별 3개 대상 버전 검사, 대상 밖 JSON·stdout·stderr·종료값 수집, 추가 검증 목록을 준비했다. PowerShell 실행·구문 검증은 미실시다.
+- [8개 최소 PHP 입력·케이스 정의](../tests/fixtures/README.md): 제거 함수/대조, get_class 인자 생략/명시, 암묵/명시 nullable, 동적/선언 속성을 준비했다. 예측과 실제 결과를 분리했으며 동적 속성은 탐색 사례다. mysql 계열은 7.0에서 이미 제거된 항목이지 8.2 신규 변경이 아니다.
+- 1.2.3 manifest의 PHPCS 요구 `^3.13.5 || ^4.0.1`과 실험 4.0.4는 선언상 일치한다. [고정 태그 manifest](https://github.com/PHPCSStandards/PHPCSUtils/blob/1.2.3/composer.json)와 보안 릴리스를 재확인했다.
+
+수행한 정적 점검: JSON·XML 파싱, manifest와 사례의 후보 버전 일치, 8개 파일·대상 3개 및 예상 줄 번호/소스 토큰, 로컬 Markdown 링크·코드펜스, Git 공백 오류를 확인했다. 이는 PHP 구문 검사, Composer validate/update, PowerShell 실행, 실제 탐지 결과가 아니다. 실제 JSON·lock·측정 해시는 없으며 앞 표의 실행 항목은 모두 미검증 상태다.

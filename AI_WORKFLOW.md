@@ -53,10 +53,11 @@ ARCHITECTURE.md의 공식 자료를 재확인해.
 Windows x64 실행 환경에서 도구 전용 Composer 환경과 최소 자체 fixture로
 대상 PHP 8.2·8.3·8.4, JSON/종료 코드, 파일 수, 원본 불변,
 대상 설정/부트스트랩 차단, 경로·탐색 정책, 오프라인 실행을 검증해.
-실험 후보는 PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + Utils 1.1.2이며
+실험 후보는 PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + Utils 1.2.3이며 (기존 1.1.2는 보안 문제로 사용하지 않음)
 실제 버전·다운로드 출처·해시·lock·명령·환경·기대/실제 결과를 기록해.
 Windows 환경이 없으면 실행 검증을 완료 처리하지 말고 가능한 근거와 차단을 남겨.
 
+tools/probe/README.md와 tests/fixtures/cases.json의 미실행 준비안을 확인하고,
 tools/ENGINE_PROBE.md에 재현 결과·지원/누락/미검증 표·T02 추천안을 정리하고
 CURRENT_STATE.md와 TASKS.md를 실제 상태에 맞게 갱신해.
 제품 GUI/검사 코드·PHPStan·다운로드/업데이트·자동 수정은 구현하지 마.

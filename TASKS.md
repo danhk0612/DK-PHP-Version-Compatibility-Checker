@@ -7,7 +7,7 @@
 | ID | 제목 | 현재 상태 | 선행 조건 | 권장 환경 |
 | --- | --- | --- | --- | --- |
 | T00 | 최초 기준 문서와 개발 계획 | 완료 | 최초 사용자 지시 | 고성능 Work |
-| T01 | 검사 엔진 기술 검증 | 차단 | T00, Windows x64·PHP CLI·Composer | 저성능 Work, Windows x64 |
+| T01 | 검사 엔진 기술 검증 | 부분 검증·Windows 실행 차단 | T00, Windows x64·PHP CLI·Composer | 저성능 Work, Windows x64 |
 | T02 | 필수 선택과 구현 계약 확정 | 선행 대기·사용자 결정 필요 | T01 | 고성능 Chat; 구조 문제는 고성능 Work |
 | T03 | 최소 WPF 개발 골격 | 선행 대기 | T02 | 저성능 Work |
 | T04 | 고정 도구 구성과 오프라인 준비 | 선행 대기 | T02 | 저성능 Work |
@@ -35,7 +35,7 @@
 - 목적: 추천 엔진으로 필요한 검사가 가능한지 재현 가능한 근거 확보.
 - 범위: tools/ 아래 검증 전용 Composer manifest/lock 및 실행 절차, tests/ 아래 작은 자체 작성 fixture·기대 결과, tools/ENGINE_PROBE.md 보고서. 제품 코드 작성은 하지 않음.
 - 선행: T00. 실제 Windows x64와 PHP CLI·Composer 사용 가능 환경. 도구는 검증 관리 영역에만 설치.
-- 검증 후보: PHPCompatibility 10.0.0-alpha2, PHPCS 4.0.4, Utils 1.1.2. 착수 시 공식 릴리스·보안 상태 재확인. 실험 버전 변경은 이유와 실제 lock을 기록하되 제품 채택으로 선언하지 않음.
+- 검증 후보: PHPCompatibility 10.0.0-alpha2, PHPCS 4.0.4, Utils 1.2.3. 기존 1.1.2는 공개 보안 문제로 실험에 사용하지 않음. 착수 시 공식 릴리스·보안 상태 재확인. 실험 버전 변경은 이유와 실제 lock을 기록하되 제품 채택으로 선언하지 않음.
 - 완료 조건:
   1. 실제 Windows·PHP·Composer·의존성 버전, 공식 다운로드 URL·해시, 명령·작업 경로·전용 설정·필수 확장을 기록하고 다른 환경에서 재현 가능하게 함.
   2. 대상 8.2·8.3·8.4별 관련 변경 양성/음성 fixture, 7.4→8.2 및 8.2→8.3/8.4 시나리오 실행. 예: mysql 계열 제거, dynamic property 폐기, get_class() 인자 생략 폐기, 암묵적 nullable 폐기 등은 실제 태그 규칙과 공식 PHP 변경 근거를 확인하여 채택. 탐지되지 않는 사례도 그대로 기록.
@@ -46,7 +46,7 @@
   7. 대상 버전별 탐지/누락/미검증 표, alpha 채택 장단점, T02 결정에 필요한 추천안을 작성. 실험이 불가능하거나 핵심 항목 실패 시 부분 검증/차단으로 남김.
 - 금지: src/ 제품 구현, GUI, 자동 다운로드·업데이트·PHPStan, 원본 변경, alpha 승인·지원 보장·최종 라이선스 선언.
 - 환경: 저성능 Work. 구조적 장애는 원인·영향을 정리하여 고성능 Work로 인계.
-- 현재 근거: [ENGINE_PROBE.md](tools/ENGINE_PROBE.md). 공식 자료 일부와 보안 공지는 확인했으나 Windows 실행 환경·PHP·Composer가 없어 핵심 실행 검증과 lock 생성은 차단됨. 기존 Utils 1.1.2 후보는 보안 공지의 영향 버전이며, 수정판 조합도 미검증. 완료 조건은 충족하지 못함.
+- 현재 근거: [ENGINE_PROBE.md](tools/ENGINE_PROBE.md). 공식 자료 일부와 보안 공지는 확인했으나 Windows 실행 환경·PHP·Composer가 없어 핵심 실행 검증과 lock 생성은 차단됨. 기존 Utils 1.1.2 후보는 보안 공지의 영향 버전이며, 수정판 조합도 미검증. 최소 fixture·실험 manifest/ruleset·Windows 명령 초안을 준비하고 정적 점검했으나 실제 의존성 해석·엔진 검사는 수행하지 못함. 완료 조건은 충족하지 못함.
 
 ## T02 — 필수 선택과 구현 계약 확정
 

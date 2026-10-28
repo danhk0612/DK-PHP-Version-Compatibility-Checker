@@ -22,12 +22,12 @@ T00 최초 구축 범위로 README, 6개 기준 문서, AGENTS 및 최소 폴더
 
 ## 구현·검증하지 않은 것
 
-실행 프로그램, solution/csproj, Composer manifest/lock, 내장 도구, fixture, 테스트 코드, CI, 빌드, GUI, 실제 검사, Windows ZIP, Release/tag는 없습니다. PHP/.NET/Composer 실행 도구가 없는 Linux 초기 환경에서 문서만 준비했으며 Windows 실행 검증은 하지 않았습니다.
+제품 실행 프로그램, solution/csproj, Composer lock, 설치된 도구, 실행 테스트 결과, CI, 빌드, GUI, Windows ZIP, Release/tag는 없습니다. T01용 실험 manifest·전용 ruleset·8개 PHP fixture·케이스 정의·Windows 명령 초안을 준비하고 정적 구조만 점검했습니다. PHP/.NET/Composer·Windows 실행 도구가 없는 Linux 환경으로 실제 엔진·PowerShell 실행 검증은 하지 않았습니다.
 
-PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + PHPCSUtils 1.1.2는 공식 의존성 제약을 확인한 **실험 후보**입니다. PHP 8.2·8.3·8.4 공식 지원, 사전 공개판 안정성, 원본 보호 동작, 완전 오프라인 실행, CRT 없는 PC 실행, 라이선스 최종 적합성을 검증 완료로 보지 않습니다. 자체 MIT 목표는 있으나 LICENSE 선언은 대기입니다.
+현재 요청한 실험 후보는 PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + PHPCSUtils 1.2.3입니다. 기존 1.1.2는 공개 보안 문제로 사용하지 않습니다. 수정판의 의존성 범위는 확인했으나 실제 조합은 미검증입니다. PHP 8.2·8.3·8.4 공식 지원, 사전 공개판 안정성, 원본 보호 동작, 완전 오프라인 실행, CRT 없는 PC 실행, 라이선스 최종 적합성을 검증 완료로 보지 않습니다. 자체 MIT 목표는 있으나 LICENSE 선언은 대기입니다.
 
 ## 다음 작업
 
-**T01 차단 / Windows x64 실행 환경과 PHP CLI·Composer 필요.** [보고서](tools/ENGINE_PROBE.md)의 보안 사항을 고려하여 도구 조합을 검증하고 TASKS.md의 완료 조건을 수행해야 합니다. 사전 공개판 사용 승인이나 공식 지원 선언은 하지 않았습니다.
+**T01 부분 검증·Windows 실행 차단 / Windows x64 실행 환경과 PHP CLI·Composer 필요.** [보고서](tools/ENGINE_PROBE.md)의 보안 사항을 고려하여 도구 조합을 검증하고 TASKS.md의 완료 조건을 수행해야 합니다. [Windows 준비 절차](tools/probe/README.md)로 실험을 이어갈 수 있으나 아직 명령도 실제 검증되지 않았습니다. 사전 공개판 사용 승인이나 공식 지원 선언은 하지 않았습니다.
 
 T01의 핵심 검증을 보완한 뒤 T02에서 사용자와 필수 결정을 논의합니다. T03~T09는 선행 대기입니다.
