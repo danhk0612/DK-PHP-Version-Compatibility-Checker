@@ -416,8 +416,10 @@ internal static class Program
         target.UpdateLayout();
         Check(target.IsVisible && IsWindowVisible(new WindowInteropHelper(target).Handle), "Cannot capture an invisible WPF window");
         var content = (FrameworkElement)target.Content;
-        int width = Math.Max(1, (int)Math.Ceiling(content.ActualWidth));
-        int height = Math.Max(1, (int)Math.Ceiling(content.ActualHeight));
+        // Render preserves the root visual's layout offset. Include its outer
+        // margins in the canvas so the right/bottom client edges are not clipped.
+        int width = Math.Max(1, (int)Math.Ceiling(content.ActualWidth + content.Margin.Left + content.Margin.Right));
+        int height = Math.Max(1, (int)Math.Ceiling(content.ActualHeight + content.Margin.Top + content.Margin.Bottom));
         var client = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
         client.Render(content);
         const int banner = 34;
