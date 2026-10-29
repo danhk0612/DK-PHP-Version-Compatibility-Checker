@@ -11,7 +11,7 @@
 | T02 | 필수 선택과 구현 계약 확정 | 완료(사용자 승인·확장 계약) | T01 | 고성능 Chat; 구조 문제는 고성능 Work |
 | T03 | 최소 WPF 개발 골격 | 완료 | T02 | 저성능 Work |
 | T04 | 고정 도구 구성과 오프라인 준비 | 완료 | T02 | 저성능 Work |
-| T05 | 검사 실행·JSON 결과 연동 | 준비 | T03, T04 | 저성능 Work |
+| T05 | 검사 실행·JSON 결과 연동 | 완료 | T03, T04 | 저성능 Work |
 | T06 | 입력·결과 GUI | 준비 | T03, T02 결과 계약 | 저성능 Work |
 | T07 | GUI 실제 검사 연결·보호 검증 | 선행 대기 | T05, T06 | 저성능 Work |
 | T08 | 배포 라이선스·고지 검증 | 준비 | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
@@ -89,6 +89,8 @@
 - 완료: 인자·경로·환경 분리, 비동기 stdout/stderr 수집 시 교착 방지, 지원 버전 전달, 탐지 종료/실패 구별, JSON 필드·파일 수 정확성, 0건/잘못된 JSON/프로세스 실패 검증. 프로세스 종료 후 리소스 정리와 대상 불변 확인.
 - 금지: GUI 변경, 새로운 분류·번역, 자동 수정, PHPStan 공통 추상화, 추가 기능.
 - 환경: 저성능 Work.
+
+- 완료 근거: [최종 Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517)에서 SDK 10.0.403 제품·검증 콘솔 build(경고 0/오류 0), 회귀 61건 통과. 실제 24 fixture, JSON 원값/오염/집계/exit/부분 결과, .php/.inc 대소문자·재귀/annotation/한글·메타문자·외부설정 격리, 읽기 거부/링크/드라이브·SUBST 중첩 거부/원본 불변, 팩 손상 거부와 복원, stdout/stderr 각 1MiB 수집·중복 실행 거부·Dispose 자식 종료/작업폴더 정리를 확인함. tests/t05/evidence/에 근거 보존. 목표 목록에 버전 상수가 없으며 UI/XAML 변경 없음. GUI 흐름·Windows 11/CRT·실제 팩 교체 통합은 후속 Task.
 
 ## T06 — 입력·결과 GUI
 
