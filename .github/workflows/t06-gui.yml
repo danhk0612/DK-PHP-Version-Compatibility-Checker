@@ -1,0 +1,52 @@
+name: T06 input and result GUI
+on:
+  pull_request:
+    branches: [main, t05-scan-service]
+    paths:
+      - 'src/**'
+      - 'tests/t06/**'
+      - 'global.json'
+      - '.github/workflows/t06-gui.yml'
+permissions:
+  contents: read
+jobs:
+  build-and-show:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare verified pack for the target list
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Restore and build WPF product and GUI verification
+        shell: pwsh
+        run: |
+          New-Item artifacts/t06 -ItemType Directory -Force | Out-Null
+          if ((dotnet --version) -ne '10.0.403') { throw 'Unexpected SDK' }
+          dotnet --info | Out-File artifacts/t06/dotnet-info.txt
+          dotnet restore tests/t06/T06.Verification.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build tests/t06/T06.Verification.csproj -c Release --no-restore -bl:artifacts/t06/build.binlog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Show actual WPF window and verify inputs and result states
+        shell: pwsh
+        run: |
+          dotnet run --project tests/t06/T06.Verification.csproj -c Release --no-build -- "$pwd" "$pwd/tools/runtime"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve GUI evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t06-gui-evidence
+          path: artifacts/t06/
+          retention-days: 7
