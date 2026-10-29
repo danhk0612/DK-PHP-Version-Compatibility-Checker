@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="DK isolated PHP compatibility">
+    <description>Only the bundled PHPCompatibility standard is used.</description>
+    <rule ref="./vendor/phpcompatibility/php-compatibility/PHPCompatibility/ruleset.xml"/>
+</ruleset>

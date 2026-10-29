@@ -10,11 +10,11 @@
 | T01 | 검사 엔진 기술 검증 | 완료(기술 검증·한계 확인) | T00, Windows x64·PHP CLI·Composer | 저성능 Work, Windows x64 |
 | T02 | 필수 선택과 구현 계약 확정 | 완료(사용자 승인·확장 계약) | T01 | 고성능 Chat; 구조 문제는 고성능 Work |
 | T03 | 최소 WPF 개발 골격 | 완료 | T02 | 저성능 Work |
-| T04 | 고정 도구 구성과 오프라인 준비 | 준비 | T02 | 저성능 Work |
-| T05 | 검사 실행·JSON 결과 연동 | 선행 대기 | T03, T04 | 저성능 Work |
+| T04 | 고정 도구 구성과 오프라인 준비 | 완료 | T02 | 저성능 Work |
+| T05 | 검사 실행·JSON 결과 연동 | 준비 | T03, T04 | 저성능 Work |
 | T06 | 입력·결과 GUI | 준비 | T03, T02 결과 계약 | 저성능 Work |
 | T07 | GUI 실제 검사 연결·보호 검증 | 선행 대기 | T05, T06 | 저성능 Work |
-| T08 | 배포 라이선스·고지 검증 | 선행 대기 | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
+| T08 | 배포 라이선스·고지 검증 | 준비 | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
 | T09 | ZIP 배포 후보·통합 검증 | 선행 대기 | T07, T08, T10 | 저성능 Work, 깨끗한 Windows 환경 |
 | T10 | 엔진 팩 제작·수동 교체와 향후 버전 확장 검증 | 선행 대기 | T04, T05, T06, T07, T08 | 저성능 Work, Windows x64 |
 
@@ -78,6 +78,8 @@
 - 완료: 새 도구 영역에서 정확한 버전 설치 및 standard 등록 확인, 전용 설정으로 fixture 검사, 준비 후 네트워크·Composer 없이 실행, 대상 폴더에 생성물 없음. manifest schema/report profile·lock·구성 파일 해시·검증 근거·목표 목록을 대조하고 annotation 무시 정책 fixture를 검증. 대상 프로젝트 밖에서 팩을 준비하며 manifest에 없는/미검증 목표는 활성화하지 않음. 포함 예정 파일과 license 원본 목록을 T08에 인계.
 - 금지: 자동 갱신/다운로드 UI, 사용자 전역 설정·대상 Composer 변경, 다른 PHP 버전 무조건 내장.
 - 환경: 저성능 Work.
+
+- 완료 근거: [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40797806955)과 tests/t04/evidence/의 원본 결과. 제품 lock validate/install/audit 및 standard 등록, 회귀 24건·annotation 대조 9건·오프라인 동일 결과 24건·대상 파일/디렉터리/해시 불변, 손상·미검증/비호환·경로 이탈·실패 근거 등 17건 거부 및 복원 확인. 포함 예정 865개 파일과 license 원본 6개 경로/해시를 T08에 인계. 제품 소비·교체/복원 통합·Win11/CRT 배포는 후속 Task.
 
 ## T05 — 검사 실행·JSON 결과 연동
 

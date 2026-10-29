@@ -1,0 +1,26 @@
+[
+  {
+    "path": "php/license.txt",
+    "sha256": "098bdc5b9808fc16bef4b7154e876ac08ca249549727cde3b3f3f3b431e27cca"
+  },
+  {
+    "path": "engine/vendor/composer/LICENSE",
+    "sha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024"
+  },
+  {
+    "path": "engine/vendor/dealerdirect/phpcodesniffer-composer-installer/LICENSE.md",
+    "sha256": "ff8952f52de516acd28e4ed2b8da83742fad13678515782d502a4086dd0d8045"
+  },
+  {
+    "path": "engine/vendor/phpcompatibility/php-compatibility/LICENSE",
+    "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+  },
+  {
+    "path": "engine/vendor/phpcsstandards/phpcsutils/LICENSE",
+    "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+  },
+  {
+    "path": "engine/vendor/squizlabs/php_codesniffer/licence.txt",
+    "sha256": "ad489e425c9a48b9fe97b8c11dd5f422606aa72e7726a438cd01ebee22d8ba80"
+  }
+]

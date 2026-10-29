@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "rejectedCases": [
+    "unknown schema",
+    "unknown profile",
+    "unverified target",
+    "duplicate target",
+    "version mismatch",
+    "lock hash mismatch",
+    "traversal path",
+    "absolute path",
+    "invalid evidence ref",
+    "failed verification evidence",
+    "missing required evidence",
+    "missing target controls",
+    "changed engine/ruleset.xml",
+    "changed engine/composer.lock",
+    "changed php/php.exe",
+    "changed verification/results.json",
+    "unlisted file"
+  ],
+  "restoredPackValid": true
+}
