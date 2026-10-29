@@ -8,7 +8,7 @@
 | 저성능 Work | 확정 요구 구현, 반복 수정, 빌드·테스트, Windows 검증, 지정 Git 작업 | 구조 문제·범위 확대가 필요하면 근거와 영향 정리 후 판단 요청 |
 | 고성능 Chat | 좁은 기술 판단·오류 분석·대안 비교·코드 검토·사용자 미확정 선택 | 저장소 실행 작업이 많거나 복잡한 구조 문제면 적절한 Work로 인계 |
 
-모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증과 T02 사용자 계약 확정을 마쳤으며 다음 T03/T04는 저성능 Work를 우선합니다.
+모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증과 T02 사용자 계약 확정을 마쳤으며 T03 골격을 마쳤으며 다음 T04는 저성능 Work를 우선합니다.
 
 ## 모든 작업의 시작
 
@@ -73,21 +73,23 @@ Task 작업 브랜치에 commit/push하고 검토용 PR까지 제출해.
 
 저장소와 Task ID, 기준 브랜치/확인 커밋, 우선 문서, 목적·범위·선행 조건, 금지 영역, 완료 검증, 허용 Git 동작을 명시합니다. 문서에 있는 요구를 대화에 전부 복사하지 않습니다. T02 결정 뒤에는 해당 Task와 계약을 다시 읽고 지시문을 조정합니다.
 
-## 현재 다음 T03 지시문
+## 현재 다음 T04 지시문
 
 ```text
-DK-PHP-Version-Compatibility-Checker의 T03 최소 WPF 개발 골격만 수행해.
-최신 main 및 PR #1(t01-engine-probe-blocked)의 실제 상태·유효 문서를 먼저 확인해.
-AGENTS.md와 6개 기준 문서, T01 보고서와 T02 확정 계약을 읽어.
-C#/WPF/.NET 10, SDK 10.0.403, net10.0-windows로 단일 앱 골격과
-필요 데이터 계약·빌드 안내를 준비하고 Windows build/기본 창을 검증해.
-명칭은 목표 PHP 버전이고, 버전 값은 문자열·팩 데이터로 확장 가능해야 해.
-초기 8.2/8.3/8.4를 enum/XAML/실행 코드에 중복 고정하지 마.
-팩 manifest 구현은 T04, 엔진 실행·해석은 T05, 결과 GUI는 T06,
-팩 교체 검증은 T10 범위이므로 선행 구현하지 마.
-관련 문서만 실제 결과에 맞게 갱신하고 작업 브랜치에 commit/push·검토용 PR로 인계해.
-현재 PR #1은 미병합이므로 기반 문서가 누락되지 않게 선행 branch를 확인해.
-직접 병합·Release/tag·후속 Task는 하지 마.
+GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T04 고정 도구 구성과 오프라인 준비만 수행해.
+최신 main, PR #1(t01-engine-probe-blocked), PR #2(t03-wpf-skeleton)의 실제 상태와
+AGENTS.md·6개 기준 문서를 먼저 확인하고 최신 선행 변경을 보존해.
+TASKS.md T04 범위와 ARCHITECTURE.md 엔진 팩 계약, tools/ENGINE_PROBE.md 및
+tools/T01_WINDOWS_RESULTS.json을 기준으로 제품용 도구 구성·manifest·정합성 검증기를 준비해.
+승인된 공식 PHP 8.4.27-1 NTS x64 VS17, PHPCompatibility 10.0.0-alpha2,
+PHPCS 4.0.4, PHPCSUtils 1.2.3, installer 1.1.0을 사용하고 공식 출처·SHA-256·lock을 대조해.
+목표 PHP 버전은 팩 데이터로 관리하며 미검증 목표를 활성화하지 마.
+Windows에서 전용 설정·fixture·ignore-annotations·도구 준비 후 네트워크/Composer 없는 실행과
+대상 불변을 검증하고 포함 파일·license 원본 목록을 T08에 인계해.
+바이너리/vendor를 Git에 넣지 말고 재현 가능한 준비 절차를 남겨.
+src/ GUI·검사 실행·manifest 소비, 자동 다운로드/갱신 UI·PHPStan·자동 수정은 구현하지 마.
+관련 문서를 실제 검증 결과에 맞게 갱신하고 Task branch에 commit/push·검토용 PR로 제출해.
+직접 병합·force push·Release/tag는 하지 마. 실제 수행·미검증·커밋/PR·다음 Task를 보고해.
 ```
 
 ## 새 목표 버전 인계 규칙

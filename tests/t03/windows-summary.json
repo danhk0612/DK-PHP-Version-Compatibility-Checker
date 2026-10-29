@@ -1,0 +1,13 @@
+{
+  "os": "Microsoft Windows NT 10.0.20348.0",
+  "sdk": "10.0.403",
+  "sourceSha": "7d6c208100acb041b83d1cbf93ccb24f3bba4a54",
+  "runId": "40796379993",
+  "executableSha256": "c0e543011659ad7cb6c8b7260a017672567ffbd72b1f9ba3031bd49cb22390a7",
+  "title": "DK PHP Version Compatibility Checker",
+  "visible": true,
+  "responding": true,
+  "width": 960,
+  "height": 640,
+  "closeExitCode": 0
+}
