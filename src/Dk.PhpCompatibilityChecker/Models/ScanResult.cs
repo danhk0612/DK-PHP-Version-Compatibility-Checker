@@ -9,4 +9,9 @@ public sealed record ScanResult(
     int WarningCount,
     IReadOnlyList<ScanIssue> Issues,
     ScanEngineInfo? EngineInfo,
-    string? FailureMessage);
+    string? FailureMessage)
+{
+    public IReadOnlyList<string> ExcludedPaths { get; init; } = Array.Empty<string>();
+    public int? EngineExitCode { get; init; }
+    public string? EngineStandardError { get; init; }
+}
