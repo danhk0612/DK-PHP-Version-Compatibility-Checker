@@ -2,8 +2,8 @@
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $pack = Join-Path $repo 'tools/runtime'
-$composerCommand = (Get-Command composer -ErrorAction Stop).Source
-$pythonCommand = (Get-Command python -ErrorAction Stop).Source
+$composerCommand = (Get-Command composer -ErrorAction Stop)
+$pythonCommand = (Get-Command python -ErrorAction Stop)
 $source = Get-Content (Join-Path $PSScriptRoot 'sources.json') -Raw | ConvertFrom-Json
 if (Test-Path $pack) { throw 'tools/runtime already exists; preserve it and prepare in a fresh checkout.' }
 New-Item $pack -ItemType Directory | Out-Null
