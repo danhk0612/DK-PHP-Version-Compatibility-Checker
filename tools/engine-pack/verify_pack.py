@@ -60,13 +60,22 @@ def prepare(pack):
         (subject / 'vendor').mkdir()
         (subject / 'vendor/autoload.php').write_text('<?php throw new Exception("AUTOLOAD_EXECUTED");')
         (subject / 'composer.json').write_text('{"scripts":{"pre-install-cmd":"@php bootstrap.php"}}')
-        ini = subject / 'php.ini'
-        ini.write_text('auto_prepend_file="' + (subject / 'bootstrap.php').as_posix() + '"\n', encoding='utf-8')
-        poisoned = dict(env, PHPRC=str(ini), PHP_INI_SCAN_DIR=str(subject))
+        (subject / 'php.ini').write_text('auto_prepend_file="bootstrap.php"\n', encoding='utf-8')
+        # External ini positive control uses ASCII managed paths, as in T01.
+        # PHPRC did not load the Unicode-path ini in the initial Windows control.
+        poison = area / 'poison.php'
+        poison.write_text('<?php throw new Exception("INI_EXECUTED");', encoding='utf-8')
+        ini = area / 'poison.ini'
+        ini.write_text('auto_prepend_file="' + poison.as_posix() + '"\n', encoding='utf-8')
+        ini_scan = area / 'ini-scan'
+        ini_scan.mkdir()
+        shutil.copy2(ini, ini_scan / 'poison.ini')
+        clean = area / 'clean.php'
+        clean.write_text('<?php echo "CLEAN";', encoding='utf-8')
+        poisoned = dict(env, PHPRC=str(ini), PHP_INI_SCAN_DIR=str(ini_scan))
         before = inventory(subject)
-        # Positive control: poison ini genuinely executes without -n.
-        positive = run([php, subject / 'compatibility/mysql_control.php'], 'ini-positive', poisoned)
-        require(positive.returncode != 0 and b'TARGET_EXECUTED' in positive.stdout + positive.stderr, 'Poison control did not execute')
+        positive = run([php, clean], 'ini-positive', poisoned)
+        require(positive.returncode != 0 and b'INI_EXECUTED' in positive.stdout + positive.stderr, 'Poison control did not execute')
         counter = 0
         def scan(file, version, annotations=True):
             nonlocal counter
