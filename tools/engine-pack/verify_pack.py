@@ -61,7 +61,7 @@ def prepare(pack):
         (subject / 'vendor/autoload.php').write_text('<?php throw new Exception("AUTOLOAD_EXECUTED");')
         (subject / 'composer.json').write_text('{"scripts":{"pre-install-cmd":"@php bootstrap.php"}}')
         ini = subject / 'php.ini'
-        ini.write_text('auto_prepend_file="' + (subject / 'bootstrap.php').as_posix() + '"\n')
+        ini.write_text('auto_prepend_file="' + (subject / 'bootstrap.php').as_posix() + '"\n', encoding='utf-8')
         poisoned = dict(env, PHPRC=str(ini), PHP_INI_SCAN_DIR=str(subject))
         before = inventory(subject)
         # Positive control: poison ini genuinely executes without -n.
