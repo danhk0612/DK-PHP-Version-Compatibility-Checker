@@ -9,10 +9,10 @@
 | T00 | 최초 기준 문서와 개발 계획 | 완료 | 최초 사용자 지시 | 고성능 Work |
 | T01 | 검사 엔진 기술 검증 | 완료(기술 검증·한계 확인) | T00, Windows x64·PHP CLI·Composer | 저성능 Work, Windows x64 |
 | T02 | 필수 선택과 구현 계약 확정 | 완료(사용자 승인·확장 계약) | T01 | 고성능 Chat; 구조 문제는 고성능 Work |
-| T03 | 최소 WPF 개발 골격 | 준비 | T02 | 저성능 Work |
+| T03 | 최소 WPF 개발 골격 | 완료 | T02 | 저성능 Work |
 | T04 | 고정 도구 구성과 오프라인 준비 | 준비 | T02 | 저성능 Work |
 | T05 | 검사 실행·JSON 결과 연동 | 선행 대기 | T03, T04 | 저성능 Work |
-| T06 | 입력·결과 GUI | 선행 대기 | T03, T02 결과 계약 | 저성능 Work |
+| T06 | 입력·결과 GUI | 준비 | T03, T02 결과 계약 | 저성능 Work |
 | T07 | GUI 실제 검사 연결·보호 검증 | 선행 대기 | T05, T06 | 저성능 Work |
 | T08 | 배포 라이선스·고지 검증 | 선행 대기 | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
 | T09 | ZIP 배포 후보·통합 검증 | 선행 대기 | T07, T08, T10 | 저성능 Work, 깨끗한 Windows 환경 |
@@ -67,6 +67,8 @@
 - 완료: 지정 SDK로 restore/build 성공, Windows에서 빈 기본 창 실행, 후속 T05/T06 공유 계약 확인, 빌드 명령과 실제 환경 기록.
 - 금지: 검사 엔진 실행·결과 화면 선행 구현, 새 MVVM/DI 프레임워크 임의 도입, 배포 자동화.
 - 환경: 저성능 Work.
+
+- 완료 근거: [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40796379993)의 SDK 10.0.403 restore/build(경고 0·오류 0), 빈 창 표시·응답·960×640·정상 종료(exit 0). 단일 앱과 공유 모델은 src/, 실측 요약은 tests/t03/windows-summary.json. 목표 버전은 문자열이며 버전별 enum/XAML 고정이 없음을 확인함. 배포/실제 검사 검증은 후속 Task임.
 
 ## T04 — 고정 도구 구성과 오프라인 준비
 

@@ -1,0 +1,41 @@
+name: T03 WPF skeleton
+on:
+  pull_request:
+    branches: [main, t01-engine-probe-blocked]
+    paths:
+      - global.json
+      - src/**
+      - tests/t03/**
+      - .github/workflows/t03-wpf-skeleton.yml
+permissions:
+  contents: read
+jobs:
+  build-and-launch:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - name: Restore and build
+        shell: pwsh
+        run: |
+          New-Item artifacts/t03 -ItemType Directory -Force | Out-Null
+          if ((dotnet --version) -ne '10.0.403') { throw 'Unexpected SDK' }
+          dotnet --info | Tee-Object artifacts/t03/dotnet-info.txt
+          dotnet restore src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj
+          if ($LASTEXITCODE -ne 0) { throw 'Restore failed' }
+          dotnet build src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release --no-restore -bl:artifacts/t03/build.binlog
+          if ($LASTEXITCODE -ne 0) { throw 'Build failed' }
+      - name: Launch and close actual window
+        shell: pwsh
+        run: ./tests/t03/Test-Window.ps1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: t03-wpf-verification
+          path: artifacts/t03/
+          retention-days: 7

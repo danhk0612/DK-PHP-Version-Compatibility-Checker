@@ -2,7 +2,7 @@
 
 ## 상태와 결정 원칙
 
-2026-10-29 사용자 승인과 향후 목표 버전 확장 지시를 반영한 **구현 기준 계약**입니다. 제품 구현은 아직 없습니다. T01의 Windows 기본 엔진 실행은 검증했으며 범위·한계는 [보고서](tools/ENGINE_PROBE.md)를 따릅니다. 확정 요구·보류 항목은 REQUIREMENTS.md가 관리합니다. D06과 D10, D07의 자동 다운로드/갱신 UI는 보류입니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
+2026-10-29 사용자 승인과 향후 목표 버전 확장 지시를 반영한 **구현 기준 계약**입니다. T03의 단일 WPF 앱 골격·공유 모델이 있으며 검사 기능은 아직 없습니다. T01의 Windows 기본 엔진 실행은 검증했으며 범위·한계는 [보고서](tools/ENGINE_PROBE.md)를 따릅니다. 확정 요구·보류 항목은 REQUIREMENTS.md가 관리합니다. D06과 D10, D07의 자동 다운로드/갱신 UI는 보류입니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
 
 ## 기술 검토 결과
 
@@ -33,7 +33,7 @@ PHPCompatibility는 탐지 범위가 완전하지 않음을 명시합니다 [S2]
 | JSON 해석 | 엔진 JSON을 결과 데이터로 변환 | 엔진 오류를 성공 결과로 변환하지 않음 |
 | 도구 영역 | 버전 고정 PHP·엔진·설정·고지 | 대상 프로젝트와 분리; 사용자 전역 PHP/Composer 변경 없음 |
 
-초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 역할 README만 있으며 tools/probe/와 tests/fixtures/에는 T01 검증 입력·수집기·실제 lock/결과가 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
+초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 단일 WPF 앱의 App/MainWindow와 Models/ 공유 계약이 있으며 tools/probe/와 tests/fixtures/에는 T01 검증 입력·수집기·실제 lock/결과가 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
 
 ## 검사 흐름 및 보호 경계
 
@@ -151,7 +151,7 @@ T10에서 팩 교체·이전 팩 복원·미검증/비호환 팩 거부를 통�
 
 ### 개발 기준의 추가 공식 근거
 
-2026-10-29 Microsoft 공식 metadata를 실제 열어 SDK 10.0.403, runtime 10.0.14, .NET 10 LTS 지원 종료 2028-11-14를 확인했습니다. 이는 SDK를 설치하거나 WPF 빌드·실행에 성공했다는 근거가 아닙니다. T03에서 실제 설치·빌드합니다.
+2026-10-29 Microsoft 공식 metadata를 실제 열어 SDK 10.0.403, runtime 10.0.14, .NET 10 LTS 지원 종료 2028-11-14를 확인했습니다. 공식 metadata 확인과 실제 동작은 구별합니다. T03의 Windows Server 2022 SDK 설치·restore/build·창 기동 근거는 src/README.md를 따릅니다.
 
 - https://builds.dotnet.microsoft.com/dotnet/release-metadata/10.0/releases.json
 - https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
