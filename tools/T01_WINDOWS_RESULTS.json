@@ -1,0 +1,1800 @@
+{
+  "run_url": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40761510481",
+  "source_head": "4c3572d99576a2bfecc44fb61c6b1acc5c2fbd5b",
+  "path_normalization": "files arrays use repository-relative forward-slash paths; raw command/stdout/stderr artifacts retain original paths.",
+  "basic": {
+    "environment": {
+      "windows": "Windows-2022Server-10.0.20348-SP0",
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "php": "PHP 8.4.27 (cli) (built: Oct 26 2026 09:50:21) (NTS Visual C++ 2022 x64)\nCopyright (c) The PHP Group\nBuilt by The PHP Group\nZend Engine v4.4.27, Copyright (c) Zend Technologies\n",
+      "php_modules": "[PHP Modules]\nbcmath\ncalendar\nCore\nctype\ndate\ndom\nfilter\nhash\niconv\njson\nlibxml\nmysqlnd\npcre\nPDO\nPhar\nrandom\nreadline\nReflection\nsession\nSimpleXML\nSPL\nstandard\ntokenizer\nxml\nxmlreader\nxmlwriter\nzlib\n\n[Zend Modules]\n\n",
+      "php_executable_sha256": "69f59f1e561c24c5204800ad8ecc1585d79dfa03d07a644d66f4241c86b5991e",
+      "runner_image": "20261022.344.1",
+      "run_id": "40761510481",
+      "commit": "d73b9e174ce39e18dcfcc02c22a8727eb3afa35e",
+      "composer_lock_sha256": "1b7c997436fc8878e9cd09a637f6e4c62f86439f32251f804d6ca36e8c6e3486"
+    },
+    "cases": [
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_removed.php"
+        ],
+        "totals": {
+          "errors": 2,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          },
+          {
+            "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          }
+        ],
+        "file": "compatibility/mysql_removed.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "passed": true
+      },
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_removed.php"
+        ],
+        "totals": {
+          "errors": 2,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          },
+          {
+            "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          }
+        ],
+        "file": "compatibility/mysql_removed.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "passed": true
+      },
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_removed.php"
+        ],
+        "totals": {
+          "errors": 2,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          },
+          {
+            "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 1
+          }
+        ],
+        "file": "compatibility/mysql_removed.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/mysql_control.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/mysql_control.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/mysql_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/mysql_control.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_no_args.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/get_class_no_args.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_no_args.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 1,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "severity": 5,
+            "fixable": false,
+            "type": "WARNING",
+            "line": 6,
+            "column": 16
+          }
+        ],
+        "file": "compatibility/get_class_no_args.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "line": 6
+        },
+        "passed": true
+      },
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_no_args.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 1,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "severity": 5,
+            "fixable": false,
+            "type": "WARNING",
+            "line": 6,
+            "column": 16
+          }
+        ],
+        "file": "compatibility/get_class_no_args.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "line": 6
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/get_class_control.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/get_class_control.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/get_class_control.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/get_class_control.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/implicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/implicit_nullable.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/implicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/implicit_nullable.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 2,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/implicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 1,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "Implicitly marking a parameter as nullable is deprecated since PHP 8.4. Update the type to be explicitly nullable instead. Found implicitly nullable parameter: $value.",
+            "source": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+            "severity": 5,
+            "fixable": false,
+            "type": "WARNING",
+            "line": 2,
+            "column": 39
+          }
+        ],
+        "file": "compatibility/implicit_nullable.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+          "line": 2
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/explicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/explicit_nullable.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/explicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/explicit_nullable.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/explicit_nullable.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/explicit_nullable.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/dynamic_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/dynamic_property.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "observe_only"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/dynamic_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/dynamic_property.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "observe_only"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/dynamic_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/dynamic_property.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "observe_only"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/declared_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/declared_property.php",
+        "target": "8.2",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/declared_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/declared_property.php",
+        "target": "8.3",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      },
+      {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/compatibility/declared_property.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "file": "compatibility/declared_property.php",
+        "target": "8.4",
+        "expected": {
+          "expectation": "no_findings"
+        },
+        "passed": true
+      }
+    ],
+    "probes": {
+      "fixture_tree_unchanged": true,
+      "empty": {
+        "exit": 16,
+        "json_valid": false,
+        "messages": [],
+        "stdout_excerpt": "",
+        "stderr_excerpt": "ERROR: No files were checked.\r\nAll specified files were excluded or did not match filtering rules.\r\n\r\n"
+      },
+      "invalid_standard": {
+        "exit": 16,
+        "json_valid": false,
+        "messages": [],
+        "stdout_excerpt": "",
+        "stderr_excerpt": "ERROR: the \"D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\missing-standard.xml\" coding standard is not installed.\r\n\r\nThe installed coding standards are PEAR, PSR1, PSR2, PSR12, Squiz, Zend, PHPCompatibility and PHPCSUtils\r\n"
+      },
+      "failed_scan_tree_unchanged": true,
+      "guarded_path_and_config": {
+        "exit": 0,
+        "json_valid": true,
+        "files": [
+          "artifacts/t01/inputs/한글 space & meta/subject.php"
+        ],
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [],
+        "tree_unchanged": true,
+        "passed": true
+      }
+    },
+    "unverified": [
+      "PHP ZIP source URL/hash and clean-PC CRT prerequisites",
+      "real network isolation",
+      "read-denied input",
+      "junction/symlink policies",
+      "stdout contamination handling"
+    ],
+    "failures": [],
+    "scope_passed": true
+  },
+  "extended": {
+    "run_id": "40761510481",
+    "commit": "d73b9e174ce39e18dcfcc02c22a8727eb3afa35e",
+    "checks": {
+      "external_ini_isolation": {
+        "passed": true,
+        "observation": {
+          "control": {
+            "exit": 0,
+            "stdout": "T01_INI_POISON",
+            "stderr": ""
+          },
+          "scan": {
+            "exit": 0,
+            "json_valid": true,
+            "files": [
+              "artifacts/t01/extended/clean.php"
+            ],
+            "totals": {
+              "errors": 0,
+              "warnings": 0,
+              "fixable": 0
+            },
+            "messages": []
+          }
+        }
+      },
+      "contaminated_json_rejected": {
+        "passed": true,
+        "observation": {
+          "scan": {
+            "exit": 0,
+            "json_valid": false,
+            "messages": [],
+            "stdout_excerpt": "T01_INI_POISON{\"totals\":{\"errors\":0,\"warnings\":0,\"fixable\":0},\"files\":{\"D:\\\\a\\\\DK-PHP-Version-Compatibility-Checker\\\\DK-PHP-Version-Compatibility-Checker\\\\artifacts\\\\t01\\\\extended\\\\clean.php\":{\"errors\":0,\"warnings\":0,\"messages\":[]}}}\r\n",
+            "stderr_excerpt": ""
+          },
+          "prefix": "T01_INI_POISON{\"totals\":{\"errors\":0,\"warnings\":0,\"fixable\":0},\"files\":{\"D:\\\\a\\\\D"
+        }
+      },
+      "recursive_php": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php",
+            "artifacts/t01/extended/traversal/bulk/file-000.php",
+            "artifacts/t01/extended/traversal/bulk/file-001.php",
+            "artifacts/t01/extended/traversal/bulk/file-002.php",
+            "artifacts/t01/extended/traversal/bulk/file-003.php",
+            "artifacts/t01/extended/traversal/bulk/file-004.php",
+            "artifacts/t01/extended/traversal/bulk/file-005.php",
+            "artifacts/t01/extended/traversal/bulk/file-006.php",
+            "artifacts/t01/extended/traversal/bulk/file-007.php",
+            "artifacts/t01/extended/traversal/bulk/file-008.php",
+            "artifacts/t01/extended/traversal/bulk/file-009.php",
+            "artifacts/t01/extended/traversal/bulk/file-010.php",
+            "artifacts/t01/extended/traversal/bulk/file-011.php",
+            "artifacts/t01/extended/traversal/bulk/file-012.php",
+            "artifacts/t01/extended/traversal/bulk/file-013.php",
+            "artifacts/t01/extended/traversal/bulk/file-014.php",
+            "artifacts/t01/extended/traversal/bulk/file-015.php",
+            "artifacts/t01/extended/traversal/bulk/file-016.php",
+            "artifacts/t01/extended/traversal/bulk/file-017.php",
+            "artifacts/t01/extended/traversal/bulk/file-018.php",
+            "artifacts/t01/extended/traversal/bulk/file-019.php",
+            "artifacts/t01/extended/traversal/bulk/file-020.php",
+            "artifacts/t01/extended/traversal/bulk/file-021.php",
+            "artifacts/t01/extended/traversal/bulk/file-022.php",
+            "artifacts/t01/extended/traversal/bulk/file-023.php",
+            "artifacts/t01/extended/traversal/bulk/file-024.php",
+            "artifacts/t01/extended/traversal/bulk/file-025.php",
+            "artifacts/t01/extended/traversal/bulk/file-026.php",
+            "artifacts/t01/extended/traversal/bulk/file-027.php",
+            "artifacts/t01/extended/traversal/bulk/file-028.php",
+            "artifacts/t01/extended/traversal/bulk/file-029.php",
+            "artifacts/t01/extended/traversal/bulk/file-030.php",
+            "artifacts/t01/extended/traversal/bulk/file-031.php",
+            "artifacts/t01/extended/traversal/bulk/file-032.php",
+            "artifacts/t01/extended/traversal/bulk/file-033.php",
+            "artifacts/t01/extended/traversal/bulk/file-034.php",
+            "artifacts/t01/extended/traversal/bulk/file-035.php",
+            "artifacts/t01/extended/traversal/bulk/file-036.php",
+            "artifacts/t01/extended/traversal/bulk/file-037.php",
+            "artifacts/t01/extended/traversal/bulk/file-038.php",
+            "artifacts/t01/extended/traversal/bulk/file-039.php",
+            "artifacts/t01/extended/traversal/bulk/file-040.php",
+            "artifacts/t01/extended/traversal/bulk/file-041.php",
+            "artifacts/t01/extended/traversal/bulk/file-042.php",
+            "artifacts/t01/extended/traversal/bulk/file-043.php",
+            "artifacts/t01/extended/traversal/bulk/file-044.php",
+            "artifacts/t01/extended/traversal/bulk/file-045.php",
+            "artifacts/t01/extended/traversal/bulk/file-046.php",
+            "artifacts/t01/extended/traversal/bulk/file-047.php",
+            "artifacts/t01/extended/traversal/bulk/file-048.php",
+            "artifacts/t01/extended/traversal/bulk/file-049.php",
+            "artifacts/t01/extended/traversal/bulk/file-050.php",
+            "artifacts/t01/extended/traversal/bulk/file-051.php",
+            "artifacts/t01/extended/traversal/bulk/file-052.php",
+            "artifacts/t01/extended/traversal/bulk/file-053.php",
+            "artifacts/t01/extended/traversal/bulk/file-054.php",
+            "artifacts/t01/extended/traversal/bulk/file-055.php",
+            "artifacts/t01/extended/traversal/bulk/file-056.php",
+            "artifacts/t01/extended/traversal/bulk/file-057.php",
+            "artifacts/t01/extended/traversal/bulk/file-058.php",
+            "artifacts/t01/extended/traversal/bulk/file-059.php",
+            "artifacts/t01/extended/traversal/bulk/file-060.php",
+            "artifacts/t01/extended/traversal/bulk/file-061.php",
+            "artifacts/t01/extended/traversal/bulk/file-062.php",
+            "artifacts/t01/extended/traversal/bulk/file-063.php",
+            "artifacts/t01/extended/traversal/bulk/file-064.php",
+            "artifacts/t01/extended/traversal/bulk/file-065.php",
+            "artifacts/t01/extended/traversal/bulk/file-066.php",
+            "artifacts/t01/extended/traversal/bulk/file-067.php",
+            "artifacts/t01/extended/traversal/bulk/file-068.php",
+            "artifacts/t01/extended/traversal/bulk/file-069.php",
+            "artifacts/t01/extended/traversal/bulk/file-070.php",
+            "artifacts/t01/extended/traversal/bulk/file-071.php",
+            "artifacts/t01/extended/traversal/bulk/file-072.php",
+            "artifacts/t01/extended/traversal/bulk/file-073.php",
+            "artifacts/t01/extended/traversal/bulk/file-074.php",
+            "artifacts/t01/extended/traversal/bulk/file-075.php",
+            "artifacts/t01/extended/traversal/bulk/file-076.php",
+            "artifacts/t01/extended/traversal/bulk/file-077.php",
+            "artifacts/t01/extended/traversal/bulk/file-078.php",
+            "artifacts/t01/extended/traversal/bulk/file-079.php",
+            "artifacts/t01/extended/traversal/bulk/file-080.php",
+            "artifacts/t01/extended/traversal/bulk/file-081.php",
+            "artifacts/t01/extended/traversal/bulk/file-082.php",
+            "artifacts/t01/extended/traversal/bulk/file-083.php",
+            "artifacts/t01/extended/traversal/bulk/file-084.php",
+            "artifacts/t01/extended/traversal/bulk/file-085.php",
+            "artifacts/t01/extended/traversal/bulk/file-086.php",
+            "artifacts/t01/extended/traversal/bulk/file-087.php",
+            "artifacts/t01/extended/traversal/bulk/file-088.php",
+            "artifacts/t01/extended/traversal/bulk/file-089.php",
+            "artifacts/t01/extended/traversal/bulk/file-090.php",
+            "artifacts/t01/extended/traversal/bulk/file-091.php",
+            "artifacts/t01/extended/traversal/bulk/file-092.php",
+            "artifacts/t01/extended/traversal/bulk/file-093.php",
+            "artifacts/t01/extended/traversal/bulk/file-094.php",
+            "artifacts/t01/extended/traversal/bulk/file-095.php",
+            "artifacts/t01/extended/traversal/bulk/file-096.php",
+            "artifacts/t01/extended/traversal/bulk/file-097.php",
+            "artifacts/t01/extended/traversal/bulk/file-098.php",
+            "artifacts/t01/extended/traversal/bulk/file-099.php",
+            "artifacts/t01/extended/traversal/bulk/file-100.php",
+            "artifacts/t01/extended/traversal/bulk/file-101.php",
+            "artifacts/t01/extended/traversal/bulk/file-102.php",
+            "artifacts/t01/extended/traversal/bulk/file-103.php",
+            "artifacts/t01/extended/traversal/bulk/file-104.php",
+            "artifacts/t01/extended/traversal/bulk/file-105.php",
+            "artifacts/t01/extended/traversal/bulk/file-106.php",
+            "artifacts/t01/extended/traversal/bulk/file-107.php",
+            "artifacts/t01/extended/traversal/bulk/file-108.php",
+            "artifacts/t01/extended/traversal/bulk/file-109.php",
+            "artifacts/t01/extended/traversal/bulk/file-110.php",
+            "artifacts/t01/extended/traversal/bulk/file-111.php",
+            "artifacts/t01/extended/traversal/bulk/file-112.php",
+            "artifacts/t01/extended/traversal/bulk/file-113.php",
+            "artifacts/t01/extended/traversal/bulk/file-114.php",
+            "artifacts/t01/extended/traversal/bulk/file-115.php",
+            "artifacts/t01/extended/traversal/bulk/file-116.php",
+            "artifacts/t01/extended/traversal/bulk/file-117.php",
+            "artifacts/t01/extended/traversal/bulk/file-118.php",
+            "artifacts/t01/extended/traversal/bulk/file-119.php",
+            "artifacts/t01/extended/traversal/bulk/file-120.php",
+            "artifacts/t01/extended/traversal/bulk/file-121.php",
+            "artifacts/t01/extended/traversal/bulk/file-122.php",
+            "artifacts/t01/extended/traversal/bulk/file-123.php",
+            "artifacts/t01/extended/traversal/bulk/file-124.php",
+            "artifacts/t01/extended/traversal/bulk/file-125.php",
+            "artifacts/t01/extended/traversal/bulk/file-126.php",
+            "artifacts/t01/extended/traversal/bulk/file-127.php",
+            "artifacts/t01/extended/traversal/nested/b.php",
+            "artifacts/t01/extended/traversal/skip/c.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": [],
+          "elapsed_seconds": 0.187
+        }
+      },
+      "local_only": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": [],
+          "elapsed_seconds": 0.125
+        }
+      },
+      "php_and_inc": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php",
+            "artifacts/t01/extended/traversal/bulk/file-000.php",
+            "artifacts/t01/extended/traversal/bulk/file-001.php",
+            "artifacts/t01/extended/traversal/bulk/file-002.php",
+            "artifacts/t01/extended/traversal/bulk/file-003.php",
+            "artifacts/t01/extended/traversal/bulk/file-004.php",
+            "artifacts/t01/extended/traversal/bulk/file-005.php",
+            "artifacts/t01/extended/traversal/bulk/file-006.php",
+            "artifacts/t01/extended/traversal/bulk/file-007.php",
+            "artifacts/t01/extended/traversal/bulk/file-008.php",
+            "artifacts/t01/extended/traversal/bulk/file-009.php",
+            "artifacts/t01/extended/traversal/bulk/file-010.php",
+            "artifacts/t01/extended/traversal/bulk/file-011.php",
+            "artifacts/t01/extended/traversal/bulk/file-012.php",
+            "artifacts/t01/extended/traversal/bulk/file-013.php",
+            "artifacts/t01/extended/traversal/bulk/file-014.php",
+            "artifacts/t01/extended/traversal/bulk/file-015.php",
+            "artifacts/t01/extended/traversal/bulk/file-016.php",
+            "artifacts/t01/extended/traversal/bulk/file-017.php",
+            "artifacts/t01/extended/traversal/bulk/file-018.php",
+            "artifacts/t01/extended/traversal/bulk/file-019.php",
+            "artifacts/t01/extended/traversal/bulk/file-020.php",
+            "artifacts/t01/extended/traversal/bulk/file-021.php",
+            "artifacts/t01/extended/traversal/bulk/file-022.php",
+            "artifacts/t01/extended/traversal/bulk/file-023.php",
+            "artifacts/t01/extended/traversal/bulk/file-024.php",
+            "artifacts/t01/extended/traversal/bulk/file-025.php",
+            "artifacts/t01/extended/traversal/bulk/file-026.php",
+            "artifacts/t01/extended/traversal/bulk/file-027.php",
+            "artifacts/t01/extended/traversal/bulk/file-028.php",
+            "artifacts/t01/extended/traversal/bulk/file-029.php",
+            "artifacts/t01/extended/traversal/bulk/file-030.php",
+            "artifacts/t01/extended/traversal/bulk/file-031.php",
+            "artifacts/t01/extended/traversal/bulk/file-032.php",
+            "artifacts/t01/extended/traversal/bulk/file-033.php",
+            "artifacts/t01/extended/traversal/bulk/file-034.php",
+            "artifacts/t01/extended/traversal/bulk/file-035.php",
+            "artifacts/t01/extended/traversal/bulk/file-036.php",
+            "artifacts/t01/extended/traversal/bulk/file-037.php",
+            "artifacts/t01/extended/traversal/bulk/file-038.php",
+            "artifacts/t01/extended/traversal/bulk/file-039.php",
+            "artifacts/t01/extended/traversal/bulk/file-040.php",
+            "artifacts/t01/extended/traversal/bulk/file-041.php",
+            "artifacts/t01/extended/traversal/bulk/file-042.php",
+            "artifacts/t01/extended/traversal/bulk/file-043.php",
+            "artifacts/t01/extended/traversal/bulk/file-044.php",
+            "artifacts/t01/extended/traversal/bulk/file-045.php",
+            "artifacts/t01/extended/traversal/bulk/file-046.php",
+            "artifacts/t01/extended/traversal/bulk/file-047.php",
+            "artifacts/t01/extended/traversal/bulk/file-048.php",
+            "artifacts/t01/extended/traversal/bulk/file-049.php",
+            "artifacts/t01/extended/traversal/bulk/file-050.php",
+            "artifacts/t01/extended/traversal/bulk/file-051.php",
+            "artifacts/t01/extended/traversal/bulk/file-052.php",
+            "artifacts/t01/extended/traversal/bulk/file-053.php",
+            "artifacts/t01/extended/traversal/bulk/file-054.php",
+            "artifacts/t01/extended/traversal/bulk/file-055.php",
+            "artifacts/t01/extended/traversal/bulk/file-056.php",
+            "artifacts/t01/extended/traversal/bulk/file-057.php",
+            "artifacts/t01/extended/traversal/bulk/file-058.php",
+            "artifacts/t01/extended/traversal/bulk/file-059.php",
+            "artifacts/t01/extended/traversal/bulk/file-060.php",
+            "artifacts/t01/extended/traversal/bulk/file-061.php",
+            "artifacts/t01/extended/traversal/bulk/file-062.php",
+            "artifacts/t01/extended/traversal/bulk/file-063.php",
+            "artifacts/t01/extended/traversal/bulk/file-064.php",
+            "artifacts/t01/extended/traversal/bulk/file-065.php",
+            "artifacts/t01/extended/traversal/bulk/file-066.php",
+            "artifacts/t01/extended/traversal/bulk/file-067.php",
+            "artifacts/t01/extended/traversal/bulk/file-068.php",
+            "artifacts/t01/extended/traversal/bulk/file-069.php",
+            "artifacts/t01/extended/traversal/bulk/file-070.php",
+            "artifacts/t01/extended/traversal/bulk/file-071.php",
+            "artifacts/t01/extended/traversal/bulk/file-072.php",
+            "artifacts/t01/extended/traversal/bulk/file-073.php",
+            "artifacts/t01/extended/traversal/bulk/file-074.php",
+            "artifacts/t01/extended/traversal/bulk/file-075.php",
+            "artifacts/t01/extended/traversal/bulk/file-076.php",
+            "artifacts/t01/extended/traversal/bulk/file-077.php",
+            "artifacts/t01/extended/traversal/bulk/file-078.php",
+            "artifacts/t01/extended/traversal/bulk/file-079.php",
+            "artifacts/t01/extended/traversal/bulk/file-080.php",
+            "artifacts/t01/extended/traversal/bulk/file-081.php",
+            "artifacts/t01/extended/traversal/bulk/file-082.php",
+            "artifacts/t01/extended/traversal/bulk/file-083.php",
+            "artifacts/t01/extended/traversal/bulk/file-084.php",
+            "artifacts/t01/extended/traversal/bulk/file-085.php",
+            "artifacts/t01/extended/traversal/bulk/file-086.php",
+            "artifacts/t01/extended/traversal/bulk/file-087.php",
+            "artifacts/t01/extended/traversal/bulk/file-088.php",
+            "artifacts/t01/extended/traversal/bulk/file-089.php",
+            "artifacts/t01/extended/traversal/bulk/file-090.php",
+            "artifacts/t01/extended/traversal/bulk/file-091.php",
+            "artifacts/t01/extended/traversal/bulk/file-092.php",
+            "artifacts/t01/extended/traversal/bulk/file-093.php",
+            "artifacts/t01/extended/traversal/bulk/file-094.php",
+            "artifacts/t01/extended/traversal/bulk/file-095.php",
+            "artifacts/t01/extended/traversal/bulk/file-096.php",
+            "artifacts/t01/extended/traversal/bulk/file-097.php",
+            "artifacts/t01/extended/traversal/bulk/file-098.php",
+            "artifacts/t01/extended/traversal/bulk/file-099.php",
+            "artifacts/t01/extended/traversal/bulk/file-100.php",
+            "artifacts/t01/extended/traversal/bulk/file-101.php",
+            "artifacts/t01/extended/traversal/bulk/file-102.php",
+            "artifacts/t01/extended/traversal/bulk/file-103.php",
+            "artifacts/t01/extended/traversal/bulk/file-104.php",
+            "artifacts/t01/extended/traversal/bulk/file-105.php",
+            "artifacts/t01/extended/traversal/bulk/file-106.php",
+            "artifacts/t01/extended/traversal/bulk/file-107.php",
+            "artifacts/t01/extended/traversal/bulk/file-108.php",
+            "artifacts/t01/extended/traversal/bulk/file-109.php",
+            "artifacts/t01/extended/traversal/bulk/file-110.php",
+            "artifacts/t01/extended/traversal/bulk/file-111.php",
+            "artifacts/t01/extended/traversal/bulk/file-112.php",
+            "artifacts/t01/extended/traversal/bulk/file-113.php",
+            "artifacts/t01/extended/traversal/bulk/file-114.php",
+            "artifacts/t01/extended/traversal/bulk/file-115.php",
+            "artifacts/t01/extended/traversal/bulk/file-116.php",
+            "artifacts/t01/extended/traversal/bulk/file-117.php",
+            "artifacts/t01/extended/traversal/bulk/file-118.php",
+            "artifacts/t01/extended/traversal/bulk/file-119.php",
+            "artifacts/t01/extended/traversal/bulk/file-120.php",
+            "artifacts/t01/extended/traversal/bulk/file-121.php",
+            "artifacts/t01/extended/traversal/bulk/file-122.php",
+            "artifacts/t01/extended/traversal/bulk/file-123.php",
+            "artifacts/t01/extended/traversal/bulk/file-124.php",
+            "artifacts/t01/extended/traversal/bulk/file-125.php",
+            "artifacts/t01/extended/traversal/bulk/file-126.php",
+            "artifacts/t01/extended/traversal/bulk/file-127.php",
+            "artifacts/t01/extended/traversal/extra.inc",
+            "artifacts/t01/extended/traversal/nested/b.php",
+            "artifacts/t01/extended/traversal/skip/c.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": [],
+          "elapsed_seconds": 0.187
+        }
+      },
+      "exclude_skip": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php",
+            "artifacts/t01/extended/traversal/bulk/file-000.php",
+            "artifacts/t01/extended/traversal/bulk/file-001.php",
+            "artifacts/t01/extended/traversal/bulk/file-002.php",
+            "artifacts/t01/extended/traversal/bulk/file-003.php",
+            "artifacts/t01/extended/traversal/bulk/file-004.php",
+            "artifacts/t01/extended/traversal/bulk/file-005.php",
+            "artifacts/t01/extended/traversal/bulk/file-006.php",
+            "artifacts/t01/extended/traversal/bulk/file-007.php",
+            "artifacts/t01/extended/traversal/bulk/file-008.php",
+            "artifacts/t01/extended/traversal/bulk/file-009.php",
+            "artifacts/t01/extended/traversal/bulk/file-010.php",
+            "artifacts/t01/extended/traversal/bulk/file-011.php",
+            "artifacts/t01/extended/traversal/bulk/file-012.php",
+            "artifacts/t01/extended/traversal/bulk/file-013.php",
+            "artifacts/t01/extended/traversal/bulk/file-014.php",
+            "artifacts/t01/extended/traversal/bulk/file-015.php",
+            "artifacts/t01/extended/traversal/bulk/file-016.php",
+            "artifacts/t01/extended/traversal/bulk/file-017.php",
+            "artifacts/t01/extended/traversal/bulk/file-018.php",
+            "artifacts/t01/extended/traversal/bulk/file-019.php",
+            "artifacts/t01/extended/traversal/bulk/file-020.php",
+            "artifacts/t01/extended/traversal/bulk/file-021.php",
+            "artifacts/t01/extended/traversal/bulk/file-022.php",
+            "artifacts/t01/extended/traversal/bulk/file-023.php",
+            "artifacts/t01/extended/traversal/bulk/file-024.php",
+            "artifacts/t01/extended/traversal/bulk/file-025.php",
+            "artifacts/t01/extended/traversal/bulk/file-026.php",
+            "artifacts/t01/extended/traversal/bulk/file-027.php",
+            "artifacts/t01/extended/traversal/bulk/file-028.php",
+            "artifacts/t01/extended/traversal/bulk/file-029.php",
+            "artifacts/t01/extended/traversal/bulk/file-030.php",
+            "artifacts/t01/extended/traversal/bulk/file-031.php",
+            "artifacts/t01/extended/traversal/bulk/file-032.php",
+            "artifacts/t01/extended/traversal/bulk/file-033.php",
+            "artifacts/t01/extended/traversal/bulk/file-034.php",
+            "artifacts/t01/extended/traversal/bulk/file-035.php",
+            "artifacts/t01/extended/traversal/bulk/file-036.php",
+            "artifacts/t01/extended/traversal/bulk/file-037.php",
+            "artifacts/t01/extended/traversal/bulk/file-038.php",
+            "artifacts/t01/extended/traversal/bulk/file-039.php",
+            "artifacts/t01/extended/traversal/bulk/file-040.php",
+            "artifacts/t01/extended/traversal/bulk/file-041.php",
+            "artifacts/t01/extended/traversal/bulk/file-042.php",
+            "artifacts/t01/extended/traversal/bulk/file-043.php",
+            "artifacts/t01/extended/traversal/bulk/file-044.php",
+            "artifacts/t01/extended/traversal/bulk/file-045.php",
+            "artifacts/t01/extended/traversal/bulk/file-046.php",
+            "artifacts/t01/extended/traversal/bulk/file-047.php",
+            "artifacts/t01/extended/traversal/bulk/file-048.php",
+            "artifacts/t01/extended/traversal/bulk/file-049.php",
+            "artifacts/t01/extended/traversal/bulk/file-050.php",
+            "artifacts/t01/extended/traversal/bulk/file-051.php",
+            "artifacts/t01/extended/traversal/bulk/file-052.php",
+            "artifacts/t01/extended/traversal/bulk/file-053.php",
+            "artifacts/t01/extended/traversal/bulk/file-054.php",
+            "artifacts/t01/extended/traversal/bulk/file-055.php",
+            "artifacts/t01/extended/traversal/bulk/file-056.php",
+            "artifacts/t01/extended/traversal/bulk/file-057.php",
+            "artifacts/t01/extended/traversal/bulk/file-058.php",
+            "artifacts/t01/extended/traversal/bulk/file-059.php",
+            "artifacts/t01/extended/traversal/bulk/file-060.php",
+            "artifacts/t01/extended/traversal/bulk/file-061.php",
+            "artifacts/t01/extended/traversal/bulk/file-062.php",
+            "artifacts/t01/extended/traversal/bulk/file-063.php",
+            "artifacts/t01/extended/traversal/bulk/file-064.php",
+            "artifacts/t01/extended/traversal/bulk/file-065.php",
+            "artifacts/t01/extended/traversal/bulk/file-066.php",
+            "artifacts/t01/extended/traversal/bulk/file-067.php",
+            "artifacts/t01/extended/traversal/bulk/file-068.php",
+            "artifacts/t01/extended/traversal/bulk/file-069.php",
+            "artifacts/t01/extended/traversal/bulk/file-070.php",
+            "artifacts/t01/extended/traversal/bulk/file-071.php",
+            "artifacts/t01/extended/traversal/bulk/file-072.php",
+            "artifacts/t01/extended/traversal/bulk/file-073.php",
+            "artifacts/t01/extended/traversal/bulk/file-074.php",
+            "artifacts/t01/extended/traversal/bulk/file-075.php",
+            "artifacts/t01/extended/traversal/bulk/file-076.php",
+            "artifacts/t01/extended/traversal/bulk/file-077.php",
+            "artifacts/t01/extended/traversal/bulk/file-078.php",
+            "artifacts/t01/extended/traversal/bulk/file-079.php",
+            "artifacts/t01/extended/traversal/bulk/file-080.php",
+            "artifacts/t01/extended/traversal/bulk/file-081.php",
+            "artifacts/t01/extended/traversal/bulk/file-082.php",
+            "artifacts/t01/extended/traversal/bulk/file-083.php",
+            "artifacts/t01/extended/traversal/bulk/file-084.php",
+            "artifacts/t01/extended/traversal/bulk/file-085.php",
+            "artifacts/t01/extended/traversal/bulk/file-086.php",
+            "artifacts/t01/extended/traversal/bulk/file-087.php",
+            "artifacts/t01/extended/traversal/bulk/file-088.php",
+            "artifacts/t01/extended/traversal/bulk/file-089.php",
+            "artifacts/t01/extended/traversal/bulk/file-090.php",
+            "artifacts/t01/extended/traversal/bulk/file-091.php",
+            "artifacts/t01/extended/traversal/bulk/file-092.php",
+            "artifacts/t01/extended/traversal/bulk/file-093.php",
+            "artifacts/t01/extended/traversal/bulk/file-094.php",
+            "artifacts/t01/extended/traversal/bulk/file-095.php",
+            "artifacts/t01/extended/traversal/bulk/file-096.php",
+            "artifacts/t01/extended/traversal/bulk/file-097.php",
+            "artifacts/t01/extended/traversal/bulk/file-098.php",
+            "artifacts/t01/extended/traversal/bulk/file-099.php",
+            "artifacts/t01/extended/traversal/bulk/file-100.php",
+            "artifacts/t01/extended/traversal/bulk/file-101.php",
+            "artifacts/t01/extended/traversal/bulk/file-102.php",
+            "artifacts/t01/extended/traversal/bulk/file-103.php",
+            "artifacts/t01/extended/traversal/bulk/file-104.php",
+            "artifacts/t01/extended/traversal/bulk/file-105.php",
+            "artifacts/t01/extended/traversal/bulk/file-106.php",
+            "artifacts/t01/extended/traversal/bulk/file-107.php",
+            "artifacts/t01/extended/traversal/bulk/file-108.php",
+            "artifacts/t01/extended/traversal/bulk/file-109.php",
+            "artifacts/t01/extended/traversal/bulk/file-110.php",
+            "artifacts/t01/extended/traversal/bulk/file-111.php",
+            "artifacts/t01/extended/traversal/bulk/file-112.php",
+            "artifacts/t01/extended/traversal/bulk/file-113.php",
+            "artifacts/t01/extended/traversal/bulk/file-114.php",
+            "artifacts/t01/extended/traversal/bulk/file-115.php",
+            "artifacts/t01/extended/traversal/bulk/file-116.php",
+            "artifacts/t01/extended/traversal/bulk/file-117.php",
+            "artifacts/t01/extended/traversal/bulk/file-118.php",
+            "artifacts/t01/extended/traversal/bulk/file-119.php",
+            "artifacts/t01/extended/traversal/bulk/file-120.php",
+            "artifacts/t01/extended/traversal/bulk/file-121.php",
+            "artifacts/t01/extended/traversal/bulk/file-122.php",
+            "artifacts/t01/extended/traversal/bulk/file-123.php",
+            "artifacts/t01/extended/traversal/bulk/file-124.php",
+            "artifacts/t01/extended/traversal/bulk/file-125.php",
+            "artifacts/t01/extended/traversal/bulk/file-126.php",
+            "artifacts/t01/extended/traversal/bulk/file-127.php",
+            "artifacts/t01/extended/traversal/nested/b.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": [],
+          "elapsed_seconds": 0.187
+        }
+      },
+      "junction_observation": {
+        "passed": true,
+        "observation": {
+          "creation": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "scan": {
+            "exit": 255,
+            "json_valid": false,
+            "messages": [],
+            "stdout_excerpt": "\nFatal error: Uncaught PHP_CodeSniffer\\Exceptions\\RuntimeException: fopen(D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\extended\\traversal\\link-junction): Failed to open stream: Permission denied in D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Files\\LocalFile.php on line 47 in D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php:543\nStack trace:\n#0 [internal function]: PHP_CodeSniffer\\Runner->handleErrors(2, 'fopen(D:\\\\a\\\\DK-P...', 'D:\\\\a\\\\DK-PHP-Ver...', 47)\n#1 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Files\\LocalFile.php(47): fopen('D:\\\\a\\\\DK-PHP-Ver...', 'r')\n#2 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Files\\FileList.php(201): PHP_CodeSniffer\\Files\\LocalFile->__construct('D:\\\\a\\\\DK-PHP-Ver...', Object(PHP_CodeSniffer\\Ruleset), Object(PHP_CodeSniffer\\Config))\n#3 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php(379): PHP_CodeSniffer\\Files\\FileList->current()\n#4 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php(122): PHP_CodeSniffer\\Runner->run()\n#5 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\bin\\phpcs(30): PHP_CodeSniffer\\Runner->runPHPCS()\n#6 {main}\n  thrown in D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php on line 543\n",
+            "stderr_excerpt": ""
+          },
+          "outside_file_reported": false,
+          "engine_succeeded": false,
+          "known_native_failure_reproduced": true
+        }
+      },
+      "junction_explicit_file_list": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php",
+            "artifacts/t01/extended/traversal/bulk/file-000.php",
+            "artifacts/t01/extended/traversal/bulk/file-001.php",
+            "artifacts/t01/extended/traversal/bulk/file-002.php",
+            "artifacts/t01/extended/traversal/bulk/file-003.php",
+            "artifacts/t01/extended/traversal/bulk/file-004.php",
+            "artifacts/t01/extended/traversal/bulk/file-005.php",
+            "artifacts/t01/extended/traversal/bulk/file-006.php",
+            "artifacts/t01/extended/traversal/bulk/file-007.php",
+            "artifacts/t01/extended/traversal/bulk/file-008.php",
+            "artifacts/t01/extended/traversal/bulk/file-009.php",
+            "artifacts/t01/extended/traversal/bulk/file-010.php",
+            "artifacts/t01/extended/traversal/bulk/file-011.php",
+            "artifacts/t01/extended/traversal/bulk/file-012.php",
+            "artifacts/t01/extended/traversal/bulk/file-013.php",
+            "artifacts/t01/extended/traversal/bulk/file-014.php",
+            "artifacts/t01/extended/traversal/bulk/file-015.php",
+            "artifacts/t01/extended/traversal/bulk/file-016.php",
+            "artifacts/t01/extended/traversal/bulk/file-017.php",
+            "artifacts/t01/extended/traversal/bulk/file-018.php",
+            "artifacts/t01/extended/traversal/bulk/file-019.php",
+            "artifacts/t01/extended/traversal/bulk/file-020.php",
+            "artifacts/t01/extended/traversal/bulk/file-021.php",
+            "artifacts/t01/extended/traversal/bulk/file-022.php",
+            "artifacts/t01/extended/traversal/bulk/file-023.php",
+            "artifacts/t01/extended/traversal/bulk/file-024.php",
+            "artifacts/t01/extended/traversal/bulk/file-025.php",
+            "artifacts/t01/extended/traversal/bulk/file-026.php",
+            "artifacts/t01/extended/traversal/bulk/file-027.php",
+            "artifacts/t01/extended/traversal/bulk/file-028.php",
+            "artifacts/t01/extended/traversal/bulk/file-029.php",
+            "artifacts/t01/extended/traversal/bulk/file-030.php",
+            "artifacts/t01/extended/traversal/bulk/file-031.php",
+            "artifacts/t01/extended/traversal/bulk/file-032.php",
+            "artifacts/t01/extended/traversal/bulk/file-033.php",
+            "artifacts/t01/extended/traversal/bulk/file-034.php",
+            "artifacts/t01/extended/traversal/bulk/file-035.php",
+            "artifacts/t01/extended/traversal/bulk/file-036.php",
+            "artifacts/t01/extended/traversal/bulk/file-037.php",
+            "artifacts/t01/extended/traversal/bulk/file-038.php",
+            "artifacts/t01/extended/traversal/bulk/file-039.php",
+            "artifacts/t01/extended/traversal/bulk/file-040.php",
+            "artifacts/t01/extended/traversal/bulk/file-041.php",
+            "artifacts/t01/extended/traversal/bulk/file-042.php",
+            "artifacts/t01/extended/traversal/bulk/file-043.php",
+            "artifacts/t01/extended/traversal/bulk/file-044.php",
+            "artifacts/t01/extended/traversal/bulk/file-045.php",
+            "artifacts/t01/extended/traversal/bulk/file-046.php",
+            "artifacts/t01/extended/traversal/bulk/file-047.php",
+            "artifacts/t01/extended/traversal/bulk/file-048.php",
+            "artifacts/t01/extended/traversal/bulk/file-049.php",
+            "artifacts/t01/extended/traversal/bulk/file-050.php",
+            "artifacts/t01/extended/traversal/bulk/file-051.php",
+            "artifacts/t01/extended/traversal/bulk/file-052.php",
+            "artifacts/t01/extended/traversal/bulk/file-053.php",
+            "artifacts/t01/extended/traversal/bulk/file-054.php",
+            "artifacts/t01/extended/traversal/bulk/file-055.php",
+            "artifacts/t01/extended/traversal/bulk/file-056.php",
+            "artifacts/t01/extended/traversal/bulk/file-057.php",
+            "artifacts/t01/extended/traversal/bulk/file-058.php",
+            "artifacts/t01/extended/traversal/bulk/file-059.php",
+            "artifacts/t01/extended/traversal/bulk/file-060.php",
+            "artifacts/t01/extended/traversal/bulk/file-061.php",
+            "artifacts/t01/extended/traversal/bulk/file-062.php",
+            "artifacts/t01/extended/traversal/bulk/file-063.php",
+            "artifacts/t01/extended/traversal/bulk/file-064.php",
+            "artifacts/t01/extended/traversal/bulk/file-065.php",
+            "artifacts/t01/extended/traversal/bulk/file-066.php",
+            "artifacts/t01/extended/traversal/bulk/file-067.php",
+            "artifacts/t01/extended/traversal/bulk/file-068.php",
+            "artifacts/t01/extended/traversal/bulk/file-069.php",
+            "artifacts/t01/extended/traversal/bulk/file-070.php",
+            "artifacts/t01/extended/traversal/bulk/file-071.php",
+            "artifacts/t01/extended/traversal/bulk/file-072.php",
+            "artifacts/t01/extended/traversal/bulk/file-073.php",
+            "artifacts/t01/extended/traversal/bulk/file-074.php",
+            "artifacts/t01/extended/traversal/bulk/file-075.php",
+            "artifacts/t01/extended/traversal/bulk/file-076.php",
+            "artifacts/t01/extended/traversal/bulk/file-077.php",
+            "artifacts/t01/extended/traversal/bulk/file-078.php",
+            "artifacts/t01/extended/traversal/bulk/file-079.php",
+            "artifacts/t01/extended/traversal/bulk/file-080.php",
+            "artifacts/t01/extended/traversal/bulk/file-081.php",
+            "artifacts/t01/extended/traversal/bulk/file-082.php",
+            "artifacts/t01/extended/traversal/bulk/file-083.php",
+            "artifacts/t01/extended/traversal/bulk/file-084.php",
+            "artifacts/t01/extended/traversal/bulk/file-085.php",
+            "artifacts/t01/extended/traversal/bulk/file-086.php",
+            "artifacts/t01/extended/traversal/bulk/file-087.php",
+            "artifacts/t01/extended/traversal/bulk/file-088.php",
+            "artifacts/t01/extended/traversal/bulk/file-089.php",
+            "artifacts/t01/extended/traversal/bulk/file-090.php",
+            "artifacts/t01/extended/traversal/bulk/file-091.php",
+            "artifacts/t01/extended/traversal/bulk/file-092.php",
+            "artifacts/t01/extended/traversal/bulk/file-093.php",
+            "artifacts/t01/extended/traversal/bulk/file-094.php",
+            "artifacts/t01/extended/traversal/bulk/file-095.php",
+            "artifacts/t01/extended/traversal/bulk/file-096.php",
+            "artifacts/t01/extended/traversal/bulk/file-097.php",
+            "artifacts/t01/extended/traversal/bulk/file-098.php",
+            "artifacts/t01/extended/traversal/bulk/file-099.php",
+            "artifacts/t01/extended/traversal/bulk/file-100.php",
+            "artifacts/t01/extended/traversal/bulk/file-101.php",
+            "artifacts/t01/extended/traversal/bulk/file-102.php",
+            "artifacts/t01/extended/traversal/bulk/file-103.php",
+            "artifacts/t01/extended/traversal/bulk/file-104.php",
+            "artifacts/t01/extended/traversal/bulk/file-105.php",
+            "artifacts/t01/extended/traversal/bulk/file-106.php",
+            "artifacts/t01/extended/traversal/bulk/file-107.php",
+            "artifacts/t01/extended/traversal/bulk/file-108.php",
+            "artifacts/t01/extended/traversal/bulk/file-109.php",
+            "artifacts/t01/extended/traversal/bulk/file-110.php",
+            "artifacts/t01/extended/traversal/bulk/file-111.php",
+            "artifacts/t01/extended/traversal/bulk/file-112.php",
+            "artifacts/t01/extended/traversal/bulk/file-113.php",
+            "artifacts/t01/extended/traversal/bulk/file-114.php",
+            "artifacts/t01/extended/traversal/bulk/file-115.php",
+            "artifacts/t01/extended/traversal/bulk/file-116.php",
+            "artifacts/t01/extended/traversal/bulk/file-117.php",
+            "artifacts/t01/extended/traversal/bulk/file-118.php",
+            "artifacts/t01/extended/traversal/bulk/file-119.php",
+            "artifacts/t01/extended/traversal/bulk/file-120.php",
+            "artifacts/t01/extended/traversal/bulk/file-121.php",
+            "artifacts/t01/extended/traversal/bulk/file-122.php",
+            "artifacts/t01/extended/traversal/bulk/file-123.php",
+            "artifacts/t01/extended/traversal/bulk/file-124.php",
+            "artifacts/t01/extended/traversal/bulk/file-125.php",
+            "artifacts/t01/extended/traversal/bulk/file-126.php",
+            "artifacts/t01/extended/traversal/bulk/file-127.php",
+            "artifacts/t01/extended/traversal/nested/b.php",
+            "artifacts/t01/extended/traversal/skip/c.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": []
+        }
+      },
+      "symlink_observation": {
+        "passed": true,
+        "observation": {
+          "creation": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "scan": {
+            "exit": 0,
+            "json_valid": true,
+            "files": [
+              "artifacts/t01/extended/traversal/a.php",
+              "artifacts/t01/extended/traversal/bulk/file-000.php",
+              "artifacts/t01/extended/traversal/bulk/file-001.php",
+              "artifacts/t01/extended/traversal/bulk/file-002.php",
+              "artifacts/t01/extended/traversal/bulk/file-003.php",
+              "artifacts/t01/extended/traversal/bulk/file-004.php",
+              "artifacts/t01/extended/traversal/bulk/file-005.php",
+              "artifacts/t01/extended/traversal/bulk/file-006.php",
+              "artifacts/t01/extended/traversal/bulk/file-007.php",
+              "artifacts/t01/extended/traversal/bulk/file-008.php",
+              "artifacts/t01/extended/traversal/bulk/file-009.php",
+              "artifacts/t01/extended/traversal/bulk/file-010.php",
+              "artifacts/t01/extended/traversal/bulk/file-011.php",
+              "artifacts/t01/extended/traversal/bulk/file-012.php",
+              "artifacts/t01/extended/traversal/bulk/file-013.php",
+              "artifacts/t01/extended/traversal/bulk/file-014.php",
+              "artifacts/t01/extended/traversal/bulk/file-015.php",
+              "artifacts/t01/extended/traversal/bulk/file-016.php",
+              "artifacts/t01/extended/traversal/bulk/file-017.php",
+              "artifacts/t01/extended/traversal/bulk/file-018.php",
+              "artifacts/t01/extended/traversal/bulk/file-019.php",
+              "artifacts/t01/extended/traversal/bulk/file-020.php",
+              "artifacts/t01/extended/traversal/bulk/file-021.php",
+              "artifacts/t01/extended/traversal/bulk/file-022.php",
+              "artifacts/t01/extended/traversal/bulk/file-023.php",
+              "artifacts/t01/extended/traversal/bulk/file-024.php",
+              "artifacts/t01/extended/traversal/bulk/file-025.php",
+              "artifacts/t01/extended/traversal/bulk/file-026.php",
+              "artifacts/t01/extended/traversal/bulk/file-027.php",
+              "artifacts/t01/extended/traversal/bulk/file-028.php",
+              "artifacts/t01/extended/traversal/bulk/file-029.php",
+              "artifacts/t01/extended/traversal/bulk/file-030.php",
+              "artifacts/t01/extended/traversal/bulk/file-031.php",
+              "artifacts/t01/extended/traversal/bulk/file-032.php",
+              "artifacts/t01/extended/traversal/bulk/file-033.php",
+              "artifacts/t01/extended/traversal/bulk/file-034.php",
+              "artifacts/t01/extended/traversal/bulk/file-035.php",
+              "artifacts/t01/extended/traversal/bulk/file-036.php",
+              "artifacts/t01/extended/traversal/bulk/file-037.php",
+              "artifacts/t01/extended/traversal/bulk/file-038.php",
+              "artifacts/t01/extended/traversal/bulk/file-039.php",
+              "artifacts/t01/extended/traversal/bulk/file-040.php",
+              "artifacts/t01/extended/traversal/bulk/file-041.php",
+              "artifacts/t01/extended/traversal/bulk/file-042.php",
+              "artifacts/t01/extended/traversal/bulk/file-043.php",
+              "artifacts/t01/extended/traversal/bulk/file-044.php",
+              "artifacts/t01/extended/traversal/bulk/file-045.php",
+              "artifacts/t01/extended/traversal/bulk/file-046.php",
+              "artifacts/t01/extended/traversal/bulk/file-047.php",
+              "artifacts/t01/extended/traversal/bulk/file-048.php",
+              "artifacts/t01/extended/traversal/bulk/file-049.php",
+              "artifacts/t01/extended/traversal/bulk/file-050.php",
+              "artifacts/t01/extended/traversal/bulk/file-051.php",
+              "artifacts/t01/extended/traversal/bulk/file-052.php",
+              "artifacts/t01/extended/traversal/bulk/file-053.php",
+              "artifacts/t01/extended/traversal/bulk/file-054.php",
+              "artifacts/t01/extended/traversal/bulk/file-055.php",
+              "artifacts/t01/extended/traversal/bulk/file-056.php",
+              "artifacts/t01/extended/traversal/bulk/file-057.php",
+              "artifacts/t01/extended/traversal/bulk/file-058.php",
+              "artifacts/t01/extended/traversal/bulk/file-059.php",
+              "artifacts/t01/extended/traversal/bulk/file-060.php",
+              "artifacts/t01/extended/traversal/bulk/file-061.php",
+              "artifacts/t01/extended/traversal/bulk/file-062.php",
+              "artifacts/t01/extended/traversal/bulk/file-063.php",
+              "artifacts/t01/extended/traversal/bulk/file-064.php",
+              "artifacts/t01/extended/traversal/bulk/file-065.php",
+              "artifacts/t01/extended/traversal/bulk/file-066.php",
+              "artifacts/t01/extended/traversal/bulk/file-067.php",
+              "artifacts/t01/extended/traversal/bulk/file-068.php",
+              "artifacts/t01/extended/traversal/bulk/file-069.php",
+              "artifacts/t01/extended/traversal/bulk/file-070.php",
+              "artifacts/t01/extended/traversal/bulk/file-071.php",
+              "artifacts/t01/extended/traversal/bulk/file-072.php",
+              "artifacts/t01/extended/traversal/bulk/file-073.php",
+              "artifacts/t01/extended/traversal/bulk/file-074.php",
+              "artifacts/t01/extended/traversal/bulk/file-075.php",
+              "artifacts/t01/extended/traversal/bulk/file-076.php",
+              "artifacts/t01/extended/traversal/bulk/file-077.php",
+              "artifacts/t01/extended/traversal/bulk/file-078.php",
+              "artifacts/t01/extended/traversal/bulk/file-079.php",
+              "artifacts/t01/extended/traversal/bulk/file-080.php",
+              "artifacts/t01/extended/traversal/bulk/file-081.php",
+              "artifacts/t01/extended/traversal/bulk/file-082.php",
+              "artifacts/t01/extended/traversal/bulk/file-083.php",
+              "artifacts/t01/extended/traversal/bulk/file-084.php",
+              "artifacts/t01/extended/traversal/bulk/file-085.php",
+              "artifacts/t01/extended/traversal/bulk/file-086.php",
+              "artifacts/t01/extended/traversal/bulk/file-087.php",
+              "artifacts/t01/extended/traversal/bulk/file-088.php",
+              "artifacts/t01/extended/traversal/bulk/file-089.php",
+              "artifacts/t01/extended/traversal/bulk/file-090.php",
+              "artifacts/t01/extended/traversal/bulk/file-091.php",
+              "artifacts/t01/extended/traversal/bulk/file-092.php",
+              "artifacts/t01/extended/traversal/bulk/file-093.php",
+              "artifacts/t01/extended/traversal/bulk/file-094.php",
+              "artifacts/t01/extended/traversal/bulk/file-095.php",
+              "artifacts/t01/extended/traversal/bulk/file-096.php",
+              "artifacts/t01/extended/traversal/bulk/file-097.php",
+              "artifacts/t01/extended/traversal/bulk/file-098.php",
+              "artifacts/t01/extended/traversal/bulk/file-099.php",
+              "artifacts/t01/extended/traversal/bulk/file-100.php",
+              "artifacts/t01/extended/traversal/bulk/file-101.php",
+              "artifacts/t01/extended/traversal/bulk/file-102.php",
+              "artifacts/t01/extended/traversal/bulk/file-103.php",
+              "artifacts/t01/extended/traversal/bulk/file-104.php",
+              "artifacts/t01/extended/traversal/bulk/file-105.php",
+              "artifacts/t01/extended/traversal/bulk/file-106.php",
+              "artifacts/t01/extended/traversal/bulk/file-107.php",
+              "artifacts/t01/extended/traversal/bulk/file-108.php",
+              "artifacts/t01/extended/traversal/bulk/file-109.php",
+              "artifacts/t01/extended/traversal/bulk/file-110.php",
+              "artifacts/t01/extended/traversal/bulk/file-111.php",
+              "artifacts/t01/extended/traversal/bulk/file-112.php",
+              "artifacts/t01/extended/traversal/bulk/file-113.php",
+              "artifacts/t01/extended/traversal/bulk/file-114.php",
+              "artifacts/t01/extended/traversal/bulk/file-115.php",
+              "artifacts/t01/extended/traversal/bulk/file-116.php",
+              "artifacts/t01/extended/traversal/bulk/file-117.php",
+              "artifacts/t01/extended/traversal/bulk/file-118.php",
+              "artifacts/t01/extended/traversal/bulk/file-119.php",
+              "artifacts/t01/extended/traversal/bulk/file-120.php",
+              "artifacts/t01/extended/traversal/bulk/file-121.php",
+              "artifacts/t01/extended/traversal/bulk/file-122.php",
+              "artifacts/t01/extended/traversal/bulk/file-123.php",
+              "artifacts/t01/extended/traversal/bulk/file-124.php",
+              "artifacts/t01/extended/traversal/bulk/file-125.php",
+              "artifacts/t01/extended/traversal/bulk/file-126.php",
+              "artifacts/t01/extended/traversal/bulk/file-127.php",
+              "artifacts/t01/extended/traversal/link-symlink/outside.php",
+              "artifacts/t01/extended/traversal/nested/b.php",
+              "artifacts/t01/extended/traversal/skip/c.php"
+            ],
+            "totals": {
+              "errors": 0,
+              "warnings": 0,
+              "fixable": 0
+            },
+            "messages": []
+          },
+          "outside_file_reported": true,
+          "engine_succeeded": true
+        }
+      },
+      "symlink_explicit_file_list": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "json_valid": true,
+          "files": [
+            "artifacts/t01/extended/traversal/a.php",
+            "artifacts/t01/extended/traversal/bulk/file-000.php",
+            "artifacts/t01/extended/traversal/bulk/file-001.php",
+            "artifacts/t01/extended/traversal/bulk/file-002.php",
+            "artifacts/t01/extended/traversal/bulk/file-003.php",
+            "artifacts/t01/extended/traversal/bulk/file-004.php",
+            "artifacts/t01/extended/traversal/bulk/file-005.php",
+            "artifacts/t01/extended/traversal/bulk/file-006.php",
+            "artifacts/t01/extended/traversal/bulk/file-007.php",
+            "artifacts/t01/extended/traversal/bulk/file-008.php",
+            "artifacts/t01/extended/traversal/bulk/file-009.php",
+            "artifacts/t01/extended/traversal/bulk/file-010.php",
+            "artifacts/t01/extended/traversal/bulk/file-011.php",
+            "artifacts/t01/extended/traversal/bulk/file-012.php",
+            "artifacts/t01/extended/traversal/bulk/file-013.php",
+            "artifacts/t01/extended/traversal/bulk/file-014.php",
+            "artifacts/t01/extended/traversal/bulk/file-015.php",
+            "artifacts/t01/extended/traversal/bulk/file-016.php",
+            "artifacts/t01/extended/traversal/bulk/file-017.php",
+            "artifacts/t01/extended/traversal/bulk/file-018.php",
+            "artifacts/t01/extended/traversal/bulk/file-019.php",
+            "artifacts/t01/extended/traversal/bulk/file-020.php",
+            "artifacts/t01/extended/traversal/bulk/file-021.php",
+            "artifacts/t01/extended/traversal/bulk/file-022.php",
+            "artifacts/t01/extended/traversal/bulk/file-023.php",
+            "artifacts/t01/extended/traversal/bulk/file-024.php",
+            "artifacts/t01/extended/traversal/bulk/file-025.php",
+            "artifacts/t01/extended/traversal/bulk/file-026.php",
+            "artifacts/t01/extended/traversal/bulk/file-027.php",
+            "artifacts/t01/extended/traversal/bulk/file-028.php",
+            "artifacts/t01/extended/traversal/bulk/file-029.php",
+            "artifacts/t01/extended/traversal/bulk/file-030.php",
+            "artifacts/t01/extended/traversal/bulk/file-031.php",
+            "artifacts/t01/extended/traversal/bulk/file-032.php",
+            "artifacts/t01/extended/traversal/bulk/file-033.php",
+            "artifacts/t01/extended/traversal/bulk/file-034.php",
+            "artifacts/t01/extended/traversal/bulk/file-035.php",
+            "artifacts/t01/extended/traversal/bulk/file-036.php",
+            "artifacts/t01/extended/traversal/bulk/file-037.php",
+            "artifacts/t01/extended/traversal/bulk/file-038.php",
+            "artifacts/t01/extended/traversal/bulk/file-039.php",
+            "artifacts/t01/extended/traversal/bulk/file-040.php",
+            "artifacts/t01/extended/traversal/bulk/file-041.php",
+            "artifacts/t01/extended/traversal/bulk/file-042.php",
+            "artifacts/t01/extended/traversal/bulk/file-043.php",
+            "artifacts/t01/extended/traversal/bulk/file-044.php",
+            "artifacts/t01/extended/traversal/bulk/file-045.php",
+            "artifacts/t01/extended/traversal/bulk/file-046.php",
+            "artifacts/t01/extended/traversal/bulk/file-047.php",
+            "artifacts/t01/extended/traversal/bulk/file-048.php",
+            "artifacts/t01/extended/traversal/bulk/file-049.php",
+            "artifacts/t01/extended/traversal/bulk/file-050.php",
+            "artifacts/t01/extended/traversal/bulk/file-051.php",
+            "artifacts/t01/extended/traversal/bulk/file-052.php",
+            "artifacts/t01/extended/traversal/bulk/file-053.php",
+            "artifacts/t01/extended/traversal/bulk/file-054.php",
+            "artifacts/t01/extended/traversal/bulk/file-055.php",
+            "artifacts/t01/extended/traversal/bulk/file-056.php",
+            "artifacts/t01/extended/traversal/bulk/file-057.php",
+            "artifacts/t01/extended/traversal/bulk/file-058.php",
+            "artifacts/t01/extended/traversal/bulk/file-059.php",
+            "artifacts/t01/extended/traversal/bulk/file-060.php",
+            "artifacts/t01/extended/traversal/bulk/file-061.php",
+            "artifacts/t01/extended/traversal/bulk/file-062.php",
+            "artifacts/t01/extended/traversal/bulk/file-063.php",
+            "artifacts/t01/extended/traversal/bulk/file-064.php",
+            "artifacts/t01/extended/traversal/bulk/file-065.php",
+            "artifacts/t01/extended/traversal/bulk/file-066.php",
+            "artifacts/t01/extended/traversal/bulk/file-067.php",
+            "artifacts/t01/extended/traversal/bulk/file-068.php",
+            "artifacts/t01/extended/traversal/bulk/file-069.php",
+            "artifacts/t01/extended/traversal/bulk/file-070.php",
+            "artifacts/t01/extended/traversal/bulk/file-071.php",
+            "artifacts/t01/extended/traversal/bulk/file-072.php",
+            "artifacts/t01/extended/traversal/bulk/file-073.php",
+            "artifacts/t01/extended/traversal/bulk/file-074.php",
+            "artifacts/t01/extended/traversal/bulk/file-075.php",
+            "artifacts/t01/extended/traversal/bulk/file-076.php",
+            "artifacts/t01/extended/traversal/bulk/file-077.php",
+            "artifacts/t01/extended/traversal/bulk/file-078.php",
+            "artifacts/t01/extended/traversal/bulk/file-079.php",
+            "artifacts/t01/extended/traversal/bulk/file-080.php",
+            "artifacts/t01/extended/traversal/bulk/file-081.php",
+            "artifacts/t01/extended/traversal/bulk/file-082.php",
+            "artifacts/t01/extended/traversal/bulk/file-083.php",
+            "artifacts/t01/extended/traversal/bulk/file-084.php",
+            "artifacts/t01/extended/traversal/bulk/file-085.php",
+            "artifacts/t01/extended/traversal/bulk/file-086.php",
+            "artifacts/t01/extended/traversal/bulk/file-087.php",
+            "artifacts/t01/extended/traversal/bulk/file-088.php",
+            "artifacts/t01/extended/traversal/bulk/file-089.php",
+            "artifacts/t01/extended/traversal/bulk/file-090.php",
+            "artifacts/t01/extended/traversal/bulk/file-091.php",
+            "artifacts/t01/extended/traversal/bulk/file-092.php",
+            "artifacts/t01/extended/traversal/bulk/file-093.php",
+            "artifacts/t01/extended/traversal/bulk/file-094.php",
+            "artifacts/t01/extended/traversal/bulk/file-095.php",
+            "artifacts/t01/extended/traversal/bulk/file-096.php",
+            "artifacts/t01/extended/traversal/bulk/file-097.php",
+            "artifacts/t01/extended/traversal/bulk/file-098.php",
+            "artifacts/t01/extended/traversal/bulk/file-099.php",
+            "artifacts/t01/extended/traversal/bulk/file-100.php",
+            "artifacts/t01/extended/traversal/bulk/file-101.php",
+            "artifacts/t01/extended/traversal/bulk/file-102.php",
+            "artifacts/t01/extended/traversal/bulk/file-103.php",
+            "artifacts/t01/extended/traversal/bulk/file-104.php",
+            "artifacts/t01/extended/traversal/bulk/file-105.php",
+            "artifacts/t01/extended/traversal/bulk/file-106.php",
+            "artifacts/t01/extended/traversal/bulk/file-107.php",
+            "artifacts/t01/extended/traversal/bulk/file-108.php",
+            "artifacts/t01/extended/traversal/bulk/file-109.php",
+            "artifacts/t01/extended/traversal/bulk/file-110.php",
+            "artifacts/t01/extended/traversal/bulk/file-111.php",
+            "artifacts/t01/extended/traversal/bulk/file-112.php",
+            "artifacts/t01/extended/traversal/bulk/file-113.php",
+            "artifacts/t01/extended/traversal/bulk/file-114.php",
+            "artifacts/t01/extended/traversal/bulk/file-115.php",
+            "artifacts/t01/extended/traversal/bulk/file-116.php",
+            "artifacts/t01/extended/traversal/bulk/file-117.php",
+            "artifacts/t01/extended/traversal/bulk/file-118.php",
+            "artifacts/t01/extended/traversal/bulk/file-119.php",
+            "artifacts/t01/extended/traversal/bulk/file-120.php",
+            "artifacts/t01/extended/traversal/bulk/file-121.php",
+            "artifacts/t01/extended/traversal/bulk/file-122.php",
+            "artifacts/t01/extended/traversal/bulk/file-123.php",
+            "artifacts/t01/extended/traversal/bulk/file-124.php",
+            "artifacts/t01/extended/traversal/bulk/file-125.php",
+            "artifacts/t01/extended/traversal/bulk/file-126.php",
+            "artifacts/t01/extended/traversal/bulk/file-127.php",
+            "artifacts/t01/extended/traversal/nested/b.php",
+            "artifacts/t01/extended/traversal/skip/c.php"
+          ],
+          "totals": {
+            "errors": 0,
+            "warnings": 0,
+            "fixable": 0
+          },
+          "messages": []
+        }
+      },
+      "traversal_inputs_unchanged": {
+        "passed": true,
+        "observation": {
+          "outside_unchanged": true
+        }
+      },
+      "read_denied": {
+        "passed": true,
+        "observation": {
+          "acl": {
+            "exit": 0,
+            "stdout": "processed file: D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\extended\\denied.php\r\nSuccessfully processed 1 files; Failed processing 0 files",
+            "stderr": ""
+          },
+          "control": {
+            "exit": 9,
+            "stdout": "",
+            "stderr": ""
+          },
+          "scan": {
+            "exit": 255,
+            "json_valid": false,
+            "messages": [],
+            "stdout_excerpt": "\nFatal error: Uncaught TypeError: fclose(): Argument #1 ($stream) must be of type resource, false given in D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Util\\Common.php:81\nStack trace:\n#0 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Util\\Common.php(81): fclose(false)\n#1 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Files\\LocalFile.php(35): PHP_CodeSniffer\\Util\\Common::isReadable('D:\\\\a\\\\DK-PHP-Ver...')\n#2 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Files\\FileList.php(201): PHP_CodeSniffer\\Files\\LocalFile->__construct('D:\\\\a\\\\DK-PHP-Ver...', Object(PHP_CodeSniffer\\Ruleset), Object(PHP_CodeSniffer\\Config))\n#3 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php(379): PHP_CodeSniffer\\Files\\FileList->current()\n#4 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Runner.php(122): PHP_CodeSniffer\\Runner->run()\n#5 D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\bin\\phpcs(30): PHP_CodeSniffer\\Runner->runPHPCS()\n#6 {main}\n  thrown in D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\tools\\probe\\vendor\\squizlabs\\php_codesniffer\\src\\Util\\Common.php on line 81\n",
+            "stderr_excerpt": ""
+          }
+        }
+      },
+      "read_denied_restored": {
+        "passed": true,
+        "observation": {
+          "exit": 0,
+          "stdout": "processed file: D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\extended\\denied.php\r\nSuccessfully processed 1 files; Failed processing 0 files",
+          "stderr": ""
+        }
+      },
+      "official_php_zip": {
+        "passed": true,
+        "observation": {
+          "metadata_url": "https://downloads.php.net/~windows/releases/releases.json",
+          "distribution_version": "8.4.27-1",
+          "zip_url": "https://downloads.php.net/~windows/releases/php-8.4.27-1-nts-Win32-vs17-x64.zip",
+          "official_sha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7",
+          "downloaded_sha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7",
+          "php_exe_sha256": "69f59f1e561c24c5204800ad8ecc1585d79dfa03d07a644d66f4241c86b5991e",
+          "runtime_exe_matches": true,
+          "dll_missing_or_different_from_scanning_runtime": []
+        }
+      },
+      "php_network_blocked_scan": {
+        "passed": true,
+        "observation": {
+          "before": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "rule_creation": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "blocked": {
+            "exit": 7,
+            "stdout": "",
+            "stderr": ""
+          },
+          "case_comparisons": [
+            {
+              "file": "compatibility/mysql_removed.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/mysql_removed.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/mysql_removed.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/mysql_control.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/mysql_control.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/mysql_control.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_no_args.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_no_args.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_no_args.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_control.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_control.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/get_class_control.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/implicit_nullable.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/implicit_nullable.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/implicit_nullable.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/explicit_nullable.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/explicit_nullable.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/explicit_nullable.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/dynamic_property.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/dynamic_property.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/dynamic_property.php",
+              "target": "8.4",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/declared_property.php",
+              "target": "8.2",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/declared_property.php",
+              "target": "8.3",
+              "same_as_online": true
+            },
+            {
+              "file": "compatibility/declared_property.php",
+              "target": "8.4",
+              "same_as_online": true
+            }
+          ],
+          "input_tree_unchanged": true
+        }
+      },
+      "php_network_restored": {
+        "passed": true,
+        "observation": {
+          "removal": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "after": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    "failures": [],
+    "unverified": [
+      "clean-PC CRT/DLL requirements",
+      "general non-admin user behavior",
+      "arbitrary link cycles",
+      "all possible PHP changes and application runtime behavior"
+    ],
+    "scope_passed": true
+  }
+}

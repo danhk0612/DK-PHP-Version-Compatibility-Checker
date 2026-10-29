@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "status": "expectation_definitions",
+  "engine_candidate": {
+    "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+    "squizlabs/php_codesniffer": "4.0.4",
+    "phpcsstandards/phpcsutils": "1.2.3"
+  },
+  "expectation_basis": "Official PHP migration notes and PHPCompatibility alpha2 source; predictions, not actual engine results. Prefix matching allows version-specific error suffixes; do not ignore unrelated extra findings.",
+  "cases": [
+    {
+      "file": "compatibility/mysql_removed.php",
+      "targets": {
+        "8.2": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "8.3": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "8.4": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        }
+      }
+    },
+    {
+      "file": "compatibility/mysql_control.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "no_findings"
+        },
+        "8.4": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/get_class_no_args.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "line": 6
+        },
+        "8.4": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "line": 6
+        }
+      }
+    },
+    {
+      "file": "compatibility/get_class_control.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "no_findings"
+        },
+        "8.4": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/implicit_nullable.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "no_findings"
+        },
+        "8.4": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+          "line": 2
+        }
+      }
+    },
+    {
+      "file": "compatibility/explicit_nullable.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "no_findings"
+        },
+        "8.4": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "targets": {
+        "8.2": {
+          "expectation": "observe_only"
+        },
+        "8.3": {
+          "expectation": "observe_only"
+        },
+        "8.4": {
+          "expectation": "observe_only"
+        }
+      }
+    },
+    {
+      "file": "compatibility/declared_property.php",
+      "targets": {
+        "8.2": {
+          "expectation": "no_findings"
+        },
+        "8.3": {
+          "expectation": "no_findings"
+        },
+        "8.4": {
+          "expectation": "no_findings"
+        }
+      }
+    }
+  ]
+}
