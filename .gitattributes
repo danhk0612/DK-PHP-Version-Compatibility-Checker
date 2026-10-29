@@ -1,3 +1,4 @@
 # Preserve raw Windows evidence bytes and recorded SHA-256 values.
 tests/t04/evidence/*.json -text whitespace=cr-at-eol
 tests/t05/evidence/*.json -text whitespace=cr-at-eol
+tests/t06/evidence/*.json -text whitespace=cr-at-eol
