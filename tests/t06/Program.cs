@@ -265,8 +265,9 @@ internal static class Program
                 Capture("minimum-size");
                 var grid = Control<DataGrid>("IssuesGrid");
                 Check(grid.ActualWidth >= 400 && grid.ActualHeight >= 60, "Result area collapsed at minimum window size");
-                foreach (var name in new[] { "SourceFolderTextBox", "TargetVersionComboBox", "IssuesGrid", "StatusTextBlock", "LimitationsTextBlock" })
+                foreach (var name in new[] { "SourceFolderTextBox", "TargetVersionComboBox", "IssuesGrid", "LimitationsTextBlock" })
                     AssertReachable(name);
+                AssertStatusFullyVisible();
             }
             finally { Window.Width = width; Window.Height = height; Pump(); }
         });
@@ -286,8 +287,9 @@ internal static class Program
                 expander.IsExpanded = true;
                 Window.Width = Window.MinWidth; Window.Height = Window.MinHeight; Pump();
                 Capture("minimum-long-diagnostics");
-                foreach (var name in new[] { "SourceFolderTextBox", "TargetVersionComboBox", "IssuesGrid", "StatusTextBlock", "FailureTextBlock", "ExcludedPathsList", "LimitationsTextBlock" })
+                foreach (var name in new[] { "SourceFolderTextBox", "TargetVersionComboBox", "IssuesGrid", "FailureTextBlock", "ExcludedPathsList", "LimitationsTextBlock" })
                     AssertReachable(name);
+                AssertStatusFullyVisible();
             }
             finally
             {
@@ -382,6 +384,28 @@ internal static class Program
         var bounds = owner.TransformToAncestor(client).TransformBounds(new Rect(owner.RenderSize));
         Check(bounds.Left >= -1 && bounds.Top >= -1 && bounds.Right <= client.ActualWidth + 1 && bounds.Bottom <= client.ActualHeight + 1,
             $"Important control/viewport outside client: {name} bounds={bounds}, client={client.ActualWidth}x{client.ActualHeight}");
+    }
+    private static void AssertStatusFullyVisible()
+    {
+        // The short status is essential: unlike lengthy diagnostics, access by
+        // scrolling is insufficient. Its own complete rectangle must be visible.
+        var status = Control<TextBlock>("StatusTextBlock");
+        var client = (FrameworkElement)Window!.Content;
+        Check(status.IsVisible && status.ActualWidth > 0 && status.ActualHeight > 0
+            && status.ActualHeight + 1 >= status.DesiredSize.Height, "Status text is collapsed or vertically truncated");
+        var bounds = status.TransformToAncestor(client).TransformBounds(new Rect(status.RenderSize));
+        var clientBounds = new Rect(0, 0, client.ActualWidth, client.ActualHeight);
+        clientBounds.Inflate(1, 1);
+        Check(clientBounds.Contains(bounds), "Status text itself extends outside the window client: " + bounds);
+        for (DependencyObject? parent = VisualTreeHelper.GetParent(status); parent is not null && !ReferenceEquals(parent, client); parent = VisualTreeHelper.GetParent(parent))
+        {
+            if (parent is ScrollContentPresenter viewport)
+            {
+                var visible = viewport.TransformToAncestor(client).TransformBounds(new Rect(viewport.RenderSize));
+                visible.Inflate(1, 1);
+                Check(visible.Contains(bounds), "Status text is clipped by a scroll viewport: " + bounds);
+            }
+        }
     }
     private static void Case(string name, Action action)
     {

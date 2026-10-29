@@ -25,7 +25,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="PHP 소스 호환성 검사" FontSize="21" FontWeight="SemiBold" Margin="0,0,0,14" />
+        <Grid Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="PHP 소스 호환성 검사" FontSize="21" FontWeight="SemiBold" />
+            <TextBlock x:Name="StatusTextBlock" Grid.Column="1" Text="{Binding StatusText}"
+                       FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="16,0,0,0" />
+        </Grid>
 
         <ScrollViewer x:Name="InputSectionScrollViewer" Grid.Row="1" Margin="0,0,0,8"
                       HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
@@ -94,7 +102,6 @@
                 <ScrollViewer x:Name="StatusScrollViewer" MaxHeight="80"
                               HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0,0,0,2">
-                        <TextBlock x:Name="StatusTextBlock" Text="{Binding StatusText}" FontWeight="SemiBold" />
                         <TextBlock x:Name="SummaryTextBlock" Text="{Binding SummaryText}" Style="{StaticResource OptionalText}" Margin="0,3,0,0" />
                         <TextBlock x:Name="FailureTextBlock" Text="{Binding FailureText}" Style="{StaticResource OptionalText}" Margin="0,3,0,0"
                                    Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
