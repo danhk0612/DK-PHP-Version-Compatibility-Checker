@@ -19,6 +19,11 @@ def prefix_inventory(root, folder):
     return {folder + '/' + k: v for k, v in inventory(root / folder).items()}
 
 
+def source_snapshot(root):
+    return {'files': inventory(root),
+            'directories': sorted(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_dir())}
+
+
 def prepare(pack):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Actual Windows x64 required')
     source = read(HERE / 'sources.json')
@@ -73,7 +78,7 @@ def prepare(pack):
         clean = area / 'clean.php'
         clean.write_text('<?php echo "CLEAN";', encoding='utf-8')
         poisoned = dict(env, PHPRC=str(ini), PHP_INI_SCAN_DIR=str(ini_scan))
-        before = inventory(subject)
+        before = source_snapshot(subject)
         positive = run([php, clean], 'ini-positive', poisoned)
         require(positive.returncode != 0 and b'INI_EXECUTED' in positive.stdout + positive.stderr, 'Poison control did not execute')
         counter = 0
@@ -144,7 +149,8 @@ def prepare(pack):
             removed = powershell('Remove-NetFirewallRule -Name $env:DK_T04_RULE', 'firewall-remove')
             require(removed.returncode == 0, 'Could not remove PHP firewall rule')
         require(run(socket, 'network-after').returncode == 0, 'Network not restored')
-        require(inventory(subject) == before, 'Target source tree changed')
+        after = source_snapshot(subject)
+        require(after == before, 'Target source tree changed')
     php_files = prefix_inventory(pack, 'php')
     engine_files = prefix_inventory(pack, 'engine')
     limitations = ['PHPCompatibility 10.0.0-alpha2 is a pre-release; static checks do not guarantee runtime compatibility.',
@@ -159,6 +165,7 @@ def prepare(pack):
         'checks': {k: True for k in ['fixtureRegression', 'annotations', 'sourceUnchanged', 'offline',
                                     'configIsolation', 'jsonContract', 'withoutComposer']},
         'cases': baseline, 'annotations': annotation_results, 'offlineComparisons': offline_equal,
+        'sourceSnapshots': {'before': before, 'after': after},
         'unverified': ['Clean Windows 11 CRT/DLL deployment (T09)', 'App pack consumption (T05/T06)',
                        'License compliance and corresponding source delivery (T08)', 'Pack replacement/restore (T10)'],
     }
