@@ -165,7 +165,13 @@ internal static class Program
         Pure("parser rejects type and negative-location corruption", () =>
         {
             foreach (var change in new Action<JsonObject>[] { m => m["line"] = -1, m => m["severity"] = "5", m => m["type"] = "NOTICE", m => m["fixable"] = "false" })
-            { var m = Message(); change(m); Check(Parse(Report((file, [m])).ToJsonString(), 2).Status == ScanStatus.Failed, "Corrupt row accepted"); }
+            {
+                // Build valid totals first; corrupt only the serialized row under test.
+                // The report builder must not reject a malformed fixture before the parser sees it.
+                var report = Report((file, [Message()]));
+                change(report["files"]![file]!["messages"]![0]!.AsObject());
+                Check(Parse(report.ToJsonString(), 2).Status == ScanStatus.Failed, "Corrupt row accepted");
+            }
         });
         Pure("parser rejects file and overall totals mismatch", () =>
         {
@@ -240,8 +246,8 @@ internal static class Program
             var p = NewProject("recursive"); Subject(p, "a.PHP"); Subject(p, "b.InC"); Subject(p, "ignore.txt", "not PHP"); Subject(p, "nested/c.php");
             Directory.CreateDirectory(Path.Combine(p, "empty-dir")); var before = Snapshot(p);
             var local = await Scan(p, recursive: false); var all = await Scan(p);
-            Check(local.Status == ScanStatus.Completed && local.SelectedFileCount == 2 && local.ProcessedFileCount == 2, "Local extension selection incorrect");
-            Check(all.Status == ScanStatus.Completed && all.SelectedFileCount == 3 && all.ProcessedFileCount == 3, "Recursive selection incorrect"); Unchanged(before, p);
+            Check(local.Status == ScanStatus.Completed && local.SelectedFileCount == 2 && local.ProcessedFileCount == 2, "Local extension selection incorrect: status=" + local.Status + ", selected=" + local.SelectedFileCount + ", processed=" + local.ProcessedFileCount + ", failure=" + local.FailureMessage);
+            Check(all.Status == ScanStatus.Completed && all.SelectedFileCount == 3 && all.ProcessedFileCount == 3, "Recursive selection incorrect: status=" + all.Status + ", selected=" + all.SelectedFileCount + ", processed=" + all.ProcessedFileCount + ", failure=" + all.FailureMessage); Unchanged(before, p);
         });
         await Case("source annotations cannot suppress selected findings", async () =>
         {

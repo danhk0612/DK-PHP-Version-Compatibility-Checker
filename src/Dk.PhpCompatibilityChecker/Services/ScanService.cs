@@ -89,9 +89,14 @@ public sealed class ScanService : IAsyncDisposable
                 StandardOutputEncoding = new UTF8Encoding(false, true),
                 StandardErrorEncoding = Encoding.UTF8
             };
+            // PHPCS checks extension keys case-sensitively. Preserve only the
+            // actual spellings already approved by our php/inc-only enumerator.
+            var extensions = new[] { "php", "inc" }
+                .Concat(selected.Select(file => Path.GetExtension(file)[1..]))
+                .Distinct(StringComparer.Ordinal);
             foreach (var argument in new[] { "-n", pack.PhpcsEntryPoint, "--standard=" + pack.RulesetPath,
                 "--runtime-set", "testVersion", request.TargetPhpVersion, "--report=json", "-q", "--no-cache",
-                "--ignore-annotations", "--extensions=php,inc", "--file-list=" + fileList })
+                "--ignore-annotations", "--extensions=" + string.Join(",", extensions), "--file-list=" + fileList })
                 start.ArgumentList.Add(argument);
             start.Environment["PHPRC"] = "";
             start.Environment["PHP_INI_SCAN_DIR"] = "";
