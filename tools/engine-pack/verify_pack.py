@@ -95,8 +95,12 @@ def prepare(pack):
             r = run(args, 'scan-' + str(counter), poisoned)
             report = json.loads(r.stdout)
             require(r.returncode in (0, 1, 2, 3), 'Unexpected engine exit')
-            require(len(report['files']) == 1 and Path(next(iter(report['files']))).resolve() == file.resolve(), 'Selected/processed file mismatch')
-            messages = next(iter(report['files'].values()))['messages']
+            files = report['files']
+            # ignoreFile intentionally yields no processed file in the control run.
+            require(len(files) == 1 if annotations else len(files) <= 1, 'Selected/processed file mismatch')
+            if files:
+                require(Path(next(iter(files))).resolve() == file.resolve(), 'Processed path mismatch')
+            messages = next(iter(files.values()))['messages'] if files else []
             require(sum(m['type'] == 'ERROR' for m in messages) == report['totals']['errors']
                     and sum(m['type'] == 'WARNING' for m in messages) == report['totals']['warnings'], 'JSON totals mismatch')
             for m in messages:
@@ -104,7 +108,7 @@ def prepare(pack):
                         and type(m['column']) is int and type(m['severity']) is int
                         and type(m['fixable']) is bool and isinstance(m['source'], str)
                         and isinstance(m['message'], str), 'JSON row contract mismatch')
-            return {'exit': r.returncode, 'totals': report['totals'], 'messages': messages}
+            return {'exit': r.returncode, 'processedFiles': len(files), 'totals': report['totals'], 'messages': messages}
         baseline = []
         for case in definitions:
             for version, expected in case['targets'].items():
