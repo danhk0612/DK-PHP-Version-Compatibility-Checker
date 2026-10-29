@@ -1,0 +1,43 @@
+{
+  "packId": "dk-php84-alpha2-20261029",
+  "environment": {
+    "windows": "Windows-2022Server-10.0.20348-SP0",
+    "python": "3.12.10",
+    "runId": "40797806955",
+    "sourceSha": "64751b83e80c1b180bf8ad18875a239790e0be73"
+  },
+  "checks": {
+    "fixtureRegression": true,
+    "annotations": true,
+    "sourceUnchanged": true,
+    "offline": true,
+    "configIsolation": true,
+    "jsonContract": true,
+    "withoutComposer": true
+  },
+  "cases": 24,
+  "annotationComparisons": 9,
+  "offlineComparisons": 24,
+  "versions": {
+    "dealerdirect/phpcodesniffer-composer-installer": "v1.1.0",
+    "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+    "phpcsstandards/phpcsutils": "1.2.3",
+    "squizlabs/php_codesniffer": "4.0.4"
+  },
+  "runtimeVersion": "8.4.27-1",
+  "cliVersion": "8.4.27",
+  "manifestSha256": "cea9f22ff360e8c4c85bc26b6b00b88bcf14f4737954caf6e905fed1fba15eed",
+  "fileCount": 865,
+  "licenseFileCount": 6,
+  "targets": [
+    "8.2",
+    "8.3",
+    "8.4"
+  ],
+  "unverified": [
+    "Clean Windows 11 CRT/DLL deployment (T09)",
+    "App pack consumption (T05/T06)",
+    "License compliance and corresponding source delivery (T08)",
+    "Pack replacement/restore (T10)"
+  ]
+}

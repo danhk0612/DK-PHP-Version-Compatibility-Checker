@@ -1,0 +1,9 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40797806955",
+  "testedHead": "c8776b443597ad2a138d7200b90c64f004bfc497",
+  "checkoutMergeRef": "64751b83e80c1b180bf8ad18875a239790e0be73",
+  "artifactId": 12865035497,
+  "artifactSha256": "cde8dcef87ca845c9fe2059ad4faca40e6e08fcf62814df25b1b5629a4455550",
+  "preparationComposerVersionReportedBySetup": "2.10.3",
+  "scope": "Windows Server 2022 x64 engine-pack verification; no app/release verification."
+}

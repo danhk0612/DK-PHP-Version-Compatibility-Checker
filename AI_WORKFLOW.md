@@ -8,7 +8,7 @@
 | 저성능 Work | 확정 요구 구현, 반복 수정, 빌드·테스트, Windows 검증, 지정 Git 작업 | 구조 문제·범위 확대가 필요하면 근거와 영향 정리 후 판단 요청 |
 | 고성능 Chat | 좁은 기술 판단·오류 분석·대안 비교·코드 검토·사용자 미확정 선택 | 저장소 실행 작업이 많거나 복잡한 구조 문제면 적절한 Work로 인계 |
 
-모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증과 T02 사용자 계약 확정을 마쳤으며 T03 골격을 마쳤으며 다음 T04는 저성능 Work를 우선합니다.
+모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증, T02 사용자 계약, T03 골격과 T04 팩 준비를 마쳤습니다. 다음 T05는 저성능 Work를 우선합니다.
 
 ## 모든 작업의 시작
 
@@ -73,23 +73,26 @@ Task 작업 브랜치에 commit/push하고 검토용 PR까지 제출해.
 
 저장소와 Task ID, 기준 브랜치/확인 커밋, 우선 문서, 목적·범위·선행 조건, 금지 영역, 완료 검증, 허용 Git 동작을 명시합니다. 문서에 있는 요구를 대화에 전부 복사하지 않습니다. T02 결정 뒤에는 해당 Task와 계약을 다시 읽고 지시문을 조정합니다.
 
-## 현재 다음 T04 지시문
+## 현재 다음 T05 지시문
 
 ```text
-GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T04 고정 도구 구성과 오프라인 준비만 수행해.
-최신 main, PR #1(t01-engine-probe-blocked), PR #2(t03-wpf-skeleton)의 실제 상태와
-AGENTS.md·6개 기준 문서를 먼저 확인하고 최신 선행 변경을 보존해.
-TASKS.md T04 범위와 ARCHITECTURE.md 엔진 팩 계약, tools/ENGINE_PROBE.md 및
-tools/T01_WINDOWS_RESULTS.json을 기준으로 제품용 도구 구성·manifest·정합성 검증기를 준비해.
-승인된 공식 PHP 8.4.27-1 NTS x64 VS17, PHPCompatibility 10.0.0-alpha2,
-PHPCS 4.0.4, PHPCSUtils 1.2.3, installer 1.1.0을 사용하고 공식 출처·SHA-256·lock을 대조해.
-목표 PHP 버전은 팩 데이터로 관리하며 미검증 목표를 활성화하지 마.
-Windows에서 전용 설정·fixture·ignore-annotations·도구 준비 후 네트워크/Composer 없는 실행과
-대상 불변을 검증하고 포함 파일·license 원본 목록을 T08에 인계해.
-바이너리/vendor를 Git에 넣지 말고 재현 가능한 준비 절차를 남겨.
-src/ GUI·검사 실행·manifest 소비, 자동 다운로드/갱신 UI·PHPStan·자동 수정은 구현하지 마.
-관련 문서를 실제 검증 결과에 맞게 갱신하고 Task branch에 commit/push·검토용 PR로 제출해.
-직접 병합·force push·Release/tag는 하지 마. 실제 수행·미검증·커밋/PR·다음 Task를 보고해.
+GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T05 검사 실행·JSON 결과 연동만 수행해.
+최신 main·PR #1/#2/#3와 t04-engine-pack branch의 실제 상태, AGENTS.md와 6개 기준 문서를 읽고
+선행 작업을 보존해. TASKS.md T05 범위·완료 조건과 ARCHITECTURE.md 실행/결과 계약을 따라.
+src/의 T03 Models와 tools/engine-pack/README.md의 실제 manifest schema 1 계약,
+tests/t04/evidence/의 검증 manifest·결과·파일 목록을 확인해.
+Windows에서 T04 절차로 tools/runtime을 준비하고 C#에서 팩 schema/profile·파일 해시·lock/구성·
+검증 목표 목록을 대조해. 미검증 목표·손상/미지원 팩은 실행 전에 거부해.
+Python/Composer를 제품 실행 의존성으로 추가하지 마.
+전용 ruleset·-n·환경 격리·ignore-annotations·대상 밖 file-list·no-cache를 유지해.
+승인된 링크/reparse point 제외 탐색, 비동기 stdout/stderr 수집, JSON 원값 보존과
+선택/처리 파일 수·총수·종료 코드의 일관성, 정상 0건/대상 없음/부분 실패 구분을 구현해.
+대상 설정·부트스트랩·autoload·소스가 실행/수정되지 않게 하고 대상에 생성물을 남기지 마.
+GUI/XAML·새 심각도/번역·자체 버전별 규칙·자동 수정·PHPStan 공통 추상화는 추가하지 마.
+공유 모델·csproj 변경이 필요하면 T06 담당과 경계를 조정해.
+의미 있는 실패/회귀 및 실제 Windows 엔진 검증을 수행하고 관련 상태 문서를 갱신해.
+Task branch에 commit/push·검토용 PR로 제출하고 직접 병합·Release/tag는 하지 마.
+실제 검증·미검증·커밋/PR·다음 Task를 구분해 보고해.
 ```
 
 ## 새 목표 버전 인계 규칙

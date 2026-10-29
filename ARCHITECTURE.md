@@ -127,7 +127,7 @@ D06 PHPStan, D10 내보내기와 D07의 자동 다운로드/업데이트 UI는 �
 
 큰 플러그인 프레임워크를 만들지 않습니다. **단일 활성 도구 폴더와 manifest.json**을 사용하고 앱·검사 실행 계약은 유지합니다. 배포 구성은 tools/runtime/manifest.json과 tools/runtime/ 아래 php/, engine/으로 구분합니다. packId는 검증한 구성의 식별자이고 목표 PHP 버전과 별개입니다.
 
-T04에서 manifest의 실제 파일·팩 제작용 정합성 검증기를 구현합니다. 앱의 팩 읽기·검증은 T05에서 구현합니다. 데이터 계약은 다음 정보로 한정합니다.
+T04의 [준비·검증 안내](tools/engine-pack/README.md)에 실제 schema 1 필드·경로·정합성 검증기·Windows 근거를 기록했습니다. 생성물 tools/runtime/은 Git 제외이며 검증된 manifest 예시·파일 목록은 tests/t04/evidence/에 보존합니다. 앱의 팩 읽기·검증은 T05에서 구현합니다. 데이터 계약은 다음 정보로 한정합니다.
 
 | 필드 | 의미 |
 | --- | --- |
