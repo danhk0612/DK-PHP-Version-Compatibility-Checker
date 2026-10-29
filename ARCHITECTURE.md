@@ -2,7 +2,7 @@
 
 ## 상태와 결정 원칙
 
-2026-10-29 사용자 승인과 향후 목표 버전 확장 지시를 반영한 **구현 기준 계약**입니다. T03의 단일 WPF 앱 골격·공유 모델이 있으며 검사 기능은 아직 없습니다. T01의 Windows 기본 엔진 실행은 검증했으며 범위·한계는 [보고서](tools/ENGINE_PROBE.md)를 따릅니다. 확정 요구·보류 항목은 REQUIREMENTS.md가 관리합니다. D06과 D10, D07의 자동 다운로드/갱신 UI는 보류입니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
+2026-10-29 사용자 승인과 향후 목표 버전 확장 지시를 반영한 **구현 기준 계약**입니다. T03의 단일 WPF 골격·공유 모델과 T05의 팩 로더·검사 서비스·JSON 해석을 구현했습니다. 입력·결과 화면과 실제 GUI 연결은 후속 Task입니다. T01의 Windows 기본 엔진 실행은 검증했으며 범위·한계는 [보고서](tools/ENGINE_PROBE.md)를 따릅니다. 확정 요구·보류 항목은 REQUIREMENTS.md가 관리합니다. D06과 D10, D07의 자동 다운로드/갱신 UI는 보류입니다. 개발 중인 브랜치의 문서를 배포 태그의 계약으로 대체하지 않습니다.
 
 ## 기술 검토 결과
 
@@ -33,7 +33,7 @@ PHPCompatibility는 탐지 범위가 완전하지 않음을 명시합니다 [S2]
 | JSON 해석 | 엔진 JSON을 결과 데이터로 변환 | 엔진 오류를 성공 결과로 변환하지 않음 |
 | 도구 영역 | 버전 고정 PHP·엔진·설정·고지 | 대상 프로젝트와 분리; 사용자 전역 PHP/Composer 변경 없음 |
 
-초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 단일 WPF 앱의 App/MainWindow와 Models/ 공유 계약이 있으며 tools/probe/와 tests/fixtures/에는 T01 검증 입력·수집기·실제 lock/결과가 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
+초기 소스는 src/, 검증은 tests/, 엔진 구성·패키징 자료는 tools/로 구분합니다. 현재 src/에는 단일 WPF 앱의 App/MainWindow·Models/ 공유 계약·Services/ 팩 검증/검사 실행/JSON 해석이 있으며 tools/probe/와 tests/fixtures/에는 T01 검증 입력·수집기·실제 lock/결과가 있습니다. 플러그인 시스템, 다중 엔진 공통 프레임워크, 저장소 DB는 도입하지 않습니다.
 
 ## 검사 흐름 및 보호 경계
 
@@ -127,7 +127,7 @@ D06 PHPStan, D10 내보내기와 D07의 자동 다운로드/업데이트 UI는 �
 
 큰 플러그인 프레임워크를 만들지 않습니다. **단일 활성 도구 폴더와 manifest.json**을 사용하고 앱·검사 실행 계약은 유지합니다. 배포 구성은 tools/runtime/manifest.json과 tools/runtime/ 아래 php/, engine/으로 구분합니다. packId는 검증한 구성의 식별자이고 목표 PHP 버전과 별개입니다.
 
-T04의 [준비·검증 안내](tools/engine-pack/README.md)에 실제 schema 1 필드·경로·정합성 검증기·Windows 근거를 기록했습니다. 생성물 tools/runtime/은 Git 제외이며 검증된 manifest 예시·파일 목록은 tests/t04/evidence/에 보존합니다. 앱의 팩 읽기·검증은 T05에서 구현합니다. 데이터 계약은 다음 정보로 한정합니다.
+T04의 [준비·검증 안내](tools/engine-pack/README.md)에 실제 schema 1 필드·경로·정합성 검증기·Windows 근거를 기록했습니다. 생성물 tools/runtime/은 Git 제외이며 검증된 manifest 예시·파일 목록은 tests/t04/evidence/에 보존합니다. T05의 EnginePackLoader가 동일 계약을 C#에서 검증하며 ScanService가 검사 시 다시 로드합니다. 데이터 계약은 다음 정보로 한정합니다.
 
 | 필드 | 의미 |
 | --- | --- |

@@ -8,7 +8,7 @@
 | 저성능 Work | 확정 요구 구현, 반복 수정, 빌드·테스트, Windows 검증, 지정 Git 작업 | 구조 문제·범위 확대가 필요하면 근거와 영향 정리 후 판단 요청 |
 | 고성능 Chat | 좁은 기술 판단·오류 분석·대안 비교·코드 검토·사용자 미확정 선택 | 저장소 실행 작업이 많거나 복잡한 구조 문제면 적절한 Work로 인계 |
 
-모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증, T02 사용자 계약, T03 골격과 T04 팩 준비를 마쳤습니다. 다음 T05는 저성능 Work를 우선합니다.
+모델명은 고정하지 않습니다. 범위·복잡성·상호작용·실행 환경을 기준으로 선택합니다. 초기 구축 이후 고성능 Work를 계속 사용할 필요는 없습니다. T01 기술 검증, T02 사용자 계약, T03 골격, T04 팩 준비와 T05 검사 서비스를 마쳤습니다. 다음 T06은 저성능 Work를 우선합니다.
 
 ## 모든 작업의 시작
 
@@ -73,27 +73,25 @@ Task 작업 브랜치에 commit/push하고 검토용 PR까지 제출해.
 
 저장소와 Task ID, 기준 브랜치/확인 커밋, 우선 문서, 목적·범위·선행 조건, 금지 영역, 완료 검증, 허용 Git 동작을 명시합니다. 문서에 있는 요구를 대화에 전부 복사하지 않습니다. T02 결정 뒤에는 해당 Task와 계약을 다시 읽고 지시문을 조정합니다.
 
-## 현재 다음 T05 지시문
+## 현재 다음 T06 지시문
 
 ```text
-GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T05 검사 실행·JSON 결과 연동만 수행해.
-최신 main·PR #1/#2/#3와 t04-engine-pack branch의 실제 상태, AGENTS.md와 6개 기준 문서를 읽고
-선행 작업을 보존해. TASKS.md T05 범위·완료 조건과 ARCHITECTURE.md 실행/결과 계약을 따라.
-src/의 T03 Models와 tools/engine-pack/README.md의 실제 manifest schema 1 계약,
-tests/t04/evidence/의 검증 manifest·결과·파일 목록을 확인해.
-Windows에서 T04 절차로 tools/runtime을 준비하고 C#에서 팩 schema/profile·파일 해시·lock/구성·
-검증 목표 목록을 대조해. 미검증 목표·손상/미지원 팩은 실행 전에 거부해.
-Python/Composer를 제품 실행 의존성으로 추가하지 마.
-전용 ruleset·-n·환경 격리·ignore-annotations·대상 밖 file-list·no-cache를 유지해.
-승인된 링크/reparse point 제외 탐색, 비동기 stdout/stderr 수집, JSON 원값 보존과
-선택/처리 파일 수·총수·종료 코드의 일관성, 정상 0건/대상 없음/부분 실패 구분을 구현해.
-대상 설정·부트스트랩·autoload·소스가 실행/수정되지 않게 하고 대상에 생성물을 남기지 마.
-GUI/XAML·새 심각도/번역·자체 버전별 규칙·자동 수정·PHPStan 공통 추상화는 추가하지 마.
-공유 모델·csproj 변경이 필요하면 T06 담당과 경계를 조정해.
-의미 있는 실패/회귀 및 실제 Windows 엔진 검증을 수행하고 관련 상태 문서를 갱신해.
-Task branch에 commit/push·검토용 PR로 제출하고 직접 병합·Release/tag는 하지 마.
-실제 검증·미검증·커밋/PR·다음 Task를 구분해 보고해.
+GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T06 입력·결과 GUI만 수행해.
+최신 main·PR #1/#2/#3/#4와 t05-scan-service branch의 실제 상태를 확인하고,
+AGENTS.md와 6개 기준 문서, src/README.md·T05 Models/Services 계약을 읽어.
+선행 변경은 보존하고 승인된 단일 WPF 앱 안에서만 구현해.
+목표 PHP 버전 목록은 EnginePackLoader의 검증된 Targets를 사용하고 초기버전을 XAML/enum에 고정하지 마.
+폴더·목표 PHP 버전·하위 포함 기본켬·검사 버튼·상태·파일/오류/경고 수·file/line/message/type 목록을 제공해.
+ScanResult의 실제 파일 수/unknown count/Failed/NoFiles/부분 문제·제외 reparse 경로와 정적분석 한계를 구분해.
+테스트 데이터로 긴 메시지·한국어 경로·0건·실패·부분 결과를 Windows 화면에서 확인하되 실제 엔진 결과로 오인시키지 마.
+실제 검사 버튼과 ScanService의 사용자 흐름 연결·종료 시 Dispose 검증은 T07이며 선행 구현하지 마.
+T05 Services 수정·새 DI/MVVM 프레임워크·추가 필터/내보내기/소스 편집/취소 기능은 추가하지 마.
+공유 모델/csproj 변경이 필요하면 기존 계약을 먼저 대조하고 불필요한 변경을 피할 것.
+관련 문서만 갱신하고 Task branch commit/push·검토용 PR을 제출해.
+직접 병합·Release/tag는 하지 말고 실제 검증·미검증·Git 반영·다음 Task를 보고해.
 ```
+
+사용자가 분담을 요청한 작업에서는 먼저 파일 소유·인터페이스·완료 검증을 정하고 독립 구현을 분리합니다. 이번 T05는 팩 로더 초안·실행부·회귀 검증을 분담하고 주 작업자가 계약 조정·통합 검토·Windows CI·Git 반영을 담당했습니다. 하위 에이전트 분담과 다른 성능의 Chat/Work로 인계하는 것은 별개입니다. 반복 구현은 계속 저성능 Work를 우선하며, T08은 T06과 코드 경로가 겹치지 않는 별도 작업으로 인계할 수 있습니다.
 
 ## 새 목표 버전 인계 규칙
 
