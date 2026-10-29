@@ -8,7 +8,7 @@ dotnet build src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c
 dotnet run --project src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release --no-build
 ```
 
-기본 창은 아직 비어 있으며 T05가 공유 데이터 계약과 실제 검사 서비스를 제공합니다. 제품 목표 OS는 Windows 11 x64입니다. CI의 Windows Server 2022 빌드·창 기동 확인은 깨끗한 Windows 11 배포 검증을 대체하지 않습니다. self-contained publish/ZIP은 T09에서 준비합니다.
+T06 기본 창은 입력·결과 화면을 제공하고 T05가 공유 데이터 계약과 실제 검사 서비스를 제공합니다. 제품 목표 OS는 Windows 11 x64입니다. CI의 Windows Server 2022 빌드·창 기동 확인은 깨끗한 Windows 11 배포 검증을 대체하지 않습니다. self-contained publish/ZIP은 T09에서 준비합니다.
 
 `Models/`는 T05 실행 연동과 T06 화면이 공유합니다. `ScanRequest.TargetPhpVersion`은 문자열이며 특정 버전 enum/목록은 없습니다. 목표 목록의 manifest 생성은 T04, 소비는 T05/T06입니다. `ScanIssue`는 엔진 type/severity/source/message/fixable을 보존하고 `ScanResult`는 선택 파일 수와 nullable 처리 파일 수, 실패 이유와 엔진 버전을 구분합니다. T05의 Services/가 팩 로딩·검사 실행·JSON 변환을 담당합니다. 공유 모델·프로젝트 설정 변경은 T05/T06 담당 간 조정해야 합니다.
 
@@ -29,6 +29,20 @@ CI와 동일한 기본 창 검증은 빌드 후 `./tests/t03/Test-Window.ps1`로
 - `PhpcsReportParser`는 원문 행·파일/전체 totals·선택 파일 대응과 PHPCS4의 exit bit(수정가능 1/나머지 2)를 대조합니다. 같은 줄 다른 규칙도 보존합니다. 실패/부분 결과를 Completed 0건으로 만들지 않습니다.
 - ScanResult는 기존 positional 계약을 유지하며 ExcludedPaths(항상 목록), EngineExitCode(int?), EngineStandardError(string?) init 메타데이터를 추가했습니다. ProcessedFileCount의 null은 미확인입니다. stderr를 별도 엔진 ERROR/WARNING으로 집계하지 않습니다.
 
-[검증 콘솔](../tests/t05/README.md)은 제품 프로젝트를 참조하는 별도 테스트 전용 콘솔이며 새 제품 계층·패키지·Python/Composer 런타임 의존성을 추가하지 않습니다. T05는 GUI/XAML을 변경하지 않았습니다. GUI 응답·실제 버튼 흐름·깨끗한 Windows 11/CRT 배포·팩 교체 통합 검증은 T06/T07/T09/T10에 남아 있습니다. 네트워크 공유의 여러 별칭 조합이나 외부 동시 파일 변경에 대한 완전한 격리를 보장하지 않습니다.
+[검증 콘솔](../tests/t05/README.md)은 제품 프로젝트를 참조하는 별도 테스트 전용 콘솔이며 새 제품 계층·패키지·Python/Composer 런타임 의존성을 추가하지 않습니다. T05는 GUI/XAML을 변경하지 않았으며 T06이 화면·표시 모델을 추가했습니다. 실제 검사 GUI 응답·버튼 흐름·깨끗한 Windows 11/CRT 배포·팩 교체 통합 검증은 T07/T09/T10에 남아 있습니다. 네트워크 공유의 여러 별칭 조합이나 외부 동시 파일 변경에 대한 완전한 격리를 보장하지 않습니다.
 
 T05 [최종 Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517)은 SDK 10.0.403에서 제품/검증 콘솔 build 경고 0·오류 0, 회귀 61건 통과입니다. 검증 head는 `f08de1dae5d91474ca1672d0cd128bcc0b69c784`, 실제 checkout merge ref는 `522cc635c214f4ab5ddff7dc3c068111125773eb`입니다. [실측 요약](../tests/t05/evidence/summary.json)과 [팩 manifest](../tests/t05/evidence/pack-manifest.json), [해시·실행 근거](../tests/t05/evidence/provenance.json)를 보존했습니다. 이후 커밋은 문서/실측 보존만 변경하여 실행 코드는 재검증하지 않았습니다.
+
+## T06 화면 계약
+
+기본 MainWindow는 `AppContext.BaseDirectory/tools/runtime`의 검증된 엔진 팩을 비동기로 읽습니다. 빌드 출력에 runtime을 자동 복사하거나 새 다운로드/업데이트 UI를 추가하지 않습니다. 팩이 없거나 잘못되면 실제 실패 이유를 표시하고 목표 목록을 비웁니다. 개발자가 팩을 준비하는 절차는 tools/engine-pack/README.md를 따르며 최종 배포 배치는 T09에서 검증합니다.
+
+`ScanPresentation`은 .NET 기본 INotifyPropertyChanged를 사용하는 단일 표시 모델입니다. `SetPack`이 받은 검증 목표 인스턴스만 선택할 수 있고, 기본 재귀는 켬입니다. 폴더/목표/재귀를 바꾸면 이전 집계·문제·실패·제외 목록을 초기화합니다. `ShowRunning()`은 입력을 잠그고 `ApplyResult(ScanResult)`는 결과의 요청과 표시 입력을 맞추며 원문 문제·nullable 처리 수·제외 경로를 보존합니다. 실패/부분 결과·NoFiles·정상 0건은 서로 다른 문구로 표시합니다. 짧은 검사 상태는 고정 헤더에 항상 표시하고 긴 설명·제외 경로·한계는 제한된 viewport에서 스크롤로 접근합니다.
+
+입력 존재 확인과 `CanPrepareScan`은 실행 가능 입력의 표시 기준입니다. **검사 버튼은 현재 비활성이고 '검사 실행 기능은 준비 중입니다.'를 표시합니다.** 실제 ScanService 호출이나 닫기 시 Dispose를 연결하지 않았습니다. 이 연결은 T07 범위입니다. 폴더 선택은 WPF 기본 OpenFolderDialog를 사용하며 대상 프로젝트에 파일을 쓰지 않습니다.
+
+`MainWindow(ScanPresentation)` 생성자는 검증 데이터 주입을 위한 직접 구성 경로로 자동 팩 로드를 하지 않습니다. 제품에 데모 모드·테스트 옵션은 없습니다. 테스트 콘솔이 별도 창 제목과 PNG 상단 띠로 검증 데이터임을 명시합니다. 기본 생성자는 실제 팩 부재 상태에서도 임의 목표나 가짜 결과를 만들지 않습니다.
+
+[tests/t06 검증 안내](../tests/t06/README.md)에 실제 표시 창·컨트롤 바인딩·크기·스크롤 검증 범위와 남은 수동/통합 검증을 기록합니다.
+
+T06 [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40966862548)은 build 경고·오류 0, 화면 표시 검증 21건 통과입니다. 검증 head `5cf36d114ea3347999d1568d8d03bc1ecb848bc3` / 실제 checkout merge ref `f70e6448e7d7a214286eca8db76609e0e5ed7ab0`. [실측 요약](../tests/t06/evidence/summary.json), [대표 화면](../tests/t06/evidence/completed-findings.png), [실행/아티팩트 해시](../tests/t06/evidence/provenance.json)를 보존했습니다. 캡처는 **검증용 표시 데이터**이며 실제 PHP 검사 결과가 아닙니다. 후속 문서·증거 보존 커밋은 실행 코드를 변경하지 않았습니다.
