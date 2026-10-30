@@ -1,0 +1,52 @@
+name: T07 actual GUI scan integration
+on:
+  pull_request:
+    branches: [main, t06-gui]
+    paths:
+      - 'src/**'
+      - 'tests/t07/**'
+      - 'global.json'
+      - '.github/workflows/t07-gui-integration.yml'
+permissions:
+  contents: read
+jobs:
+  build-and-show:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare verified runtime for actual engine scans
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Restore and build WPF product and GUI verification
+        shell: pwsh
+        run: |
+          New-Item artifacts/t07 -ItemType Directory -Force | Out-Null
+          if ((dotnet --version) -ne '10.0.403') { throw 'Unexpected SDK' }
+          dotnet --info | Out-File artifacts/t07/dotnet-info.txt
+          dotnet restore tests/t07/T07.Verification.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build tests/t07/T07.Verification.csproj -c Release --no-restore -bl:artifacts/t07/build.binlog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Run actual GUI, native folder picker and engine integration
+        shell: pwsh
+        run: |
+          dotnet run --project tests/t07/T07.Verification.csproj -c Release --no-build -- "$pwd" "$pwd/tools/runtime"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve GUI evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t07-gui-integration-evidence
+          path: artifacts/t07/
+          retention-days: 7

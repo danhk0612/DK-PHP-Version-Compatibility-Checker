@@ -1,7 +1,7 @@
 name: T06 input and result GUI
 on:
   pull_request:
-    branches: [main, t05-scan-service]
+    branches: [main, t05-scan-service, t06-gui]
     paths:
       - 'src/**'
       - 'tests/t06/**'
