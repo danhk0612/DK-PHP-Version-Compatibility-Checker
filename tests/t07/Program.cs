@@ -219,14 +219,25 @@ internal static class Program
     }
     private static void LargeFixture()
     {
-        Case("real 1000-file findings retain every grid item and measure responsiveness and memory", () =>
+        Case("real 1000-file findings match single-file control and retain every grid item", () =>
         {
+            const string content = "<?php\nmysql_query('fixture');\n";
+            string control = Project("large-single-file-control"); Subject(control, "control.php", content);
+            RunScan("large-single-file-control", control, Pack.Targets[0].Version, true);
+            Check(Model.Status == ScanStatus.Completed && Model.SelectedFileCountText == "1" && Model.ProcessedFileCountText == "1", Model.FailureText);
+            Check(Model.Issues.Any(i => i.Source.StartsWith("PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query", StringComparison.Ordinal) && i.Line == 2), "Single-file control did not detect the expected removed function at line 2");
+            static string Signature(ScanIssue issue) => JsonSerializer.Serialize(issue with { FilePath = "" });
+            string[] baseline = Model.Issues.Select(Signature).OrderBy(s => s, StringComparer.Ordinal).ToArray();
+            int expectedTotal = checked(baseline.Length * 1000);
             string p = Project("large-1000");
-            for (int i = 0; i < 1000; i++) Subject(p, $"group-{i / 100:D2}/source-{i:D4}.php", "<?php\nmysql_query('fixture');\n");
+            for (int i = 0; i < 1000; i++) Subject(p, $"group-{i / 100:D2}/source-{i:D4}.php", content);
             RunScan("large-1000", p, Pack.Targets[0].Version, true, maxSeconds: 180);
             Check(Model.Status == ScanStatus.Completed && Model.SelectedFileCountText == "1000" && Model.ProcessedFileCountText == "1000", Model.FailureText);
-            Check(Model.Issues.Count == 1000 && Model.Issues.Select(i => i.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 1000, "Large result findings omitted");
-            var grid = C<DataGrid>("IssuesGrid"); Check(grid.Items.Count == 1000 && grid.ItemsSource == Model.Issues, "Large grid items lost");
+            var perFile = Model.Issues.GroupBy(i => i.FilePath, StringComparer.OrdinalIgnoreCase).ToArray();
+            Check(Model.Issues.Count == expectedTotal && perFile.Length == 1000, "Large result findings omitted or added relative to the single-file control");
+            foreach (var group in perFile)
+                Check(group.Select(Signature).OrderBy(s => s, StringComparer.Ordinal).SequenceEqual(baseline), "Large per-file full finding signatures differ from single-file control: " + group.Key);
+            var grid = C<DataGrid>("IssuesGrid"); Check(grid.Items.Count == expectedTotal && grid.ItemsSource == Model.Issues, "Large grid items lost");
             grid.ScrollIntoView(grid.Items[^1]); Pump();
             Check(grid.ItemContainerGenerator.ContainerFromItem(grid.Items[^1]) is DataGridRow, "Last result cannot be reached");
             Capture("real-engine-large-1000", "T07 실제 엔진 · 1000개 자체 fixture 결과");
@@ -287,7 +298,7 @@ internal static class Program
             try
             {
                 RunScan("synthetic-partial", p, Pack.Targets[0].Version, true, origin: "synthetic test-owned tool output; not PHPCompatibility findings");
-                Check(Model.Status == ScanStatus.Failed && Model.Issues.Count == 1 && Model.ProcessedFileCountText == "1" && Model.SummaryText.Contains("일부 결과", StringComparison.Ordinal), "Partial findings hidden or looked complete");
+                Check(Model.Status == ScanStatus.Failed && Model.Issues.Count == 1 && Model.ProcessedFileCountText == "미확인" && Model.SummaryText.Contains("일부 결과", StringComparison.Ordinal), "Partial findings hidden or looked complete");
                 Check(C<DataGrid>("IssuesGrid").Items.Count == 1 && Model.FailureText.Length > 0, "Partial failure binding missing");
                 Capture("synthetic-partial-failure", "T07 합성 도구 출력 · 실제 호환성 검사 결과 아님");
             }
@@ -328,7 +339,7 @@ internal static class Program
         Check(C<TextBlock>("StatusTextBlock").Text == Model.StatusText && C<TextBlock>("ProcessedFileCountTextBlock").Text == Model.ProcessedFileCountText, "Result bindings stale");
         Check(Model.Issues.Count(i => i.Type == "ERROR").ToString(CultureInfo.InvariantCulture) == Model.ErrorCountText && Model.Issues.Count(i => i.Type == "WARNING").ToString(CultureInfo.InvariantCulture) == Model.WarningCountText, "Displayed engine totals differ from raw findings");
         if (before is not null) Unchanged(before, project);
-        Runs.Add(new { name, origin, version, recursive, status = Model.Status.ToString(), selected = Model.SelectedFileCountText, processed = Model.ProcessedFileCountText, errors = Model.ErrorCountText, warnings = Model.WarningCountText, findings = Model.Issues.Count, milliseconds = watch.Elapsed.TotalMilliseconds, dispatcherPulses = pulses, maxObservedDispatcherGapMilliseconds = maxDispatcherGapMs, sampledPeakGuiWorkingSetBytes = peakManagedWorkingSet, sampledPeakChildWorkingSetBytes = peakChildWorkingSet, sourceSnapshotVerified = snapshot });
+        Runs.Add(new { name, origin, version, recursive, status = Model.Status.ToString(), selected = Model.SelectedFileCountText, processed = Model.ProcessedFileCountText, errors = Model.ErrorCountText, warnings = Model.WarningCountText, findings = Model.Issues.Count, milliseconds = watch.Elapsed.TotalMilliseconds, dispatcherPulses = pulses, maxObservedDispatcherGapMilliseconds = maxDispatcherGapMs, sampledPeakGuiWorkingSetBytes = peakManagedWorkingSet, sampledPeakChildWorkingSetBytes = peakChildWorkingSet, sampleFindings = Model.Issues.Take(2).ToArray(), sourceSnapshotVerified = snapshot });
     }
     private static string Project(string name) { string p = Path.Combine(Area, name); Directory.CreateDirectory(p); return p; }
     private static string Subject(string p, string name, string text = "<?php echo 'safe';\n") { string f = Path.Combine(p, name); Directory.CreateDirectory(Path.GetDirectoryName(f)!); File.WriteAllText(f, text, new UTF8Encoding(false)); return f; }

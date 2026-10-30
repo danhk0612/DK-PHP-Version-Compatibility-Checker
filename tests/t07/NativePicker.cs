@@ -5,6 +5,8 @@ using System.Text;
 // Drives the actual Windows IFileDialog from a worker while WPF owns its modal
 // loop. No picker abstraction or product test hook is introduced. Timed failure
 // always requests dismissal, preventing a stuck CI desktop.
+// The native union includes fields populated only by Windows layout.
+#pragma warning disable CS0649
 internal static class NativePicker
 {
     public static long Select(IntPtr owner, string path) => Drive(owner, path);
