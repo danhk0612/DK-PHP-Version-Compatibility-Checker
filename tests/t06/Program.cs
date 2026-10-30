@@ -161,12 +161,12 @@ internal static class Program
             Check(Model.SelectedTarget is null && !Model.CanPrepareScan && Control<ComboBox>("TargetVersionComboBox").SelectedItem is null, "Unverified goal was accepted");
             Model.SelectedTarget = Model.Targets[0]; Pump();
         });
-        Case("recursive checkbox is two-way and scan remains intentionally disconnected", () =>
+        Case("recursive checkbox is two-way and valid inputs enable the connected button", () =>
         {
             var checkbox = Control<CheckBox>("IncludeSubdirectoriesCheckBox");
             checkbox.IsChecked = false; Pump(); Check(!Model.IncludeSubdirectories, "Checkbox did not update recursion input");
             checkbox.IsChecked = true; Pump(); Check(Model.IncludeSubdirectories, "Recursive input did not restore");
-            Check(Model.CanPrepareScan && !Control<Button>("ScanButton").IsEnabled, "T06 prematurely enabled a real scan");
+            Check(Model.CanPrepareScan && Control<Button>("ScanButton").IsEnabled, "Valid connected inputs did not enable scan");
             Capture("ready-inputs");
         });
         Case("running locks input controls and clears stale results", () =>
