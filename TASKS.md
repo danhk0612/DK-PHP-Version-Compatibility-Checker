@@ -13,7 +13,7 @@
 | T04 | 고정 도구 구성과 오프라인 준비 | 완료 | T02 | 저성능 Work |
 | T05 | 검사 실행·JSON 결과 연동 | 완료 | T03, T04 | 저성능 Work |
 | T06 | 입력·결과 GUI | 완료 | T03, T02 결과 계약 | 저성능 Work |
-| T07 | GUI 실제 검사 연결·보호 검증 | 진행 | T05, T06 | 저성능 Work |
+| T07 | GUI 실제 검사 연결·보호 검증 | 완료 | T05, T06 | 저성능 Work |
 | T08 | 배포 라이선스·고지 검증 | 준비 | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
 | T09 | ZIP 배포 후보·통합 검증 | 선행 대기 | T07, T08, T10 | 저성능 Work, 깨끗한 Windows 환경 |
 | T10 | 엔진 팩 제작·수동 교체와 향후 버전 확장 검증 | 선행 대기 | T04, T05, T06, T07, T08 | 저성능 Work, Windows x64 |
@@ -111,6 +111,8 @@
 - 완료: 승인된 시나리오를 명령어 없이 실제 Windows GUI에서 검사, UI 응답성·중복 실행 방지·결과 일치·실패 표시·대상 불변 검증. 대표 대규모 fixture의 파일 수·소요 시간·메모리·표시 누락 여부를 기록하되 미합의 성능 보장은 하지 않음.
 - 금지: UI 전면 재설계·새 기능·정책 변경, 발견된 아키텍처 문제의 무단 확대 수정.
 - 환경: 저성능 Work.
+
+- 완료 근거: [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788)에서 SDK 10.0.403 제품·검증 build 경고 0/오류 0, 통합 36건 통과. 실제 네이티브 폴더 선택·취소→목표 선택→버튼→고정 엔진의 목표별 24 fixture, 0건/NoFiles/ACL 실패·합성 부분 결과 구별, 한국어/설정 격리·원본 불변·중복 클릭/입력 잠금·검사 중 반복 닫기/실제 PHP 자식·작업 정리·팩 로드 중 닫기를 확인함. 1000파일/2000문제를 단일 파일의 전체 문제와 파일별 대조하고 마지막 grid 행에 접근함. 약 1486.95ms, Dispatcher 최대 관측 간격 54.72ms, GUI/PHP working set 표본 최대 185438208/30769152 bytes. 미합의 성능 보장은 아님. [기존 화면 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221) 21건과 build 경고·오류 0. tests/t07/evidence/에 원본 요약·대표 PNG/해시 보존. Windows 11/CRT 배포·수동 팩 교체는 T09/T10에 남김. Services·기존 결과 계약·제품 csproj 변경 없음.
 
 ## T08 — 배포 라이선스·고지 검증
 

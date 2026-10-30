@@ -23,3 +23,17 @@ dotnet run --project tests/t07/T07.Verification.csproj -c Release --no-build -- 
 `artifacts/t07/summary.json`에 실제 환경·팩 ID·목표·사례·실측·네이티브 대화상자 HWND·PNG 해시를 저장합니다. PNG에는 실제 엔진 fixture 또는 합성 도구 출력인지 상단 띠에 명시합니다. 캡처는 표시된 WPF client visual이며 OS 창 테두리를 포함하지 않습니다. 하나라도 실패하면 프로세스 exit1입니다. 실행하지 않은 검증은 완료로 간주하지 않습니다.
 
 이 검증은 Windows Server 2022 CI를 대상으로 하며 깨끗한 Windows 11/CRT·ZIP 배포(T09), 팩 수동 교체/복원(T10), 모든 실제 프로젝트 규모/권한 조합을 검증했다는 뜻이 아닙니다.
+
+## 실측 근거
+
+[Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788)은 Windows Server 2022 x64 / SDK 10.0.403에서 build 경고·오류 0, 통합 36건 통과입니다. [화면 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221)도 build 경고·오류 0, 21건 통과했습니다. 검증 head `ac175da08b2f66d19fd18ca63bde7fc585790a2e`, 실제 checkout merge ref `b33b14f8e21784d9483908328166fc3a34474577`입니다. 이후 문서·증거 커밋은 제품·검증·workflow 실행 코드를 변경하지 않습니다.
+
+1000파일/2000문제는 약 1486.95ms, Dispatcher 최대 관측 간격 54.72ms, GUI/PHP working set 표본 최대 185438208/30769152 bytes였습니다. mysql 확장 제거와 함수 제거의 별도 문제를 동일 줄에서도 유지했고 단일 파일 대조와 파일별 전체 문제·마지막 grid 행 접근을 통과했습니다. 실제 PHP 검사 중 닫기는 약 78.69ms 후 소유 PID 종료·임시 작업 폴더 복구·원본 불변을 확인했습니다. 이 수치는 해당 자체 fixture/CI 관측값이며 보장 성능이 아닙니다.
+
+[evidence/summary.json](evidence/summary.json)과 [회귀 원본 요약](evidence/t06-regression-summary.json), [아티팩트·파일 해시](evidence/provenance.json)를 보존했습니다. 대표 원본 PNG 3개를 Git에 보존하고 모든 PNG/빌드 binlog/dotnet-info는 7일 CI artifact에 있습니다. 최초 실행에서 잘못 둔 단일 문제/처리 수 예상값은 실제 엔진 다중 규칙과 기존 비정상 종료 계약에 맞게 보완한 뒤 전체를 재실행했습니다.
+
+아래는 실제 PHPCompatibility 엔진이 자체 fixture를 검사한 화면입니다.
+
+![실제 엔진 결과](evidence/real-engine-findings.png)
+
+[1000파일/2000문제의 마지막 행](evidence/real-engine-large-1000.png) · [합성 부분 출력 실패(실제 호환성 결과 아님)](evidence/synthetic-partial-failure.png)

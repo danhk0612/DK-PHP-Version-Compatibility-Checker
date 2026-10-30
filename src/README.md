@@ -29,7 +29,7 @@ CI와 동일한 기본 창 검증은 빌드 후 `./tests/t03/Test-Window.ps1`로
 - `PhpcsReportParser`는 원문 행·파일/전체 totals·선택 파일 대응과 PHPCS4의 exit bit(수정가능 1/나머지 2)를 대조합니다. 같은 줄 다른 규칙도 보존합니다. 실패/부분 결과를 Completed 0건으로 만들지 않습니다.
 - ScanResult는 기존 positional 계약을 유지하며 ExcludedPaths(항상 목록), EngineExitCode(int?), EngineStandardError(string?) init 메타데이터를 추가했습니다. ProcessedFileCount의 null은 미확인입니다. stderr를 별도 엔진 ERROR/WARNING으로 집계하지 않습니다.
 
-[검증 콘솔](../tests/t05/README.md)은 제품 프로젝트를 참조하는 별도 테스트 전용 콘솔이며 새 제품 계층·패키지·Python/Composer 런타임 의존성을 추가하지 않습니다. T05는 GUI/XAML을 변경하지 않았으며 T06이 화면·표시 모델을 추가했습니다. 실제 검사 GUI 응답·버튼 흐름·깨끗한 Windows 11/CRT 배포·팩 교체 통합 검증은 T07/T09/T10에 남아 있습니다. 네트워크 공유의 여러 별칭 조합이나 외부 동시 파일 변경에 대한 완전한 격리를 보장하지 않습니다.
+[검증 콘솔](../tests/t05/README.md)은 제품 프로젝트를 참조하는 별도 테스트 전용 콘솔이며 새 제품 계층·패키지·Python/Composer 런타임 의존성을 추가하지 않습니다. T05는 GUI/XAML을 변경하지 않았으며 T06이 화면·표시 모델을 추가했습니다. 실제 검사 GUI 응답·버튼 흐름은 T07에서 검증했으며 깨끗한 Windows 11/CRT 배포·팩 교체 통합 검증은 T09/T10에 남아 있습니다. 네트워크 공유의 여러 별칭 조합이나 외부 동시 파일 변경에 대한 완전한 격리를 보장하지 않습니다.
 
 T05 [최종 Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517)은 SDK 10.0.403에서 제품/검증 콘솔 build 경고 0·오류 0, 회귀 61건 통과입니다. 검증 head는 `f08de1dae5d91474ca1672d0cd128bcc0b69c784`, 실제 checkout merge ref는 `522cc635c214f4ab5ddff7dc3c068111125773eb`입니다. [실측 요약](../tests/t05/evidence/summary.json)과 [팩 manifest](../tests/t05/evidence/pack-manifest.json), [해시·실행 근거](../tests/t05/evidence/provenance.json)를 보존했습니다. 이후 커밋은 문서/실측 보존만 변경하여 실행 코드는 재검증하지 않았습니다.
 
@@ -54,3 +54,5 @@ T06 [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-C
 Closing은 첫 닫기를 보류하고 창 입력을 잠근 뒤 팩 로드를 취소·대기하고 소유 ScanService.DisposeAsync와 검사 핸들러 완료를 기다립니다. 이후 다시 닫으며 종료 이후 팩·결과를 반영하지 않습니다. 정리 실패는 창에 실패 이유를 남기며 정상 종료로 숨기지 않습니다. 검사 취소 버튼·새 설정·프레임워크를 추가하지 않았습니다.
 
 [통합 검증](../tests/t07/README.md)은 실제 버튼과 엔진을 연결하며 기존 T06의 합성 표시 검증과 구분합니다. Windows 실행 완료 여부와 남은 검증은 CURRENT_STATE.md에 기록합니다.
+
+T07 [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788)에서 build 경고·오류 0, 실제 폴더 선택/취소·목표별 엔진·원본 보호·응답·종료 정리 36건을 통과했습니다. [T06 화면 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221) 21건도 통과했습니다. 검증 head `ac175da08b2f66d19fd18ca63bde7fc585790a2e` / checkout merge ref `b33b14f8e21784d9483908328166fc3a34474577`입니다. [실측](../tests/t07/evidence/summary.json)과 대표 PNG/해시를 보존하며 후속 상태·증거 보존 커밋은 실행 코드를 변경하지 않습니다.
