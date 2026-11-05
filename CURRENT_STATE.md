@@ -51,8 +51,10 @@ WPF 입력·결과 화면과 공유 표시 모델, C# 검사 서비스·manifest
 
 D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니다. 자체 MIT LICENSE와 서드파티 고지 초안을 작성했습니다. 외부 native 구성의 라이선스/대응 소스·최종 배포 조건은 T08 부분 검증으로 남습니다.
 
-## 다음 작업
+## 다음 작업과 사용자 확인
 
-**T08 최종 빌드 입력 대응·고지와 소스 제공 / 저성능 Work, Windows x64.** 검증용 PHP의 libiconv 수정 재링크와 검사 회귀는 통과했습니다. 다음 작업은 공식 배포 PHP와 검증용 빌드의 차이를 명확히 하여 실제 배포 바이너리의 대응 application code·빌드 설정·링크 입력과 모든 포함 라이브러리의 원문 고지를 확인하고, 대응 소스와 재구성 자료의 지속 제공 절차를 완성하는 것입니다. 현재 의존성 ZIP과 과거 공식 빌드 입력의 바이트 동일성은 미확인입니다. 재링크 실험만으로 LGPL 전체 이행이나 배포 적합성을 완료 처리하지 않습니다. T10/T09는 T08 미완료로 선행 대기입니다.
+2026-11-06 지시에 따라 사용자 확인 이전의 자동화 준비를 분담했습니다. [소스·고지 동반 ZIP 생성](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646759), [팩 교체·새 OS 프로세스·복원 시험](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [self-contained ZIP 생성·한글 경로 창 표시/종료·파일 불변](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466)이 Windows Server 2022에서 통과했습니다. tests/t10/evidence, tests/t09/evidence와 tests/t08-minimal/evidence/source-sidecar.json에 근거를 보존했습니다. 실행 ZIP은 runner 내부에서만 만들고 외부 업로드하지 않았습니다.
 
-현재 작업은 PR #1~#7 기반 Draft PR #8(`t08-minimal-cli`)에 있습니다. main 미병합이며 승인된 팩 PHP 파일 구성만 변경했습니다. 제품 C#·엔진 버전·목표·이름·스택은 그대로입니다. [AI_WORKFLOW.md](AI_WORKFLOW.md)의 현재 인계 지시문을 사용합니다. B안 선택을 다시 요청하지 않습니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
+먼저 LICENSING.md의 PHP v4/Zend v3 후속 조건 선택에 대한 사용자 판단이 필요합니다. 자체 MIT와 독립 LGPL/Microsoft 조건은 별개입니다. 선택 후 실제 후보와 같은 고지/소스 sidecar를 재생성·대조하고 지속 제공 방식을 고정해야 합니다. Windows 11 직접 시험은 tests/t09/WINDOWS11_TEST.md를 따릅니다. T08 최종 배포 조건과 깨끗한 Windows 11 검증은 아직 완료가 아니며 T09/T10의 개발자 자동시험을 최종 배포 승인으로 승격하지 않습니다.
+
+현재 작업은 Draft PR #8(t08-minimal-cli), main 미병합입니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
