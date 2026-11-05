@@ -87,7 +87,7 @@ try {
         $library = Join-Path $base 'MSVC17/x64/lib/libiconv_a.lib'
         if (-not (Test-Path -LiteralPath $library -PathType Leaf)) { throw "Missing built library: $library" }
         $symbols = Join-Path $output "$name-symbols.txt"
-        & $DumpbinPath '/symbols' $library *> $symbols
+        & $DumpbinPath '/linkermember:1' $library *> $symbols
         if ($LASTEXITCODE -ne 0) { throw "dumpbin failed for $name; inspect $symbols" }
         $symbolMatches = @(Select-String -LiteralPath $symbols -Pattern '_libiconv_version')
         if ($symbolMatches.Count -eq 0) { throw "Version symbol absent from $library" }
