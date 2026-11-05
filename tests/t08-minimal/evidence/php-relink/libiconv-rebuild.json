@@ -1,0 +1,35 @@
+{
+  "windowsSdkVersion": "10.0.26100.0",
+  "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+  "trackedFiles": 1148,
+  "sourceGitBlobBytesVerified": true,
+  "sourcePath": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\libiconv-source",
+  "marker": "Test-only _LIBICONV_VERSION + 1; not a real version change",
+  "libraries": [
+    {
+      "profile": "original",
+      "path": "original/MSVC17/x64/lib/libiconv_a.lib",
+      "sha256": "60b2a60f86520fe6c00628fe45988a8523aa1d35cef4911df2875671c67f688b",
+      "bytes": 3417866,
+      "symbols": [
+        "    22B7A _libiconv_version"
+      ],
+      "msbuildLog": "original-msbuild.log",
+      "symbolLog": "original-symbols.txt"
+    },
+    {
+      "profile": "marker",
+      "path": "marker/MSVC17/x64/lib/libiconv_a.lib",
+      "sha256": "f72da1589751e67b0b0013d1dd8e2a393eadf3f6ee1cad2be1fe5658b92e59fb",
+      "bytes": 3417474,
+      "symbols": [
+        "    22B66 _libiconv_version"
+      ],
+      "msbuildLog": "marker-msbuild.log",
+      "symbolLog": "marker-symbols.txt"
+    }
+  ],
+  "nativePhpRelinkVerified": false,
+  "redistributionCleared": false,
+  "scope": "Isolated original/marker libiconv static library builds only"
+}

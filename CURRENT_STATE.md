@@ -37,6 +37,8 @@ T02는 사용자 승인으로 확정했습니다. 초기 목표 8.2/8.3/8.4, 공
 
 - **T08 네이티브 입력·libiconv 부분 검증**. [Windows 입력 수집](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42008865873)에서 공식 의존성5개의 현재 ZIP·SHA를 기록했습니다. 과거 공식 빌드 입력과 바이트 동일성은 미확인입니다. [Windows 빌드](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42009675167)에서 고정 libiconv 원문 1,148파일을 Git blob과 대조하고 원본 및 버전 표시만 변경한 검증용 사본을 Windows SDK 10.0.26100.0으로 각각 빌드했습니다. 두 정적 라이브러리 해시가 다르고 `_libiconv_version` 링커 심볼이 존재합니다. [실측·해시](tests/t08-minimal/evidence/native-rebuild-provenance.json). 마커는 실제 버전 변경이 아닙니다. PHP 재링크·출력 변화·회귀와 최종 라이선스/소스 제공은 미검증입니다.
 
+- **T08 격리 PHP 수정 재링크 검증 통과**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 고정 PHP 8.4.27 소스와 원본/마커 libiconv를 각각 빌드·링크했습니다. `ICONV_VERSION`은 각각 1.19/1.20으로 확인했으며 1.20은 수정 라이브러리가 사용됐는지 확인하는 테스트 마커입니다. 같은 PHPCS 엔진·목표에서 fixture 24개 결과가 일치했고 검사 대상·fixture·엔진 팩 불변을 확인했습니다. [결과·해시](tests/t08-minimal/evidence/php-relink/provenance.json). 검증용 `--disable-all` 빌드는 공식 배포 PHP 바이너리의 재현이 아니며, 이 실험의 네트워크 차단은 검증하지 않았습니다. 실제 배포와의 정확한 입력 대응, 최종 고지·소스 지속 제공은 미완료입니다.
+
 ## 확정한 향후 버전 확장 구조
 
 사용자가 이후 최신 PHP도 지원 가능한 시스템을 요청했습니다. 목표 목록·구성요소 버전·검증 근거를 앱 코드와 분리한 단일 활성 엔진 팩으로 관리합니다. 새 목표는 해당 엔진 규칙과 회귀·안전성·오프라인 검증을 거쳐 팩 데이터로 추가하며 GUI/실행 코드에 초기 세 버전을 고정하지 않습니다. 호환 스키마/profile의 팩은 앱 종료 후 수동 교체합니다. 자동 다운로드/갱신 UI는 아직 보류입니다.
@@ -51,6 +53,6 @@ D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니�
 
 ## 다음 작업
 
-**T08 실제 재빌드·수정 재링크와 고지 / 저성능 Work, Windows x64.** Windows 설정 헤더로 SBOM 불일치는 해소했습니다. 다음 작업은 [공식 빌드 근거](tests/t08-minimal/evidence/official-build-evidence.json)를 기준으로 builder/SDK 전체 소스·라이선스와 정확한 의존성 ZIP/도구·링크 입력을 고정하고, 관련 정적 라이브러리 및 PHP application code의 수정 재링크·검사 회귀를 검증하는 것입니다. 우선 고정 재구성 절차를 준비한 뒤 실제 Windows에서 수행하며 제품 팩 바이너리를 임의 교체하지 않습니다. 최종 파일별 고지·소스 지속 제공도 남습니다. 소스 해시 대조를 재링크나 배포 적합성으로 처리하지 않습니다. T10/T09는 T08 미완료로 선행 대기입니다.
+**T08 최종 빌드 입력 대응·고지와 소스 제공 / 저성능 Work, Windows x64.** 검증용 PHP의 libiconv 수정 재링크와 검사 회귀는 통과했습니다. 다음 작업은 공식 배포 PHP와 검증용 빌드의 차이를 명확히 하여 실제 배포 바이너리의 대응 application code·빌드 설정·링크 입력과 모든 포함 라이브러리의 원문 고지를 확인하고, 대응 소스와 재구성 자료의 지속 제공 절차를 완성하는 것입니다. 현재 의존성 ZIP과 과거 공식 빌드 입력의 바이트 동일성은 미확인입니다. 재링크 실험만으로 LGPL 전체 이행이나 배포 적합성을 완료 처리하지 않습니다. T10/T09는 T08 미완료로 선행 대기입니다.
 
 현재 작업은 PR #1~#7 기반 Draft PR #8(`t08-minimal-cli`)에 있습니다. main 미병합이며 승인된 팩 PHP 파일 구성만 변경했습니다. 제품 C#·엔진 버전·목표·이름·스택은 그대로입니다. [AI_WORKFLOW.md](AI_WORKFLOW.md)의 현재 인계 지시문을 사용합니다. B안 선택을 다시 요청하지 않습니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.

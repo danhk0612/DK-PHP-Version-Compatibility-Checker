@@ -85,7 +85,7 @@ B안은 승인됐으며 최소 CLI 선택은 tools/engine-pack/minimal-cli.json�
 libmbfl/timelib 불일치는 Windows configure 생성 헤더 2개로 해소됐어. raw 21/23과 별도 생성물 포함 23/23을 구분해 보존해.
 LICENSING의 실제 빌드·재링크 잔여 관문과 tests/t08-minimal/evidence/official-build-evidence.json부터 확인해.
 기록된 libiconv 원본/마커 정적 라이브러리 빌드와 현재 의존성 후보 해시를 확인해. 공식 builder/SDK 고정 소스·라이선스 및 정확한 의존성 ZIP/도구/링크 입력을 관리 영역에 고정해. 이동하는 최신 deps 목록을 그대로 쓰지 마.
-PHP 코어 BCMath/libiconv 등 LGPL 적용 코드의 실제 빌드 설정·대응 application code·수정/재링크 경로를 확인해.
+격리 PHP에서 libiconv 원본/마커 재링크와 PHPCS24사례가 통과한 근거를 확인해. 공식 배포 PHP의 실제 빌드 설정·대응 application code·정확한 입력, BCMath/libiconv 관련 고지 및 소스 제공 경로를 계속 확인해.
 수집한 소스 ZIP과 bundled digest 일치만으로 바이너리 대응/재링크를 완료 처리하지 마.
 in-ZIP SBOM은 후보 superset이고 Argon2 관측은 알고리즘 활성 확인임을 유지해.
 최종 구성의 라이선스 전문/NOTICE·matching source·재구성 절차와 지속 제공 계획을 정리해.

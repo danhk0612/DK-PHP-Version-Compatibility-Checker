@@ -1,0 +1,31 @@
+{
+  "source": "Pinned PHP 8.4.27 Windows source; independently built test binaries",
+  "marker": "ICONV_VERSION 1.20 is a test-only marker, not an actual library version",
+  "windowsSdkVersion": "10.0.26100.0",
+  "elapsedSeconds": 326.1831945,
+  "results": [
+    {
+      "profile": "original",
+      "executable": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\original\\php-src\\x64\\Release\\php.exe",
+      "executableSha256": "416fc1a237e1098eeb3d9613f23af1fd0500eb25f02fe5c0ab49655149fa9eaa",
+      "dll": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\original\\php-src\\x64\\Release\\php8.dll",
+      "dllSha256": "14e79d93fbee5cc483c521768bcc2e436f936c814c285a5d628c3ef23097f6c8",
+      "libiconvSha256": "60b2a60f86520fe6c00628fe45988a8523aa1d35cef4911df2875671c67f688b",
+      "observed": "8.4.27|1.19"
+    },
+    {
+      "profile": "marker",
+      "executable": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\marker\\php-src\\x64\\Release\\php.exe",
+      "executableSha256": "f2f1fc9d3cba7fd4931134526f3de21d826fbcaa12d66ee97eee7b19d9379da3",
+      "dll": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\marker\\php-src\\x64\\Release\\php8.dll",
+      "dllSha256": "b4d10c0394c55195b520b7db11a724e36806580d09636d7fa95609bc261cbab5",
+      "libiconvSha256": "f72da1589751e67b0b0013d1dd8e2a393eadf3f6ee1cad2be1fe5658b92e59fb",
+      "observed": "8.4.27|1.20"
+    }
+  ],
+  "phpRelinkProbePassed": true,
+  "phpcsRegressionVerified": false,
+  "officialDistributionBinaryReproduced": false,
+  "redistributionCleared": false,
+  "scope": "Isolated rebuilt test PHP; not the shipped PHP binary or legal clearance"
+}

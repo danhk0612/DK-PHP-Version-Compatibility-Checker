@@ -73,7 +73,13 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 [공식 의존성 후보 해시](tests/t08-minimal/evidence/native-inputs.json)는 2026-11-05 다운로드한 현재 파일의 해시이며, 과거 공식 빌드의 실제 입력과 바이트 일치를 뜻하지 않습니다. [독립 Windows 빌드 결과](tests/t08-minimal/evidence/libiconv-rebuild.json)는 고정 libiconv 소스 원본과 검증용 마커 사본의 정적 라이브러리 빌드·서로 다른 SHA·`_libiconv_version` 링커 심볼을 확인합니다. SDK는 10.0.26100.0입니다. source commit·artifact 해시는 [실행 근거](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 따릅니다.
 
-마커는 격리된 감사용 사본의 `_LIBICONV_VERSION + 1`이며 실제 버전을 의미하지 않습니다. 이 결과는 **PHP 재링크 및 실행 결과 변화를 확인한 것이 아닙니다**. 원본/변경 라이브러리를 각각 PHP에 연결해 출력과 검사 회귀를 대조하고 정확한 나머지 빌드 입력·최종 소스 제공을 확인하는 작업이 남습니다.
+마커는 격리된 감사용 사본의 `_LIBICONV_VERSION + 1`이며 실제 버전을 의미하지 않습니다. 이 libiconv 단독 결과와 별도로, 아래 PHP 재링크 실험을 수행했습니다.
+
+### 격리 PHP 재링크 실험
+
+[Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 PHP 8.4.27 Windows 소스와 검증용 원본·마커 libiconv를 각각 빌드·링크했습니다. 원본 `ICONV_VERSION=1.19`, 마커 `1.20`을 관측했고 두 PHP DLL의 해시가 다릅니다. 1.20은 실제 버전이 아닌 테스트 마커입니다. 같은 PHPCS 엔진으로 24 fixture/목표 조합의 JSON·종료 코드가 동일했으며 검사 대상·저장소 fixture·엔진 팩 불변을 확인했습니다. [원본 결과·로그·해시](tests/t08-minimal/evidence/php-relink/provenance.json)를 보존합니다.
+
+이 검증은 축소 configure 옵션을 사용한 독립 감사 빌드입니다. 공식 배포 PHP의 바이너리 재현, 과거 공식 빌드 의존성 ZIP과 동일성, 이 실험에서의 네트워크 차단, 최종 배포 고지·대응 소스·LGPL 의무 이행을 증명하지 않습니다. `php-relink.json`의 `phpcsRegressionVerified=false`는 그 파일이 별도 비교 단계 이전에 작성됐기 때문이며 후속 `php-relink-comparison.json`에 실제 24건 결과가 있습니다.
 
 ## 재현과 공식 근거
 

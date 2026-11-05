@@ -14,7 +14,7 @@
 | T05 | 검사 실행·JSON 결과 연동 | 완료 | T03, T04 | 저성능 Work |
 | T06 | 입력·결과 GUI | 완료 | T03, T02 결과 계약 | 저성능 Work |
 | T07 | GUI 실제 검사 연결·보호 검증 | 완료 | T05, T06 | 저성능 Work |
-| T08 | 배포 라이선스·고지 검증 | 부분 검증(설정 포함 소스 대조 통과·재링크 대기) | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
+| T08 | 배포 라이선스·고지 검증 | 부분 검증(격리 재링크 통과·최종 배포 대응 대기) | T04, T02 라이선스·배포 결정 | 저성능 Work; 충돌 판단은 고성능 Chat |
 | T09 | ZIP 배포 후보·통합 검증 | 선행 대기 | T07, T08, T10 | 저성능 Work, 깨끗한 Windows 환경 |
 | T10 | 엔진 팩 제작·수동 교체와 향후 버전 확장 검증 | 선행 대기 | T04, T05, T06, T07, T08 | 저성능 Work, Windows x64 |
 
@@ -123,7 +123,7 @@
 - 금지: 외부 코드를 MIT로 재표시, 링크만 있으면 모든 소스 의무 충족이라고 단정, 충돌 시 이름·스택 임의 변경.
 - 환경: 저성능 Work로 자료·고지 준비. 해석 충돌은 고성능 Chat에서 사용자 판단.
 
-- 현재 근거: [Windows 실측](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)의 publish 경고·오류 0, 400파일 출처 매핑/팩 865파일, LGPL source checkout 783/516파일·배포 244/58파일 바이트 대조 통과. 자체 LICENSE·고지 초안·엔진/GPL/PHP/Zend/일부 내장 고지·NuGet 고지/Windows 파일별 예외와 원본 근거를 준비함. [LICENSING.md](LICENSING.md)의 native 포함/정적 링크·고지·대응 소스/재링크·최종 동시 제공 조건은 남음. 2026-11-05 사용자가 B안 최소 CLI 팩 축소·전체 비교 재검증을 승인했으며 PR #8에서 진행함. [B안 Windows 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)의 팩 비교·서비스61/화면21/GUI36건 및 생성 소스/변조9건이 통과함. raw source6개/31,375파일을 보존하고 Windows configure 헤더2개를 별도 추적해 공식 bundled digest23/23을 대조함(raw만21/23은 별도 유지). 공식 Windows source ZIP 전체와 builder 로그의 정적 선택/도구·PGO 경로도 확인함. 다음 범위는 builder/SDK 소스·고지와 정확한 deps/도구·링크 입력 고정, 실제 라이브러리 재빌드·PHP 수정 재링크·회귀 및 최종 고지/소스 지속 제공 검증임. [의존성 후보 실측·libiconv 원본/마커 빌드](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 확보함. SDK 10.0.26100.0 감사 빌드이며 PHP 재링크·출력 변화·검사 회귀는 미수행임. 미해결 상태에서 T08 완료/T10·T09 선행 통과로 처리하지 않음.
+- 현재 근거: [Windows 실측](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)의 publish 경고·오류 0, 400파일 출처 매핑/팩 865파일, LGPL source checkout 783/516파일·배포 244/58파일 바이트 대조 통과. 자체 LICENSE·고지 초안·엔진/GPL/PHP/Zend/일부 내장 고지·NuGet 고지/Windows 파일별 예외와 원본 근거를 준비함. [LICENSING.md](LICENSING.md)의 native 포함/정적 링크·고지·대응 소스/재링크·최종 동시 제공 조건은 남음. 2026-11-05 사용자가 B안 최소 CLI 팩 축소·전체 비교 재검증을 승인했으며 PR #8에서 진행함. [B안 Windows 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)의 팩 비교·서비스61/화면21/GUI36건 및 생성 소스/변조9건이 통과함. raw source6개/31,375파일을 보존하고 Windows configure 헤더2개를 별도 추적해 공식 bundled digest23/23을 대조함(raw만21/23은 별도 유지). 공식 Windows source ZIP 전체와 builder 로그의 정적 선택/도구·PGO 경로도 확인함. 다음 범위는 builder/SDK 소스·고지와 정확한 deps/도구·링크 입력 고정, 실제 라이브러리 재빌드·PHP 수정 재링크·회귀 및 최종 고지/소스 지속 제공 검증임. [의존성 후보 실측·libiconv 원본/마커 빌드](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 확보함. SDK 10.0.26100.0 감사 빌드임. [검증용 PHP 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 원본/마커 출력1.19/1.20, PHPCS 24사례 동일·대상/팩 불변 통과. 공식 배포 바이너리 재현·동일 입력·최종 고지와 영구 소스 제공은 미검증임. 미해결 상태에서 T08 완료/T10·T09 선행 통과로 처리하지 않음.
 
 ## T09 — ZIP 배포 후보·통합 검증
 

@@ -58,3 +58,9 @@ python tests/t08-minimal/compare_windows_source.py --zip artifacts/t08-minimal/p
 공식 Windows source URL은 `https://downloads.php.net/~windows/releases/php-8.4.27-1-src.zip`입니다. 31,802,516바이트/공개 SHA `9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d`를 확인했습니다. 25,836파일 경로가 pinned Git과 같고 7개 ident 확장만 다릅니다. 두 설정 생성물은 이 ZIP에도 없으므로 따로 추적합니다.
 
 [공식 builder 조사](evidence/official-build-evidence.json)는 정확한 builder commit/config URL·해시, SDK 설정·MSVC 버전, 정적 libiconv/libxml2 선택 및 PGI/PGO 경로를 기록합니다. 공식 실행 artifact와 승인 배포 ZIP의 직접 해시 연결, 실제 라이브러리 재빌드·수정 재링크·회귀는 아직 하지 않았습니다. 나머지 T08 관문은 [LICENSING.md](../../LICENSING.md)를 따릅니다.
+
+## 격리 PHP 재링크 실험
+
+[Windows workflow](../../.github/workflows/t08-php-relink.yml)는 PHP 8.4.27 Windows source ZIP과 SDK/deps를 해시 또는 고정 커밋으로 확인하고, 원본·마커 libiconv를 별도 PHP 소스/의존성 사본에 각각 링크합니다. PHP `ICONV_VERSION` 1.19/1.20, DLL 해시 차이, 검증된 기존 엔진의 24 fixture/목표 결과 일치와 입력·엔진 팩 불변을 확인합니다. 1.20은 테스트 마커입니다.
+
+[실제 결과·실행/파일 해시](evidence/php-relink/provenance.json)는 Windows Server 2022의 검증용 `--disable-all` 빌드입니다. 공식 배포물 재현·네트워크 차단·재배포 적합성을 증명하지 않습니다. PHP 빌드 결과 JSON의 PHPCS 항목은 비교 전 기록이며, 후속 비교 결과는 `php-relink-comparison.json`에 있습니다. 전체 artifact는 7일 보관합니다.
