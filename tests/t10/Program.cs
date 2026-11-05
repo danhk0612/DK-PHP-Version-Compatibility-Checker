@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -56,6 +57,24 @@ internal static class Program
         if(restore)Check(BaselineResults[key]==normalized,"Restored fixture result differs "+key);else if(BaselineResults.TryGetValue(key,out var previous))Check(previous==normalized,"Common-target result changed after exchange "+key);else BaselineResults[key]=normalized;
         Runs.Add(new{origin="actual fixed engine fixture",key,restore,result=JsonDocument.Parse(normalized).RootElement.Clone()});
     }
+    static void ChildProbe(string label,string target,params string[] expected){
+        var info=new ProcessStartInfo(Environment.ProcessPath!){UseShellExecute=false,RedirectStandardOutput=true,RedirectStandardError=true,WorkingDirectory=Repo};
+        if(Path.GetFileNameWithoutExtension(Environment.ProcessPath).Equals("dotnet",StringComparison.OrdinalIgnoreCase))info.ArgumentList.Add(typeof(Program).Assembly.Location);
+        foreach(var arg in new[]{"--child",Repo,Active,Subject,Output,target,string.Join(",",expected),label})info.ArgumentList.Add(arg);
+        using var process=Process.Start(info)??throw new InvalidOperationException("Could not start independent verification child");
+        var stdout=process.StandardOutput.ReadToEndAsync();var stderr=process.StandardError.ReadToEndAsync();
+        if(!process.WaitForExit(60000)){process.Kill(true);throw new InvalidOperationException("Independent WPF process timed out");}
+        Check(process.ExitCode==0,"Independent WPF process failed: "+stderr.GetAwaiter().GetResult()+stdout.GetAwaiter().GetResult());
+        using var result=JsonDocument.Parse(File.ReadAllText(Path.Combine(Output,"child-"+label+".json")));
+        Check(result.RootElement.GetProperty("productAssemblySha256").GetString()==Hash(typeof(MainWindow).Assembly.Location),"Child used a different product assembly");
+        Runs.Add(new{origin="independent verification OS process and actual WPF product assembly",label,pid=process.Id,output="child-"+label+".json",result=result.RootElement.Clone()});
+    }
+    static int Child(string[] args){
+        Repo=Path.GetFullPath(args[1]);Active=Path.GetFullPath(args[2]);Subject=Path.GetFullPath(args[3]);Output=Path.GetFullPath(args[4]);
+        var app=new Application{ShutdownMode=ShutdownMode.OnExplicitShutdown};SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+        try{Targets(args[6].Split(','));GuiScan(args[5]);Close();File.WriteAllText(Path.Combine(Output,"child-"+args[7]+".json"),JsonSerializer.Serialize(new{scopePassed=true,pid=Environment.ProcessId,targets=args[6].Split(','),productAssemblySha256=Hash(typeof(MainWindow).Assembly.Location),runs=Runs},Pretty),new UTF8Encoding(false));return 0;}
+        finally{foreach(var w in Windows)if(w.IsVisible){w.Close();Until(()=>!w.IsVisible);}app.Shutdown();}
+    }
     static void Bad(string name,Action<JsonNode> patch,bool corrupt=false,bool mix=false){
         Activate("full");var path=Path.Combine(Active,"manifest.json");var m=JsonNode.Parse(File.ReadAllText(path))!;patch(m);File.WriteAllText(path,m.ToJsonString(),new UTF8Encoding(false));
         if(corrupt)File.AppendAllText(Path.Combine(Active,"engine/ruleset.xml"),"corruption");
@@ -64,26 +83,27 @@ internal static class Program
         bool rejected=false;try{Await(new EnginePackLoader().LoadAsync(Active));}catch(InvalidDataException){rejected=true;}Check(rejected,"Loader accepted "+name);Close();
     }
     [STAThread] static int Main(string[] args){
+        if(args.Length==8&&args[0]=="--child"&&OperatingSystem.IsWindows())return Child(args);
         if(args.Length!=2||!OperatingSystem.IsWindows()){Console.Error.WriteLine("Actual Windows required: repo derivedPacks");return 2;}
         Repo=Path.GetFullPath(args[0]);Packs=Path.GetFullPath(args[1]);Output=Path.Combine(Repo,"artifacts/t10");Active=Path.Combine(Output,"active-pack");Subject=Path.Combine(Output,"subject");Directory.CreateDirectory(Output);
         if(Directory.Exists(Subject))throw new InvalidOperationException("Fresh T10 output required");Copy(Path.Combine(Repo,"tests/fixtures"),Subject);
         var subjectBefore=Snapshot(Subject);var packsBefore=Snapshot(Packs);string assembly=typeof(MainWindow).Assembly.Location, assemblyHash=Hash(assembly);
         var app=new Application{ShutdownMode=ShutdownMode.OnExplicitShutdown};SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
         try{
-            Case("reduced pack restart displays only verified 8.2/8.3",()=>{Activate("reduced");Targets("8.2","8.3");GuiScan("8.3");});
+            Case("reduced pack restart displays only verified 8.2/8.3",()=>{Activate("reduced");ChildProbe("reduced","8.3","8.2","8.3");Targets("8.2","8.3");GuiScan("8.3");});
             Case("reduced pack actual 16 fixture/target regressions",()=>Regression(false));
-            Case("closed-window full pack exchange adds existing verified 8.4",()=>{Activate("full");Targets("8.2","8.3","8.4");GuiScan("8.4");});
+            Case("closed-window full pack exchange adds existing verified 8.4",()=>{Activate("full");ChildProbe("full","8.4","8.2","8.3","8.4");Targets("8.2","8.3","8.4");GuiScan("8.4");});
             Case("full pack actual 24 fixture/target regressions",()=>Regression(false));
             Case("unverified target refused",()=>Bad("unverified target",m=>m["targets"]![0]!["version"]="99.0"));
             Case("runtime/engine file hash corruption refused",()=>Bad("hash corruption",_=>{},corrupt:true));
             Case("unsupported manifest schema refused",()=>Bad("schema",m=>m["schemaVersion"]=999));
             Case("unsupported report profile refused",()=>Bad("profile",m=>m["reportProfile"]="unsupported"));
             Case("mixed subset/full partial composition refused",()=>Bad("partial mix",_=>{},mix:true));
-            Case("closed-window previous pack restore reproduces targets and GUI",()=>{Activate("reduced");Targets("8.2","8.3");GuiScan("8.3");});
+            Case("closed-window previous pack restore reproduces targets and GUI",()=>{Activate("reduced");ChildProbe("restored","8.3","8.2","8.3");Targets("8.2","8.3");GuiScan("8.3");});
             Case("restored pack actual regressions match prior results",()=>Regression(true));
             Case("same application assembly and source/derived-pack bytes unchanged",()=>{Check(assemblyHash==Hash(assembly),"Product app assembly changed");Check(subjectBefore.SequenceEqual(Snapshot(Subject)),"Subject source changed");Check(packsBefore.SequenceEqual(Snapshot(Packs)),"Derived input packs changed");});
         }finally{foreach(var w in Windows)if(w.IsVisible){w.Close();Until(()=>!w.IsVisible);}app.Shutdown();}
-        var report=new{environment=new{os=Environment.OSVersion.VersionString,runId=Environment.GetEnvironmentVariable("GITHUB_RUN_ID"),sourceSha=Environment.GetEnvironmentVariable("GITHUB_SHA")},passed=Passed,failures=Failures,runs=Runs,applicationAssemblySha256=assemblyHash,scopePassed=Failures.Count==0,scope="Development-only derived verified targets, actual WPF restart/manual directory exchange and restore, same assembly; not license or release approval",limitations=new[]{"T08 redistribution gate remains open","Window/service close and reopen in the verification process; separate product OS-process relaunch belongs to deployment validation","No future/unverified PHP version introduced","Windows Server 2022, not clean Windows 11","Firewall rule installed by workflow; connectivity positive-control is from base pack preparation"}};
+        var report=new{environment=new{os=Environment.OSVersion.VersionString,runId=Environment.GetEnvironmentVariable("GITHUB_RUN_ID"),sourceSha=Environment.GetEnvironmentVariable("GITHUB_SHA")},passed=Passed,failures=Failures,runs=Runs,applicationAssemblySha256=assemblyHash,scopePassed=Failures.Count==0,scope="Development-only derived verified targets, actual WPF restart/manual directory exchange and restore, same assembly; not license or release approval",limitations=new[]{"T08 redistribution gate remains open","Independent verification OS processes load the unchanged product assembly; default packaged product EXE startup belongs to deployment validation","No future/unverified PHP version introduced","Windows Server 2022, not clean Windows 11","Firewall rule installed by workflow; connectivity positive-control is from base pack preparation"}};
         File.WriteAllText(Path.Combine(Output,"summary.json"),JsonSerializer.Serialize(report,Pretty),new UTF8Encoding(false));Console.WriteLine("T10_SUMMARY_JSON="+JsonSerializer.Serialize(report));return Failures.Count==0?0:1;
     }
 }

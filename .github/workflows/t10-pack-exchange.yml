@@ -52,6 +52,7 @@ jobs:
           name: t10-pack-exchange
           path: |
             artifacts/t10/summary.json
+            artifacts/t10/child-*.json
             artifacts/t10-packs/reduced/manifest.json
             artifacts/t10-packs/full/manifest.json
           retention-days: 7

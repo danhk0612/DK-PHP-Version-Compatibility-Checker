@@ -50,6 +50,12 @@ Microsoft의 [Windows별 파일 정책](licenses/dotnet/UPSTREAM-WINDOWS-LICENSE
 
 해당 Microsoft 바이너리를 수정하거나 자체 MIT로 재허가하지 않습니다. Microsoft 조건의 배포 형태·고지 보존·외부 배포자/사용자에게 적용할 보호 조건은 최종 배포에서 이행해야 하며, 자체 코드나 LGPL 라이브러리의 권리를 제한하는 일반 금지 조항으로 확대하지 않습니다. 원본 라이선스와 [출처·변환 근거](tools/license-audit/review-sources.json)를 함께 확인합니다.
 
+## 대응 소스와 수정·재링크 자료
+
+배포 준비 시 별도 `DK-PHP-Compatibility-sources-and-notices.zip`을 만들고 파일 목록·SHA를 `source-sidecar.json`에 기록합니다. 이 준비물에는 원문 PHP/관련 라이브러리/엔진 소스, 별도로 추적한 Windows 설정 생성물, 현재 프로젝트·빌드·검증 레시피 및 원문 고지를 포함합니다. 동반 ZIP의 생성만으로 실제 배포 바이너리 대응과 지속 제공이 완료되는 것은 아닙니다. 최종 배포 시 같은 위치에서 정확히 짝지은 바이너리와 동반 ZIP을 계속 제공해야 합니다. 라이브러리 수정 및 그 수정의 디버깅을 위한 재링크 권리를 일반적인 변경 금지 조항으로 제한하지 않습니다.
+
+PHP/Zend의 공식 후속 라이선스 선택 가능성은 [LICENSING.md](LICENSING.md)의 사용자 판단 항목입니다. 현재 고지에서 이를 이미 선택했다고 선언하지 않았습니다. 자체 MIT와 독립 LGPL·Microsoft 조건은 이 선택과 별도로 유지합니다.
+
 ## PHP의 CRT 전제
 
 PHP가 사용하는 시스템 VCRUNTIME/UCRT는 현재 PHP ZIP에 포함되어 있지 않습니다. 사용자 PC의 CRT 전제는 별도로 안내·검증합니다. runner에서 관측한 시스템 DLL을 복사하거나 .NET의 `vcruntime140_cor3.dll`을 이름 변경해 PHP용으로 재배포하는 절차는 없습니다. CRT 설치 프로그램을 나중에 포함하려면 별도 Microsoft 재배포 권한·조건을 확인해야 합니다.

@@ -1,0 +1,60 @@
+name: T08 source and notice companion preparation
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/license-audit/**'
+      - 'licenses/**'
+      - 'LICENSING.md'
+      - 'THIRD-PARTY-NOTICES.md'
+      - '.github/workflows/t08-source-sidecar.yml'
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare verified engine and actual engine source audit
+        shell: pwsh
+        run: |
+          ./tools/engine-pack/Prepare-Pack.ps1
+          ./tools/license-audit/Collect-Windows.ps1
+      - name: Collect exact core and build recipe sources
+        shell: pwsh
+        run: |
+          $probe = & ./tools/runtime/php/php.exe -n -r "echo json_encode(['phpVersion'=>PHP_VERSION,'passwordAlgorithms'=>password_algos(),'extensions'=>get_loaded_extensions()], JSON_THROW_ON_ERROR);"
+          if ($LASTEXITCODE -ne 0) { throw 'Safe PHP probe failed' }
+          [IO.File]::WriteAllText("$pwd/artifacts/t08/php-source-probe.json", $probe, [Text.UTF8Encoding]::new($false))
+          python tools/license-audit/Collect-PhpCoreSource.py --sbom tools/runtime/php/extras/sbom/php.cdx.json --php-info artifacts/t08/php-info-no-ini.txt --probe artifacts/t08/php-source-probe.json --output artifacts/t08-core-source
+          if ($LASTEXITCODE -ne 0) { throw 'Core source verification failed' }
+          python tools/license-audit/Collect-BuildSources.py --output artifacts/t08-build-source
+          if ($LASTEXITCODE -ne 0) { throw 'Build recipe source verification failed' }
+      - name: Prepare paired source and notice companion
+        shell: pwsh
+        run: |
+          python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
+          if ($LASTEXITCODE -ne 0) { throw 'Source companion preparation failed' }
+      - name: Preserve companion and supporting provenance
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-source-sidecar
+          path: |
+            artifacts/t08-source-sidecar/
+            artifacts/t08-core-source/core-source.json
+            artifacts/t08-build-source/build-source.json
+            artifacts/t08/corresponding-source.json
+          retention-days: 7
+          if-no-files-found: warn

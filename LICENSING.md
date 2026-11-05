@@ -81,6 +81,18 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 이 검증은 축소 configure 옵션을 사용한 독립 감사 빌드입니다. 공식 배포 PHP의 바이너리 재현, 과거 공식 빌드 의존성 ZIP과 동일성, 이 실험에서의 네트워크 차단, 최종 배포 고지·대응 소스·LGPL 의무 이행을 증명하지 않습니다. `php-relink.json`의 `phpcsRegressionVerified=false`는 그 파일이 별도 비교 단계 이전에 작성됐기 때문이며 후속 `php-relink-comparison.json`에 실제 24건 결과가 있습니다.
 
+### 배포 라이선스 선택 — 사용자 판단 대기
+
+2026-11-06 공식 [PHP Licensing](https://www.php.net/license/) 본문을 다시 확인했습니다. PHP Group은 과거 PHP에도 후속 PHP License v4(BSD-3-Clause)를 선택할 수 있다고 명시하고, Zend도 후속 v3.0이 BSD-3-Clause와 실질적으로 동일해졌다고 설명합니다. **권장안은 원본 PHP 3.01/Zend 2.00 전문을 출처로 보존하면서 배포 시 해당 covered code에 공식 허용 후속 조건을 선택하고 이를 고지에 명시하는 것**입니다. 이 선택은 PHP/Zend의 이름 관련 legacy 조건과 LGPL 결합 조건의 충돌 가능성을 줄이기 위한 것이며, 자체 MIT나 독립 내장 라이브러리의 LGPL/다른 조건을 변경하지 않습니다. 현재는 사용자 선택을 받지 않았으므로 적용 라이선스를 바꾸거나 기존 이름을 바꾸지 않았습니다. 과거 조건을 계속 사용할 경우 이름·고지 및 결합 조건을 별도로 해결해야 합니다. 이는 최종 배포 전에 사용자가 판단할 구체 항목입니다.
+
+### 재링크 의무와 바이너리 재현성의 구분
+
+보존한 [LGPL 2.1 전문 §6(a)](licenses/php/core-source/libiconv/source/COPYING.LIB)은 라이브러리의 대응 소스와 필요한 application code를 제공하여 사용자가 수정 라이브러리로 다시 링크할 수 있게 하는 경로를 설명합니다. 동일 해시의 원래 실행 파일을 재생성하는 bit-for-bit reproducibility를 별도 요건으로 적고 있지는 않습니다. 따라서 공식 바이너리의 완전한 해시 재현 자체를 T08의 독립 라이선스 의무로 추가하지 않습니다. 다만 **실제 배포물에 대응하는 정확한 소스·변경·빌드/링크 자료가 충분한지**는 계속 확인해야 하며, 작은 감사용 빌드의 성공만으로 그 대응성을 대체하지 않습니다. §6의 수정·디버깅 권한, 고지 및 다른 포함 라이브러리 조건도 함께 유지해야 합니다. 이 문단은 원문에 따른 배포 준비 기준을 정리한 것이며 법률 적합성의 최종 보증이 아닙니다.
+
+### 대응 소스·고지 동시 제공 준비
+
+`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA를 기록하고 적용 라이선스 선택 및 배포 적합성은 미완료로 유지합니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
+
 ## 재현과 공식 근거
 
 [Windows 수집 절차](tools/license-audit/README.md)를 따릅니다. 배포 바이너리·NuGet download cache·vendor 소스 자체는 Git에 추가하지 않았습니다. 원문 고지·파일 inventory·source 대조·검토 근거만 보존합니다. `source-checks`의 실제 소스 ZIP은 일시 artifact에 있으며 최종 배포 시 재생성·동시 제공해야 합니다.

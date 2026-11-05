@@ -33,3 +33,15 @@ Git에는 원문 고지·실측/파일/소스 대조 메타데이터를 보존�
 ## 승인된 B안의 PHP 코어 소스 검토
 
 최소 CLI 비교·회귀와 `Collect-PhpCoreSource.py`의 정확한 명령은 [tests/t08-minimal](../../tests/t08-minimal/README.md)을 따릅니다. 안전한 PHP 정보/알고리즘 프로브와 실제 in-ZIP CDX를 입력합니다. PHP 태그·고정 커밋과 선택한 코어 의존성 전체 tracked 경로의 변환 전 Git blob 바이트, 원문 고지·빌드 자료 및 공식 bundled-source digest를 기록합니다. Windows configure가 만드는 헤더 2개는 원본 소스와 분리해 입력 Git blob/레시피/출력 SHA를 기록하고, 원본21/23과 생성물 포함23/23을 함께 남깁니다. 코어 소스 수집 성공은 native rebuild/relink·모든 바이너리 대응·재배포 적합성 완료를 의미하지 않습니다. 최종 배포에서는 재현 가능한 소스 아카이브와 고지·재구성 자료를 같은 배포와 지속 제공해야 합니다.
+
+
+## 소스·고지 동반 ZIP 준비
+
+실제 core source 및 engine source 수집이 완료된 뒤 다음 명령을 사용합니다. 기존 출력을 덮어쓰지 않습니다.
+
+```powershell
+python tools/license-audit/Collect-BuildSources.py --output artifacts/t08-build-source
+python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
+```
+
+[전용 Windows workflow](../../.github/workflows/t08-source-sidecar.yml)는 팩 준비→실제 publish/엔진 source 수집→core/build source 수집→동반 ZIP 순으로 실행합니다. source archive와 inventory의 기록 SHA, collector의 Git-byte 검증 및 vendor 대조 결과를 확인한 후 소스·원문 고지·현재 프로젝트 레시피를 묶습니다. core 원본6개·LGPL engine2개·builder/SDK2개와 별도 설정 생성 ZIP을 포함하며 `--build-audit`를 생략한 경우에는 buildRecipeSourcesIncluded=false로 기록합니다. 생성 결과가 법적 배포 승인이나 영구 소스 제공을 뜻하지 않습니다. PHP/Zend license election은 사용자 결정 전 false입니다. 최종 바이너리와 동반 ZIP을 같은 배포 위치에서 지속 제공하고 각각 SHA를 고정해야 합니다.
