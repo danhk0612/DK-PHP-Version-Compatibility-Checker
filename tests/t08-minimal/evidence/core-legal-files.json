@@ -1,0 +1,92 @@
+[
+  {
+    "path": "licenses/php/core-source/php/ext/date/lib/LICENSE.rst",
+    "component": "php",
+    "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+    "sourcePath": "ext/date/lib/LICENSE.rst",
+    "gitBlob": "7ba60022b38ab285b62aaa0a064abaa522837860",
+    "sha256": "2120d029e7c67b9d08c1f665f1c3ed581206f00970b664cccdebe1419bf566e9",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/libiconv/source/COPYING",
+    "component": "libiconv",
+    "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+    "sourcePath": "source/COPYING",
+    "gitBlob": "94a9ed024d3859793618152ea559a168bbcbb5e2",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/libiconv/source/COPYING.LIB",
+    "component": "libiconv",
+    "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+    "sourcePath": "source/COPYING.LIB",
+    "gitBlob": "f6683e74e0f0130f246dbf7054f4cacc88ca84b0",
+    "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/libiconv/source/libcharset/COPYING.LIB",
+    "component": "libiconv",
+    "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+    "sourcePath": "source/libcharset/COPYING.LIB",
+    "gitBlob": "f6683e74e0f0130f246dbf7054f4cacc88ca84b0",
+    "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/libxml2/Copyright",
+    "component": "libxml2",
+    "sourceCommit": "c8797dc3b7964fabdb94d0b3176afb461afbd40b",
+    "sourcePath": "Copyright",
+    "gitBlob": "d61318502caf9587516dd9a2cb637ad9c4877f69",
+    "sha256": "c5c63674f8a83c4d2e385d96d1c670a03cb871ba2927755467017317878574bd",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/zlib/LICENSE",
+    "component": "zlib",
+    "sourceCommit": "838fe0e338adb28f5662e5ac332b0f0eb96ba93a",
+    "sourcePath": "LICENSE",
+    "gitBlob": "b7a69d058e616651eae27b3f90c0b7fd36c099b2",
+    "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/zlib/contrib/dotzlib/LICENSE_1_0.txt",
+    "component": "zlib",
+    "sourceCommit": "838fe0e338adb28f5662e5ac332b0f0eb96ba93a",
+    "sourcePath": "contrib/dotzlib/LICENSE_1_0.txt",
+    "gitBlob": "30aac2cf4793f3aad92ef0a3c88731198c39566e",
+    "sha256": "36266a8fd073568394cb81cdb2b124f7fdae2c64c1a7ed09db34b4d22efa2951",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/zlib/contrib/minizip/LICENSE.Info-Zip",
+    "component": "zlib",
+    "sourceCommit": "838fe0e338adb28f5662e5ac332b0f0eb96ba93a",
+    "sourcePath": "contrib/minizip/LICENSE.Info-Zip",
+    "gitBlob": "6849de476690c40440888a9c7d4aa41523986860",
+    "sha256": "fc686023047ce5ce3a18a9b8a777156f0e475929d3de06bac279f3c025d2b2ca",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/wineditline/COPYING",
+    "component": "wineditline",
+    "sourceCommit": "39ae4ff02a06c97f804833844b767777d6625fb8",
+    "sourcePath": "COPYING",
+    "gitBlob": "5f5a1a4d747077c01c5afeb3a5c6d40330a61a20",
+    "sha256": "e1a9520a9b3143ad64adb356c5d2fca6bb09a3ad3950cf1f7213946543582440",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  },
+  {
+    "path": "licenses/php/core-source/libargon2/LICENSE",
+    "component": "libargon2",
+    "sourceCommit": "fb53ef37be212380d51877b70f514f3bf2c1ee40",
+    "sourcePath": "LICENSE",
+    "gitBlob": "fa611f7ac85c03ce552e0e8e65562f9b130ca2ba",
+    "sha256": "220f8736a89ff51c92ef3d497f413b48e6cf1df3d6278bc909c6308c78e1718e",
+    "scope": "Source-original legal text; binary-to-source/relink clearance remains pending"
+  }
+]

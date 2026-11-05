@@ -1,0 +1,130 @@
+{
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "41974331131",
+    "sourceSha": "086d71d9d0153496fdb43cc6ae9e8f7f56feb955"
+  },
+  "packId": "dk-php84-alpha2-minimalcli-20261105",
+  "targets": [
+    "8.2",
+    "8.3",
+    "8.4"
+  ],
+  "passed": [
+    "actual WPF window is visible and responsive on Windows",
+    "initial presentation has no invented supported versions or findings",
+    "verified pack targets are loaded into non-editable version control",
+    "folder and goal are both required; unknown folders are rejected",
+    "unverified goal object cannot become selected",
+    "recursive checkbox is two-way and valid inputs enable the connected button",
+    "running locks input controls and clears stale results",
+    "completed zero findings has limited static-analysis meaning",
+    "Korean long paths/messages and same-line findings remain intact in read-only grid",
+    "NoFiles differs from completed zero and is not a compatibility pass",
+    "failure with unknown processed count never substitutes selected count",
+    "partial failed findings and excluded paths are displayed as incomplete",
+    "input edits clear stale findings, exclusions and failure diagnostics",
+    "result request restores the associated visible inputs",
+    "minimum-size window keeps result area measurable and readable",
+    "long failure and limits remain reachable with exclusions open at minimum size",
+    "visible target list uses only the supplied verified pack data",
+    "missing pack clears targets and displays an honest preparation failure",
+    "invalid manifest clears targets instead of inventing support",
+    "window closes normally without starting a PHP scan",
+    "default startup reports missing pack without fake targets"
+  ],
+  "failures": [],
+  "windows": [
+    {
+      "hwnd": "7010C",
+      "width": 960,
+      "height": 680,
+      "visible": true,
+      "responding": true
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "ready-inputs.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "355282cd8438e32ff8cff481036bd41dfe93a290dd612d5376853eb418721e8d",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "completed-zero.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "36ff87df62e17c6aa2b68922f4a909144c7791603e58433d7579ae9cdb18e158",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "completed-findings.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "6ddcfdcbcab6abf0a28f85d2f79bf815a0fb269ec0caa6cfd07a373137b2f4ba",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "no-files.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "d13da8df5421ef81d9fe21e666dc1b5976003f685c1495591efe3e7d8da3b1cc",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "failed-unknown.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "0d7377e8750c6a548439027e455371d4895c33e880f02533da0637460214bf48",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "failed-partial.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "f83289ee95232fa7cef7fed3196432e07fdf35dba6bc09b7e9c319f913f3ed9b",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "minimum-size.png",
+      "width": 744,
+      "height": 555,
+      "sha256": "6fbcf27ee9f952c5613b7f6cba82ddce89bad31d86c77d790fe6e4b4c52390f7",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "minimum-long-diagnostics.png",
+      "width": 744,
+      "height": 555,
+      "sha256": "c701d9bb6c64629395c6fcb7171e0a1c8928f7150685a63c924fee29ed5728a6",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    },
+    {
+      "file": "startup-missing-pack.png",
+      "width": 944,
+      "height": 675,
+      "sha256": "9b39673f18e4a4978b45096d600b402545e9f26bf57e73c75dfe5914b0731cc1",
+      "labelledTestData": true,
+      "visibleHwnd": true
+    }
+  ],
+  "scopePassed": true,
+  "scope": "Actual WPF HWND and presentation/binding tests using explicitly labelled test data; no ScanService execution or GUI engine integration.",
+  "unverified": [
+    "OS native folder-picker modal interaction",
+    "Real scan button/engine and close-event integration (T07)",
+    "Clean Windows 11/CRT deployment (T09)",
+    "Engine pack exchange/restore integration (T10)"
+  ]
+}

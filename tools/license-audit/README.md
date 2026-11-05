@@ -29,3 +29,7 @@ CI artifact는 7일 보관하며 publish 바이너리와 다운로드 cache는 �
 PHP `deplister`는 BindImageEx BOOL을 반환하여 exit1이 TRUE입니다. 각 import의 OK/NOTFOUND를 별도로 보존하며 Firebird PDO의 fbclient.dll NOTFOUND도 그대로 기록했습니다. 64개 이미지 관측이나 소스 ZIP2개 생성만으로 native 출처·고지·재링크 의무가 해결된 것은 아닙니다. 환경변수/서버 변수는 수집하지 않습니다. PHP 코어 BCMath가 -n에서도 활성임을 확인했으므로 최소 CLI 후보 역시 대응 소스 검토가 필요합니다.
 
 Git에는 원문 고지·실측/파일/소스 대조 메타데이터를 보존하고, 생성한 대응 소스 ZIP의 해시를 기록했습니다. ZIP2개와 전체 로그/binlog는 7일 artifact에 있습니다. 최종 배포에서는 이를 재생성·대조하고 같은 배포 위치에서 지속 제공해야 합니다.
+
+## 승인된 B안의 PHP 코어 소스 검토
+
+최소 CLI 비교·회귀와 `Collect-PhpCoreSource.py`의 정확한 명령은 [tests/t08-minimal](../../tests/t08-minimal/README.md)을 따릅니다. 안전한 PHP 정보/알고리즘 프로브와 실제 in-ZIP CDX를 입력합니다. PHP 태그·고정 커밋과 선택한 코어 의존성 전체 tracked 경로의 변환 전 Git blob 바이트, 원문 고지·빌드 자료 및 공식 bundled-source digest를 기록합니다. 코어 소스 수집 성공은 native rebuild/relink·모든 바이너리 대응·재배포 적합성 완료를 의미하지 않습니다. 최종 배포에서는 재현 가능한 소스 아카이브와 고지·재구성 자료를 같은 배포와 지속 제공해야 합니다.

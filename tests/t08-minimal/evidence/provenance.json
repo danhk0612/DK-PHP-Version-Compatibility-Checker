@@ -1,0 +1,43 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41974331131",
+  "runId": 41974331131,
+  "jobId": 127069595354,
+  "testedHead": "fd0101dcbb031f9b89e6379df9fc0d98cf6c106c",
+  "checkoutMergeSha": "086d71d9d0153496fdb43cc6ae9e8f7f56feb955",
+  "artifactId": 13390963801,
+  "artifactSha256": "dc642f3ad6213bf1992ae599c0c6aa0d1bad7e4084098e3bee408a73c8367717",
+  "artifactBytes": 46189143,
+  "artifactRetentionDays": 7,
+  "rawEvidence": "Copied without newline conversion; checksums here refer to preserved files",
+  "localInvestigation": {
+    "file": "release-source-comparison.json",
+    "environment": "Linux workspace; separate from the Windows Actions run",
+    "reproducer": "tests/t08-minimal/compare_release_source.py",
+    "sourceArchiveOfficialSha256": "dcf93923b0e38e0d5252b25b796520b5a47761a08b3488b6d0b5d1115764d3f0",
+    "result": "21/23, same two aggregate discrepancies; no binary reproduction/relink claim"
+  },
+  "followupCommitScope": "Preserved evidence, original legal texts and current docs; local release-source investigation helper was exercised with actual pinned data. No Windows execution path/product C# changes after tested head.",
+  "files": {
+    "checkout-differences.json": "72c8d495be5e4bfca5ce263ecd29bed423708c033af048ef0c6e7444e0a52253",
+    "comparison.json": "06bf527cebd6ecb127b29824fb72141eda606524161a823bab2bc505493ebcb6",
+    "core-legal-files.json": "68721b2d092a90d334472a9fe6d204347c923d821dcdb5dd4971c4017a86dc47",
+    "core-source.json": "24532c65e5c918aad5c562315874ba005aec21741601161e2b5919fa0140c985",
+    "full-manifest.json": "989031f7b6022013e6a0a6fff366327a5e133d68ae5a9a497b910a544c90ba8a",
+    "full-results.json": "e67373f46928daa45596ea2a6e4dddadf12e8b53c9d19aa414c7c654a0a20618",
+    "full-runtime-selection.json": "8530f4b689de456e1d9405c95e784c79f638ad72e2c18811a123a46b944ebe08",
+    "full-summary.json": "57a87ed07033835074becdca68af0fa0efff00c188293e1d4ef24657ae921d8e",
+    "minimal-imports.json": "1e4232a35630ff3c31b5fd93b1a0aa49a6c9a90fd20ae85c31436982b22f8d76",
+    "minimal-manifest.json": "14a93ec0e5df74a17071b2596b0f7233022d3a0fc572c8c21ade5d905e1015af",
+    "minimal-results.json": "7427a94338e68d52921dc6eb3bb63985e950d03abf9f870d124251fc2ec4da52",
+    "minimal-runtime-selection.json": "8090c772d3e891dfab3691cdfdd8afe1a7460be7e1502ab91ad9755d2eef6ce4",
+    "minimal-summary.json": "8d4b0618816a83969f64a023bf57dda46aef85d5e7aea51afbcc4596b53f9e7a",
+    "php-info-no-ini.txt": "39a3b1cb6246b55a5596d3af1c18a1cb7fa657520c7e5a58d577d7021fd18734",
+    "php-probe.json": "cd77e3f3bd960ff1e890097d92b2ca203743e11c85d261b4b789f7030d19295e",
+    "release-source-comparison.json": "fa81f956a019ff302d95fa38f7ef543119bd24d7670c943b63b8aa0a70430cc1",
+    "selected-ci-log.txt": "cfaefd965a592caad2b5f1b098f1d3f38d1e4c2e2fcba96fb1446b77a5e58953",
+    "summary.json": "fe2aa699b2c86f2e48cda6f61f6e8f89eff48f8d18988efaeb360763b8d38d2b",
+    "t05-summary.json": "002da904d3dc539eae1dd26c2fb1d720044cbca2f46536633b9d338a3e1fd89a",
+    "t06-summary.json": "3baa1ed696128d9811f63243a86ec8b97ebb7c01eb1894e7c71bf470ab4cc327",
+    "t07-summary.json": "8a47fc5aaacb3793072d6a05e4f9947086bcb27a6974d29dd656aa76872f137b"
+  }
+}

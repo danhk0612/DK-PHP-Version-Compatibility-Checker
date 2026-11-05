@@ -1,0 +1,15 @@
+2026-11-05T05:31:11.0973130Z     0 Warning(s)
+2026-11-05T05:31:11.0973475Z     0 Error(s)
+2026-11-05T05:31:14.4396917Z     0 Warning(s)
+2026-11-05T05:31:14.4397428Z     0 Error(s)
+2026-11-05T05:31:17.8334301Z     0 Warning(s)
+2026-11-05T05:31:17.8334664Z     0 Error(s)
+2026-11-05T05:32:21.4318958Z Collected source php: 25836 checked files
+2026-11-05T05:32:24.6763557Z Collected source libiconv: 1148 checked files
+2026-11-05T05:32:29.1375972Z Collected source libxml2: 4053 checked files
+2026-11-05T05:32:30.4754159Z Collected source zlib: 254 checked files
+2026-11-05T05:32:31.2583461Z Collected source wineditline: 19 checked files
+2026-11-05T05:32:32.4432383Z Collected source libargon2: 65 checked files
+2026-11-05T05:32:32.4878749Z PHP_CORE_SOURCE_JSON={"phpSourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e", "archives": 6, "trackedFiles": 31375, "sourceCollectionPassed": false, "redistributionCleared": false}
+2026-11-05T05:32:32.4886697Z ValueError: Pinned PHP source does not match all official bundled-source digest assertions; inspect core-source.json
+2026-11-05T05:32:42.4314377Z SHA256 digest of uploaded artifact zip is dc642f3ad6213bf1992ae599c0c6aa0d1bad7e4084098e3bee408a73c8367717

@@ -1,0 +1,47 @@
+{
+  "functionalScopePassed": true,
+  "fullBaselineUnchanged": true,
+  "phpFiles": {
+    "full": 79,
+    "minimal": 7
+  },
+  "phpBytes": {
+    "full": 96050460,
+    "minimal": 13043511,
+    "saved": 83006949,
+    "reductionPercent": 86.42014728508327
+  },
+  "caseComparisons": 24,
+  "annotationComparisons": 9,
+  "offlineComparisonsPerProfile": 24,
+  "regressions": {
+    "t05": {
+      "scopePassed": true,
+      "passed": 61
+    },
+    "t06": {
+      "scopePassed": true,
+      "passed": 21
+    },
+    "t07": {
+      "scopePassed": true,
+      "passed": 36
+    }
+  },
+  "sourceArchives": 6,
+  "trackedSourceFiles": 31375,
+  "bundledSourceAssertions": 23,
+  "bundledMatches": 21,
+  "sourceCollectionPassed": false,
+  "redistributionCleared": false,
+  "workflowConclusion": "failure",
+  "taskStatus": "T08 partial; source correspondence/relink/notice unresolved",
+  "limits": [
+    "Windows Server 2022 CI, not clean Windows 11 ZIP deployment",
+    "Reduced PHP bytes, not total application ZIP reduction",
+    "Official SBOM is an input ZIP superset; libmbfl is not proved shipped in MinimalCli",
+    "timelib source aggregate discrepancy remains relevant to enabled date core",
+    "Source archives and original legal text are not proof of complete matching binary/relink inputs",
+    "Artifact source ZIPs are temporary; durable co-delivery remains a release gate"
+  ]
+}

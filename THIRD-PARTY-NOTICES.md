@@ -20,7 +20,7 @@ PHPCompatibility와 PHPCSUtils는 별도 PHP 소스 라이브러리로 배포합
 
 ## PHP와 Zend
 
-초기 PHP 실행 환경은 공식 `php-8.4.27-1-nts-Win32-vs17-x64.zip`입니다. 원본 ZIP의 [license.txt](licenses/php/ZIP-license.txt), [추가 구성 고지](licenses/php/ZIP-readme-redist-bins.txt), 소스 태그의 [PHP License 3.01](licenses/php/PHP-8.4.27-LICENSE) 및 [Zend Engine License 2.00](licenses/php/Zend-8.4.27-LICENSE)를 보존합니다.
+PHP 실행 환경은 공식 `php-8.4.27-1-nts-Win32-vs17-x64.zip`의 승인된 최소 CLI 선택입니다. `php.exe`/`php8.dll`과 원문 license/readme·SBOM을 보존하고 선택 확장/DLL은 포함하지 않습니다. 원본 ZIP의 [license.txt](licenses/php/ZIP-license.txt), [추가 구성 고지](licenses/php/ZIP-readme-redist-bins.txt), 소스 태그의 [PHP License 3.01](licenses/php/PHP-8.4.27-LICENSE) 및 [Zend Engine License 2.00](licenses/php/Zend-8.4.27-LICENSE)를 보존합니다.
 
 This product includes PHP software, freely available from <http://www.php.net/software/>.
 
@@ -30,7 +30,11 @@ The Zend Engine is freely available at http://www.zend.com
 
 이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 현재 감리에서 후속 PHP/Zend 라이선스로의 선택을 선언하지 않았습니다. 현재 공식 페이지의 후속 라이선스 선택 가능성과 원본의 실제 조건을 구분합니다.
 
-PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 전체 ZIP의 GLib·Enchant·MPIR 등 외부 네이티브 라이브러리와 정적 포함 코드의 최종 고지·대응 소스는 아직 완성되지 않았습니다. [미해결 항목](tests/t08/evidence/php-native-pending.json)을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩에도 BCMath/libiconv 등 정적 코드가 남으며, [현재 검토](LICENSING.md)의 코어 출처·원문 고지·대응 소스/재링크 조건을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+
+## 최소 CLI의 코어 소스 원문
+
+소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 해시 불일치도 미해결입니다.
 
 ## Windows .NET self-contained 구성
 

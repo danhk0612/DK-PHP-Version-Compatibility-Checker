@@ -2,7 +2,7 @@
 
 ## 현재 판정
 
-**부분 검증 — 현재 전체 PHP ZIP 구성은 공개 배포 승인 상태가 아닙니다.** 자체 코드의 MIT, 엔진 원본, Windows publish 구성·출처와 엔진 LGPL 소스 대조를 준비했습니다. PHP 네이티브 코드의 정확한 포함·라이선스·대응 소스/재링크 자료와 최종 배포 시의 소스 동시 제공은 남아 있습니다. 제품 코드·팩 구성·이름·스택은 변경하지 않았습니다.
+**부분 검증 — 승인된 최소 CLI 구성도 공개 배포 승인 상태가 아닙니다.** 자체 코드의 MIT, 엔진 원본, Windows publish 구성·출처와 엔진 LGPL 소스 대조를 준비했습니다. PHP 네이티브 코드의 정확한 포함·라이선스·대응 소스/재링크 자료와 최종 배포 시의 소스 동시 제공은 남아 있습니다. 사용자가 승인한 B안으로 팩의 PHP 파일 구성을 축소했습니다. 제품 C# 코드·엔진 버전·목표·이름·스택은 변경하지 않았습니다.
 
 확인 기준일은 2026-11-05이며 [고지 초안](THIRD-PARTY-NOTICES.md), [실측](tests/t08/evidence/summary.json), [실행·해시 근거](tests/t08/evidence/provenance.json)를 함께 봅니다. 자료 수집 성공을 전체 라이선스 적합성의 합격으로 승격하지 않습니다.
 
@@ -29,11 +29,11 @@ Composer dist는 `.gitattributes`의 export-ignore 때문에 tests/build/설정 
 
 GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석합니다. GUI에 엔진 코드를 복제하거나 링크하지 않았습니다. 자체 MIT와 외부 LGPL을 구분하고, LGPL 코드 수정 및 수정 디버깅에 필요한 권리를 금지하지 않습니다. 팩의 manifest/report 해시는 편집 가능한 정합성 자료이며 발행자 서명이 아닙니다. 변경한 팩은 자체 검증 결과와 파일/보고서 해시를 다시 생성해야 하며 기존 검증 결과를 사실과 다르게 재사용하면 안 됩니다. T10의 팩 제작/교체 절차는 이 권리와 검증 기준을 함께 유지해야 합니다.
 
-## PHP 네이티브 검토에서 확인한 것
+## 보존한 Full 기준의 PHP 네이티브 검토
 
-현재 팩은 공식 NTS ZIP 전체를 그대로 포함합니다. GLib DLL 3개, libenchant2와 Hunspell plugin, php_gmp/mbstring/dba 확장 등 실제 배포 파일이 있습니다. 로딩되지 않는 확장도 파일을 배포한다면 고지·소스 검토 범위입니다.
+기존 Full 기준은 공식 NTS ZIP 전체를 그대로 포함합니다. GLib DLL 3개, libenchant2와 Hunspell plugin, php_gmp/mbstring/dba 확장 등 실제 배포 파일이 있습니다. 로딩되지 않는 확장도 파일을 배포한다면 고지·소스 검토 범위입니다.
 
-`php -n -i`에서 BCMath가 기본 활성화됨을 확인했습니다. 따라서 최소 CLI 파일만 남겨도 PHP에 정적으로 포함된 LGPL 코드의 대응 소스 검토가 없어지지 않습니다. libbcmath와 libmbfl의 원문은 LGPL-2.1입니다. SBOM의 GLib·Enchant·MPIR·libintl/iconv/qdbm 등 후보는 [pending 목록](tests/t08/evidence/php-native-pending.json)에 버전·원본 source commit과 함께 기록했습니다. FreeType나 zstd의 대안 라이선스는 OR 조건을 보존하며 전체 앱이 무조건 GPL이라고 단정하지 않습니다.
+환경/서버 변수를 제외한 제한된 PHP 정보에서 BCMath가 기본 활성화됨을 확인했습니다. 따라서 최소 CLI 파일만 남겨도 PHP에 정적으로 포함된 LGPL 코드의 대응 소스 검토가 없어지지 않습니다. libbcmath와 libmbfl의 원문은 LGPL-2.1입니다. SBOM의 GLib·Enchant·MPIR·libintl/iconv/qdbm 등 후보는 [pending 목록](tests/t08/evidence/php-native-pending.json)에 버전·원본 source commit과 함께 기록했습니다. FreeType나 zstd의 대안 라이선스는 OR 조건을 보존하며 전체 앱이 무조건 GPL이라고 단정하지 않습니다.
 
 공식 in-ZIP CDX와 나중에 제공되는 웹 sidecar는 바이트가 달랐습니다. 이 보고서의 파생 목록은 **실제 ZIP에서 추출한 CDX**를 기준으로 합니다. SBOM은 Apache/APR/Lua 같은 후보와 중복 버전도 포함하므로 102개를 실제 배포 구성 요소 수로 부르지 않습니다. SHA·파일/import·빌드 설정과 대조해야 합니다. DLL import만으로 정적 라이브러리 부재나 소스 완전성을 증명할 수 없습니다.
 
@@ -47,18 +47,19 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 4. Microsoft 제한 바이너리는 자체 MIT/일반 LGPL 수정 권한의 적용 범위에서 구분하고, 해당 조건의 재배포·사용자/배포자 보호 요건을 최종 배포에 반영합니다. PHP용 시스템 CRT를 별도로 복사하지 않습니다.
 5. 최종 배포물, 대응 소스, 전체 고지 및 해시를 함께 고정·제공합니다. T08 미해결 상태에서 T10/T09의 선행 조건을 합격 처리하지 않습니다.
 
-## 승인된 배포 구성 변경
+## 승인된 최소 CLI 구성 (B안)
 
-2026-11-05 사용자가 B안을 승인했습니다. 최소 CLI 후보를 별도 전체 기준 팩과 비교하고 PHP 코어 대응 소스를 검토하는 작업을 진행합니다. 아직 Windows 후보 검증 결과를 완료로 선언하지 않으며, 아래 전체 ZIP 실측은 보존한 기존 기준의 근거입니다.
+2026-11-05 사용자가 B안을 승인했습니다. 기본 `Prepare-Pack.ps1`은 `minimal-cli.json`의 PHP 7파일만 보존하고 Full은 별도 새 경로로 준비합니다. `php.exe`/`php8.dll`, 원문 license/readme, 원본 SBOM 3개이며 모든 유지 파일은 같은 공식 ZIP의 원본 바이트입니다. 별도 packId를 사용하고 기존 Full 팩을 덮어쓰지 않습니다. [비교·회귀·코어 소스 검토](tests/t08-minimal/README.md)를 따릅니다.
 
-## 배포 구성 판단안
+원본 SBOM과 readme는 입력 ZIP의 상위 집합을 설명합니다. GLib/Enchant/Firebird 확장 등 제거 파일의 과거 import/pending 목록을 최소 팩의 실제 포함 목록으로 다시 사용하지 않습니다. 반대로 DLL 제거만으로 PHP 코어에 정적으로 포함된 코드가 없어졌다고 판단하지 않습니다. BCMath와 libiconv의 LGPL 검토는 남습니다.
 
-| 안 | 작업 | 영향 |
-| --- | --- | --- |
-| A: 현재 전체 ZIP 유지 | 모든 실제 native 구성의 고지·대응 소스/재링크 검토를 계속 완료 | 기존 팩 형태를 유지하나 쓰지 않는 확장·개발 도구까지 배포 검토에 포함 |
-| B: 검사에 필요한 CLI 팩으로 축소 검토 | 필요한 파일/확장/DLL을 실측으로 정하고 변경 팩의 전체 회귀·오프라인·보호·목표 검증 수행 | 불필요한 배포 범위를 줄일 수 있으나 T04 팩 구성·manifest가 바뀜. PHP 코어 LGPL 대응 소스 검토는 여전히 필요 |
+코어 소스 수집기는 PHP 태그의 고정 커밋과 libiconv/libxml2/zlib/wineditline 및 관측된 Argon2 후보의 전체 tracked 경로·변환 전 Git blob 바이트를 대조합니다. export-ignore로 생략되는 파일을 포함해 ZIP을 만들고 공식 SBOM bundled digest를 대조합니다. Argon2 런타임 관측은 알고리즘 활성 여부이며 버전·소스 커밋은 SBOM 근거로 구분합니다. 이 수집은 네이티브 바이너리 재현, 전체 application code/빌드 설정·재링크 경로의 검증이나 지속적인 소스 제공을 대신하지 않습니다.
 
-B안이 승인됐습니다. 필요한 파일의 후보를 만들고 실제 검증으로 확정합니다. 검증된 팩 구성이 바뀌므로 별도 Full 기준을 보존하고 전체 회귀·오프라인·원본 보호를 재검증합니다. 현재 저장소에는 A 구성의 감사 결과와 미해결 관문을 보존했습니다.
+### 아직 통과하지 못한 소스 대응 관문
+
+공식 bundled digest 23개 중 libmbfl 1.3.2와 timelib 2022.17의 2개가 수집한 원문과 일치하지 않습니다. PHP 공식 source tar.xz는 공개 SHA-256과 일치했고, 그 두 경로의 파일 목록·내용은 pinned Git과 동일했습니다. 따라서 생성 파일 누락으로 설명되지 않았습니다. [개별 기대/실제 해시와 공식 소스 대조](tests/t08-minimal/evidence/release-source-comparison.json)를 보존합니다.
+
+libmbfl은 Full/SBOM 후보이며 최소 팩에는 mbstring 확장이 없습니다. timelib은 활성 date 코어 관련 항목이어서 최소 팩의 소스 검토에도 남습니다. 수집기는 이 불일치에서 실패하며 `sourceCollectionPassed=false`, `redistributionCleared=false`를 기록합니다. 원인을 확인하기 전 소스 대응이나 재링크를 완료로 선언하지 않습니다. 이 결과 자체로 바이너리 손상·라이선스 위반을 단정하지 않습니다.
 
 ## 재현과 공식 근거
 

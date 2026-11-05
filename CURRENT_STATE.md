@@ -31,7 +31,9 @@ T02는 사용자 승인으로 확정했습니다. 초기 목표 8.2/8.3/8.4, 공
 
 - **T07 GUI 실제 검사 연결·보호 검증 완료**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788)에서 SDK 10.0.403 build 경고·오류 0, 통합 36건을 통과했습니다. 실제 폴더 선택·취소/목표/버튼/엔진·대표 24 fixture·0건/NoFiles/읽기 실패/합성 부분 결과·한국어와 설정 격리·원본 불변·응답/중복 방어를 확인했습니다. 검사 중 반복 닫기에서 실제 PHP 자식 종료와 자체 작업 정리를 기다렸고 팩 준비 중 닫기도 통과했습니다. 1000개 파일의 2000개 문제를 파일별 원값 및 마지막 grid 행까지 대조했습니다. 약 1.49초, Dispatcher 최대 관측 간격 54.72ms, GUI/PHP working set 표본 최대 약 176.85/29.34 MiB이며 해당 fixture/CI의 관측값입니다. [화면 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221) 21건도 통과했습니다. [통합 안내](tests/t07/README.md), [원본 요약·화면·해시](tests/t07/evidence/)를 보존했습니다. Windows 11 배포·완전한 런타임 호환 보장은 아닙니다.
 
-- **T08 부분 검증, 배포 구성 판단 필요**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)에서 SDK 10.0.403 self-contained publish 경고·오류 0, 400파일 출처 매핑과 팩 865파일 inventory를 보존했습니다. 엔진 LGPL 2개의 전체 pinned source checkout을 만들고 배포 파일 302개가 원본과 일치함을 확인했습니다. 자체 MIT LICENSE, 엔진/GPL/PHP/Zend/일부 내장 고지·실제 NuGet 고지와 Microsoft 예외 조건을 준비했습니다. PHP 전체 ZIP의 네이티브 코드 고지·대응 소스/재링크 및 최종 소스 동시 제공은 미완료입니다. [LICENSING.md](LICENSING.md)의 A/B 구성 판단안과 [실측](tests/t08/evidence/)을 확인합니다. 수집기 성공을 배포 허가로 처리하지 않습니다.
+- **T08 부분 검증, B안 승인·최소 CLI 검증**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)에서 SDK 10.0.403 self-contained publish 경고·오류 0, 400파일 출처 매핑과 기존 Full 팩 865파일 inventory를 보존했습니다. 엔진 LGPL 2개의 전체 pinned source checkout을 만들고 배포 파일 302개가 원본과 일치함을 확인했습니다. 자체 MIT LICENSE, 엔진/GPL/PHP/Zend/일부 내장 고지·실제 NuGet 고지와 Microsoft 예외 조건을 준비했습니다. PHP 전체 ZIP의 네이티브 코드 고지·대응 소스/재링크 및 최종 소스 동시 제공은 미완료입니다. [LICENSING.md](LICENSING.md)의 승인된 구성·잔여 관문과 [실측](tests/t08/evidence/)을 확인합니다. 수집기 성공을 배포 허가로 처리하지 않습니다.
+
+- **승인된 T08 B안 기능 검증 통과, 소스 대응 차단**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41974331131)에서 Full 79개 PHP 파일/96,050,460바이트 → MinimalCli 7개/13,043,511바이트(86.42% 감소)를 대조했습니다. 전체 기준 불변·원본 바이트·목표/엔진/lock 불변, 사례 24건·annotation 9건·오프라인 각 24건, 원본 보호가 통과했습니다. 제품/검증 빌드 경고·오류 0, 최소 팩에서 T05 61건/T06 21건/T07 36건도 통과했습니다. Git raw blob 기반 소스 6개/31,375파일을 수집했으나 공식 bundled digest는 23개 중 21개만 일치했습니다. libmbfl/timelib 2개 불일치로 source gate 및 전체 workflow는 실패이며 T08 완료가 아닙니다. 공식 tar.xz의 두 경로도 pinned Git과 동일해 원인은 미확정입니다. [최소 팩 실측·원문·해시](tests/t08-minimal/evidence/), [재현 안내](tests/t08-minimal/README.md)를 사용합니다.
 
 ## 확정한 향후 버전 확장 구조
 
@@ -47,8 +49,6 @@ D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니�
 
 ## 다음 작업
 
-**T08 B안 진행 / 저성능 Work.** 2026-11-05 사용자가 최소 CLI 팩 축소 및 재검증(B)을 승인했습니다. 기존 전체 팩을 별도 기준으로 보존하고 필요한 파일의 후보와 PHP 코어 대응 소스를 검증합니다.
+**T08 코어 바이너리 대응·재링크 및 고지 / 저성능 Work.** 사용자가 승인한 B안의 최소 CLI 팩과 보존 Full 기준을 사용합니다. 우선 공식 SBOM의 libmbfl/timelib 해시 불일치 원인을 조사합니다. 공식 source tar.xz와 pinned Git의 두 경로는 동일하나 SBOM과 달라 소스 대응 관문을 통과하지 못했습니다. 이후 최소 팩의 정적 코드 포함·고정 소스/실제 빌드 설정 대응, BCMath/libiconv 등 LGPL 경로에 필요한 수정/재링크 자료와 파일별 원문 고지를 검토하는 것입니다. 소스 수집 성공을 재링크 가능이나 배포 적합성으로 처리하지 않습니다. T10/T09는 T08 미완료로 선행 대기입니다.
 
-기존 판단안: [LICENSING.md](LICENSING.md)의 A(전체 PHP ZIP 유지) 또는 B(검사에 필요한 CLI 팩 축소 검토)를 판단합니다. 권장 검토 방향은 B이지만 아직 승인하거나 팩을 변경하지 않았습니다. B도 기본 PHP의 BCMath 등 LGPL 대응 소스 의무가 없어지는 것은 아닙니다. 선택 후 해당 범위의 네이티브 출처/고지·소스/재링크·팩 재검증 관문을 완료하고 T08 상태를 갱신합니다. T10/T09는 T08 미완료로 선행 대기입니다.
-
-현재 작업은 PR #1~#6 기반 PR #7(t08-licenses)에 있습니다. main 미병합이며 제품/팩/버전·이름/스택을 바꾸지 않았습니다. 새 작업은 최신 원격 상태와 관련 문서를 재확인하고 사용자 구성 판단 없이 파일을 제거하지 않습니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
+현재 작업은 PR #1~#7 기반 Draft PR #8(`t08-minimal-cli`)에 있습니다. main 미병합이며 승인된 팩 PHP 파일 구성만 변경했습니다. 제품 C#·엔진 버전·목표·이름·스택은 그대로입니다. [AI_WORKFLOW.md](AI_WORKFLOW.md)의 현재 인계 지시문을 사용합니다. B안 선택을 다시 요청하지 않습니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
