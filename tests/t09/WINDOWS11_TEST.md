@@ -1,6 +1,16 @@
 # Windows 11 사용자 확인 절차
 
-현재 T09는 개발자용 패키징 리허설입니다. T08 고지/대응 소스 및 T10 선행 검증 전 ZIP은 공개 배포하거나 사용자 시험용 배포물로 취급하지 않습니다. 이 문서의 수동 시험은 최종 고지·matching source가 동봉된 승인 후보를 받은 뒤 수행합니다.
+사용자가 승인한 PHP/Zend 후속 조건과 고지/소스 묶음을 포함한 로컬 자가사용 시험 후보를 준비합니다. `paired-candidate.json`의 `scopePassed`와 `candidateForUserTesting`이 true인 경우 아래 시험을 진행할 수 있습니다. 공개 배포/Release 승인은 별도이며 `publicReleaseApproved=false`입니다.
+
+## 로컬 후보 생성: 단일 진입 명령
+
+새 checkout에서 PowerShell 7을 열고 아래 명령을 실행합니다. 준비에는 Windows x64, .NET SDK 10.0.403, Python 3.12 이상, Git, 준비용 PHP 8.4와 Composer 2, 인터넷이 필요합니다. 기존 출력은 덮어쓰지 않으므로 재시도 시 새 checkout을 사용합니다. 팩 준비의 방화벽 검증 때문에 **준비 명령에만 관리자 권한**이 필요합니다. 생성된 앱의 기본 실행/검사는 일반 사용자로 수행합니다. Visual Studio C++ 컴파일러는 이 후보 생성에 필요하지 않습니다.
+
+```powershell
+pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1
+```
+
+완료 시 표시되는 실행 ZIP, 소스·고지 ZIP, `paired-candidate.json`을 한 세트로 보존합니다. `paired-candidate.json`의 두 SHA-256을 실제 ZIP과 대조하고 압축 해제해 테스트합니다. 준비 명령은 로컬 파일만 생성하며 ZIP을 외부에 업로드하지 않습니다. 명령이 실패하면 오류와 `artifacts/`의 근거를 보존하고 실패 상태를 통과로 취급하지 않습니다.
 
 ## 준비
 

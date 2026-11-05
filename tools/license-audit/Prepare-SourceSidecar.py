@@ -39,6 +39,12 @@ def prepare(core_root, engine_root, output, build_root=None):
     require(len(core['sources']) == 6 and len(engine) == 2, 'Expected six core and two LGPL engine sources')
     require({s['name'] for s in core['sources']} == {'php', 'libiconv', 'libxml2', 'zlib', 'wineditline', 'libargon2'}, 'Unexpected core source collection')
     require({s['package'] for s in engine} == {'phpcompatibility/php-compatibility', 'phpcsstandards/phpcsutils'}, 'Unexpected engine source collection')
+    election_path = REPO / 'tools/license-audit/license-election.json'
+    election = read(election_path)
+    require(election.get('electionMade') is True and election.get('phpVersion') == '4'
+            and election.get('zendVersion') == '3.0', 'Approved PHP/Zend election is required')
+    for item in election['selectedLicenseFiles'] + election['provenanceFiles']:
+        require(sha(inside(REPO, item['path']).read_bytes()) == item['sha256'], 'Election text/provenance checksum mismatch')
     payload, origins = {}, []
 
     def add(path, destination, expected=None):
@@ -89,13 +95,14 @@ Build/audit steps: tools/engine-pack/README.md and tools/license-audit/README.md
 The marker relink experiment is not an official PHP binary reproduction.
 Keep this companion and its SHA256 beside the exact reviewed binary distribution, on durable storage.
 Temporary CI artifacts or upstream links alone are not the final source-delivery mechanism.
-The PHP/Zend license election and final payload correspondence remain release decisions.
+The PHP/Zend successor-license election is recorded in project/tools/license-audit/license-election.json.
+Final payload correspondence and durable paired delivery remain release gates.
 No compiler/SDK proprietary binaries are supplied in this source companion.
 '''.encode('utf-8')
     payload['READ-ME.txt'] = instructions
     manifest = {'schemaVersion': 1, 'sources': origins, 'buildRecipeSourcesIncluded': build_sources_included,
                 'members': [{'path': n, 'bytes': len(d), 'sha256': sha(d)} for n, d in sorted(payload.items())],
-                'licenseElectionMade': False, 'redistributionCleared': False,
+                'licenseElectionMade': True, 'licenseElection': election, 'licenseElectionSha256': sha(election_path.read_bytes()), 'redistributionCleared': False,
                 'scope': 'Reviewed-input source and notice companion preparation; actual binary pairing and durable publication not established'}
     payload['source-sidecar-manifest.json'] = (json.dumps(manifest, indent=2) + '\n').encode()
     output.mkdir(parents=True)

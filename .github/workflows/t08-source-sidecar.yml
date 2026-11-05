@@ -46,13 +46,20 @@ jobs:
         run: |
           python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
           if ($LASTEXITCODE -ne 0) { throw 'Source companion preparation failed' }
-      - name: Preserve companion and supporting provenance
+      - name: Prepare and verify paired local self-test candidate
+        shell: pwsh
+        run: |
+          ./tools/packaging/Prepare-AuditPackage.ps1
+          python tests/t09/check_pair.py --package artifacts/t09 --sidecar artifacts/t08-source-sidecar --output artifacts/t09/evidence
+          if ($LASTEXITCODE -ne 0) { throw 'Binary/source candidate pairing failed' }
+      - name: Preserve metadata only; local test ZIPs are not published
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: t08-source-sidecar
           path: |
-            artifacts/t08-source-sidecar/
+            artifacts/t08-source-sidecar/source-sidecar.json
+            artifacts/t09/evidence/
             artifacts/t08-core-source/core-source.json
             artifacts/t08-build-source/build-source.json
             artifacts/t08/corresponding-source.json

@@ -1,0 +1,61 @@
+"""Bind local audit binary and source ZIPs without asserting release clearance."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import zipfile
+
+REPO = Path(__file__).resolve().parents[2]
+sha = lambda data: hashlib.sha256(data).hexdigest()
+read = lambda p: json.loads(p.read_text(encoding='utf-8-sig'))
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--package', type=Path, required=True)
+parser.add_argument('--sidecar', type=Path, required=True)
+parser.add_argument('--output', type=Path, required=True)
+a = parser.parse_args()
+election_path = REPO / 'tools/license-audit/license-election.json'
+election = read(election_path)
+assert election['electionMade'] and election['phpVersion'] == '4' and election['zendVersion'] == '3.0'
+source = read(a.sidecar / 'source-sidecar.json')
+assert source['licenseElectionMade'] and source['licenseElectionSha256'] == sha(election_path.read_bytes())
+source_zip = a.sidecar / source['archive']
+assert sha(source_zip.read_bytes()) == source['archiveSha256']
+package = a.package / 'DK-PHP-Compatibility-audit-only.zip'
+package_summary = read(a.package / 'evidence/summary.json')
+assert package_summary['scopePassed'] and sha(package.read_bytes()) == package_summary['archiveSha256']
+with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
+    members = {row['path']: row for row in source['members']}
+    for name, row in members.items():
+        assert sha(sz.read(name)) == row['sha256'], name
+    notices = []
+    for name in bz.namelist():
+        if name in ('LICENSE', 'LICENSING.md', 'THIRD-PARTY-NOTICES.md', 'license-election.json', 'tools/license-audit/license-election.json') or name.startswith('licenses/'):
+            if name.endswith('/'):
+                continue
+            relative = 'tools/license-audit/license-election.json' if name == 'license-election.json' else name
+            data = bz.read(name)
+            assert data == sz.read('project/' + relative), name
+            notices.append({'path': name, 'sha256': sha(data)})
+    assert 'license-election.json' in {row['path'] for row in notices}
+    assert 'licenses/php/selected/PHP-Zend-BSD-3-Clause.txt' in {row['path'] for row in notices}
+    for n in ('composer.json', 'composer.lock', 'ruleset.xml'):
+        assert bz.read('tools/runtime/engine/' + n) == sz.read('project/tools/engine-pack/' + n), n
+    for relative in members:
+        if relative.startswith('project/src/'):
+            assert sz.read(relative) == (REPO / relative.removeprefix('project/')).read_bytes(), relative
+report = {'scopePassed': True, 'licenseElectionMade': True,
+          'candidateForUserTesting': True, 'publicReleaseApproved': False,
+          'binaryArchive': package.name, 'binaryArchiveSha256': sha(package.read_bytes()),
+          'sourceArchive': source_zip.name, 'sourceArchiveSha256': source['archiveSha256'],
+          'sourceManifestSha256': sha((a.sidecar / 'source-sidecar.json').read_bytes()),
+          'licenseElectionSha256': sha(election_path.read_bytes()), 'matchedNotices': notices,
+          'engineRecipeBytesMatched': True, 'currentProjectSourceBytesMatched': True,
+          'allSourceMembersVerified': True, 'fullBinarySourceCorrespondenceVerified': False,
+          'durablePairedPublicationVerified': False, 'redistributionCleared': False,
+          'limits': ['Pairing identifies exact local audit archives, not legal clearance',
+                     'Official PHP build correspondence remains reviewed separately',
+                     'Clean Windows 11 and missing-CRT behavior require user testing',
+                     'Keep both archives and this manifest together; CI retention is temporary']}
+a.output.mkdir(parents=True, exist_ok=True)
+(a.output / 'paired-candidate.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({'scopePassed': True, 'matchedNotices': len(notices)}))

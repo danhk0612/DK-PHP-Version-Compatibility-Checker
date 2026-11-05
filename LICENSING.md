@@ -43,7 +43,7 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 1. 실제 포함되는 네이티브 구성마다 고정된 소스/버전·라이선스 전문·저작권 고지를 파일 및 정적 포함 코드에 연결합니다. PHP README가 외부 소스 LICENSE를 가리키는 부분도 전문을 포함합니다. 현재 확보한 내장 고지만으로 외부 네이티브 구성 전부를 충족한다고 보지 않습니다.
 2. PHP의 LGPL 내장 코드와 실제 포함 native LGPL에 대해 변경 사항·빌드 스크립트·필요 대응 application code 등 선택한 라이선스 경로의 소스/재링크 자료를 확보하고 검증합니다. Composer 2개 source ZIP으로 이를 대신하지 않습니다.
-3. 현재 보존한 PHP 3.01/Zend 2.00의 고지·해당 조건을 유지하거나 공식 허용 후속 라이선스 선택을 명시적으로 기록합니다. 현재 감사에서 후속 라이선스 선택이나 제품 이름 변경을 임의 확정하지 않았습니다. PHP 자체의 후속 라이선스 선택이 독립 native 라이브러리까지 재허가하지는 않습니다.
+3. 현재 보존한 PHP 3.01/Zend 2.00 고지를 provenance로 유지하고 사용자 승인된 PHP v4/Zend v3 후속 선택을 명시적으로 기록합니다. PHP 자체의 후속 라이선스 선택이 독립 native 라이브러리까지 재허가하지는 않습니다.
 4. Microsoft 제한 바이너리는 자체 MIT/일반 LGPL 수정 권한의 적용 범위에서 구분하고, 해당 조건의 재배포·사용자/배포자 보호 요건을 최종 배포에 반영합니다. PHP용 시스템 CRT를 별도로 복사하지 않습니다.
 5. 최종 배포물, 대응 소스, 전체 고지 및 해시를 함께 고정·제공합니다. T08 미해결 상태에서 T10/T09의 선행 조건을 합격 처리하지 않습니다.
 
@@ -81,9 +81,13 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 이 검증은 축소 configure 옵션을 사용한 독립 감사 빌드입니다. 공식 배포 PHP의 바이너리 재현, 과거 공식 빌드 의존성 ZIP과 동일성, 이 실험에서의 네트워크 차단, 최종 배포 고지·대응 소스·LGPL 의무 이행을 증명하지 않습니다. `php-relink.json`의 `phpcsRegressionVerified=false`는 그 파일이 별도 비교 단계 이전에 작성됐기 때문이며 후속 `php-relink-comparison.json`에 실제 24건 결과가 있습니다.
 
-### 배포 라이선스 선택 — 사용자 판단 대기
+### 배포 라이선스 선택 — 사용자 승인 반영
 
-2026-11-06 공식 [PHP Licensing](https://www.php.net/license/) 본문을 다시 확인했습니다. PHP Group은 과거 PHP에도 후속 PHP License v4(BSD-3-Clause)를 선택할 수 있다고 명시하고, Zend도 후속 v3.0이 BSD-3-Clause와 실질적으로 동일해졌다고 설명합니다. **권장안은 원본 PHP 3.01/Zend 2.00 전문을 출처로 보존하면서 배포 시 해당 covered code에 공식 허용 후속 조건을 선택하고 이를 고지에 명시하는 것**입니다. 이 선택은 PHP/Zend의 이름 관련 legacy 조건과 LGPL 결합 조건의 충돌 가능성을 줄이기 위한 것이며, 자체 MIT나 독립 내장 라이브러리의 LGPL/다른 조건을 변경하지 않습니다. 현재는 사용자 선택을 받지 않았으므로 적용 라이선스를 바꾸거나 기존 이름을 바꾸지 않았습니다. 과거 조건을 계속 사용할 경우 이름·고지 및 결합 조건을 별도로 해결해야 합니다. 이는 최종 배포 전에 사용자가 판단할 구체 항목입니다.
+2026-11-06 사용자가 권장안을 승인했습니다. covered PHP code에는 PHP License v4, covered Zend Engine code에는 Zend Engine License v3.0 후속 조건을 선택하며 적용 조건은 BSD-3-Clause입니다. [공식 공통 본문](licenses/php/selected/PHP-Zend-BSD-3-Clause.txt), [공식 선택 허용 근거 snapshot](licenses/php/selected/php-licensing.html), [출처·SHA·승인·범위 기록](tools/license-audit/license-election.json)을 보존합니다. 원문 공통 본문은 PHP Group과 Zend 양측 저작권을 포함합니다. 별도의 Zend v3 전문을 임의 작성하지 않았습니다.
+
+원본 PHP 3.01/Zend 2.00 전문과 원본 source headers는 provenance로 그대로 보존합니다. 이번 선택으로 covered code에 적용하는 legacy 이름 조건을 후속 조건으로 전환하며 제품 이름을 바꾸지 않습니다. 이 선택은 독립 BCMath/libiconv/엔진 LGPL 및 다른 내장 라이브러리·Microsoft 조건과 자체 MIT를 재허가하지 않습니다. 고지에 포함된 PHP/Zend의 명칭은 제휴·보증을 뜻하지 않습니다.
+
+라이선스 선택 대기로 로컬 자가 빌드·사용자 시험을 막는 상태는 해소했습니다. 시험 후보는 정확히 짝지은 바이너리·고지·대응 소스 및 재구성 자료를 제공하는 절차로 검증합니다. 공개 Release는 별도 승인 전이며, 이 문단 자체가 모든 외부 구성 요소에 관한 법적 적합성을 일괄 보증하는 것은 아닙니다.
 
 ### 재링크 의무와 바이너리 재현성의 구분
 
@@ -91,7 +95,7 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 ### 대응 소스·고지 동시 제공 준비
 
-`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA를 기록하고 적용 라이선스 선택 및 배포 적합성은 미완료로 유지합니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
+`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA와 승인된 적용 라이선스 선택을 기록합니다. 전체 배포 적합성은 개별 배포 자료 대조로 판단하며 선택 승인만으로 일괄 완료하지 않습니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
 
 ## 재현과 공식 근거
 

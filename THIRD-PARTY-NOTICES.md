@@ -28,7 +28,7 @@ This product includes the Zend Engine, freely available at http://www.zend.com
 
 The Zend Engine is freely available at http://www.zend.com
 
-이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 현재 감리에서 후속 PHP/Zend 라이선스로의 선택을 선언하지 않았습니다. 현재 공식 페이지의 후속 라이선스 선택 가능성과 원본의 실제 조건을 구분합니다.
+이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 2026-11-06 사용자 승인으로 covered PHP code에는 PHP License v4, covered Zend Engine code에는 Zend Engine License v3.0 후속 조건을 선택합니다. 적용 조건은 BSD-3-Clause이며 [공식 공통 원문](licenses/php/selected/PHP-Zend-BSD-3-Clause.txt)과 [범위·출처·해시](tools/license-audit/license-election.json)를 동봉합니다. 원본 PHP 3.01/Zend 2.00 전문과 source headers는 출처 자료로 계속 보존합니다.
 
 PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩에도 BCMath/libiconv 등 정적 코드가 남으며, [현재 검토](LICENSING.md)의 코어 출처·원문 고지·대응 소스/재링크 조건을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
 
@@ -54,7 +54,7 @@ Microsoft의 [Windows별 파일 정책](licenses/dotnet/UPSTREAM-WINDOWS-LICENSE
 
 배포 준비 시 별도 `DK-PHP-Compatibility-sources-and-notices.zip`을 만들고 파일 목록·SHA를 `source-sidecar.json`에 기록합니다. 이 준비물에는 원문 PHP/관련 라이브러리/엔진 소스, 별도로 추적한 Windows 설정 생성물, 현재 프로젝트·빌드·검증 레시피 및 원문 고지를 포함합니다. 동반 ZIP의 생성만으로 실제 배포 바이너리 대응과 지속 제공이 완료되는 것은 아닙니다. 최종 배포 시 같은 위치에서 정확히 짝지은 바이너리와 동반 ZIP을 계속 제공해야 합니다. 라이브러리 수정 및 그 수정의 디버깅을 위한 재링크 권리를 일반적인 변경 금지 조항으로 제한하지 않습니다.
 
-PHP/Zend의 공식 후속 라이선스 선택 가능성은 [LICENSING.md](LICENSING.md)의 사용자 판단 항목입니다. 현재 고지에서 이를 이미 선택했다고 선언하지 않았습니다. 자체 MIT와 독립 LGPL·Microsoft 조건은 이 선택과 별도로 유지합니다.
+PHP/Zend 후속 조건 선택은 사용자 승인으로 확정했습니다. [선택 기록](tools/license-audit/license-election.json)과 [공식 근거 snapshot](licenses/php/selected/README.md)을 함께 제공합니다. 자체 MIT와 독립 LGPL·Microsoft 조건은 이 선택과 별도로 유지합니다.
 
 ## PHP의 CRT 전제
 
