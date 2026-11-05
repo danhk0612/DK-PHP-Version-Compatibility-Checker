@@ -1,0 +1,14 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42058108214",
+  "testedHead": "a18eb0f9329437d10b40ad66d0abfec4f2466959",
+  "artifactId": 13428969845,
+  "artifactSha256": "1b23e57793ee4770530fb35f056c556511ac08e2138d4298f7ea831c3d2b2fc9",
+  "artifactRetentionDays": 7,
+  "candidateForUserTesting": true,
+  "publicReleaseApproved": false,
+  "files": {
+    "source-sidecar.json": "f946ee7f1fd9d4aef740b5e41a56b45f5c0ab08df36ea11728aee05253d71c11",
+    "summary.json": "4e28bb0865bc5280798d50ee0b98396a019df2ee08fbc1c6a248958c1a692017",
+    "paired-candidate.json": "b1b62bc461fbddb5946d26921b277b2a55ebb708638e73a6939175d7c3fb1901"
+  }
+}

@@ -55,6 +55,8 @@ D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니�
 
 2026-11-06 지시에 따라 사용자 확인 이전의 자동화 준비를 분담했습니다. [소스·고지 동반 ZIP 생성](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646759), [팩 교체·새 OS 프로세스·복원 시험](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [self-contained ZIP 생성·한글 경로 창 표시/종료·파일 불변](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466)이 Windows Server 2022에서 통과했습니다. tests/t10/evidence, tests/t09/evidence와 tests/t08-minimal/evidence/source-sidecar.json에 근거를 보존했습니다. 실행 ZIP은 runner 내부에서만 만들고 외부 업로드하지 않았습니다.
 
-먼저 LICENSING.md의 PHP v4/Zend v3 후속 조건 선택에 대한 사용자 판단이 필요합니다. 자체 MIT와 독립 LGPL/Microsoft 조건은 별개입니다. 선택 후 실제 후보와 같은 고지/소스 sidecar를 재생성·대조하고 지속 제공 방식을 고정해야 합니다. Windows 11 직접 시험은 tests/t09/WINDOWS11_TEST.md를 따릅니다. T08 최종 배포 조건과 깨끗한 Windows 11 검증은 아직 완료가 아니며 T09/T10의 개발자 자동시험을 최종 배포 승인으로 승격하지 않습니다.
+2026-11-06 사용자가 PHP v4/Zend v3 후속 조건 선택을 승인했고 license-election.json과 고지·공식 원문에 반영했습니다. 자체 MIT와 독립 LGPL/Microsoft 조건은 별개입니다. 같은 checkout에서 후보와 source sidecar를 만들고 두 ZIP SHA·고지·선택 원문·엔진 레시피·프로젝트 소스 대응을 검증합니다. 로컬 자가사용 후보 생성은 tools/packaging/Prepare-LocalTest.ps1을 사용합니다. 공개 Release와 지속 배포 승인은 별도입니다. Windows 11 직접 시험은 tests/t09/WINDOWS11_TEST.md를 따릅니다. T08 최종 배포 조건과 깨끗한 Windows 11 검증은 아직 완료가 아니며 T09/T10의 개발자 자동시험을 최종 배포 승인으로 승격하지 않습니다.
 
 현재 작업은 Draft PR #8(t08-minimal-cli), main 미병합입니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
+
+[승인 후 페어링 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42058108214)에서 `licenseElectionMade=true`, `scopePassed=true`, `candidateForUserTesting=true`, `publicReleaseApproved=false`를 확인했습니다. 최신 실행·ZIP/고지/소스 해시는 tests/t09/evidence/approved-pair/provenance.json을 따릅니다. 사용자 Windows11 자가사용 시험은 준비 명령과 문서로 진행할 수 있으며 공개배포는 별도입니다.

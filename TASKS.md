@@ -149,4 +149,4 @@ PHPStan(D06), D07의 자동 다운로드/업데이트 UI, 내보내기(D10), 자
 
 ## 현재 사용자 확인 경계
 
-T08 소스 동반 ZIP 생성, T10 개발용 새 OS 프로세스의 팩 교체/복원, T09 내부 ZIP 생성·실행 자동시험은 a582fc7에서 통과했습니다. 실제 근거는 CURRENT_STATE의 실행 링크와 tests/t09/evidence, tests/t10/evidence를 따릅니다. PHP/Zend 후속 라이선스 선택은 사용자 판단 전이며 최종 배포 pairing·지속 소스 제공 및 Windows 11 수동 시험은 남습니다. 사용자에게 감사 ZIP을 배포 가능한 후보라고 전달하지 않습니다.
+T08 소스 동반 ZIP 생성, T10 개발용 새 OS 프로세스의 팩 교체/복원, T09 내부 ZIP 생성·실행 자동시험은 a582fc7에서 통과했습니다. 실제 근거는 CURRENT_STATE의 실행 링크와 tests/t09/evidence, tests/t10/evidence를 따릅니다. PHP v4/Zend v3 후속 조건은 2026-11-06 사용자 승인으로 반영했으며 최종 배포 pairing·지속 소스 제공 및 Windows 11 수동 시험은 남습니다. 사용자에게 감사 ZIP을 배포 가능한 후보라고 전달하지 않습니다.

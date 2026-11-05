@@ -102,4 +102,4 @@ Task branch commit/push와 검토용 PR 갱신으로 인계하고 직접 병합�
 
 ## 현재 사용자 판단 우선순위
 
-CURRENT_STATE의 2026-11-06 자동시험 결과를 먼저 확인합니다. PHP/Zend 후속 라이선스 선택은 LICENSING의 구체 권장안에 대해 사용자 판단을 받아야 합니다. 선택을 추정하거나 자체 MIT/독립 LGPL까지 변경하지 않습니다. 선택 후 최종 바이너리/고지/대응 소스 pairing·지속 제공을 검증하고 tests/t09/WINDOWS11_TEST.md로 깨끗한 Windows 11 사용자 시험을 인계합니다.
+CURRENT_STATE의 2026-11-06 자동시험 결과를 먼저 확인합니다. PHP v4/Zend v3 후속 조건 선택은 2026-11-06 사용자 승인으로 반영했습니다. 다시 선택을 요청하지 않고 자체 MIT/독립 LGPL까지 확대하지 않습니다. 이후 최종 바이너리/고지/대응 소스 pairing·지속 제공을 검증하고 tests/t09/WINDOWS11_TEST.md로 깨끗한 Windows 11 사용자 시험을 인계합니다.

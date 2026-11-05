@@ -14,3 +14,5 @@ ZIP은 runner 내부의 `artifacts/t09`에만 남습니다. T08/T10 선행 조�
 ## 승인 후 로컬 시험 후보
 
 PHP/Zend 후속 조건의 승인 기록과 선택 전문 SHA를 대조하고 실행 ZIP과 source sidecar를 함께 생성합니다. `tools/packaging/Prepare-LocalTest.ps1`이 단일 진입점이며 준비 조건과 실제 시험은 [WINDOWS11_TEST.md](WINDOWS11_TEST.md)를 따릅니다. `check_pair.py`는 두 ZIP SHA, 모든 소스 동반 멤버 SHA, 동일 고지/선택 원문과 엔진 레시피·현재 프로젝트 소스를 대조합니다. `candidateForUserTesting=true`와 `publicReleaseApproved=false`를 구분합니다. 공식 PHP 바이너리의 전체 source correspondence와 영구적 공개 소스 제공은 이 로컬 pairing만으로 증명되지 않습니다.
+
+2026-11-06 승인 후 실제 [Windows 페어링 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42058108214)이 통과했습니다. [근거](evidence/approved-pair/provenance.json)와 [사용자 시험](WINDOWS11_TEST.md)을 따릅니다. 로컬 생성용 단일 진입점은 `pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1`입니다.
