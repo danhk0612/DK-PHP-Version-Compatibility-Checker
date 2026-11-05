@@ -75,12 +75,14 @@ try {
     if (([regex]::Matches($content, [regex]::Escape($oldText))).Count -ne 1) { throw 'Expected exactly one version marker location.' }
     $content = $content.Replace($oldText, [Text.Encoding]::ASCII.GetString($new))
     [IO.File]::WriteAllBytes($marker, [Text.Encoding]::Latin1.GetBytes($content))
+    $sdkVersion = $env:WindowsSDKVersion.TrimEnd('\')
+    if ($sdkVersion -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw 'Initialized Windows SDK version is unavailable.' }
     $libraries = [Collections.Generic.List[object]]::new()
     foreach ($name in @('original', 'marker')) {
         $base = Join-Path $output $name
         $project = Join-Path $base 'MSVC17/libiconv_static/libiconv_static.vcxproj'
         $log = Join-Path $output "$name-msbuild.log"
-        & $MSBuildPath $project '/nologo' '/t:Rebuild' '/p:Configuration=Release' '/p:Platform=x64' *> $log
+        & $MSBuildPath $project '/nologo' '/t:Rebuild' '/p:Configuration=Release' '/p:Platform=x64' "/p:WindowsTargetPlatformVersion=$sdkVersion" *> $log
         if ($LASTEXITCODE -ne 0) { throw "MSBuild failed for $name; inspect $log" }
         $library = Join-Path $base 'MSVC17/x64/lib/libiconv_a.lib'
         if (-not (Test-Path -LiteralPath $library -PathType Leaf)) { throw "Missing built library: $library" }
@@ -92,7 +94,7 @@ try {
         $libraries.Add([pscustomobject]@{ profile = $name; path = [IO.Path]::GetRelativePath($output, $library).Replace('\', '/'); sha256 = (Get-FileHash -LiteralPath $library -Algorithm SHA256).Hash.ToLowerInvariant(); bytes = (Get-Item -LiteralPath $library).Length; symbols = @($symbolMatches | ForEach-Object { $_.Line }); msbuildLog = "$name-msbuild.log"; symbolLog = "$name-symbols.txt" })
     }
     if ($libraries[0].sha256 -eq $libraries[1].sha256) { throw 'Original and marker libraries have identical hashes.' }
-    $report = [ordered]@{ sourceCommit = $revision; trackedFiles = $before.Count; sourceGitBlobBytesVerified = $true; sourcePath = $source; marker = 'Test-only _LIBICONV_VERSION + 1; not a real version change'; libraries = $libraries.ToArray(); nativePhpRelinkVerified = $false; redistributionCleared = $false; scope = 'Isolated original/marker libiconv static library builds only' }
+    $report = [ordered]@{ windowsSdkVersion = $sdkVersion; sourceCommit = $revision; trackedFiles = $before.Count; sourceGitBlobBytesVerified = $true; sourcePath = $source; marker = 'Test-only _LIBICONV_VERSION + 1; not a real version change'; libraries = $libraries.ToArray(); nativePhpRelinkVerified = $false; redistributionCleared = $false; scope = 'Isolated original/marker libiconv static library builds only' }
     $report | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $output 'libiconv-rebuild.json') -Encoding utf8
 } finally {
     $after = @(Get-TrackedSnapshot)
