@@ -49,6 +49,7 @@ Copy-Evidence (Join-Path $publish 'Dk.PhpCompatibilityChecker.runtimeconfig.json
 Copy-Evidence (Join-Path $pack 'manifest.json') 'pack-manifest.json' | Out-Null
 Copy-Evidence (Join-Path $pack 'engine/composer.lock') 'dependency-data/composer.lock' | Out-Null
 Copy-Evidence (Join-Path $pack 'engine/vendor/composer/installed.json') 'dependency-data/composer-installed.json' | Out-Null
+Copy-Evidence (Join-Path $pack 'verification/composer-version.txt') 'dependency-data/composer-version.txt' | Out-Null
 $nugetRoots = @($assets.packageFolders.PSObject.Properties.Name)
 $dotnetRoot = Split-Path (Get-Command dotnet).Source
 $packageRequests = @()
@@ -99,6 +100,24 @@ foreach ($request in $packageRequests) {
         }
     } finally { $archive.Dispose() }
     if (-not ($legal | Where-Object { $_.path -match '(?i)(^|/)license' })) { throw "No license text found in $id/$version" }
+    if ($id -eq 'Microsoft.WindowsDesktop.App.Runtime.win-x64' -and -not ($legal | Where-Object { $_.path -match '(?i)third.*party' })) {
+        # This runtime package does not carry its WPF/WinForms notice files.
+        # Preserve them from the exact source commit declared by its nuspec,
+        # and distinguish these supplements from original package payloads.
+        [xml]$specification = $nuspec
+        $sourceUrl = [string]$specification.package.metadata.repository.url
+        $sourceCommit = [string]$specification.package.metadata.repository.commit
+        if ($sourceUrl -ne 'https://github.com/dotnet/dotnet' -or $sourceCommit -notmatch '^[0-9a-f]{40}$') { throw 'Unrecognized WindowsDesktop source identity; review missing notices.' }
+        foreach ($component in @('wpf', 'winforms')) {
+            $noticeUrl = "https://raw.githubusercontent.com/dotnet/dotnet/$sourceCommit/src/$component/THIRD-PARTY-NOTICES.TXT"
+            $noticeRelative = "licenses/dotnet/$id/$version/upstream-$component-THIRD-PARTY-NOTICES.TXT"
+            $noticeTarget = Join-Path $out $noticeRelative
+            Invoke-WebRequest $noticeUrl -OutFile $noticeTarget
+            if ((Get-Item $noticeTarget).Length -lt 100) { throw 'Incomplete WindowsDesktop source notice.' }
+            $legal += [ordered]@{ path = $noticeRelative; sha256 = (Digest $noticeTarget); bytes = (Get-Item $noticeTarget).Length
+                originUrl = $noticeUrl; sourceCommit = $sourceCommit; origin = 'supplemental pinned source notice; absent from original nupkg' }
+        }
+    }
     if ($id -match '\.Runtime\.' -and -not ($legal | Where-Object { $_.path -match '(?i)third.*party' })) { throw "No third-party notices found in $id/$version" }
     Save-Json $payload (Join-Path $out "licenses/dotnet/$id/$version/payload-files.json")
     $packages += [ordered]@{ id = $id; version = $version; originUrl = $url; obtainedFrom = $obtainedFrom
@@ -137,9 +156,10 @@ if ($LASTEXITCODE -ne 0) { throw 'Pack PHP -n -i failed.' }
 $deplister = Join-Path $pack 'php/deplister.exe'
 $dependencyDiagnostics = @()
 if (Test-Path $deplister) {
-    foreach ($target in @('php.exe', 'php8.dll')) {
-        $outputFile = Join-Path $out ('php-imports-' + $target + '.txt')
-        & $deplister (Join-Path $pack ('php/' + $target)) 2>&1 | Out-File $outputFile -Encoding utf8
+    foreach ($image in Get-ChildItem (Join-Path $pack 'php') -File -Recurse | Where-Object { $_.Extension -in @('.dll', '.exe') } | Sort-Object FullName) {
+        $target = Relative (Join-Path $pack 'php') $image.FullName
+        $outputFile = Join-Path $out ('php-imports-' + $target.Replace('/', '-') + '.txt')
+        & $deplister $image.FullName 2>&1 | Out-File $outputFile -Encoding utf8
         $dependencyDiagnostics += [ordered]@{ target = $target; exitCode = $LASTEXITCODE; evidence = (Split-Path $outputFile -Leaf) }
     }
 }

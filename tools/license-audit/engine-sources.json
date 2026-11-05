@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-11-05",
+  "scope": "License/source provenance for the fixed Composer engine and Composer-generated autoload code; not a declaration that the complete PHP/.NET distribution is cleared.",
+  "packages": [
+    {
+      "name": "dealerdirect/phpcodesniffer-composer-installer",
+      "upstreamLicensePath": "LICENSE.md",
+      "storedLicensePath": "licenses/engine/composer-installer-1.1.0-LICENSE.md",
+      "version": "v1.1.0",
+      "license": [
+        "MIT"
+      ],
+      "repository": "https://github.com/PHPCSStandards/composer-installer.git",
+      "ref": "18a95476797ed480b3f2598984bc6f7e1eecc9a8",
+      "upstreamLicenseUrl": "https://github.com/PHPCSStandards/composer-installer/blob/18a95476797ed480b3f2598984bc6f7e1eecc9a8/LICENSE.md",
+      "runtimeLicensePath": "engine/vendor/dealerdirect/phpcodesniffer-composer-installer/LICENSE.md",
+      "licenseSha256": "ff8952f52de516acd28e4ed2b8da83742fad13678515782d502a4086dd0d8045",
+      "upstreamLicenseGitBlob": "9bc88065ed5a5784aeb9d9b172fe714836432cba",
+      "lockedDistArchiveUrl": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/18a95476797ed480b3f2598984bc6f7e1eecc9a8",
+      "sourceSidecarRequired": false,
+      "distributionObligations": [
+        "Preserve the exact upstream copyright, license conditions and disclaimer with redistributed code/binaries."
+      ]
+    },
+    {
+      "name": "phpcompatibility/php-compatibility",
+      "upstreamLicensePath": "LICENSE",
+      "storedLicensePath": "licenses/engine/PHPCompatibility-10.0.0-alpha2-LICENSE",
+      "exportIgnoredPaths": [
+        "/.github/",
+        "/bin/",
+        "/PHPCompatibility/Tests/",
+        "/PHPCompatibility/Util/Tests/",
+        ".coveralls.yml",
+        ".gitattributes",
+        ".gitignore",
+        ".markdownlint-cli2.yaml",
+        ".yamllint.yml",
+        "phpcs.xml.dist",
+        "phpunit.xml.dist",
+        "phpunit10.xml.dist",
+        "phpunit-bootstrap.php"
+      ],
+      "version": "10.0.0-alpha2",
+      "license": [
+        "LGPL-3.0-or-later"
+      ],
+      "repository": "https://github.com/PHPCompatibility/PHPCompatibility.git",
+      "ref": "e0f0e5a3dc819a4a0f8d679a0f2453d941976e18",
+      "upstreamLicenseUrl": "https://github.com/PHPCompatibility/PHPCompatibility/blob/e0f0e5a3dc819a4a0f8d679a0f2453d941976e18/LICENSE",
+      "runtimeLicensePath": "engine/vendor/phpcompatibility/php-compatibility/LICENSE",
+      "licenseSha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768",
+      "upstreamLicenseGitBlob": "65c5ca88a67c30becee01c5a8816d964b03862f9",
+      "lockedDistArchiveUrl": "https://api.github.com/repos/PHPCompatibility/PHPCompatibility/zipball/e0f0e5a3dc819a4a0f8d679a0f2453d941976e18",
+      "sourceSidecarRequired": true,
+      "sourceSidecarPattern": "corresponding-source/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.zip",
+      "distributionObligations": [
+        "Preserve upstream copyright, LGPL-v3 text and GPL-v3 text.",
+        "Provide matching complete source/build material and modification/replacement rights under the selected LGPL-v3 compliance route.",
+        "Do not claim that a Composer dist archive or upstream link alone completes source obligations."
+      ]
+    },
+    {
+      "name": "phpcsstandards/phpcsutils",
+      "upstreamLicensePath": "LICENSE",
+      "storedLicensePath": "licenses/engine/PHPCSUtils-1.2.3-LICENSE",
+      "exportIgnoredPaths": [
+        ".coveralls.yml",
+        ".gitattributes",
+        ".gitignore",
+        ".markdownlint-cli2.yaml",
+        ".phpdoc.xml.dist",
+        ".remarkignore",
+        ".remarkrc",
+        ".yamllint.yml",
+        "phpcs.xml.dist",
+        "phpstan.neon.dist",
+        "phpunit.xml.dist",
+        "phpunit10.xml.dist",
+        "/.github/",
+        "/docs/",
+        "/Tests/"
+      ],
+      "version": "1.2.3",
+      "license": [
+        "LGPL-3.0-or-later"
+      ],
+      "repository": "https://github.com/PHPCSStandards/PHPCSUtils.git",
+      "ref": "5f35d9408c54d7b529501f3c688b6eae562aea1f",
+      "upstreamLicenseUrl": "https://github.com/PHPCSStandards/PHPCSUtils/blob/5f35d9408c54d7b529501f3c688b6eae562aea1f/LICENSE",
+      "runtimeLicensePath": "engine/vendor/phpcsstandards/phpcsutils/LICENSE",
+      "licenseSha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "upstreamLicenseGitBlob": "0a041280bd00a9d068f503b8ee7ce35214bd24a1",
+      "lockedDistArchiveUrl": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/5f35d9408c54d7b529501f3c688b6eae562aea1f",
+      "sourceSidecarRequired": true,
+      "sourceSidecarPattern": "corresponding-source/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.zip",
+      "distributionObligations": [
+        "Preserve upstream copyright, LGPL-v3 text and GPL-v3 text.",
+        "Provide matching complete source/build material and modification/replacement rights under the selected LGPL-v3 compliance route.",
+        "Do not claim that a Composer dist archive or upstream link alone completes source obligations."
+      ]
+    },
+    {
+      "name": "squizlabs/php_codesniffer",
+      "upstreamLicensePath": "licence.txt",
+      "storedLicensePath": "licenses/engine/PHP_CodeSniffer-4.0.4-licence.txt",
+      "version": "4.0.4",
+      "license": [
+        "BSD-3-Clause"
+      ],
+      "repository": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
+      "ref": "bbdc3d0532623e21838b7041a4364383a8126f96",
+      "upstreamLicenseUrl": "https://github.com/PHPCSStandards/PHP_CodeSniffer/blob/bbdc3d0532623e21838b7041a4364383a8126f96/licence.txt",
+      "runtimeLicensePath": "engine/vendor/squizlabs/php_codesniffer/licence.txt",
+      "licenseSha256": "ad489e425c9a48b9fe97b8c11dd5f422606aa72e7726a438cd01ebee22d8ba80",
+      "upstreamLicenseGitBlob": "c7e8000d96ee1379a0d23f9b18d3301552d78b85",
+      "lockedDistArchiveUrl": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/bbdc3d0532623e21838b7041a4364383a8126f96",
+      "sourceSidecarRequired": false,
+      "distributionObligations": [
+        "Preserve the exact upstream copyright, license conditions and disclaimer with redistributed code/binaries."
+      ]
+    }
+  ],
+  "generatedComposer": {
+    "name": "Composer-generated autoload code",
+    "license": "MIT",
+    "storedLicensePath": "licenses/engine/Composer-generated-autoloader-LICENSE",
+    "runtimeLicensePath": "engine/vendor/composer/LICENSE",
+    "upstreamLicenseUrl": "https://github.com/composer/composer/blob/35cb6d47d03b0cae52dc12d686f941365b20f08b/LICENSE",
+    "upstreamLicenseGitBlob": "62ecfd8d0046b60517ea7370300f52744f1ab85d",
+    "comparisonCommit": "35cb6d47d03b0cae52dc12d686f941365b20f08b",
+    "transformation": "Composer Compiler::addFile prepends and appends one LF byte to the root LICENSE when packaging it. Applying that transformation reproduces the stored runtime license bytes.",
+    "transformationSourceUrl": "https://github.com/composer/composer/blob/35cb6d47d03b0cae52dc12d686f941365b20f08b/src/Composer/Compiler.php",
+    "compilerGitBlob": "6b82b90a04282c4c55f1f97df257c6e457771fa0",
+    "actualGeneratorVersionEvidence": "tools/runtime/verification/composer-version.txt, to be retained by each Windows audit; the comparison source version above does not establish the actual Composer build version.",
+    "distributionObligations": [
+      "Preserve the copyright and MIT permission/disclaimer text with the generated autoloader files.",
+      "Composer is a preparation dependency, not a required end-user executable and not a redistributed PHAR in the current pack."
+    ],
+    "licenseSha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024"
+  },
+  "legalTexts": [
+    {
+      "license": "GPL-3.0",
+      "storedPath": "licenses/common/GPL-3.0.txt",
+      "sourceUrl": "https://www.gnu.org/licenses/gpl-3.0.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "bytes": 35149,
+      "reason": "Both LGPL-v3 texts incorporate the terms of GNU GPL-v3. Retain GPL-v3 in addition to each upstream LGPL-v3 text."
+    }
+  ],
+  "sourceProvision": {
+    "method": "Collect-Windows.ps1 creates source sidecars from the complete pinned Git checkout, includes all tracked files, checks checkout bytes against Git blob IDs, and compares every shipped LGPL vendor file with the matching source checkout.",
+    "releaseRequirement": "Keep the complete corresponding source, licenses and reproduction material durably available with the matching final distribution. A short-lived CI artifact or a list of URLs alone does not fulfill this project gate.",
+    "distArchiveCaution": "The locked GitHub/Composer dist archives apply export-ignore; do not label these archives as the complete tracked source without examining the exclusions.",
+    "applicationBoundary": "The WPF app invokes separately stored PHP/PHPCS as a subprocess and consumes JSON. No engine source is copied into WPF. Keep the GUI MIT license separate from engine licenses; this provenance does not resolve all native-PHP or combined-work legal questions.",
+    "userModification": "Do not impose an EULA ban on modification or reverse engineering needed to debug library modifications. The program/pack build sources and hash regeneration steps must remain available; any changed release pack must pass its own verification and attribution gate."
+  },
+  "composerLockSha256": "122b816522b92916c1bab9d6c681a6325c956509c9b8f75f73275ca9ed7986e2"
+}
