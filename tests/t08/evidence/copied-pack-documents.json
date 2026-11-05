@@ -1,0 +1,82 @@
+[
+  {
+    "path": "licenses/pack/engine/vendor/composer/LICENSE",
+    "sha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024",
+    "bytes": 1070
+  },
+  {
+    "path": "licenses/pack/engine/vendor/dealerdirect/phpcodesniffer-composer-installer/LICENSE.md",
+    "sha256": "ff8952f52de516acd28e4ed2b8da83742fad13678515782d502a4086dd0d8045",
+    "bytes": 1147
+  },
+  {
+    "path": "licenses/pack/engine/vendor/dealerdirect/phpcodesniffer-composer-installer/README.md",
+    "sha256": "2f04d4af4074809fa9c78535cfd662d1e33d57ec15dcf08bf2fe712f729a23ad",
+    "bytes": 11739
+  },
+  {
+    "path": "licenses/pack/engine/vendor/phpcompatibility/php-compatibility/LICENSE",
+    "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768",
+    "bytes": 7651
+  },
+  {
+    "path": "licenses/pack/engine/vendor/phpcompatibility/php-compatibility/README.md",
+    "sha256": "eb9859775f1ecda209a711404a1e15e5249383fbaa0aea31b6995fdd8078970c",
+    "bytes": 15538
+  },
+  {
+    "path": "licenses/pack/engine/vendor/phpcsstandards/phpcsutils/LICENSE",
+    "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+    "bytes": 7652
+  },
+  {
+    "path": "licenses/pack/engine/vendor/phpcsstandards/phpcsutils/README.md",
+    "sha256": "0798bec3682922d38d44594308411a18415eff907a244f9d4a527e2c47ae1368",
+    "bytes": 15062
+  },
+  {
+    "path": "licenses/pack/engine/vendor/squizlabs/php_codesniffer/licence.txt",
+    "sha256": "ad489e425c9a48b9fe97b8c11dd5f422606aa72e7726a438cd01ebee22d8ba80",
+    "bytes": 1592
+  },
+  {
+    "path": "licenses/pack/engine/vendor/squizlabs/php_codesniffer/README.md",
+    "sha256": "1d50dd3b61ccf80e50219de0fedf94f3dd2a7a062ae7d4047e8c4f49de06be74",
+    "bytes": 7734
+  },
+  {
+    "path": "licenses/pack/php/extras/sbom/php.cdx.json",
+    "sha256": "72a6a342cc529514f053a9b86dabd5a39979f67f62444e0c1592cf0011e0ac49",
+    "bytes": 336465
+  },
+  {
+    "path": "licenses/pack/php/extras/sbom/php.openvex.json",
+    "sha256": "4e9c8f01ff7f087ac01d1cb0edd33ab0569349f4e390523ee5a56d0b37e4a16b",
+    "bytes": 36840
+  },
+  {
+    "path": "licenses/pack/php/extras/sbom/php.spdx.json",
+    "sha256": "675b1632a0f09308ff695f514e1b250e28c77086a7b0904b547017c363186c87",
+    "bytes": 206448
+  },
+  {
+    "path": "licenses/pack/php/license.txt",
+    "sha256": "098bdc5b9808fc16bef4b7154e876ac08ca249549727cde3b3f3f3b431e27cca",
+    "bytes": 3272
+  },
+  {
+    "path": "licenses/pack/php/readme-redist-bins.txt",
+    "sha256": "c24722e9e3c627e3c7e8a5efd50c5c0aa1d9f689c3e03dc28a632f1f6218ca5e",
+    "bytes": 760774
+  },
+  {
+    "path": "licenses/pack/php/README.md",
+    "sha256": "cce8d193f06662986ef167d7a743e6542a8b72c5c3cd3023a2f2710720500dee",
+    "bytes": 4978
+  },
+  {
+    "path": "licenses/pack/verification/license-files.json",
+    "sha256": "b0aff8c2455747e675bc55825c3aacc3eb0cde7b62febdd75ed5b05f686307e9",
+    "bytes": 935
+  }
+]

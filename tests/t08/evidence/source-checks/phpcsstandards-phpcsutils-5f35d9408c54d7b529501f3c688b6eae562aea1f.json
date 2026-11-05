@@ -1,0 +1,3972 @@
+{
+  "checkoutCommit": "5f35d9408c54d7b529501f3c688b6eae562aea1f",
+  "archiveSha256": "cbe2ab1dbaea6c57662bc6cbbf01c13a6f05e9f0d702ced5dc26fb0987dcac56",
+  "archiveBytes": 738767,
+  "trackedFileCount": 516,
+  "sourceFiles": [
+    {
+      "path": ".coveralls.yml",
+      "gitMode": "100644",
+      "gitBlob": "30b618e3bc363d3fc3c9a5ecac76e8b750ce3c56",
+      "bytes": 83,
+      "sha256": "3efbd01900a2baf31aaa8260ecc923af0205fad0441b5fd30f0f0fadb0f25d50"
+    },
+    {
+      "path": ".gitattributes",
+      "gitMode": "100644",
+      "gitBlob": "481120e4e88d1c2b43880b10a3b3ce7b86b1ae12",
+      "bytes": 1148,
+      "sha256": "61edecc864f6ca1928cae94a43bb81f15d9c056c5a71ab5f73c2c8237e7d2621"
+    },
+    {
+      "path": ".github/GHPages/UpdateWebsite.php",
+      "gitMode": "100644",
+      "gitBlob": "364fbcb7346507641662d8453f87cbb3c890ba07",
+      "bytes": 10316,
+      "sha256": "8935857aa61394f8baadded27f7c5d8b015c338498900208ef329da9ea8f8cc9"
+    },
+    {
+      "path": ".github/GHPages/update-docgen-config.php",
+      "gitMode": "100644",
+      "gitBlob": "233655e761b6d1fcf4a44a0effcb26b09d8acac3",
+      "bytes": 3164,
+      "sha256": "ef38796d138f5010e0c3737b4244ac08d7d2c8142a4cb132ebe085ea73846dbe"
+    },
+    {
+      "path": ".github/GHPages/update-website.php",
+      "gitMode": "100644",
+      "gitBlob": "3af6f4a3ddd91bfa04ff2e3585f749de53a82958",
+      "bytes": 928,
+      "sha256": "893d8ff35ce8a1b5e7c9669cffd2c159d4584f45887b1b7b1fc7c712fd651c96"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "gitMode": "100644",
+      "gitBlob": "f65a687916eec1d76b9be0f7f62bc3101c1ab631",
+      "bytes": 645,
+      "sha256": "34456a19bb7494b904d9ba6651c5ff4f4f61c865d3724395d423c85a9f56d08c"
+    },
+    {
+      "path": ".github/release-checklist.md",
+      "gitMode": "100644",
+      "gitBlob": "9b1d7a5ba0bf25ed997d9e95155dd6f78a1f03b1",
+      "bytes": 1324,
+      "sha256": "b63b74df2936c549e494c556572f7cf6e91ae5d07cff31a3dbb5603f6b2908ef"
+    },
+    {
+      "path": ".github/workflows/basics.yml",
+      "gitMode": "100644",
+      "gitBlob": "4e18c25428b36f9bb3deb08136e395e64d0542a2",
+      "bytes": 5129,
+      "sha256": "c401fa5b9aa475f48b2ff5b3b1282f28541b2af72a8fdd527ac0448567d366eb"
+    },
+    {
+      "path": ".github/workflows/label-merge-conflicts.yml",
+      "gitMode": "100644",
+      "gitBlob": "6ced91fd3d2ba54222bbfb2f1be44d28c3e22fac",
+      "bytes": 725,
+      "sha256": "882b93476e87efbdd2d370e82f9183d9773d1f4bbbbfd58b48161d4663696150"
+    },
+    {
+      "path": ".github/workflows/quicktest.yml",
+      "gitMode": "100644",
+      "gitBlob": "2a7109d6903ed73eb6e4ff1760340749fa900b6e",
+      "bytes": 5603,
+      "sha256": "080ec1759fbcf0128feafe4774fe473d3613fae944434e7a194e04af72cc77d4"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "gitMode": "100644",
+      "gitBlob": "48ec1aa43dd5f4ee9ea646773153f04d5360ec77",
+      "bytes": 17026,
+      "sha256": "6f27b2ca92876c6238d3fef83c3aaeee0aecab18044b6cdd21b56e8b058f0fd7"
+    },
+    {
+      "path": ".github/workflows/update-docs.yml",
+      "gitMode": "100644",
+      "gitBlob": "8cd0c347fe6477cba3a212bb9f75257f85c38a94",
+      "bytes": 5656,
+      "sha256": "89f2aefcf3409c32398967ce9a396fd6bdf62e7679e6509ed298748e1e25ebd5"
+    },
+    {
+      "path": ".github/workflows/update-phpcs-versionnr.yml",
+      "gitMode": "100644",
+      "gitBlob": "cdcf8ff78e5c6423391202504f4deb7ebfdea5a8",
+      "bytes": 4040,
+      "sha256": "3237c7b53d6e0b5ad4654d15b685ff6a0f3a35db5084c647b9312ffca4c7b5d1"
+    },
+    {
+      "path": ".gitignore",
+      "gitMode": "100644",
+      "gitBlob": "20a89389e57dc6f7cce847d9d4495d1624f0221f",
+      "bytes": 179,
+      "sha256": "9ab057fb7c8844c44c780775fe8b2253cd057aa1107b7e42b8e9f190b282f5ce"
+    },
+    {
+      "path": ".markdownlint-cli2.yaml",
+      "gitMode": "100644",
+      "gitBlob": "c38c0c406b4eb8c21286c16eff2989b6df4ca94b",
+      "bytes": 3094,
+      "sha256": "6c46c0005013ba1840c62635404ffda5e5c8fe3e5e9ac481f9a47db2bc9381bc"
+    },
+    {
+      "path": ".phpdoc.xml.dist",
+      "gitMode": "100644",
+      "gitBlob": "9ec6fd203170094bae47057f827f9c3e497d46b2",
+      "bytes": 1097,
+      "sha256": "f8844d11e4fb91fd3b362cab0c24a20fe12ace22fe090265ab9ce0d0d18c7abc"
+    },
+    {
+      "path": ".remarkignore",
+      "gitMode": "100644",
+      "gitBlob": "f24c3d74890b5840db030eb3aafdfbb914c4b6a1",
+      "bytes": 143,
+      "sha256": "f8899a78c304b8c4d5086a7dfece9fede180e3206883ff5595917fd603aa3af0"
+    },
+    {
+      "path": ".remarkrc",
+      "gitMode": "100644",
+      "gitBlob": "3d337365ecc560d7ba87c4e500c85d1ebd00853b",
+      "bytes": 2203,
+      "sha256": "95a1d156f42f3c9ca1e53264f0aa40d85aa88d45b5141f2c9bd645f590eeddad"
+    },
+    {
+      "path": ".yamllint.yml",
+      "gitMode": "100644",
+      "gitBlob": "b5c4202d972350405c35c62a6252bbf35011c77a",
+      "bytes": 564,
+      "sha256": "ce6b9f6b6d31ab34561a8111e70dc77b79cf4453252dccae00dc807bfa3b12dd"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "gitMode": "100644",
+      "gitBlob": "c35396e7b247cf98917f050db6e08bbab5e32aa6",
+      "bytes": 91283,
+      "sha256": "f3643642871aac9b61d6dd852382b4fcdb1929a5c4d4199cddf59d2072bace77"
+    },
+    {
+      "path": "LICENSE",
+      "gitMode": "100644",
+      "gitBlob": "0a041280bd00a9d068f503b8ee7ce35214bd24a1",
+      "bytes": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "PHPCSUtils/AbstractSniffs/AbstractArrayDeclarationSniff.php",
+      "gitMode": "100644",
+      "gitBlob": "381ead2da4512dbd86c14b6433b9858a71ed708c",
+      "bytes": 24769,
+      "sha256": "6a58b386b04f8413dcbfbf4ef61659ed87adfe5657caf704a22e58cf3a877ddc"
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/BCFile.php",
+      "gitMode": "100644",
+      "gitBlob": "15b42f1b268d65bddc92ce5573c4d20b2426628d",
+      "bytes": 46604,
+      "sha256": "d2002e952a9d552c7006f3a2f8f743f615f5c798ce1ad5a3071c4c0c6764a120"
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/BCTokens.php",
+      "gitMode": "100644",
+      "gitBlob": "de59738fc6f594a6059124a01dbc6f3504595204",
+      "bytes": 11084,
+      "sha256": "4a4b880522587abcb0a5336caae5d0530b9e80571195d681e854d7d1897fd9d3"
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/Helper.php",
+      "gitMode": "100644",
+      "gitBlob": "408959dad2b768a56ee5fd3b2d74ef5ac726525f",
+      "bytes": 6443,
+      "sha256": "d3736b6d554f5328a1944984edbb3ea2a7a114adb7c036c3e3bf9c02313e8671"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/InvalidTokenArray.php",
+      "gitMode": "100644",
+      "gitBlob": "c3050b2ec0d56166a93168e63fb470ec05fe2f9a",
+      "bytes": 1087,
+      "sha256": "fb2472b6705beb54231053c3b8d407b29fde744d9a9ecb47449fa3e731d52188"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/LogicException.php",
+      "gitMode": "100644",
+      "gitBlob": "1bd890b11ab4f20cf52c43d08354ec74e04ee122",
+      "bytes": 1273,
+      "sha256": "6c39615975f4044e4ebbb8f1565542b780c32ff9bc07d5b99d03ae6b89c56290"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/MissingArgumentError.php",
+      "gitMode": "100644",
+      "gitBlob": "296342a0de0603900d5bab9a5c2cefdba54d290a",
+      "bytes": 1704,
+      "sha256": "2467e3911eaaa72970cfa550ff527d8931acfeb867c62010b376b52878741476"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/OutOfBoundsStackPtr.php",
+      "gitMode": "100644",
+      "gitBlob": "447a409ca797be9b1f0129cbf05029fa240269f9",
+      "bytes": 1740,
+      "sha256": "4eb40b468ec9d69d8c12f491f326c7d3848fd8ec3a0e9cdcd7361f27107645a9"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/RuntimeException.php",
+      "gitMode": "100644",
+      "gitBlob": "2ea6d03c1f0b614e9d1ef7d027b4841f51927bc6",
+      "bytes": 615,
+      "sha256": "6ed06af7c9471ddd39e8f99d791e30dcf6ac42f51e55e27b84a5b1c9933a52bd"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestFileNotFound.php",
+      "gitMode": "100644",
+      "gitBlob": "de75ffc77d1fff3b95b1328e657c89f1f5a3f8dc",
+      "bytes": 1437,
+      "sha256": "c4e4406c11544d0feb72a47752de1a2f739e46db4a3e521b06c0f62f5130e064"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestMarkerNotFound.php",
+      "gitMode": "100644",
+      "gitBlob": "1c0bf17e76210747c86e789558cd8bff8db6ab36",
+      "bytes": 1108,
+      "sha256": "61e67cb8dd6e99192ac31deaa87e8b59f3b445f1d282f93bf26d7e062e5e48d4"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestTargetNotFound.php",
+      "gitMode": "100644",
+      "gitBlob": "0a7dffab149dcfbe9e322df5f3ada039f5d74844",
+      "bytes": 1408,
+      "sha256": "4ca01c7871ee0e3672d493286f0e9489efbd617fd3d2ba60caaecac16373877d"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TypeError.php",
+      "gitMode": "100644",
+      "gitBlob": "5944467efcc52b43ddfb480e889471a702851c2d",
+      "bytes": 1708,
+      "sha256": "af585da697ef790506465722bed481bcd5bafa418a7caee31c9cbd48e3a8619b"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/UnexpectedTokenType.php",
+      "gitMode": "100644",
+      "gitBlob": "60a8e0d36cf6193f44b8bafd4799a9faa21217eb",
+      "bytes": 1774,
+      "sha256": "4b7892d839be0d9ea5219a3b25d14f54178ee8cf0455044e33a557fe5a56fc21"
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/ValueError.php",
+      "gitMode": "100644",
+      "gitBlob": "4826bd9c9f39fdf68600861daeed842657c9fc03",
+      "bytes": 1866,
+      "sha256": "00ce4730b5fed6ddec28279fcc1a96862a9655410b8016fbb14c2ab5b1fa1956"
+    },
+    {
+      "path": "PHPCSUtils/Fixers/SpacesFixer.php",
+      "gitMode": "100644",
+      "gitBlob": "6787abb90618a5885cccaa8694a944514816b427",
+      "bytes": 11601,
+      "sha256": "555f5b61bf34205da9692dc43fdecd864cd008379f6a6b5ad3862f9f94c72bc6"
+    },
+    {
+      "path": "PHPCSUtils/Internal/AttributeHelper.php",
+      "gitMode": "100644",
+      "gitBlob": "fc57a9e67cd419776cf21634cb9de610cd4a85f1",
+      "bytes": 9847,
+      "sha256": "72c93e4acfaf21beb7adb3e2e8f7a7b1b32d081c01fb3c2b0c6b294eb776d457"
+    },
+    {
+      "path": "PHPCSUtils/Internal/Cache.php",
+      "gitMode": "100644",
+      "gitBlob": "2f7873fe18671757d50ebd4af4cd1f5c204b8dca",
+      "bytes": 7767,
+      "sha256": "62ebd52fc3c1fe935d1ff45ffc98640398d8e3ea5074766c4fd6d8275030a3bc"
+    },
+    {
+      "path": "PHPCSUtils/Internal/IsShortArrayOrList.php",
+      "gitMode": "100644",
+      "gitBlob": "8fd22fd6e02b1b766b26a718f72b1c1b95a17c6a",
+      "bytes": 26950,
+      "sha256": "bda6fadb488a87c169b9e8b168141219b4f9b2df26993e4661ecf7a1f51cad0c"
+    },
+    {
+      "path": "PHPCSUtils/Internal/IsShortArrayOrListWithCache.php",
+      "gitMode": "100644",
+      "gitBlob": "b4772bb5b0c120851b36ce4280f0fc80382c0384",
+      "bytes": 8681,
+      "sha256": "5a77fb04852ef7456ac41b237b9eb796a5bd64dfaff06096997c375967da732a"
+    },
+    {
+      "path": "PHPCSUtils/Internal/NoFileCache.php",
+      "gitMode": "100644",
+      "gitBlob": "2f7a24782df38cb72c718d3397961490a10789d1",
+      "bytes": 4995,
+      "sha256": "2f07d2492646cfa3d427758f3dfbe2934d9fcd22daf32a5c75638ff5d49ce0a6"
+    },
+    {
+      "path": "PHPCSUtils/Internal/StableCollections.php",
+      "gitMode": "100644",
+      "gitBlob": "593392df2d7be8c38081e1174389641d8f601d1b",
+      "bytes": 2911,
+      "sha256": "d1d3a31c81502aebb0de8f16c766dc8b32c43f69fc7bd6d95ecb11c1e841d4c3"
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/ConfigDouble.php",
+      "gitMode": "100644",
+      "gitBlob": "1dcf06acd3e9d3e4026e29de406f6609dfb4e04b",
+      "bytes": 8936,
+      "sha256": "08c1b0dba13ff9fb703f2496b0996996c14340440b4c72d0001c4a629bbf9f4f"
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/RulesetDouble.php",
+      "gitMode": "100644",
+      "gitBlob": "10a3b6cbafd70095f2bf9fcb6bb44783a14a2c7c",
+      "bytes": 1835,
+      "sha256": "5e6cbbd9a254ad39570b31af80035b7c11f5675394df0ed4ce7ebf741415f6de"
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/UtilityMethodTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "8871c421e056febe15f013af4e58c62b5dd5b2ca",
+      "bytes": 17276,
+      "sha256": "943c3734899b7f4f55937483f78ff311ed38c4d71e8c0d37cae4d6aff9487bee"
+    },
+    {
+      "path": "PHPCSUtils/Tokens/Collections.php",
+      "gitMode": "100644",
+      "gitBlob": "43288eecbe8299147a9cbc0692869b23b6fed3d3",
+      "bytes": 36036,
+      "sha256": "b4199a15eb64d014a2ab5e5d581f2a729031ed287b46398a1fca69c41fabbb4f"
+    },
+    {
+      "path": "PHPCSUtils/Tokens/TokenHelper.php",
+      "gitMode": "100644",
+      "gitBlob": "4466b77604da01652ab9289b90a1b04e34b93093",
+      "bytes": 2223,
+      "sha256": "2d5c648febb90c93b45b8a7545e34e1427b4b4c077d1fefc4eef096e0abadbc9"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Arrays.php",
+      "gitMode": "100644",
+      "gitBlob": "f772024d7619c07be0b0cf978b85e260025bab89",
+      "bytes": 9666,
+      "sha256": "2ea599cc62fe14e852a4c69470e0ac543aaa921e85cab9984305522782aa9ae5"
+    },
+    {
+      "path": "PHPCSUtils/Utils/AttributeBlock.php",
+      "gitMode": "100644",
+      "gitBlob": "75e31d015c2a7af7822096af254db53b5ce1f1bc",
+      "bytes": 12107,
+      "sha256": "73a35a5acd09ebd2697ce90b08e2e49f9b0f85b0555caf45317bfd7c79d6f41f"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Conditions.php",
+      "gitMode": "100644",
+      "gitBlob": "76f0e8851795ee48e6f066fe2a21a8c9a65a13c8",
+      "bytes": 6159,
+      "sha256": "6cd60b9a9a3d2770c9d515a5cb69ed460533d511d403feb2d99b1fb1f16ae9c7"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Constants.php",
+      "gitMode": "100644",
+      "gitBlob": "82e3e2daf70e1b3cb062d3dc49da82ecb9d8fa49",
+      "bytes": 9323,
+      "sha256": "28019bf5b3de49cbf4531211077aa0cf2015f841a4353335e0df83109e037b28"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Context.php",
+      "gitMode": "100644",
+      "gitBlob": "98bcdda4fe24106728b79abb68229144d3bac069",
+      "bytes": 8146,
+      "sha256": "a79913e769e9b74cc080eb845185c63b88c1d33bfc7543bab79e9981d097661a"
+    },
+    {
+      "path": "PHPCSUtils/Utils/ControlStructures.php",
+      "gitMode": "100644",
+      "gitBlob": "e8d81698888e4893302b97a19e2c2751da0d74ea",
+      "bytes": 10139,
+      "sha256": "a9f04c07cd1918aa5b160e2a9a1e25e2fd1aae3d4673aea66e710db2d7125729"
+    },
+    {
+      "path": "PHPCSUtils/Utils/FileInfo.php",
+      "gitMode": "100644",
+      "gitBlob": "7e4540e859b790af2476be3167244fc4dfae4c80",
+      "bytes": 2547,
+      "sha256": "1ebae0097238d145536e825481a19d907c93620e74b1aee70a327a919657f2c9"
+    },
+    {
+      "path": "PHPCSUtils/Utils/FilePath.php",
+      "gitMode": "100644",
+      "gitBlob": "f08651ffb897b02b66f4dc1a8df6db8e4dc1cb6f",
+      "bytes": 4714,
+      "sha256": "48c66a564685aac15bbcc2f3386b41edeb2d1629ccf98f8016e63c7c44db4b49"
+    },
+    {
+      "path": "PHPCSUtils/Utils/FunctionDeclarations.php",
+      "gitMode": "100644",
+      "gitBlob": "53b84866971d5e41f1ab51dff6c26e3e363feb76",
+      "bytes": 38365,
+      "sha256": "c52ab2a744a5e0a79265a085da825cd01dc1dbe9434a3988fc227e1eac17035d"
+    },
+    {
+      "path": "PHPCSUtils/Utils/GetTokensAsString.php",
+      "gitMode": "100644",
+      "gitBlob": "a9b31daae8a2d79bbce37159bef07a6874b3610f",
+      "bytes": 12566,
+      "sha256": "7871927ec646f9cf9add5200395f7c0e0adb1e7a63118b443322e49ca8340aff"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Lists.php",
+      "gitMode": "100644",
+      "gitBlob": "31c893620b895e00970d65e42f3dd5a7b1a1ed57",
+      "bytes": 16296,
+      "sha256": "f993c204489174a2347b28d0b8c50dcbbec5c91d5555f2241e02c6d62e398c70"
+    },
+    {
+      "path": "PHPCSUtils/Utils/MessageHelper.php",
+      "gitMode": "100644",
+      "gitBlob": "eb7c15052715f8f815fae66c21fa9cf71a70b888",
+      "bytes": 5501,
+      "sha256": "30784d492d0f2eaf0a67d90a4bf276eeac245187990dcad15cf500b7c6879b34"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Namespaces.php",
+      "gitMode": "100644",
+      "gitBlob": "1a39dfb4e88696bbb6f5799468cdeaf77d569c50",
+      "bytes": 16118,
+      "sha256": "0f940df991582dd231ee945d9026666a5bda8144427bbc24ffba91c221609183"
+    },
+    {
+      "path": "PHPCSUtils/Utils/NamingConventions.php",
+      "gitMode": "100644",
+      "gitBlob": "cec7a27ff5a7abdd54969c2e30d80fa9040d3e6c",
+      "bytes": 3886,
+      "sha256": "0172024f240ea7ae8d57517b0f136f731dc4f4fade26c12e2214f6caf8ce0240"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Numbers.php",
+      "gitMode": "100644",
+      "gitBlob": "32305fb78bce5bc00030785e37113fa1c5931863",
+      "bytes": 10788,
+      "sha256": "cd308ab55a6271e83551b46feb61fc5de70e59ae2484687ff8e4641984a9c03d"
+    },
+    {
+      "path": "PHPCSUtils/Utils/ObjectDeclarations.php",
+      "gitMode": "100644",
+      "gitBlob": "be5270809347f0f211f4c5915f07817a16a9cdab",
+      "bytes": 30291,
+      "sha256": "f1169cc4081c4c0002300c2e97d68ddc20ff669593522a6e67443c6caf15754f"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Operators.php",
+      "gitMode": "100644",
+      "gitBlob": "7b2851181f6cb934226c3a78cd0843159a8b18ff",
+      "bytes": 9374,
+      "sha256": "8f4fef9d8e8df5708a7ce8182bd67017751fa1f3c6ed0b902ef982cf142bfed3"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Orthography.php",
+      "gitMode": "100644",
+      "gitBlob": "cd9f35b1f3c4100f024a67dc469380adb77af06d",
+      "bytes": 4820,
+      "sha256": "1d6bf110f0a65de4c7592419ec22fb5b2e16a4a7684ab4ea6db76a80906e6095"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Parentheses.php",
+      "gitMode": "100644",
+      "gitBlob": "651ba410475342218f54a4c94b2764536f50681a",
+      "bytes": 18694,
+      "sha256": "8b94b5ae5c83fd072c2d30a1517d7a141db000537df9cef4a0f125aa3f0277d9"
+    },
+    {
+      "path": "PHPCSUtils/Utils/PassedParameters.php",
+      "gitMode": "100644",
+      "gitBlob": "7dab549caaea63d209bc16f817bccb0de1636080",
+      "bytes": 25227,
+      "sha256": "5c2759b67c446a6bef12ca483474d9250b7ba565179691e10ec7f196eca8029c"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Scopes.php",
+      "gitMode": "100644",
+      "gitBlob": "99011fba0204cd5ef0b7b1743bd2ed5e47ba9450",
+      "bytes": 4691,
+      "sha256": "a3d194ff875e3e2edec4feee315c3b2d60ec9c283204e7c1c863f91d9e7a0b17"
+    },
+    {
+      "path": "PHPCSUtils/Utils/TextStrings.php",
+      "gitMode": "100644",
+      "gitBlob": "53bbff161b8504edd1c9cd8db5edcb0b4abb007f",
+      "bytes": 13690,
+      "sha256": "c1460031de01b328c51e5a79b2057b39009ac33c8a1c4f8454f6eff2b35a3bc1"
+    },
+    {
+      "path": "PHPCSUtils/Utils/TypeString.php",
+      "gitMode": "100644",
+      "gitBlob": "0eab1cd7fd110289787d0251ee0573c774af84bc",
+      "bytes": 14285,
+      "sha256": "b589fc8a2f5b940065b81381d6496bb45d79f01185f94673ffe74aeec9b8b041"
+    },
+    {
+      "path": "PHPCSUtils/Utils/UseStatements.php",
+      "gitMode": "100644",
+      "gitBlob": "7055fabe01e3cba2b39f134309256105a23d51ca",
+      "bytes": 19369,
+      "sha256": "3557d24d777d5a01f842940d36e8c96ac788d3d2534f3547056e0ccff85579bb"
+    },
+    {
+      "path": "PHPCSUtils/Utils/Variables.php",
+      "gitMode": "100644",
+      "gitBlob": "cfc68d1e14d106ac4947cbf417c26996012c73fb",
+      "bytes": 16748,
+      "sha256": "72892e8d71bce7f197125f0d2fda7528bed3f3fb44b1da03ee21057f96805726"
+    },
+    {
+      "path": "PHPCSUtils/ruleset.xml",
+      "gitMode": "100644",
+      "gitBlob": "72cf3b453f714d611c4812b01b446b87915145bf",
+      "bytes": 268,
+      "sha256": "97f1470a57ba091afae547bf660e3065efce489519bb4e485a70e0cf1e02f904"
+    },
+    {
+      "path": "README.md",
+      "gitMode": "100644",
+      "gitBlob": "7fd3d55ad30d4b5f54e86e7167ef7fb28a0587ff",
+      "bytes": 15062,
+      "sha256": "0798bec3682922d38d44594308411a18415eff907a244f9d4a527e2c47ae1368"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/AbstractArrayDeclarationSniffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "1edce6b3a6b620dedf8546d556819d3d1e28c8b7",
+      "bytes": 624,
+      "sha256": "d8bb396a721c76b845525d9bf0bcbe2df59e484c8f198fe0b2af55d88abbdc4c"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/AbstractArrayDeclarationSniffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "a2e9957e409c81507c529c4165b499dd7b9a10d9",
+      "bytes": 20579,
+      "sha256": "251aa465d5673b9264b09bec2852cbe056be101e1305a9f0178fe6a1f2ee8766"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/ArrayDeclarationSniffMock.php",
+      "gitMode": "100644",
+      "gitBlob": "0bc812c4339df040cc76c292dc7735cadafb9fe9",
+      "bytes": 631,
+      "sha256": "7e7642f67c270d0251df65c325257126845cf914ce8f0215167e11028f95bed2"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/ArrayDeclarationSniffTestDouble.php",
+      "gitMode": "100644",
+      "gitBlob": "efa0b653dfe28a17956c2ccefa53c687788e0ab1",
+      "bytes": 1148,
+      "sha256": "3312b76f34b23fe3e934f3793461119c901efcef758bd6401a5f8712c03390ce"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/GetActualArrayKeyTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "04319c9f016c66d4662db101677b575d454966a7",
+      "bytes": 6051,
+      "sha256": "380183dab8d6f973824a7ed806b63eb915ec39684f9072725a32a71742607568"
+    },
+    {
+      "path": "Tests/AbstractSniffs/AbstractArrayDeclaration/GetActualArrayKeyTest.php",
+      "gitMode": "100644",
+      "gitBlob": "457d360f69f087e4c53e4710e6c00be5e3b567dd",
+      "bytes": 12595,
+      "sha256": "f0a8d21567a13bfdb0c72daef2eacf89ddbbfcfff31c557c2f01d6833a893e1f"
+    },
+    {
+      "path": "Tests/AssertPropertySame.php",
+      "gitMode": "100644",
+      "gitBlob": "4dc512f8cd9b9a5afa1842905e1da09b6bca0771",
+      "bytes": 3244,
+      "sha256": "4fa5ca2aac7fd7879f1ddbaeee091416d826619376343b6b7eeafc25a9337582"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindEndOfStatementTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "8351679891291c427a22e36654c07f3ad8e483fa",
+      "bytes": 1864,
+      "sha256": "5b1e5cc64ab555101e679774452a078bca60c73e781c5502cb1b45f13a88eec6"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindEndOfStatementTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4543a3633623fc9141b6c39dba3ad90214f8565e",
+      "bytes": 12453,
+      "sha256": "9e45da7492dc3505e44ca1d7f1d0bec1a72d16e7eb905f100d71314c23ed2d86"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindExtendedClassNameTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "d466925404678eef33374402ee8287c6d4ac72ad",
+      "bytes": 2036,
+      "sha256": "b71948ef2ab2cca6df934c665c33bb97f9f4b8ed168310144ed3afd4e0e8e49d"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindExtendedClassNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dbf93e1e52dbcd00fbf27070c864f68279ce7656",
+      "bytes": 6837,
+      "sha256": "a6382b507b60471fb704b39393bc746603356885edc4366ae8f2a5299538b016"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindImplementedInterfaceNamesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "50d38b88b29c16e0a85fd120dd97e18446389c17",
+      "bytes": 1663,
+      "sha256": "1111b37f63a8ff5e5845ef15c88425cb9e9d62ba63ebab68e7206eec1e00727b"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindImplementedInterfaceNamesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "48a0e49ba416444164a6906065ff01ddd75ba46a",
+      "bytes": 6670,
+      "sha256": "a0092d73bdc5c52e9e9add04fa04a00fd2c4aa4f92d752a66035dc214e58c586"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindStartOfStatementTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "681289eff89dee5d9810e99c37f06e2e81ea96d9",
+      "bytes": 4328,
+      "sha256": "5e3405b5a4cd3584460fedec90dd4343409be249f8f6f92100b7ab3c8416787a"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/FindStartOfStatementTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5fb1bf546964271e2989a7a06fcca79c90f62b3c",
+      "bytes": 34288,
+      "sha256": "a45551f7967eb87c18e96972fee17f84e3ddf5e8878584ce43059e53e9c98d71"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetClassPropertiesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "2490a09657ee92db6a8b2d2919e82df9efba48cd",
+      "bytes": 1154,
+      "sha256": "de2382ee09baa664628a9372ec5547114ad25e3b2516bd2dce1519c47d5ce8bf"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetClassPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7c7465b9b4083d28998629f9248941f8b444389e",
+      "bytes": 8345,
+      "sha256": "f922687b527609dbc4a0f8837bcd46cfca20055962885b1f70199b1f9b03be5e"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetConditionTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e7684daa974d17686025ab39648b33d82816bed7",
+      "bytes": 3667,
+      "sha256": "3cc8456bbff35bbc8c12b2e8a674075fa2f18883e7cf86603e15fa71dd151f05"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetConditionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7ffb430aff28ccbfad5caea9b4694e8954d7b131",
+      "bytes": 18828,
+      "sha256": "6ec40000bb6093afdf62905ac4e4ed12c5dc67f9cb82f707c22c41fe3826e4d9"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameJSTest.js",
+      "gitMode": "100644",
+      "gitBlob": "ee0a76a44fc8660f3ba75aaacb9f22e3e676b0de",
+      "bytes": 315,
+      "sha256": "c759128940747215782ed29a0dd5de2f0861db7b39d93d41f0481ada63043fb4"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameJSTest.php",
+      "gitMode": "100644",
+      "gitBlob": "a749ec21cc1cdcbe8c9dce9f54a0b620f67cd0e8",
+      "bytes": 4254,
+      "sha256": "a018879a8eeb77579a7f5247f1099aa33b0938dc49f87de215cf611c4b26b93b"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "451d4dfb82cd2fbc2aa35d47a956eeae2907c420",
+      "bytes": 117,
+      "sha256": "bc6fa06a052ae7b98d44450dc46d2e3e406e07f96d841ddb76d5b0f23b6a5ccf"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "7a73887fe25cabae8498ca5ba651112c64e9b9cf",
+      "bytes": 1722,
+      "sha256": "9c3047d58de288fb3301191d4d49478a82d65bc04c70a7467bc85c75117c4647"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "e9a61cf4113066c0a4e2154ee83ab4f3121fe464",
+      "bytes": 251,
+      "sha256": "28c01cc2d85c57f696ad5f3f8200b9404ff3cec535f66554c4eaa0de7fb17384"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "851a3acf7190a954aa234eabd3d9098934782028",
+      "bytes": 1721,
+      "sha256": "10f40af4dc2f3a4a885fb1ad19c704ff881ae688ede633f71c93ccbafb502914"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a7a53c9a1a3e7d76fde9dc5f19d83a938cc18bcb",
+      "bytes": 2015,
+      "sha256": "8f8d8640c2460d3f0572b93b11283b69104b264af09d37644e8ca4e317d02d1a"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetDeclarationNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1f32876cb10a74ac1ab7b133284a6c2b83dc5672",
+      "bytes": 7600,
+      "sha256": "0d2ccd245b86be604335cb91c6c9fcd02c3a6d2afa30ce64d2e5ad9270529195"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMemberPropertiesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "093ad850ecadd7c1f389047a8f975bcf03924870",
+      "bytes": 12605,
+      "sha256": "2551c89666b8ea0ea6a1f8e4b6efcf795ae808da6c197ced50222f8eccbc52e7"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMemberPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5e536bab97feb3fdba80cbf5e03faa477ea376df",
+      "bytes": 87731,
+      "sha256": "ebcd4f6c0381a64851dc43af00e517fae8710c11b573c05826463f97e777203d"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "465679eb368eab27e034572e219c4d06a371de73",
+      "bytes": 83,
+      "sha256": "686d62941e49fc008bdb034c87eb421fa15a863255757f3c640ace6b231a6ab9"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "9c3358f8772f38e994ca9631545752856d8af804",
+      "bytes": 1136,
+      "sha256": "25ce30a0c1af41ef1bc888ec4c998266849b1263ade47b3485eb25d09722c5ff"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "667cb5ed2fae24fa8aacb5d8beb550ff78d1db17",
+      "bytes": 85,
+      "sha256": "0bd07e890672c57ef554972b9ea0fb19890342860536139c523aabf1498f8503"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "3324266f8a4e63398a220023fd0b9aa398b5543f",
+      "bytes": 1136,
+      "sha256": "49e1caf8d23c419df2337205b196c0ec7bacb33fb942c8babfee2e2a96814038"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "6609a8efadd56542c4776d2c1bb8ce055e2eb904",
+      "bytes": 155,
+      "sha256": "2132a33b8bc07a431f40f997a9192617f5c00a8d3ccc527ee35651a9901aa324"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "9dacbf0b53baea57f341d9195cd66162c9b3a533",
+      "bytes": 1089,
+      "sha256": "40bb21921a9b70d9dd0b6952120f656765eab98647004eb4fc1bce81f29115ce"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "10e0d009da399893805908ab8d496f89209131ce",
+      "bytes": 163,
+      "sha256": "2f1472b286d1a6dbe8aa61b554dee7ad249225f1d57e59feaab12e5328f6ebac"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "13de85180584f3ceed05f7709c7f75daf73d6145",
+      "bytes": 1069,
+      "sha256": "433d6aead307345c5562bd1f89ce60f97c3d24f171e7e98deddc8d45f6ab9c6e"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "2d2a50034c4bac8a0745c7b2b9d2164bbba021b1",
+      "bytes": 11648,
+      "sha256": "7591e1244317aa90dfa556e22e433f50b7b627b0834d31dd405501b9a4245cb4"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodParametersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dd19de6f1b77a6a898673af42bb1e8cd268d1a65",
+      "bytes": 121882,
+      "sha256": "b90a27df8e22d454fe058e05df65f2318172412c19809b484ff689415cfc9f30"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodPropertiesParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "6a2f30655e5dd9e5bc3a2fa262e811bf8a3e6cb0",
+      "bytes": 120,
+      "sha256": "be2ba3655090d9688865bfed138e2f55ed3dc1a123f18b0c08103702d5fdc5c8"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodPropertiesParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "ab961b6cc9039f1f1fde26909bda716bcd14b15f",
+      "bytes": 1635,
+      "sha256": "3cb9c0972c90344cb2a598ac68570b4edc062cf825fa7041bd7de0e76631a725"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodPropertiesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "c2b24abb98789a03f9dd9fa4e54861e30624c990",
+      "bytes": 7261,
+      "sha256": "b88075bd39806c95d5edbd15da52a7b4d35dc869aa2e252f8a269b8ca49d4df1"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetMethodPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0a30434a314059744609278347ca046198572f2f",
+      "bytes": 50521,
+      "sha256": "5711998073ae904e1814796ddf939b85364d684edb93120d66272265f2bc1209"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetTokensAsStringTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "ace5a9bd4178c59146130f02921b3d7e7eab3153",
+      "bytes": 375,
+      "sha256": "ff867483b2ae4579ded7cc163b88dc065f77fc17f1f945f7bae759b35bf9d17d"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/GetTokensAsStringTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d0196fb56bdb98cb20e66d9f432887f36eeaca58",
+      "bytes": 10682,
+      "sha256": "8f00ca4bb8375ca7f2fb31b8d100df9d1a45295a444b7adb9535f7cc5589cbe7"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/IsReferenceTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "05af8390550cea6fd4bf0a0b2296a8e3e7a42a69",
+      "bytes": 5409,
+      "sha256": "115f3679442ab84c5192a4aca1f33b6f63cee764b37dfa0184b9eaa474cb4e1e"
+    },
+    {
+      "path": "Tests/BackCompat/BCFile/IsReferenceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "31022f85f3c517d1b57ae270f45a0638316e8801",
+      "bytes": 18303,
+      "sha256": "7975671dc0eec3e7b65b5767d2483b40b1bb5249de4b3691f39ba87602b46c09"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/AssignmentTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5fc447792e4bb477b1861a5ccd02a0bd9dbb8a84",
+      "bytes": 2558,
+      "sha256": "ca88c11d19e68310ec1891d054a4804055bb4b15f3bffb45d46533dc60528b17"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/BlockOpenersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0e438658226e179d3c4070faf08a7782ee27048f",
+      "bytes": 1989,
+      "sha256": "2f5b8e8aea103a655dccaa70f36f541bf10b5c57f41530e7c1da107fb8efc8ba"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/CastTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "551f3584c91278abfcc44a3b4e217cffe8452065",
+      "bytes": 1808,
+      "sha256": "3bb83c759bab8a6511ab7ac875d28e26e6da0e9ae3dffdf9f0516638219ec1a0"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/FunctionNameTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "73d35ede0a5b69c8b28f213bdbda889fb5af7e24",
+      "bytes": 3136,
+      "sha256": "ad9a1152b1e9a3823a12282255cfca62b90f5d9950cb1590b8eb5964dcbc5781"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/NameTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "cfefe933a8420662b49cc41e0ef306802a44d2f3",
+      "bytes": 1653,
+      "sha256": "e51c9a5d292187ebde57e1517f4ac40c28ee70de79430ab8048bb7a5947e3010"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/ParenthesisOpenersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "f2cffeecbd45bb069c26b65cd0ae1b0aac164e15",
+      "bytes": 3018,
+      "sha256": "ee09eeda00b053c1f0920e9995df2916e40555f5c2469721f3b87569c980d576"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/ScopeOpenersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "071bc0e18acfa35ed68930a51a86ff42798c21fd",
+      "bytes": 2780,
+      "sha256": "ec0dd1e1c8550a7632ee32d8b3155e57921e51897be2e5f991eaf345a706cf59"
+    },
+    {
+      "path": "Tests/BackCompat/BCTokens/UnchangedTokenArraysTest.php",
+      "gitMode": "100644",
+      "gitBlob": "2852b1e84708ba786acddbc0065e38886f08eae8",
+      "bytes": 14356,
+      "sha256": "c986ba42cc9e64a94688e501859355ac073c59f5fa2d081f7097f77b1d848832"
+    },
+    {
+      "path": "Tests/BackCompat/Helper/ConfigDataTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6ac9271212eeae21558d1d2f17e3a540a2b538cb",
+      "bytes": 2751,
+      "sha256": "6c6950f9946b432c6774f481e6052c83256f1de2df8c2f0df837974ed961ed27"
+    },
+    {
+      "path": "Tests/BackCompat/Helper/GetCommandLineDataTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c8f06e6fdb69fefabf207e2694c317dbd9b00909",
+      "bytes": 6138,
+      "sha256": "f6d99138ebae35084176ddf948c136110ee844931683736c886997853e750728"
+    },
+    {
+      "path": "Tests/BackCompat/Helper/GetVersionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "52a0a5b971dbd724f6879c6bee2264517a104c1d",
+      "bytes": 1984,
+      "sha256": "18691adaa79f14e3406fcbc7456cc2b9934ce198d8bc0e0ef109b097a4d0890e"
+    },
+    {
+      "path": "Tests/DummyFile.inc",
+      "gitMode": "100644",
+      "gitBlob": "f6de982bcf02811ef4a3adeb121579d606ae51f6",
+      "bytes": 116,
+      "sha256": "9a353a14bec3017bb5ff7c46b996875c159e3c58748370139ee4bf204474e3b6"
+    },
+    {
+      "path": "Tests/Exceptions/InvalidTokenArray/InvalidTokenArrayTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e1efc7b69ec487efa74a0680e1e295afab32d2f2",
+      "bytes": 971,
+      "sha256": "7a68d8e3bea76a5b8e047cf115a27a9db6057d88d731baf1fe077dca19fa59d8"
+    },
+    {
+      "path": "Tests/Exceptions/LogicException/LogicExceptionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "455c75ab06cd393c25296a728a17701a6d2d8c9a",
+      "bytes": 1007,
+      "sha256": "22f006868d1f1002b2749cf80fd2576ca019dd2bfa45bb56613a852e52fa4f05"
+    },
+    {
+      "path": "Tests/Exceptions/MissingArgumentError/MissingArgumentErrorTest.php",
+      "gitMode": "100644",
+      "gitBlob": "3bd2749782da5a13f6531360db3b9e4348f5550c",
+      "bytes": 1093,
+      "sha256": "f3813d9a3be5867518b5f6b8f2cedfcb76425708dced718dd9528c9a6655dd05"
+    },
+    {
+      "path": "Tests/Exceptions/OutOfBoundsStackPtr/OutOfBoundsStackPtrTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e2489e09f05a46a327ed8b0464e5dbb2b5122b79",
+      "bytes": 1675,
+      "sha256": "f680da641d4fb71da066ad19d15ea39aad45927c5135e61ca1f2aa71de87c24d"
+    },
+    {
+      "path": "Tests/Exceptions/TestFileNotFound/TestFileNotFoundTest.php",
+      "gitMode": "100644",
+      "gitBlob": "a3760eaee0eff9a3c7a82de22854ba65051be828",
+      "bytes": 1400,
+      "sha256": "b96ff94711870d9f2d4691d1e67d5224cbed043e60453625f395a6ce3dd298b7"
+    },
+    {
+      "path": "Tests/Exceptions/TestMarkerNotFound/TestMarkerNotFoundTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5b2b1a99d6765f45dad95f3fe0d08ea81596817c",
+      "bytes": 1024,
+      "sha256": "bb979487a285f495f5f250bfdd3ec39b108d39dd575960ac50986cbde21951c6"
+    },
+    {
+      "path": "Tests/Exceptions/TestTargetNotFound/TestTargetNotFoundTest.php",
+      "gitMode": "100644",
+      "gitBlob": "ddb77c844ad8d48e377ad41ae41b3b05b0e9d61c",
+      "bytes": 1614,
+      "sha256": "06cf6e15e52a091424767adc956ff0b0ce8d22027634df55eeaf2641c292e11e"
+    },
+    {
+      "path": "Tests/Exceptions/TypeError/TypeErrorTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6450b9121bd55fa293d10fcb012dc15b757f4a67",
+      "bytes": 1043,
+      "sha256": "3d64a6c702ea5551c0d806f532d69e603ce3b1ba4ea9ec0031c1d47b9ea4b0d6"
+    },
+    {
+      "path": "Tests/Exceptions/UnexpectedTokenType/UnexpectedTokenTypeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "ba1b45babbfd208fb705075adf7f5bf282ba324c",
+      "bytes": 1127,
+      "sha256": "38f5b6534f0544056af2cfcb67d6648b92dea6d90c91ca53a651ab4e33c7656b"
+    },
+    {
+      "path": "Tests/Exceptions/ValueError/ValueErrorTest.php",
+      "gitMode": "100644",
+      "gitBlob": "aa8e9bc46a17ef84c122fdaf19eb4a0454bb0b3f",
+      "bytes": 1044,
+      "sha256": "f0d8443acb1ae4c10cb74c97867b3783a8d012e0441213636a5f88d2779e55a5"
+    },
+    {
+      "path": "Tests/ExpectWithConsecutiveArgs.php",
+      "gitMode": "100644",
+      "gitBlob": "522cd23ee5281620772bc63d1ff8ff0c2b892ea8",
+      "bytes": 4203,
+      "sha256": "c91b2907858414d564ef5d97f5b701d067a324d181c997e41880a9746ae4423a"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerAtEOFTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "4cad7aa243cf1a75b22ad4de6e52acbc6b231d58",
+      "bytes": 62,
+      "sha256": "b88fcefd74973fe3eaa6eb1874cb76ccff0b2e0ea7dad782a1a864bb0e198780"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerAtEOFTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "a18f9d244d4340ce6b86f5eb671a1466a3fe3497",
+      "bytes": 59,
+      "sha256": "47c7f0acad4b6682457cc950027bd6615b4eb3f17c1351de64bcdf6413c6b9ea"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerAtEOFTest.php",
+      "gitMode": "100644",
+      "gitBlob": "2475457de18a60495fe727a9cd95549f720a1685",
+      "bytes": 3833,
+      "sha256": "ef11565660856a067cbb8180e5c8d32a6edea16670b9b4d9b890a8efa4c26813"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerExceptionsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a0177f5ce31426f503d1efca4c582727f92acfb7",
+      "bytes": 144,
+      "sha256": "35807b4fb5c1c7b66b1613e20739eadf5034b974108ff5c07bb57b70d2d45058"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerExceptionsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "264a96b8b74cb4fca9e5ea30ada4595c4d76180d",
+      "bytes": 7332,
+      "sha256": "13dbe863c2c77d53445aff0797edbcedb034c2c24b13cc9d981efe0f4df66cc5"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerNewlineTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "a8fb0c660ef3c2f315bf6a392ea8f8b734dc7194",
+      "bytes": 465,
+      "sha256": "8f52fd16da81370dd2dfc39c3dd2b7aa6ed3f3c00a7a33da8d7b09fa46b3a469"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerNewlineTest.php",
+      "gitMode": "100644",
+      "gitBlob": "60455f90610ff32b9d4c7ee0fd8da23713d49733",
+      "bytes": 1494,
+      "sha256": "0a42248577d0687266c8888c5d6bd19a31cfb817688ad49ef8055f33e30434d4"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerNoSpaceTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "a331f43f3ec337e38bb7a49f2daee3a7920fe2dd",
+      "bytes": 433,
+      "sha256": "2772ebc718a5f24c6ab6cf83f75431024c38d8dce549114c59cb6fe7d3847592"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerNoSpaceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "da40d2d40b191f4d1c3b8e834a61e785ab02f416",
+      "bytes": 1382,
+      "sha256": "1d24803963e023530e23bc49fdae041e78ae812b9e334a6631269885bff5ac23"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerOneSpaceTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "d820504e9064516807ef088729dc6d0be4e2c0cb",
+      "bytes": 439,
+      "sha256": "20c4273b7c3f039522fc44b3a9107f114e17c9bef7a09acc6546bd83120be8a4"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerOneSpaceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "10578cc5f1d5e192b7d0fff2e725509c85c52910",
+      "bytes": 1435,
+      "sha256": "c03d0375f5f8b9576872c25c100b5ea3758ce39d7d0c9ce071d3ff4df4fce045"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e2749f26041a05b0e3dfdfcdbeefd1d32beb14c6",
+      "bytes": 477,
+      "sha256": "8fbf9946c1b68355c798043e355dba55173895a4f61b0263acbb93d928b7e12a"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "efc39a4f96c0973e631c8b6fc65fc385fe2810ff",
+      "bytes": 11700,
+      "sha256": "b9ccc87298f5e2564d5a6adc1815f9e43f43b6d0efbdaf1377c97b28948008b5"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerTwoSpaceTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "66e2ebc82defe2b0c6cfbe51bfab8ff7c880ba95",
+      "bytes": 445,
+      "sha256": "f44f248148befba3cca219e19d755abc65cba263dce5c9434e6cea7db03b4500"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/SpacesFixerTwoSpaceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6a9aa604396b721b7fe9ba464f5fcf2a324d3aad",
+      "bytes": 1487,
+      "sha256": "3909a859f138c97d9484bf33e061111182e3d0f9820db1f2e8a4763522ec96ff"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/TrailingCommentHandlingNewlineTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "04245e6b764a36a4ededdcc4ae418890727be65a",
+      "bytes": 160,
+      "sha256": "10706a4c5c822b94d1cdd2f8be427b2514dad9c64eca674d23e60b729750068a"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/TrailingCommentHandlingNewlineTest.php",
+      "gitMode": "100644",
+      "gitBlob": "576350c3908cca845589122d47e00d792e3e21e7",
+      "bytes": 4637,
+      "sha256": "85631cdf8ce9de5a139ab5fd2e79ea955cfe6d233b187340a8da606eed49b5d2"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/TrailingCommentHandlingTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "b1817297e27bbf03cd803a00228459721a0ea0cf",
+      "bytes": 175,
+      "sha256": "ae6e8ebb0f541beed83cd218ce28b4be90ea1d525663cf12b9a777c933f750ec"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/TrailingCommentHandlingTest.inc.fixed",
+      "gitMode": "100644",
+      "gitBlob": "4da9a58e1f39812e104620f2a748b8c5f9eae771",
+      "bytes": 171,
+      "sha256": "793c3d75f9fc156c24a3e19766f0768026fe8eb28d73e695b09bea4de211f3da"
+    },
+    {
+      "path": "Tests/Fixers/SpacesFixer/TrailingCommentHandlingTest.php",
+      "gitMode": "100644",
+      "gitBlob": "74dab315266b42ecf320589a3e217f7251dca66a",
+      "bytes": 6066,
+      "sha256": "aaf146574b5ab2e6c7743a531974a7c5bb1ffdab1b65c47c3ee5abad3bf3ebf7"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForConstantsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "d27a7de9b249cd9bd471c7d0fbe0f5051e21ffb3",
+      "bytes": 1273,
+      "sha256": "71550f4fddc306f3881923f7e78bc9cac40eb9cf81fd1d2d08f0d725c306945f"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForConstantsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b94f324194c087671c7446823dc9a568dee1abd2",
+      "bytes": 7120,
+      "sha256": "bb681c5e711cd49ca0ccc736e2855c090f7042967979ff7e4b64124dd3e4c2c5"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForFunctionsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "0777542939608bc4dfb1ee39558ccfc8130756e3",
+      "bytes": 1722,
+      "sha256": "ec21547fd011548e755b502c5f2d5dffe745f3e8f12aa21a1aab6578ff170b58"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForFunctionsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b30f2b6874e485731ba315a74222a33d69fef1db",
+      "bytes": 8442,
+      "sha256": "ab00756f32ce61f808cf99af5841140ecfab18fdd7a7f6c2d30533c494dd5c7e"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForOOTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "cf1a37ab08de713c6a8160bbedd21276f8a3f62b",
+      "bytes": 1518,
+      "sha256": "d900fd47bb276284545f42dd5e8f67c183abb43dddcaf4dcd9b697e717583328"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForOOTest.php",
+      "gitMode": "100644",
+      "gitBlob": "ea597bd122bd3a293e37436ffebe6e7057a9dd6c",
+      "bytes": 7898,
+      "sha256": "989eb60e208eac1899e20fe6831c5204b846a62f6b76a93a30072465ece9a78a"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForVariablesParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "0494f8edfe84b12adc5fd4adbdc0453d4614be04",
+      "bytes": 275,
+      "sha256": "c5e3a974f2222069619f650d13af3dcd9114f669520b187532789387a0f473a9"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForVariablesParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "b7c04de21997aac7684015f18005927dcaee1643",
+      "bytes": 1375,
+      "sha256": "a7fdd106ff3425a8c12ba8ab36ee8783b556c34c20dbaf202d84d7b4d149aca9"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForVariablesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "57154685be86059be10de8f82cac358c0bef37c7",
+      "bytes": 5245,
+      "sha256": "f5eba7d54b98c0fd72dda81ca32d65c3d262163a25a3af1b613bbf0f850f313e"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersForVariablesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0f60aaef73c6bfcf63bebc0089c130e5dd054e81",
+      "bytes": 16219,
+      "sha256": "ce3629b846da98d46df922b6450b34683282164f3ad338ac95cef323f8713b9a"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersMiscTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "d04cc7753031dd565c5ed8aa25325154ed562029",
+      "bytes": 28,
+      "sha256": "938a1e738d10d681cdedfc27b71b433504137a5ef51db9cbaf5b3df5d6c85684"
+    },
+    {
+      "path": "Tests/Internal/AttributeHelper/GetOpenersMiscTest.php",
+      "gitMode": "100644",
+      "gitBlob": "a92da5e1206cb2029eb7c1ce3052a7a7257ba044",
+      "bytes": 1561,
+      "sha256": "9d258d264d2c72b3e2952ffbf25f42dc070ea4ef5597cf220dab3f374a208168"
+    },
+    {
+      "path": "Tests/Internal/Cache/GetClearTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e329af4aec1a5efd51749f0489393558fa1266bc",
+      "bytes": 11895,
+      "sha256": "05aa389cf47bcf34ff980fca5831c013b00c4cf0986a28fec5277b670bb1cd94"
+    },
+    {
+      "path": "Tests/Internal/Cache/SetTest.php",
+      "gitMode": "100644",
+      "gitBlob": "bcb2e4572ad055c36b1a8d7aabb5d5bb6bb46564",
+      "bytes": 9173,
+      "sha256": "2abec2a36bf67ef0095e9e5c559d87c42d97630a62498790a83d5a2c0166dc1a"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/ConstructorTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "01bca02d5388ae6d1f6cf9752796d840d46a9f78",
+      "bytes": 354,
+      "sha256": "6c6f6244df0e05bf17aecbe31767a34369a70bc6f15116dc014b764b78701eac"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/ConstructorTest.php",
+      "gitMode": "100644",
+      "gitBlob": "2bd77f03eecb5b9706ab3f4ce0e210bbcb3228ea",
+      "bytes": 4788,
+      "sha256": "b5ff9d1f64a9309791b71ec0da97acb56c5cf6c48bf232f344af7dc79ff7934e"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsInForeachTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e8c5a71ddbf89061d3e32567d8af9592be086006",
+      "bytes": 2413,
+      "sha256": "f1c6ebf788e693558e0830a548678742b9006ae6fea489556c9e95ff7d081023"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsInForeachTest.php",
+      "gitMode": "100644",
+      "gitBlob": "fb5078d73098c6a182a84514527151e1134bb824",
+      "bytes": 8142,
+      "sha256": "abc93dcdf1ec8e4e3f5fd048f422b297578904f4ffd4d72eba83b2833e87b9d7"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "c81747006db414da09dca7328d97867a00c86c18",
+      "bytes": 1261,
+      "sha256": "a710f08b8ade381189370cdda3742c7382a48ae4a31b4c524e0dffbf7f74f604"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "302b7e37a8453a8c5f9cbf5bac028850b223706f",
+      "bytes": 6208,
+      "sha256": "01d1c992e47fa365bafd84eda75407adc417572d521bccafe83b526f880c3e6c"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "059f736ecc6047db56531bfdc31626bd2ba9fa39",
+      "bytes": 203,
+      "sha256": "edcb0c793e0752e40009bd1ae0d9e62ac94981898eb8fde38296016d70adb96e"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "7580784f409ef1fe69534d6ced96760b2583c050",
+      "bytes": 2381,
+      "sha256": "c2eee8b7364e5747b6107e8a776ee76890de127f7f18343d6bd7c3c8fc1f7527"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "a95f3a43c439eb40f7f4c2157125ee1f034f9dfe",
+      "bytes": 192,
+      "sha256": "11079ccb3cf09c241b0726b158a20d08d1bf7ef5f6ae959605224eda9de20c9f"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "026d5ca166156beb15149c250c06288e7d955593",
+      "bytes": 2264,
+      "sha256": "1096879b0411f07bb209347a08ebd34f9f6642c1ecba2d76941cc04f104fbab7"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "8a0c82c6d40ccf515e1d8ada669acc65114a88b6",
+      "bytes": 198,
+      "sha256": "1f547dfca36bd6d5788dd1fadcb42e9f36f452f30a3374ab73ccc4b00b28f209"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "0b4eaabfaf26b0f25347de0cbd56625120ee2c99",
+      "bytes": 2260,
+      "sha256": "a2acbabafa27ba7e5d203f1fd34b75728727abe67119607b3c5c4fa2976980f8"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC5Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "40b15deaf0c69a00dcbf3344710ae42557276649",
+      "bytes": 118,
+      "sha256": "c2767e375180b9719d44bd34ec10174bf7d069b9af035b8d9895f514a94b7a14"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC5Test.php",
+      "gitMode": "100644",
+      "gitBlob": "79edb1705a8627a95fc5c66bd4e8eb432dec9480",
+      "bytes": 2260,
+      "sha256": "29697589267c38cce1bf4af88317433b3b407b432cdfbd720d11702f5c54a8ea"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC6Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "afc27cd2e9269c70d3fdd5249c4499840f1858c0",
+      "bytes": 122,
+      "sha256": "a53554bf00c6a2711524f99eebf607bd5263dffcfac1211123c038cb8278ebde"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayBracketBC6Test.php",
+      "gitMode": "100644",
+      "gitBlob": "e23f987eeda1eb0f70d50ed365e94d06e28c03c8",
+      "bytes": 2260,
+      "sha256": "d85648522bc564806a312897aaac8d928862fd2fcf0a386069b101e4eff5f408"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayOrListTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "c1079eb50f3a473a5e01c02d907766d4b2c8529e",
+      "bytes": 6517,
+      "sha256": "a604f722827b24fbd8884eae763c83b0a448666e106944b609b0177894a20cf7"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsShortArrayOrListTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c3379825160bbb96eceac6b434c2a7e9a310a7c1",
+      "bytes": 17841,
+      "sha256": "77b0cfef0e06222d02647d4f9324b32d1d2388b622b10544b070121ea68d3d47"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsSquareBracketTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "59a6208b60cab5529e519d7978a97b3066429296",
+      "bytes": 1358,
+      "sha256": "a5a3befa133b5e3a54a4db9ac304e2e46cab4fefa4fe8ec68c93c91d8368c24c"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/IsSquareBracketTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6ad49d429e3cfce7b653ee4ed642a68000408395",
+      "bytes": 4187,
+      "sha256": "95d58c9e639170e4efa72b4a1215a2381009f7638a023bdb6bd98439f08c7343"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/SolveTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "29157588481a687f1c70a280396471623588dffa",
+      "bytes": 1448,
+      "sha256": "6fbdda02fe4d13a91a103aff0049ff103bb2e55161153c538586ad612db6d044"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/SolveTest.php",
+      "gitMode": "100644",
+      "gitBlob": "8328a6c0d23b2dca4553f948311161bd2844ccfb",
+      "bytes": 4152,
+      "sha256": "0d69e0bb882f0946b2401e57c9f620b88b4fe5ebe4362ba104d8b309885fe5f6"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/WalkInsideTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "01029bbae8ecfd88daf4faad5fbc7770a00ae054",
+      "bytes": 6398,
+      "sha256": "746d0fb03b18cdb27d9a1798dc4bc3a9b70c7c11ee78f2666f3c76fa45536c74"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/WalkInsideTest.php",
+      "gitMode": "100644",
+      "gitBlob": "3dda6e8d98a016c7b3d171592fd6a2a10ff4531f",
+      "bytes": 12318,
+      "sha256": "c761cddce6d058a96c88b1e1ec273b734736e143202a6f5d5b0fd1cd2db8be7c"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/WalkOutsideTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "94664e26b6915c93a658b9bb14eed67f8bc829ac",
+      "bytes": 5085,
+      "sha256": "8132d2849885e732d828f08a9d777cdb8ea3dda9fc0339ef978165a656035ff8"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrList/WalkOutsideTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e7e41b1a9c4c887fc10be480d9df9cb51ef5cd06",
+      "bytes": 8617,
+      "sha256": "255e11840e2c2d061ca269949b9251d522374e3c90f4ec13ce96bb31289ab180"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/CachingTest.php",
+      "gitMode": "100644",
+      "gitBlob": "63918ee9376f8ed9bf8d004d7f7533d003bdc9be",
+      "bytes": 4530,
+      "sha256": "f576bf59f04c0cbef867ff4884e908881e120ec0bc743f1069e65b8a29ec3541"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/EntryPointsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "057f6b29bb9f5eeacb761a8d93f0cfb8b7bf335a",
+      "bytes": 5900,
+      "sha256": "310642df8662a151c52b0404138ac26a69b6d1c98d91d3d829835b195c45a366"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/IsShortArrayOrListWithCacheTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "b422081f99631f389ade9524d6d6aa6d8d684544",
+      "bytes": 384,
+      "sha256": "5d51cd92da9dc1341c837bd86d7572f67c88345dee423fb5c196204687a957fe"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/IsShortArrayOrListWithCacheTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "f60b65b97bfa5447c9dc88d3c4d1dafe61dd6b05",
+      "bytes": 968,
+      "sha256": "a68eeb7da82b0b7e17d8d3d28409714cf2f55fbac983af89c6fdb7221fae885f"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/IsValidStackPtrTest.php",
+      "gitMode": "100644",
+      "gitBlob": "62d620c1ae17b911bbcd43c569a5eaffee9d79e9",
+      "bytes": 4073,
+      "sha256": "2860dc3d1c0a48f976140a3d0f9f0a9023312a6a4564baf2e1847f0c30ebdeb9"
+    },
+    {
+      "path": "Tests/Internal/IsShortArrayOrListWithCache/ProcessTest.php",
+      "gitMode": "100644",
+      "gitBlob": "83472c6861951502ccc622b0f71810a2b18edfb7",
+      "bytes": 3908,
+      "sha256": "4ab881fe1da220653a649645b85f291bc241712a341d0cb6b3d430ccc6c10189"
+    },
+    {
+      "path": "Tests/Internal/NoFileCache/GetClearTest.php",
+      "gitMode": "100644",
+      "gitBlob": "840bb9d40b7a6f2d84094636cc75b7f4cf13cab7",
+      "bytes": 7425,
+      "sha256": "97d2705d843741fd686d5bfc9ce41d47b03145061df53bcb29de7bcef25572b7"
+    },
+    {
+      "path": "Tests/Internal/NoFileCache/SetTest.php",
+      "gitMode": "100644",
+      "gitBlob": "bbab1499dc7a21bafff7a3ac38947d8f021a5b44",
+      "bytes": 6521,
+      "sha256": "70c6e87416345c104ae5f353d456d8ae802120ed931a02af8850edd5518d26ac"
+    },
+    {
+      "path": "Tests/PolyfilledTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "68f33b88c1e6b0d05405462598e9500437c5440e",
+      "bytes": 6192,
+      "sha256": "90596826228c3b8d913c07d7a0a0ea22f90c9cbf8df970fcf4a136ef7cae6a2b"
+    },
+    {
+      "path": "Tests/TestUtils/ConfigDouble/ConfigDoubleTest.php",
+      "gitMode": "100644",
+      "gitBlob": "42d7944a89f30802e7a049afce46ee0a0effd762",
+      "bytes": 13988,
+      "sha256": "91f31f8b84048404c8bdf837e5402d4e8357d7a1cd8720147e2315c87e54af0d"
+    },
+    {
+      "path": "Tests/TestUtils/ConfigDouble/PreventReadingCodeSnifferConfFileTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b0219bc76eabea056482abce8c2b9a6ef52001af",
+      "bytes": 6388,
+      "sha256": "c4d3755dc7059ee3c7cc123a057f7744540279a36127c134d24d7f5383da326f"
+    },
+    {
+      "path": "Tests/TestUtils/RulesetDouble/InvalidSniffRef.xml",
+      "gitMode": "100644",
+      "gitBlob": "cd0bbcb54c2e99e16afb05dd0c9100dfdcbf28a0",
+      "bytes": 313,
+      "sha256": "32336c1cfa4b0b38de3ded2d3a43d5507fda626954f23835da57a0d191d85d61"
+    },
+    {
+      "path": "Tests/TestUtils/RulesetDouble/RulesetDoubleTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7b90a3559674f6e84131695b4be88a44256823a1",
+      "bytes": 2711,
+      "sha256": "714c9b61064f29f21a8ece7e11affbc0299c098e1c1d0fd511310f798b38e8e1"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/ExpectPhpcsExceptionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "ae1eb086b7eba72658ad479797608c355c343be0",
+      "bytes": 2400,
+      "sha256": "888b420511d3e9c95c105cdaa95f6f15bab6220ef9c35e3ac94cda6a8e3b8564"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/FailedToTokenizeTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "0bd34aa137ab20bf12f2a6614a2c16fd19836037",
+      "bytes": 766,
+      "sha256": "5a7e602b661754f9c5aabb5809908290c4633698092761163450b0734a591053"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/FailedToTokenizeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "afd344938790cee93f806d17bbb0736614144275",
+      "bytes": 1821,
+      "sha256": "f56f2af78d919b0a0fe953f1fd62eb174e0663db28ad4d74549e130cd77a7a7f"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/GetTargetTokenFileNotFoundTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e0d6b07d31a7e58c89168ed644897512064bfab6",
+      "bytes": 1771,
+      "sha256": "2f37ab15ea17d95a92149e7ac311cf465f9d3757c3db6aa30353756947dac006"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/GetTargetTokenTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7fe2839e0ea595822f99babcddd94f14cfa63cee",
+      "bytes": 5566,
+      "sha256": "8302b4b6748348b080dc8007b829f27c96ab6511b343b9b9b897713c06cfc9c3"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/MissingCaseFileTest.php",
+      "gitMode": "100644",
+      "gitBlob": "660ecfee5c5ddaa069754471edceed95e59ecd76",
+      "bytes": 1816,
+      "sha256": "f6b8944604633bfa328d46e4e76c2cae5acc6d1b5e617a84c2d3653bad37e70b"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/ResetTestFileTest.php",
+      "gitMode": "100644",
+      "gitBlob": "caa51287b0e7531e1d6bd719f33e8a3eb93006b3",
+      "bytes": 8374,
+      "sha256": "d71d398f19fe2f77071dc3ecd03cb714dd101a71d54defdc4a5b81081663d2b5"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/SetUpTestFileTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "361ee307827a31e5cbbbca7a156126cd8420944b",
+      "bytes": 224,
+      "sha256": "4777bac8894973c895b0f78b0162cbbc26f6881f2dca0e15a4a78cf22a12eec9"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/SetUpTestFileTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0454d1314629e527bf523b5cc080843b49c2e2ec",
+      "bytes": 2967,
+      "sha256": "7f3db491fb48ee63bd7b8678eb8418e8d574f330957087c027b7c82b288e3304"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/SkipJSCSSTestsOnPHPCS4Test.js",
+      "gitMode": "100644",
+      "gitBlob": "70208997449596a77f66de6ffbe8eac134e78c0d",
+      "bytes": 18,
+      "sha256": "b7a5c8cb06dfb12d0af199708b8485778718a9abfbbdf03a9ff0eb866ebd0123"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/SkipJSCSSTestsOnPHPCS4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "2ec87529aefc25bedc304b19b26c205b1b486ab9",
+      "bytes": 2125,
+      "sha256": "e308a1189d16895987a5b6271a58a0903300c940ab85113d72025270ac67fa40"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueFailsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "6a9fa44a9e108942c9f0d543647590d72ec0c297",
+      "bytes": 138,
+      "sha256": "50fde84e798c78b4efa2153ed7d63a233f0ddb01a8a0c9de7f046c225c267aec"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueFailsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "173a5b15d8c904d8d89ee084abf0fba2b6b9af24",
+      "bytes": 1390,
+      "sha256": "5c9e3f9d77025942b1288f31470c4133c780a97df63a82fb7cf94e2709a4b77a"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueNoMarkersTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e5d2cb6a712bcd13e61fd31dd539a715c2addd45",
+      "bytes": 35,
+      "sha256": "3b40b29c60a7ed6352cd6ee81749faaa2fcbe59f4566330e5cce515ec812e77d"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueNoMarkersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "18e706146cb42ba7214972756e04ee4ff5e070f5",
+      "bytes": 975,
+      "sha256": "b8728c69178d86411a9f32d0638f169746ebd86eb52ef0fa010fda1d6e462185"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "3dd40472ccfb349ad4b13ab3d14e94dbb32c8aab",
+      "bytes": 137,
+      "sha256": "b5be83a865110ae5d4400364a63ac1f85f66f2cb7187eaa384ffaad7d77e4317"
+    },
+    {
+      "path": "Tests/TestUtils/UtilityMethodTestCase/TestMarkersAreUniqueTest.php",
+      "gitMode": "100644",
+      "gitBlob": "94fa04457b42a4216d01e4006da4590a3be6b1f2",
+      "bytes": 966,
+      "sha256": "da3e7d5ab89f99bf1e4c2a09610e2d0311946cb03c33b7e9f8d851d07e7b0bd2"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ArrayOpenTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "60f90060373abe5484c0a57a543dfb9404b2b6a7",
+      "bytes": 902,
+      "sha256": "aa0e2b71c9b4efeec7822c8f33cd106e9a81f3291a419afbf50f3223ac897def"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ArrayTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c3f2a9c87f52317cb7f000c14e719ecada20be49",
+      "bytes": 946,
+      "sha256": "bb316dfc1bf98af11752aecace80a0cd7f5a87f967df25da4f3a8a1d9168898a"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ConstantTypeTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "add9a87a120891d827cfc1b2314d8af64d54ac9c",
+      "bytes": 1793,
+      "sha256": "596e8537fbeca0894c35254271ff617c695fc6cacf50e5953d2ce3acac441e5f"
+    },
+    {
+      "path": "Tests/Tokens/Collections/FunctionCallTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4db0aa055e5b37429490f7f8021f100675ffe928",
+      "bytes": 1336,
+      "sha256": "91cdce6fb073e5d5755275edfb4c7c58057193a8c26f5dc0954b6c5bbb38232e"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ListOpenTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "571eef2d531f215b60cd919f1ea953757692d4cb",
+      "bytes": 897,
+      "sha256": "546d5679b2fefddafe52412e986a2e47e63b36b499357adfd116665c94b543bc"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ListTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "8936c8636b5fb9bda374ca71eb988044275121d2",
+      "bytes": 941,
+      "sha256": "7f3601059bf4bce786ba148ba70b72c6795eb1a57fac571ed7e36772593e3638"
+    },
+    {
+      "path": "Tests/Tokens/Collections/NamespacedNameTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9c081b8e5af3f5897adf8a66802163c9fa2efb97",
+      "bytes": 1151,
+      "sha256": "6f30a1495389b5eae55f9d8c99cdc2e9b5c3b29a99899b016fdb5bf272841f02"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ParameterPassingTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c29a84180375440879402ec300af295ff3d3cd38",
+      "bytes": 1559,
+      "sha256": "e08b3fb5d43f852b081a56b8c5516e10793170bcc8f453bc33dc2fe43dbbeb47"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ParameterTypeTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d5a313890b342d57f0415df72549023f58568d17",
+      "bytes": 1720,
+      "sha256": "6a6085f6a8d1fa3cbccfcc80f4facd8ba83938a20cc392d33ad614bc57b5365b"
+    },
+    {
+      "path": "Tests/Tokens/Collections/PropertyBasedTokenArraysTest.php",
+      "gitMode": "100644",
+      "gitBlob": "77ada0686a41721ef09564c0f383d98d416f9242",
+      "bytes": 2911,
+      "sha256": "3f76a27c8f6358aa3bac888bc375b0926e68cb75f4942910ce97cb4c263452aa"
+    },
+    {
+      "path": "Tests/Tokens/Collections/PropertyTypeTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "bb6eb39611b942d8c420acefa65fbb9e3c517144",
+      "bytes": 1716,
+      "sha256": "645baffefe2c6cdae42a1ade579fc6e68ba76a0dfb5038e9316d40ed42683cc8"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ReturnTypeTokensTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9357ac1c566bc477cc6f308fcf79dee844dfceb6",
+      "bytes": 1760,
+      "sha256": "b5b8498eee93d3a961dc7959700a6bb4fd40649bd0b07be644a7a84198ce4fdd"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ShortArrayListOpenTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "55bff891a4811f44b228589bc585f02a539a92d2",
+      "bytes": 893,
+      "sha256": "a044ddf88546ff8f961b3a1a267865f2a67a191b95b075cf1e7ae6dbdda988d8"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ShortArrayTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "07f36c3abbb464656ccf066cee7c843b363834fe",
+      "bytes": 920,
+      "sha256": "09d293395c12618d7feea01efc287320d865c9410e4f51d331217a42b53e5ecc"
+    },
+    {
+      "path": "Tests/Tokens/Collections/ShortListTokensBCTest.php",
+      "gitMode": "100644",
+      "gitBlob": "10a36c61e2f5fdb7aa5bba445b6df27cb2c6eb49",
+      "bytes": 916,
+      "sha256": "7f76752e12d4429dfaea477d99f576e12422820c928f0fb29631baae0cd9b164"
+    },
+    {
+      "path": "Tests/Tokens/TokenHelper/TokenExistsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "718737ef386b8f3c650f7daf5cb23c5509b2cacf",
+      "bytes": 2361,
+      "sha256": "dead517cfb519c148da7bbed54029bd055096226df7af0169bd26fb43db2a820"
+    },
+    {
+      "path": "Tests/TypeProviderHelper.php",
+      "gitMode": "100644",
+      "gitBlob": "ca2ae22ea3aee9237f6977d5fc8d2853e108bc09",
+      "bytes": 2589,
+      "sha256": "6074c379ff829a18203fae22d723d08c191962ecdba231bb77fba94d40155937"
+    },
+    {
+      "path": "Tests/Utils/Arrays/GetDoubleArrowPtrTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "36f7eed088ecf00b910dee6791a398e4b5dff5a2",
+      "bytes": 3154,
+      "sha256": "7fab566908bb9e3e24132cc5940909490c3cf352a5b0ef1d54f2d1d623cd4f90"
+    },
+    {
+      "path": "Tests/Utils/Arrays/GetDoubleArrowPtrTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d959c03006631bd6eb0bdce1b87eef19b3092972",
+      "bytes": 12668,
+      "sha256": "a354ccadd2e10d18c5cdfbeb4d6ab21038dae40d6fcd1a885d8a9f48759b641e"
+    },
+    {
+      "path": "Tests/Utils/Arrays/GetOpenCloseTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "95666d9f3e8e5d9b64798c31cd9545b32b611e79",
+      "bytes": 522,
+      "sha256": "3b454262f541df369235a278ca81c6bdf6ca095f07408f4f9e353dde5d1dd5bf"
+    },
+    {
+      "path": "Tests/Utils/Arrays/GetOpenCloseTest.php",
+      "gitMode": "100644",
+      "gitBlob": "bdcccb6303efba733773340e031c978652b4ab00",
+      "bytes": 5985,
+      "sha256": "4bb9bf0225275c08e6380e4c63fbf5f41cf6332006cb037b8b6000ece0acdde9"
+    },
+    {
+      "path": "Tests/Utils/Arrays/README-IsShortArrayTests.md",
+      "gitMode": "100644",
+      "gitBlob": "a76e8c563b3e4e3125639b01e5b53edd60c7a0e3",
+      "bytes": 226,
+      "sha256": "7b97c825d2de1404a1e908157cdbad2a6fa28f354d753a34e31853126bfa9abb"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "a6468d3d57a767d7336be693dfa23045b9ce105c",
+      "bytes": 157,
+      "sha256": "9ab058e5cb29c28ab76a61d8e0f4a0a3212a967ac02bfc6252fa20382273d236"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "ec0239cf90dc18ab8499a49f300122eb103a928f",
+      "bytes": 2570,
+      "sha256": "6b9f909d4f1a8c64c00897e8c2c78e27c4eb93674168ebcf02f28b65f4188970"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "65d5a119aadf0d89e25af89c4688fbd4cf15e574",
+      "bytes": 225,
+      "sha256": "d0229056c778a537d6f0b0b9440296d9853a6de0fe85249c0277d964cbc63cb3"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "c5f9b16d8e0614e79fe280e82556ec8c466dcc5f",
+      "bytes": 1093,
+      "sha256": "679c6ea8f5b8a88ab86709142274c1688e355ec45aa0a7e08f8a09b49ae61a0a"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "51106e96489def22a97c1d9a412500ce4dd960cd",
+      "bytes": 283,
+      "sha256": "3beb0bbb2e748244186775c29b22ed5ebfd94a1ad31923f93f3d408357520cf2"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "bd2d2709c1fd81dd3b758bd950f3e3788010d03e",
+      "bytes": 1407,
+      "sha256": "bd5e4471a6c0b9f0f12177c099ac58dc9cba0cb44fd8a6580f33671c3a7a8d60"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "d0f62bef1d497ade5c7f51f14de6d0920eb3007b",
+      "bytes": 262,
+      "sha256": "8c4228eddbe2bdc452d5454bca1885a1b2bb4e99efa3984eff5ba874de8e8655"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "4a735b2344c0d843c265e2af2ddffde6c7562946",
+      "bytes": 1410,
+      "sha256": "4a7cfb3a9a3babfee2255490f47c3c809712757c0fc7de634ddac3bc61e14b8e"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError5Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "6f6ea0e667468895c67b36f79845591c99ba8120",
+      "bytes": 255,
+      "sha256": "df332e87d4845e20229cedbf25c7e35bc7254881d6987c218d9b0e0b7fec16ad"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError5Test.php",
+      "gitMode": "100644",
+      "gitBlob": "c4e3e02ef6b31d5d4942bb7354710fd45f747a2f",
+      "bytes": 1407,
+      "sha256": "991334fbb82c67153ea767ecb9854711b2ffb02647f48fe7ca402a397b214557"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError6Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "37962e932db6e8c25c5480ba1784c11b3121d11d",
+      "bytes": 213,
+      "sha256": "2f319ac81eb27f8c5272ab300746906773fde3469887249e3148e74bad6adcb5"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError6Test.php",
+      "gitMode": "100644",
+      "gitBlob": "b81f2f4d141b68506960123b79e82c3301cdde8d",
+      "bytes": 1410,
+      "sha256": "144eb9566ab1bcea80a3131f6322e028bfe0c9cca3c902a0f1bab2b343987e26"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError7Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "946b8b8e8c3c7cc66a82af86e41376d55ae5fa4c",
+      "bytes": 236,
+      "sha256": "61d4d6d2941a924703f49120934a05d0ee506ba6f88e878bccec8a5be549c6c9"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToParseError7Test.php",
+      "gitMode": "100644",
+      "gitBlob": "fd89036f0c0549e42e6513be72df789318c3f9e1",
+      "bytes": 1410,
+      "sha256": "b244eacee61dfaa097f75fe05e442bd8d3cb823a43788cf1e1058d10ff815710"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "cd6cdf2a680d2100f4276cccc4f7fa03719f116f",
+      "bytes": 4058,
+      "sha256": "3cd56910e06b80a599eed39790f83ffbd10cad6521b965243f433979fbcb609c"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/AppliesToTest.php",
+      "gitMode": "100644",
+      "gitBlob": "ddb93690c324bb0c96e70c62599f7be60c615dbb",
+      "bytes": 12212,
+      "sha256": "c7073e5dd650adcc49fd5b3c7ad4a553053dac1d9643def692d8b5c7343105a1"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "bc69128be5e5679585731a89298bb38f90e72027",
+      "bytes": 155,
+      "sha256": "77781f60ba5a35e3ffeac0f82c56de47bbbee77af76c6d7264db997f1b82d34c"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "9b23163a269b106e382e3e876a5a63a748c149e6",
+      "bytes": 1077,
+      "sha256": "e164083b8713883868f6b7fcecff1d945ad1cf56b94cf9bbafa97cd3ac572b6c"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "dbb6cc0b20a104d7077f20c92b09ade4f4181790",
+      "bytes": 172,
+      "sha256": "326850a6a2c1afc4f8205170c023d5afd73f1295a9c944cb8be47c3fea4c75f2"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "a9c2209bc901cc65188bdbe861c05af5e9ea2ebc",
+      "bytes": 1077,
+      "sha256": "7aeac26dce05470eeac53ae661b1ee1d571f1724ab4b382c6d6479d392cb5316"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "3eb2affc8baba8df28671378def3bc591ca0a77d",
+      "bytes": 190,
+      "sha256": "39452151bec5c2a0743f078488a69d576b0306c13f2eefdb5954a9d3d8aa1c80"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "9ab30e187d68e95414b2c669049935fd56463872",
+      "bytes": 1086,
+      "sha256": "0098a33210695b8779fd0872ed85e7babf06d0a4f024442289bb28dfc6692738"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "8e828295b11f7bc28ec44be0313252641c044e96",
+      "bytes": 1623,
+      "sha256": "2936457b9351ec9bf6c30c179fd056d11736de140741b5b161834964aa7ce4b0"
+    },
+    {
+      "path": "Tests/Utils/AttributeBlock/GetAttributesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c1a93d2eba5bd8cf82cca87a1faf6342903378ce",
+      "bytes": 17063,
+      "sha256": "e27587e1fdd9b62084c9f1d6655b30dd14d2ed6370fcaf7965afd693a8f8281e"
+    },
+    {
+      "path": "Tests/Utils/Conditions/GetConditionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "52d401169154f8bfd80721ee0fbcee3968bb3c2d",
+      "bytes": 8362,
+      "sha256": "23d822eed6f28d29eacc599f553390ebb61037d26c87aafe185dbc4647149ba8"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "fa7cec26167c791ccf39a0eda772acb7577be481",
+      "bytes": 97,
+      "sha256": "82f1e646c0d6aba8e04385581defdd8226f28dd0e5349dff73ec586f8c360d9c"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "3ff83f6751b3658956c1870ce6e9ba899d7958b9",
+      "bytes": 1523,
+      "sha256": "ebd778aacd649b3ee462d1ea1ddfb842381b486e3d1b57547247a045b725f6ae"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "4192e73fd024ab64fc683340e9b3945e3a6acba9",
+      "bytes": 95,
+      "sha256": "c8aebb5783e356d91d128a8ad1cc2cb9979170418348a85645d0551a8b4350e9"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "2c4627066bb846463364b53de2725461cd95fd1c",
+      "bytes": 1160,
+      "sha256": "4cfa2e8c2cfc2b4f867004fa76cde3a8f4485291f45208f3e0ec08996d2c6bf8"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "7950b74e0034ecc5c8f3de1afe940af147ffa245",
+      "bytes": 109,
+      "sha256": "eed118c418b9c5b3b855370ba517a431ecf5f6fbf1f7f0f518ef50f2981162ed"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "e0ff893034663371e18d54517ea37ab102317d62",
+      "bytes": 1160,
+      "sha256": "24e318b95d64f0821c3de23caee47f93af5337ea15eee7e257e3bb4be7858cd5"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "314a840982acfe2498c884a803def7b5bb2ac1fe",
+      "bytes": 116,
+      "sha256": "ed0bdb7c78dd3ac011e986420115a1c90d0b0d262cbb19cf24903084806cf863"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "d7cbed9a7f6b176f3839abf99c259ea2db7c1577",
+      "bytes": 1160,
+      "sha256": "f9ec47fec30fb5f4aac68027120935d60eb15c3191000b2b2c96a704ed9c7daa"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError5Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "951baa3cb8d955769e1064eafb5cd7bc9ee924c6",
+      "bytes": 109,
+      "sha256": "adb48ba7cfd9f4422848050f3afc11e34f8e140a8091dffe046abecb12608315"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesParseError5Test.php",
+      "gitMode": "100644",
+      "gitBlob": "44de6bb9bfa28c1533139c83aa8e6086c17d653c",
+      "bytes": 1160,
+      "sha256": "2ab14108b9fc5fcdc5e133f3c6d667d3e90344ac35ca332c8124d3ab3d99fb65"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "cc59dad1d65eabecb6264ca6695d682babb9c405",
+      "bytes": 5811,
+      "sha256": "48c3ab9fce64daa73dbc872a93e953a57b790aac375b54e4ae00b52b8a31ad91"
+    },
+    {
+      "path": "Tests/Utils/Constants/GetPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "378bc724ba293c198f0a65fd2a535e59689ed002",
+      "bytes": 36675,
+      "sha256": "5c20386feedc6f8d6533f1507ee87fe25e68d3e07d584061d058ee82cb6b7aeb"
+    },
+    {
+      "path": "Tests/Utils/Constants/README-GetAttributeOpenersTests.md",
+      "gitMode": "100644",
+      "gitBlob": "474e9f89c137694b95c74991c527e11d8578369c",
+      "bytes": 144,
+      "sha256": "101dd35d8137c56b61f35bcf25749f9b900f8792642529e3a37ee18c5717a8dc"
+    },
+    {
+      "path": "Tests/Utils/Context/InAttributeTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "75298e9e19fc1bec4b05d616164017ab5dde38ed",
+      "bytes": 352,
+      "sha256": "a8e6728e3291b7f81a759ed2cbfc2ef2eb033a486dae967554dcd1130f6e5c59"
+    },
+    {
+      "path": "Tests/Utils/Context/InAttributeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "3cb9b8cbb5c5dce34dc8d8ad8afe56372fccb7fb",
+      "bytes": 5498,
+      "sha256": "bb822dc01cc52fc8ac3235c8382e9dd013df95bb9c59383f6a2c1f2a2bb2e529"
+    },
+    {
+      "path": "Tests/Utils/Context/InEmptyTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "bc93b6e64daf6a9d1aee71b0142798edc1148b6a",
+      "bytes": 321,
+      "sha256": "3855e92a4406a8155e54e00f85c74c56f3ad5fbad1696dadf454ce4b935c3f9f"
+    },
+    {
+      "path": "Tests/Utils/Context/InEmptyTest.php",
+      "gitMode": "100644",
+      "gitBlob": "f9b40f6c9fb5b59cec5d470607128b8fa13af035",
+      "bytes": 2335,
+      "sha256": "1a5e58b2144aab3081218549bc229a25e1863d534c4c437f8014a4b67bcf1c44"
+    },
+    {
+      "path": "Tests/Utils/Context/InForConditionTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "9352d86ef417e83fcfe2d84b17e883f8152d9d3e",
+      "bytes": 1515,
+      "sha256": "de7b9b1b3e8eda769a7085b8262eb4e88b3bf263013e3e15af86e64ac86a5946"
+    },
+    {
+      "path": "Tests/Utils/Context/InForConditionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b1897aee93c2c897f50eb73f960c7baca4463a94",
+      "bytes": 7928,
+      "sha256": "01ccfb9d7d0cb6666836db97130c2c6d21c5ee4d928007d0f483f6fbe057dc38"
+    },
+    {
+      "path": "Tests/Utils/Context/InForeachConditionTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "ea0a1679fba636809bc5144bac174416f4f366de",
+      "bytes": 2058,
+      "sha256": "02ef2c04191f92db2c2cfbaed8e568a24b079405ba6fb38a7b9d0c6127887aaa"
+    },
+    {
+      "path": "Tests/Utils/Context/InForeachConditionTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c7d230e50d5d6dd49efc6df4716d73da31813898",
+      "bytes": 9514,
+      "sha256": "3aff09a327e88c57cbc92b3ce7c5042ddeab1ff5450ccc5da9b0ddcd80ac646e"
+    },
+    {
+      "path": "Tests/Utils/Context/InIssetTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a3a87d2fe6d7613c0cfdd50674a8615ea426fa74",
+      "bytes": 316,
+      "sha256": "513032d06f0f24cc7f782ae0f81515bd0518be5190064cbddee93d141ab88910"
+    },
+    {
+      "path": "Tests/Utils/Context/InIssetTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6952e95ba091c5388e072e97cdd339dc8913ac6b",
+      "bytes": 2335,
+      "sha256": "93dfd904e5cd8fae91c96327726321dab3b1de988c83cb360a440883187b2b7d"
+    },
+    {
+      "path": "Tests/Utils/Context/InUnsetTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "46d9d5ead7f0d14878b0731255cc9d68149859aa",
+      "bytes": 319,
+      "sha256": "5324ca2e2c0dac8517ba6e7efa09d4b07bf027cf435abdbd5d98243b6a9ce847"
+    },
+    {
+      "path": "Tests/Utils/Context/InUnsetTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4209ff65a480e9bf36048335675d89ea7be89129",
+      "bytes": 2188,
+      "sha256": "e2f6fe859e0cdf8ba6863603e14768011c9c4b936a818418f1d5e9f14f203785"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/GetCaughtExceptionsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "9072c1cb89a6ce3c11c65d25b0c5b1c9e6e1f773",
+      "bytes": 1011,
+      "sha256": "6498aaf0378647534891e8cd5f9f667dfcdd836df56dfab4126762a0390b9487"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/GetCaughtExceptionsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0222ae6ddfebc54e6814f175d8089838b47835fb",
+      "bytes": 8748,
+      "sha256": "0719a185434d031fed183db90ae21ac56b626150f21d3d76cbb728bc4515f939"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "7eb8917c383bcd9e7e6dbc3d849acb6d31bffa0b",
+      "bytes": 137,
+      "sha256": "c6d63b03991425db184822b2b68c411e4a40863055121f04e3a56c518129be11"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "1997a0e13cb39cffa5a0a355364f362078d4911e",
+      "bytes": 1305,
+      "sha256": "9b0d9f0226bd9049263d02012f5d3e2891345362a427f5afa6bc474fae6bc0da"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "eba912105585d7ae6cc05154c24ac8a28de462b1",
+      "bytes": 138,
+      "sha256": "6f7c763659874afee18adeff01b3c722655eac62917403a1a5e85589e038a8ef"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "781e3ab33b89ac96332c27f8728cb8c532fd3970",
+      "bytes": 1307,
+      "sha256": "1b4ecde2ddd21ee608d2f04a4186f965bfde0dcdf8edc9b19d9d5843934813b4"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "eedb866dcb164933a674207f5d90a76cb19c1b07",
+      "bytes": 5372,
+      "sha256": "eb781aabd6ffa9b5b9f04f6b43b024064006734c6e2687070e5d3f69429db63b"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/HasBodyTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6045b290a06e565fa0ed26b8c5524557f96a2382",
+      "bytes": 15566,
+      "sha256": "f4e832421dc6b7a3ecd70a2a614c400610b938046aaa75a985070d6f934abdc4"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/IsElseIfTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "b7dd30bae966bcf938aa93517829e27b36683ad7",
+      "bytes": 815,
+      "sha256": "76fc1fb631da5a4e44386f133bfbd0796e8be740a5d933072f196a566d74b4ca"
+    },
+    {
+      "path": "Tests/Utils/ControlStructures/IsElseIfTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9e1869ed492c81d792c257cf2191162d47da235a",
+      "bytes": 4016,
+      "sha256": "76296eec895c5bf57895f730a985186a77e7837b90e1f7cbbb53c8a56b1a0a73"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkAnsiTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "847280dfae996992ba086842b59c7d29fc866de4",
+      "bytes": 80,
+      "sha256": "ff8447206a4a3e56c535db6f6ca9d7ed078b5f270f4dedb06e6c49cbbbb1c8af"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkAnsiTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dbc5a53922fae0cec14b80f2cb75ddfdbc73d08e",
+      "bytes": 921,
+      "sha256": "665d793ba52089bf23fcbf82fc0f58dbaf1dace940850f09f9118c29eec1e2a3"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkAnsiWithInlineHTMLTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "34f0842c591c40dddf79be7fa199cf9b908b0123",
+      "bytes": 104,
+      "sha256": "d82bd61788b2efb901885735bf64184fd2c0a7595c8daf8d7958d441d21468ce"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkAnsiWithInlineHTMLTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b095cba7a9970d13792cdb67b425f6d28f36e3f3",
+      "bytes": 935,
+      "sha256": "513702bed3d47bfbbe086e89ff10abf1b90e72f09321b7fa07a83149bc605f75"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF16BETest.inc",
+      "gitMode": "100644",
+      "gitBlob": "9c3f114fff18918c1042f091f1bdf920207284d1",
+      "bytes": 59,
+      "sha256": "bcec0122ba193cc3ea8e7e715dcfade5606fca2a1a1a3952486cb7013a5b8b99"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF16BETest.php",
+      "gitMode": "100644",
+      "gitBlob": "61c40723f54c488a4342137241e5b1514be1eea2",
+      "bytes": 925,
+      "sha256": "494e55dbf359183504e6b398f197aa340305c6fb266003f158cff69f374cfe39"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF16LETest.inc",
+      "gitMode": "100644",
+      "gitBlob": "2940aba3142972a17c5a0f5c93d28f7a62618b8d",
+      "bytes": 59,
+      "sha256": "194941f2e5524d679ad97aa68e55f40f584bb16a1558df86bf7aa33f4ec3e3a6"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF16LETest.php",
+      "gitMode": "100644",
+      "gitBlob": "266e939ea771e2456cf830e203c0e187b03c2cc6",
+      "bytes": 925,
+      "sha256": "4718beee7bf083e9e986d367c3f5fc09fcb3f4ece9eaa8bdffaee895f0dc92ad"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8NoBomTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "25979395959bc74ccb429cb2712841f2901026c6",
+      "bytes": 81,
+      "sha256": "c360025bb863b9b037d5fef95728cdc2a3bcb620e24c98e4b7b0e82395366ff4"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8NoBomTest.php",
+      "gitMode": "100644",
+      "gitBlob": "fa11ee5681a018cae9d31fdd91dd4e9e06de56cc",
+      "bytes": 926,
+      "sha256": "485092f740bb74c4b5fd943473b5bae77088a689c3e3333e6c97ef823831ec80"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8NoBomWithInlineHTMLTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e109a133346e4cd6842ed3e0f1871491664c54cf",
+      "bytes": 82,
+      "sha256": "7400788bba9298f9bf48d27a6ec2e450e517b6e5e565991b586031407e53b5dd"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8NoBomWithInlineHTMLTest.php",
+      "gitMode": "100644",
+      "gitBlob": "f6d5c47b907ae90c8b32482eefa04f6edb380144",
+      "bytes": 940,
+      "sha256": "48d221eb2019696444765bac8969f0fcb475fe3ee57c34928e35411ce1e0dc95"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8WithBomTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "3590f3766551d31180a8c8777c894c6584e27fa7",
+      "bytes": 56,
+      "sha256": "54cda3d96daefb2bb4ed812b753729a8aa2ea2e826a32658914d5d28408260f7"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8WithBomTest.php",
+      "gitMode": "100644",
+      "gitBlob": "f3f0db0c0b187dbac834a61d24db494a6fa4cce2",
+      "bytes": 923,
+      "sha256": "410b81960a2485363c72d483738cf21683f0063285ba3750dbc661750320fabc"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8WithBomWithInlineHTMLTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a9dced28272fad68c337e82520d581321b2ae6b6",
+      "bytes": 57,
+      "sha256": "ec9327f53304f628f1e113e4db529d4054470bc117a91a3394757d44dfae21e7"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasByteOrderMarkUTF8WithBomWithInlineHTMLTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c54b24da1c7bfc3b909b7c75ecf8719a191c9466",
+      "bytes": 937,
+      "sha256": "2575458ecdd13381aba57e6d08d68226dd07234ebef331b28062ed737568f20d"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangEnvPHPTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "74dd604ca14dc5f448bc2e2f07894ce56c5e63a2",
+      "bytes": 67,
+      "sha256": "bbc1abd4fec5e4cb80b64bbe11fa312477acd9a9ecb90ae521f0fdf3a287f77d"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangEnvPHPTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d33d1d9b313e9d8705cc37bfb877f42368ae71ca",
+      "bytes": 879,
+      "sha256": "a37a45d858c42adbdf976a0ba41229eae8e844460f77e7e1f7f2f10d792f952d"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangNoneTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "270a4e4da8e665ce3b8b635eb20fdb6b71009c47",
+      "bytes": 58,
+      "sha256": "6b407e3fcd4bd55ed83d1c729b98e6622941696ce90ed29ef75c55ca52d7ffd1"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangNoneTest.php",
+      "gitMode": "100644",
+      "gitBlob": "2c0a96211d006f6dba872a4f46a2856b9bb3e439",
+      "bytes": 878,
+      "sha256": "e722c234333299de73ae6bd302af99212885b9f5276c3922cf8b5a7a0763a5d7"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPAndUTF8BomTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "79f4cfee9b438c0a0f9c8261ff7463f24acadd2b",
+      "bytes": 113,
+      "sha256": "86f1fe0e60fd4dfbfa53145a95a7c2ddf254cffe39ada4c5324f95424c9a52ba"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPAndUTF8BomTest.php",
+      "gitMode": "100644",
+      "gitBlob": "36d0ae8aea9e3f40e1a7518048aaa5872969b84c",
+      "bytes": 1156,
+      "sha256": "d2ca9044d426c9de02e7dc6fc465d33b4d1f88340028c0c57c6cc56bcdbd1ac5"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "ae0f87f57897d6bb7c6645cc9beb3e3bb3c68e06",
+      "bytes": 63,
+      "sha256": "f9e34854a5de83f189babaf87a623699dc77b82ee6abc66374671e4c87fa0321"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPTest.php",
+      "gitMode": "100644",
+      "gitBlob": "140f39c3b7b306fb203673eb418ff10082237dc9",
+      "bytes": 876,
+      "sha256": "822485145c6097bfab2dbdb14ffbb6aa9bb9621776f73efd9d9c8c79aca3c824"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPWithParamDTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "57ebace0bbe9a0cc8432b9dde654c9e2891dca5a",
+      "bytes": 114,
+      "sha256": "b46fcfcd2c7d7774a0f929be74868d54c2a0292d847a71b688ee3e57d940f631"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPWithParamDTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1234087bc5145696d8de15d18c73f86461f43e78",
+      "bytes": 886,
+      "sha256": "2bd2f910f771e0abee206026db76763c5dbfb18f5ee30457a736178efb8bb20c"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPWithParamNTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "98972536e0fe0e34779fa2df34904d1633264249",
+      "bytes": 125,
+      "sha256": "4913f25122ddb15195df55a194f9e8fb077fb342661c5f29a929d6345a703316"
+    },
+    {
+      "path": "Tests/Utils/FileInfo/HasSheBangPHPWithParamNTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0c18654fd93e7e71f8a47565de6d64f5d174e896",
+      "bytes": 886,
+      "sha256": "923042e847d59c800e97463a3a72a430f1b4cac59b1cb007d8463ccda76704a3"
+    },
+    {
+      "path": "Tests/Utils/FilePath/GetNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c6d29a7f9fd8e5eb1f1b836abab354c7fc21e2ca",
+      "bytes": 4158,
+      "sha256": "0cb0c5391792f24790a2c2686b55996b4788ab3915014cdea68be4902fca8012"
+    },
+    {
+      "path": "Tests/Utils/FilePath/IsStdinTest.php",
+      "gitMode": "100644",
+      "gitBlob": "556bd918269d2cf2b9bd9e42420e3e2b6bade56f",
+      "bytes": 2906,
+      "sha256": "4178cca548e99fb3e3db21be4dbd25343ff427047361ce549bb3a8cf7a4dc2d2"
+    },
+    {
+      "path": "Tests/Utils/FilePath/NormalizeDirectorySeparatorsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0d6cc999556015a29634128e6397c4b7cf58babe",
+      "bytes": 1919,
+      "sha256": "3a2b4d2f44bada1a54feeacfd3f8873ff5222b0aca2d3bbec92adf3d7274b8c2"
+    },
+    {
+      "path": "Tests/Utils/FilePath/NormalizePathTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b8310ed751c89de7c9bff823a09972f7a286b66a",
+      "bytes": 2857,
+      "sha256": "68fc2d3e94e50bef9304ba01a15d61f09757ce903f0e4752359663ab4861561a"
+    },
+    {
+      "path": "Tests/Utils/FilePath/StartsWithTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e6dd32e6228618def0868b2ce33cdd049ef9e0da",
+      "bytes": 3304,
+      "sha256": "d7f8b008e9ad88e6b88e4430f3ebc263e2257489fae6706b492bb03f7f463d98"
+    },
+    {
+      "path": "Tests/Utils/FilePath/TrailingSlashItTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6a56bc0da7e90144e1aa0425828ea09110689462",
+      "bytes": 2764,
+      "sha256": "ee9e28e9c7e68d747aaec6f156e57e3d9bdee56d5a61176cfb066d9b489825d9"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1c651858ea6dda5fe9eef54d41aeaf8bcb00483d",
+      "bytes": 2019,
+      "sha256": "95f4a57b2405ccbfd4161657cd090fb8faa7449d6c013594c2491409c1646964"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "e914a62bad34b52a03511e949b207a7b2ad541b5",
+      "bytes": 1718,
+      "sha256": "3e7bfba434029812834b9e6c53fe8aeb446bfc54d80ae092b319a40bf2600633"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "edc7335b91d53fd7447ab38cbf68e5d95c2a3685",
+      "bytes": 1718,
+      "sha256": "f9199463debe85154b1a75349349427f853bdc1693a21a1702b8842c0842ba11"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "b66444067cf7ce032b823590e350fc21c12de086",
+      "bytes": 1723,
+      "sha256": "803ce5c9c1f2e43b88e42864a635887c6a1087ea9ae60d5a8435ef19d4ecda3c"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "fb07fa76736cc1724efcb3e8fff57129af971a06",
+      "bytes": 1651,
+      "sha256": "a84415515176f67e746751cd7be148dc39f740f645f68d08fc7bf5af4d55f603"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetParametersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "48cb2507a8d8ce498bb2785b9f0777625718ec91",
+      "bytes": 9058,
+      "sha256": "7b7d5bdbe78a035ab7d19a01751ed9606064a3e11c463627d6383969d7eac93d"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetPropertiesDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "14b6d1af3b3c407f403c94e552e0faea68838ff2",
+      "bytes": 590,
+      "sha256": "55fa35109bb62d44f20f939e6c46644a1b1ad9285a2e09e551e7b36a9dce5880"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetPropertiesDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "05905ef1a301ea93946085b088d33ecd46c9ffd1",
+      "bytes": 7293,
+      "sha256": "f99be4ef3cb332a2d1ffd8ff563351c87ed300a90bcb2ce05d572b9fc8501c8f"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetPropertiesParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "3650a78faf1f1046bd4109124de424c523051594",
+      "bytes": 2220,
+      "sha256": "8fc6753427279f7aa33c637de3bf7dea9877bc09f5c47ae5623db295a712d767"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/GetPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "238a083393920347e5254891280d32f020a6aff4",
+      "bytes": 3329,
+      "sha256": "07bd90ae54dfbd1c5d2583b514fa3265ca4333efe2a7a93ec745d6719895b6f2"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/IsMagicFunctionNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "779336cef92d432e5144473f7736a537d109d6c0",
+      "bytes": 2262,
+      "sha256": "67d64ecc38cb0da3b11c23df23f9b4509de57b6824300bbfb01f7f82258d1f6e"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/IsMagicMethodNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "f1887159e6a90bdc500b5e59f97451dd13fcdd67",
+      "bytes": 5035,
+      "sha256": "c4ba359f1f14a7a2e1612ae7891dc63d71c2c40586d2327cf52d72d5a0885474"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/IsPHPDoubleUnderscoreMethodNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4b6fc9488db6f87283ae590365f2c9e2a891d91a",
+      "bytes": 5369,
+      "sha256": "0696b20c8bd3d08796e72f9bbea4a2802243c18b2a9ce974c10ee96ac45e4963"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/README-GetAttributeOpenersTests.md",
+      "gitMode": "100644",
+      "gitBlob": "d9f27020dfecd89b24e2e7513380731461131812",
+      "bytes": 156,
+      "sha256": "30c3cb5e670c8577847f43f09dd913fddd4cbd1cf026b7ffb69bc58b517e8aea"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/SpecialFunctionsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "6ff48133c32d11e7973938b9d0f1acd6bfaa1152",
+      "bytes": 2696,
+      "sha256": "98d7fbae769f925df320a0ada2fa8cc527a8e4df612c70032d22686a0e592973"
+    },
+    {
+      "path": "Tests/Utils/FunctionDeclarations/SpecialFunctionsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1f8cb6dd27aaea861a1513d9ba0e279b22ef4621",
+      "bytes": 16602,
+      "sha256": "89e5db1a40b976981667c36f30e4375eb165a1a93955846530b7112165171bf1"
+    },
+    {
+      "path": "Tests/Utils/GetTokensAsString/GetTokensAsStringTest.php",
+      "gitMode": "100644",
+      "gitBlob": "8c7080cdb6729a2da8b20e8999a9901770a88bf9",
+      "bytes": 12208,
+      "sha256": "2a32fb633ed72ce748559d8e5e23f9d22e8cda0842ec61a6e375aef86cb85abd"
+    },
+    {
+      "path": "Tests/Utils/Lists/GetAssignmentsTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "3d9e9561c73cb680cb4ed3a985e4d25fe9da8c14",
+      "bytes": 2858,
+      "sha256": "6f24ef9ce033e1b770e8ec421cb4155cb3583021855d58b400df51bcba55df68"
+    },
+    {
+      "path": "Tests/Utils/Lists/GetAssignmentsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "59549fe6fae626bca2fa6ed3b819c4dbc1a59882",
+      "bytes": 54486,
+      "sha256": "57732a055c1802c6e71c8eaf9bf36297c384516b1e6c79d3d643419489034cba"
+    },
+    {
+      "path": "Tests/Utils/Lists/GetOpenCloseTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "c6774e38a10a997bfc90d208dab7455c3fc54314",
+      "bytes": 505,
+      "sha256": "bd819eea66262700a5f55877d709d5fe074014178a141f2a0771d8b68c6ff513"
+    },
+    {
+      "path": "Tests/Utils/Lists/GetOpenCloseTest.php",
+      "gitMode": "100644",
+      "gitBlob": "cfe5a440c344f4c388f11c6dfca0f8cf3a2e78ab",
+      "bytes": 5955,
+      "sha256": "ba906bf46b436836ea248db76a08c1a5669164e26a3a4020245bab6a30351596"
+    },
+    {
+      "path": "Tests/Utils/Lists/README-IsShortListTests.md",
+      "gitMode": "100644",
+      "gitBlob": "4f30ed6417dffbc22d4e899e6ba8f3fd3dec6d17",
+      "bytes": 224,
+      "sha256": "0132cc3a33d1902a7a1ca97b2033e6931851e93882f3709c93a40246331c4722"
+    },
+    {
+      "path": "Tests/Utils/MessageHelper/AddMessageTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "ce27ac26cd536bb8d795645ae535d77010c3194c",
+      "bytes": 192,
+      "sha256": "c711edb2af63a329a5e74ee32ce139a3f499c5b33eacb0f81387f5c442d78c43"
+    },
+    {
+      "path": "Tests/Utils/MessageHelper/AddMessageTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5b2d59acd39aebfad810da4cb68c1298fd5bdb33",
+      "bytes": 8190,
+      "sha256": "05bd3e7ee8e9a8cb9b1fd41f6461c612f3a06d46baf91e6611ffec16a758e5ff"
+    },
+    {
+      "path": "Tests/Utils/MessageHelper/ShowEscapeCharsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e8cc8cb3da26a8c637018f98cee9e61974329512",
+      "bytes": 2769,
+      "sha256": "be33e8916e05dced85a77ae7f3520a647237a94a87b83d0fa0430e1820ba7848"
+    },
+    {
+      "path": "Tests/Utils/MessageHelper/StringToErrorcodeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1dddabbaeb1928de860fd99b86a9ff0171b34fcc",
+      "bytes": 3624,
+      "sha256": "52c7de65a697e52431ba4cc471b4ba27c55479fc6676118260a027d5cd8da937"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/DetermineNamespaceTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e99c556150f0a1189a6890cdd1978bdd02a406a5",
+      "bytes": 2082,
+      "sha256": "3a2acffd0f64dc5587a83291e266a6c39283335d86cfb435d3f57ad93d694ad7"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/DetermineNamespaceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1028039e33097e5e0864cd0e4fdabc6df84471d7",
+      "bytes": 9979,
+      "sha256": "a9dc52ee26e7b694cd0526b73e8ba9ca372be837ff43658e457a83e444c9afb6"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/GetDeclaredNameTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "d2180e2ee4114f4c0fd68790a858ad741c666adc",
+      "bytes": 1210,
+      "sha256": "e33b032b550ec759c5e0e092aee409d1ef5ff6b257034946bc6f8b831662a884"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/GetDeclaredNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "eafa1dfdb37b18b8df8b1cd381bbc6e81aebe8ce",
+      "bytes": 7468,
+      "sha256": "e4fae5eb8e93f42ca4eff6d478f92ddd03ab555819861224ff9c6a92eb0670cc"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/NamespaceTypeTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "7b9c31ab76a317636913faae24efa4be5f300032",
+      "bytes": 1803,
+      "sha256": "bbc068d839a68bd766c0758b68da3d3e709c736a3b18c73db0fb57d85a7eccbc"
+    },
+    {
+      "path": "Tests/Utils/Namespaces/NamespaceTypeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "88eb5577a6a610a2e4145d615438173043547736",
+      "bytes": 10853,
+      "sha256": "75d99fd25de0577ce96008877fd166c21315a2718ae11f6f0e0e9f6a5463f729"
+    },
+    {
+      "path": "Tests/Utils/NamingConventions/IsEqualTest.php",
+      "gitMode": "100644",
+      "gitBlob": "81d9c9b6545be39c1382cf8ade0d653751f603ae",
+      "bytes": 3385,
+      "sha256": "d2781406eda920339dfd6376a4e6f62468e5d6c1a666593be06132ffb5ca67df"
+    },
+    {
+      "path": "Tests/Utils/NamingConventions/IsValidIdentifierNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7c1e3d0c1983b6f37fd1fbc8934795d6739720e1",
+      "bytes": 4027,
+      "sha256": "ecface4874079f112c39678d0d4fe8ad8f66c4d37732e7f061e105449034af26"
+    },
+    {
+      "path": "Tests/Utils/Numbers/GetCompleteNumberTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "bf808e589d348dfbf7eb462729017696ef8af84b",
+      "bytes": 3112,
+      "sha256": "22aa9d2d68a1949bfc240782d05f3e50381ec086247a81372e25a063d2953986"
+    },
+    {
+      "path": "Tests/Utils/Numbers/GetCompleteNumberTest.php",
+      "gitMode": "100644",
+      "gitBlob": "32f3c272ef7ad9018e841bac84ee56c1faaa64ab",
+      "bytes": 24535,
+      "sha256": "db164aaadf5dc17b9317864fd030c3aa75e2e78c306701f1ed81521e622b76d8"
+    },
+    {
+      "path": "Tests/Utils/Numbers/GetDecimalValueTest.php",
+      "gitMode": "100644",
+      "gitBlob": "123a870a803ad9fbf05915a0f7a24cca0fcdae2c",
+      "bytes": 4847,
+      "sha256": "c5945f7546af6afaca882a8516bf7e16ccdd942bce9f93dce94f561187399c4f"
+    },
+    {
+      "path": "Tests/Utils/Numbers/NumberTypesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "fb84c755c13bbca00cdd6cec6d11487c795ba0da",
+      "bytes": 43562,
+      "sha256": "9d06c5e3925ac540d411c52eecdc8258e7cbf8079f628dc82a3506d05beb3c3f"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/AnalyzeOOStructureTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e995169b757515ec151cbf7138761a728f39a2d1",
+      "bytes": 9657,
+      "sha256": "96188b3091b68360250550aafee114998a693bfe70a4eba8b275f801cda8b86d"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/GetDeclaredConstantsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6af17e8a9f1582815082c4986c5bd28b5e9a662a",
+      "bytes": 9248,
+      "sha256": "71f23916c2b92dea77a503a1ad2aab0ad3498b46225f82fbafb3cd13700fee3a"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/GetDeclaredEnumCasesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5b3e7d55bbe7d3b5102ed66d9b18a04fd6a9a987",
+      "bytes": 5950,
+      "sha256": "8211dd1ba4410d7a00287ccf95f96fa9df46519a9152f835a18f1622da42f6c6"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/GetDeclaredMethodsTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9d30db592784c3086bc43688cd478e5d3868290f",
+      "bytes": 11303,
+      "sha256": "70a3c9c7810c02e3776921e0dbed182adf086ffcb789f6dca7e141ae0e5a06ed"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/GetDeclaredPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "6577d85e6c65bfa7a9ac2649befacfead680fe7a",
+      "bytes": 10210,
+      "sha256": "8e72b67f7f5c7cf9343c1bf96a2c4aa4c8ec457686a959a208272848264646ce"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "c7bc14d945d94bc7aa37db1eefc95fb404af8134",
+      "bytes": 169,
+      "sha256": "99b2b1e0605ce5ca722f3473893cbfa8f3300d3396393065f52dc1453f5e925f"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "ae2b5ef4dd5ed61b30cf5e98dbba4bb1a458bbad",
+      "bytes": 970,
+      "sha256": "49247fc2cdf14e37cc340e2836ced8ea3905865ce355ed9e550884e6c4eda8d9"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "ad82f4c414118105995b7d15d9226ab4cd0b7ece",
+      "bytes": 177,
+      "sha256": "8194d8d2b01d0a9773d68dbf4482d119ed0f3b34279e17adf079227904d12b41"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "c41c5a0ad693180b3d6710e99a6b33646d724d8c",
+      "bytes": 970,
+      "sha256": "bc7f7e91ef5585c957551f974f4e367bf4583d5c10d02cb8c40333b706d74390"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "f09aa98a57aa377b0a961ac4c326f5032101c64a",
+      "bytes": 167,
+      "sha256": "c8a5af17d2bd768b7cd3ded4dd0f18b7018ca28d5aa649e601eb76f6416babed"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "2ee1fd726badc568cafda589a9b529435e331bf5",
+      "bytes": 970,
+      "sha256": "7e5c0151abd90a318703155543a77c1f257acdf4c52ee078bf69a07a75163a59"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "f36bc098ce191b14ff58d8230067428a3ba82600",
+      "bytes": 175,
+      "sha256": "1298a514641a40d2ea226e8c914e9161dbf26d741317fb3481c9c22ae29c6a15"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "e73eaf73009f2f96f84e3812d85d9dbc8e10a638",
+      "bytes": 970,
+      "sha256": "bde20242b64cf16ea3b36622dddb7f53c7789f1f03ef7d555e7e1bdd9c64d7d3"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError5Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "2655094481544f32082d2e1f55e14b6aa6fb532a",
+      "bytes": 169,
+      "sha256": "f75fd849929bafb6963c10fde45e0a110a1d34235df3a03b830340c7d60468d7"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError5Test.php",
+      "gitMode": "100644",
+      "gitBlob": "b6a6974c444937bbb3639548e427f7de5cfa79fe",
+      "bytes": 970,
+      "sha256": "8c1e7b6f0067d6440f30a192ba67ca83b0b1710b9619712c33e5c95bae841338"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError6Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "4ab38f075f5f152a2a4e4e9e51509c9c60abcb32",
+      "bytes": 172,
+      "sha256": "3f1cb6b295196dca846baa4fe346b23acc861e6d1ab94e6539616cdb7d46b1a9"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError6Test.php",
+      "gitMode": "100644",
+      "gitBlob": "a9b6ba295b6ab4a19daa6fdd6e917d0dd7fe806f",
+      "bytes": 970,
+      "sha256": "bfa3a371ed2f665b8b15ea003212fccb8a326c21e88a68b247264da5222e30e8"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError7Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "1fe8fd46d1a4a95deb8aec98bba35fbe603e733e",
+      "bytes": 300,
+      "sha256": "f1f11e44474f8e74cad3a4d11877cac1bb6d4430f444d23edac0578dd9ebbb59"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseError7Test.php",
+      "gitMode": "100644",
+      "gitBlob": "ec6fd4db6e588a0a9a27f4d36904a2faabf7baca",
+      "bytes": 2003,
+      "sha256": "5a729e12f6348425b4ca582e21b0f358bdd660dfb656af7852830b40ea7a19c5"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/AnalyzeOOStructure/ParseErrorTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "ab129a955ba7997547fc78763b08607d0ea7d1f0",
+      "bytes": 2490,
+      "sha256": "dc6e7c74124ef28c0585b5d5a1e271b0c7fc58dcbd0810fd0dd1b8e2170b3675"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindExtendedClassNameDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "c03aee8da59d0c7e9cd6319b638cbdc809245d5e",
+      "bytes": 335,
+      "sha256": "e671a6338832da022c411f79f7373433c58b66ca2c3e23de96585bd70ee944ee"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindExtendedClassNameDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c71fc39178407c195aea280a3e5cf93a4134fc60",
+      "bytes": 2300,
+      "sha256": "b3074c0b942efff0111825b5e4a3051b4c7eb1b3ab61f4c55b80b8fd6d33a8f0"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindExtendedClassNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "396ff5dd0fb08a612b66c0e2c618e97e827b51e1",
+      "bytes": 1671,
+      "sha256": "09f2b46ca11ac1b3422ac809dfd802da0e944bba7c9fb48e2eca9ab27a1b38ac"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindExtendedInterfaceNamesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "cbc06538264f477334288d84ae108e3a9e06a938",
+      "bytes": 1331,
+      "sha256": "de837e662012120bb7d8bd7b53c8010127257a8844962d26241c06f0ab5cd607"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindExtendedInterfaceNamesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "7a942dc7c225da16dda4a43887b2f77b8ec41208",
+      "bytes": 4667,
+      "sha256": "b0546fe826ad792d67a617466fe938a2fe9b27e294350bd0700623e713025a5a"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindImplementedInterfaceNamesDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "0cd35a9d7e81b3a4ae1289d62c189a3af1293dba",
+      "bytes": 523,
+      "sha256": "c8193bc58e4c9ccd66d84b0b3b5a351dec5a3ca4faa20860c5b9e9b9ad6a21a5"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindImplementedInterfaceNamesDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "db9c0dfd1d2b109c4d7fcb792047f05f4fe7724f",
+      "bytes": 2587,
+      "sha256": "8d9578ac9ac956e628310d4d3f069f4a5c6501a86d5524be8820f0cf58098cc7"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/FindImplementedInterfaceNamesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5bcfe651f2f05862ffc57f5bfd95cb7174d08fb3",
+      "bytes": 1713,
+      "sha256": "f6d5054c2d602393a17c65bf158151a1d981158292e03caed88d73a8b7420707"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetClassPropertiesDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "ccd0ba5ed9ba9346ab6fe411a9e4cc46cee83cd8",
+      "bytes": 341,
+      "sha256": "cf214ef535c7b227375d42959cb79b0fc0f82dc18e18c32453c4b649f54656cd"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetClassPropertiesDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1abca52a7797d0b117b0f8035b59f2d465b13b88",
+      "bytes": 4000,
+      "sha256": "0168597c8fab46d408dd0212ad4ac63bc2ff1483656744b74a055c6f31c14016"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetClassPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0575bbf63e8f9dc873f2ec6ad48365c4058021a7",
+      "bytes": 3431,
+      "sha256": "0eaed489154fac53966e50c713c270e946b99e5901ba13312178eedb491328a9"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "7a7ae4e5c9e4722c8b202a442b254e4107384605",
+      "bytes": 335,
+      "sha256": "279f733956d6f331808d0ece3a617529056e586346041a51a39fec318c99d255"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dd74b08a51c968f6c0256670bb09b518a664ba70",
+      "bytes": 4172,
+      "sha256": "5682c21a2084b5a29be424a514bfe717f9a88280be0520dd94fe78b52cc731a2"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameJSTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b1ab77b737ace8ba7f127a0b1e731da06a495543",
+      "bytes": 4614,
+      "sha256": "d5699a77843346d05a8ea44ec65bc010ad73c9a9897b1a30e01d55d550f87baa"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "d853bfcffdec74e605c75dfe02370ce32e3bb301",
+      "bytes": 2109,
+      "sha256": "d3a74b1aab982474288fe2c6fd9b825291b9f443f609bee0a060085280911470"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "c42c81635188f311b12678867f2d0a0bcb7980d7",
+      "bytes": 2109,
+      "sha256": "358303362693b38d76fbd43d1d0e260587ef6cf80e330ff06db9df37d0ce2252"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/GetNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9fcd597fd474173f1dceacda8803878c7d9176de",
+      "bytes": 4080,
+      "sha256": "fcfe75d59a57ea294945ad26c8c5e2c928635e35090307e35c3defae2a37d3f3"
+    },
+    {
+      "path": "Tests/Utils/ObjectDeclarations/README-GetAttributeOpenersTests.md",
+      "gitMode": "100644",
+      "gitBlob": "f660193420a0c4a271787894cf2142b043bb387b",
+      "bytes": 154,
+      "sha256": "b8aba370451f8d60f069832a6002d31735f972124ea5103c0dc78447fcd1fa36"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsReferenceDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1e080202e1c3c753aecee607c806afe87a0d9786",
+      "bytes": 1357,
+      "sha256": "f323c35dab4be8b11e367a1453904d5bc82852107d2530886532e530fc8b491d"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsReferenceTest.php",
+      "gitMode": "100644",
+      "gitBlob": "76b04f72a83d351a12a43686bdead33f8d226850",
+      "bytes": 1497,
+      "sha256": "db2de5ac5f2419980eee485edbb3bf6779018e35e0391d525e1e35aa195bcdb9"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsShortTernaryTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a8b2436e964649e62e2ef230039e39593a0e2579",
+      "bytes": 476,
+      "sha256": "c3a482f0e1e5ba8cadd87a7d279251186a553692114754350390e50e54e2b2af"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsShortTernaryTest.php",
+      "gitMode": "100644",
+      "gitBlob": "226745606e73c350563725789d12b9e2df980c5d",
+      "bytes": 3067,
+      "sha256": "b52bb9e4c93dbd14f5da43c5ff0353b2e2c6b0cc57997849eadf71a4494f2ea6"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsUnaryPlusMinusJSTest.js",
+      "gitMode": "100644",
+      "gitBlob": "a264b19da54fa0e74e03f3d0b53f60dbecd73105",
+      "bytes": 368,
+      "sha256": "9b5a07866f9d610ca20ae4ccbdaf9ac584e7b7fb3a9c927a71474938547fc1f3"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsUnaryPlusMinusJSTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5df8391789865fc3ae59fc2e80d0dffb0e83fbae",
+      "bytes": 2187,
+      "sha256": "611a3bad3768f9afa20a38a12dd9d95a9460db116b3841382459b68a08e8b2a9"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsUnaryPlusMinusTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "0ab78a6bdee3398c34f756c2f9b2e0382ce58509",
+      "bytes": 3212,
+      "sha256": "a30b3d7ceb1a79236cf53131c7d032acd678098f765be3a00e422c24606085b6"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsUnaryPlusMinusTest.php",
+      "gitMode": "100644",
+      "gitBlob": "3c8d7ef03f620ce7b9ac29316fe51a6d3b7c6682",
+      "bytes": 10615,
+      "sha256": "c3791852cc43484627a3e63e7518553f95c9c91f8ab243cb805ae522917d7a35"
+    },
+    {
+      "path": "Tests/Utils/Operators/IsUnaryPlusMinusTestCase.php",
+      "gitMode": "100644",
+      "gitBlob": "00bacf615f2c9b5d59709b28961d58336fc7f6a3",
+      "bytes": 2229,
+      "sha256": "850ee6b5c2db34a1cd239d805c8e9d67df8a650d791be9aafbe3a17c14494b46"
+    },
+    {
+      "path": "Tests/Utils/Orthography/FirstCharTest.php",
+      "gitMode": "100644",
+      "gitBlob": "06405e24982137e33a117ae4c44d17bcaea36f5f",
+      "bytes": 9230,
+      "sha256": "50c2825662940049cbc23816b684aa8efd5924ccc9cfa11597490af891df5658"
+    },
+    {
+      "path": "Tests/Utils/Orthography/IsLastCharPunctuationTest.php",
+      "gitMode": "100644",
+      "gitBlob": "b148fde18726f09f9e0b0990a60a3cc1097d68ab",
+      "bytes": 3980,
+      "sha256": "2de1fbf549624cd28a85a2a3e775645e928e50e4432666e50463bf38db925153"
+    },
+    {
+      "path": "Tests/Utils/Parentheses/ParenthesesTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "e527c0f9c50d27d6223070a393458962bbc61044",
+      "bytes": 1824,
+      "sha256": "a99cdcba525b7583113f721201d66bb47660f2ad5e91c16d6d2482c134e53e2a"
+    },
+    {
+      "path": "Tests/Utils/Parentheses/ParenthesesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "2fcc45ccea2616855972b1140a1f2afb54cd9c95",
+      "bytes": 60873,
+      "sha256": "1fbe449ddf10c84a4a366fa5e06e128a347edc3c35fb880e91f7fee038cabdc3"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParameterCountTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "f69def98da79c4eba959a3410d52823253838faa",
+      "bytes": 5787,
+      "sha256": "2772ed788a3b4ffdb3390d3a2e5a4f27507cf50a436560d6e0f930f85e486fe8"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParameterCountTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5ee5e8db5cbda2230350d0dd9c22fc060e79b58f",
+      "bytes": 13843,
+      "sha256": "c32e0c96d014a600beaad6d79063f726dfccc677b6b35c981ca1a4f446355c19"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParameterFromStackTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "a7587ab3cc78c9bd7f9fa23f6cab183a029fded6",
+      "bytes": 1375,
+      "sha256": "fc2dab346dfb5c3aac479ff5a180e34d85fa247e7af8b09c1c0d9ae4d9e34272"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParameterFromStackTest.php",
+      "gitMode": "100644",
+      "gitBlob": "bd757e57711f341e8185f0d9ee0f26d6153b704d",
+      "bytes": 19301,
+      "sha256": "09a1d157693f6344a61848fe06584d3133a4aae24cb61b9a4d07f01dc5046bbc"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersNamedTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "8c9defbc974052890d3ec72c8e573380da5e53ab",
+      "bytes": 2793,
+      "sha256": "16fb22e0fc512ba1433625f095d8c54ffd9c4db74a70714bd3e4910e31447b21"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersNamedTest.php",
+      "gitMode": "100644",
+      "gitBlob": "1f27a9a825923f6f05daeeb7074ff27bcb781e7d",
+      "bytes": 24553,
+      "sha256": "fa79b686c60ba65010adfcf70fd9f6f37691b99e0962f309b6b77fbf579b1d7a"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersSkipShortArrayCheckTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "876260d4ca77a8bad9c8c65a6def589c20448dc9",
+      "bytes": 489,
+      "sha256": "f9b1461e15c2da6a037d0ff7febd122dc2fcc2535c9ddbe6be495d078d1ac9eb"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersSkipShortArrayCheckTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dc0ccbd7443242f236529d745f90a54c62d31e94",
+      "bytes": 11096,
+      "sha256": "f6fbd8b167c1ee681b895bc6ae46e4cc889a016ed07c3c8d284f64687fed821e"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "56c1379db4c00945ad5cadb6188364b584481a1b",
+      "bytes": 3942,
+      "sha256": "921e40fd5b54f050be8e601144106721c5baf591a501a4634458f395d3b641c7"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "61a5c6ea8c43ed27b6c7ac1f58e31bb1aeb3d887",
+      "bytes": 32712,
+      "sha256": "29a659c123ae06da44993e13792ba178363785491bdf2ebfcf76b0e1d65bb6d8"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersWithLimitTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "aa0e58802559315d9521b2287eef1a2aca4df365",
+      "bytes": 1250,
+      "sha256": "ce0a750d47d03ade872fd8d1bbfed8e2bd2251f5391aee4d8c963eb9f8761456"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/GetParametersWithLimitTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0edd22b3abc8b20f5afd425a9f62a6e0b1d070e5",
+      "bytes": 15338,
+      "sha256": "3a228aeade3d22efbf739e3fde109ff5ec51f46c0c38b7bd69ba01bfc3d2adf9"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/HasParametersTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "eb63e73c83e24312a4341f0819c1e7a277864b55",
+      "bytes": 4623,
+      "sha256": "fea3d47e15de645113bcaa2efea76ffa9664f3311d0c6bf9dc444cce5f40c125"
+    },
+    {
+      "path": "Tests/Utils/PassedParameters/HasParametersTest.php",
+      "gitMode": "100644",
+      "gitBlob": "333de8ec59559149a8bd235446c55bde436b9b9e",
+      "bytes": 20036,
+      "sha256": "434e76c5bf5760651074aaa7dcdc8a5d4a577ad44db7b3fea67a6337edc621b3"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOConstantTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "312597376ed2f9bf19fd250ef715e1e1a103a378",
+      "bytes": 1003,
+      "sha256": "bb95d40f80e6025dc93422cdfdee38dc21efabb115e73077e1057d9fded8efd2"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOConstantTest.php",
+      "gitMode": "100644",
+      "gitBlob": "80c66c052113a213f1f29b693238e85fb61e935b",
+      "bytes": 3248,
+      "sha256": "4df5bece9895302df4c3d83745dd32d4caf1cf4d3cde86a4fa51482915c2c382"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOMethodTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "2da0bfbef15a0f48ae9a67c993bbacabfb0146c6",
+      "bytes": 987,
+      "sha256": "8163703057a15ffe854071a6b1881e13adcdd427b18f64b160a5ecf10f1551f8"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOMethodTest.php",
+      "gitMode": "100644",
+      "gitBlob": "9ca5983f2113b6819f2f53f038f5f4b258f8368d",
+      "bytes": 4068,
+      "sha256": "5b9f5a422004bfa5c160239b208a85bf03d241dff2668b8aad55be02856082c0"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOPropertyTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "88090f6937521795502f97b0de607d2d5dd145e0",
+      "bytes": 2208,
+      "sha256": "d9297e4a914fd28a487a92fa9a94fadf763c50b606d6cb1729d5f16a1f0612e2"
+    },
+    {
+      "path": "Tests/Utils/Scopes/IsOOPropertyTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dff3c3da008f2adcb46d2a18dd499514df3772f3",
+      "bytes": 6253,
+      "sha256": "501d6b229abf76b3217f125a85ceccc4e2a2de73cc9bd859002dfa0451b60ee5"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/GetCompleteTextStringTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "1fd52e643b61313c12a59f92f047c5ccbef1f516",
+      "bytes": 1199,
+      "sha256": "ad9597fd100ec91b589d2ab04f0f5b60dc85b48c5485eca36324bb27bf828bdf"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/GetCompleteTextStringTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d9034795e0d4c5543420123f81c6d7012fc55564",
+      "bytes": 9924,
+      "sha256": "0a3ea678ad8ee502950cc17c6c35371372e877e88c341420dc61c7f1a9b275a7"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/GetEndOfCompleteTextStringTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "b9890ed8ee77ec033b00645329e049df5279eeb7",
+      "bytes": 1288,
+      "sha256": "f8e6136c8016ea92a5b29bdc0f9b40a41dbd903b6a1d603269792f9e283cb79a"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/GetEndOfCompleteTextStringTest.php",
+      "gitMode": "100644",
+      "gitBlob": "0821427d1b18842c425dec448aefb958a553fd60",
+      "bytes": 6719,
+      "sha256": "026bd18ba29ffc9696f10ce0c4701959aa0272f7279763161c4283b958afb7d3"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/InterpolatedVariablesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "dad4e49bb7eb978bf95fb380acbd746797086873",
+      "bytes": 23885,
+      "sha256": "ea34cccbf73a605e35061df67066facbe97d9af43749b2b3eb526e47ffb74040"
+    },
+    {
+      "path": "Tests/Utils/TextStrings/StripQuotesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "5616874aef1175dddf87f4ddbc5cfa7cbed3d70a",
+      "bytes": 3088,
+      "sha256": "8d218cbafe5e296eb29f03e4db6784aa9e8964884df69120a17aac74b6b4a416"
+    },
+    {
+      "path": "Tests/Utils/TypeString/FilterTypesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "db33fc8f34468cd698f5ad19676b9a5a12ae32e4",
+      "bytes": 15283,
+      "sha256": "c89399e17b1a5ddfb594102d341bbfe529056189ca142086a065a427f5d00405"
+    },
+    {
+      "path": "Tests/Utils/TypeString/GetKeywordTypesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "3ec56e71f2a9b905fabdd4c49aa971a41a6d4013",
+      "bytes": 1010,
+      "sha256": "34059ce57bdbb33776dabd2cd1db94cc5e9c37eeb070a3a7e9c43514eae5600d"
+    },
+    {
+      "path": "Tests/Utils/TypeString/IsKeywordTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4184b509a9d55858facddfa98342332f714fe056",
+      "bytes": 5621,
+      "sha256": "8f56b22ae678c00e09509a6adf570b42c5080d32f7127d7845f9a5b4393b814a"
+    },
+    {
+      "path": "Tests/Utils/TypeString/IsTypeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e2f505652d39831939b65fea5bd28cbeaad40813",
+      "bytes": 39627,
+      "sha256": "8204aebf9f828150c4a081c475fd4e86378b44436733c89f918819a3532a2fb4"
+    },
+    {
+      "path": "Tests/Utils/TypeString/NormalizeCaseTest.php",
+      "gitMode": "100644",
+      "gitBlob": "8c4e608d385afbae6f8346505f0b02b0bd6a8d08",
+      "bytes": 6860,
+      "sha256": "fbdb94bd1d41f20d49dbf2b9db697fc449d38661227c5373e2117d2b95b384b7"
+    },
+    {
+      "path": "Tests/Utils/TypeString/ToArrayTest.php",
+      "gitMode": "100644",
+      "gitBlob": "92b66246ef65ef2cdfc115e2bcef6f15bbbf5417",
+      "bytes": 21591,
+      "sha256": "00be4cc131fdddcfed45504fc22b24a9ecd591abe8b1b70b18a6a3668ee7f70c"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/SplitAndMergeImportUseStatementTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "3e8355b418870b45ad54c4dae94da709e7bcb814",
+      "bytes": 517,
+      "sha256": "bf78a113421d6b181d56f4d42c4029889926c0095e569704d81436f816d39d31"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/SplitAndMergeImportUseStatementTest.php",
+      "gitMode": "100644",
+      "gitBlob": "76202b7df287da9a30f65833b0db693e22eb57c2",
+      "bytes": 8164,
+      "sha256": "c7238c41bf71185b9140926708aade8ebeb11b2a9c85595cae359957159631db"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/SplitImportUseStatementTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "9f5af8642ed922d5d0e3de368fd9fb206eabd53b",
+      "bytes": 2880,
+      "sha256": "e09b03e0c003bf5e1aba3f266b26e3150ec44d5aade34b39bfaa7b47067eb8ca"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/SplitImportUseStatementTest.php",
+      "gitMode": "100644",
+      "gitBlob": "227337a8350b03a7b3d1fbb2b99052c9b0b3fb11",
+      "bytes": 15474,
+      "sha256": "28282fa44213b5fe76c1528428f241a40c7b765320d451f296bce6787c4849e6"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError1Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "0d02e445049761361ec994041be957e9719aa62c",
+      "bytes": 114,
+      "sha256": "2a495d41ce0ddad9f5c456acfc80e0462a40b4f918879b39fd562c12ad30e6a7"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError1Test.php",
+      "gitMode": "100644",
+      "gitBlob": "9d9cb7c191f29eee9cd3c9a360b7d768ee891e2d",
+      "bytes": 1020,
+      "sha256": "b111bcabe1e58e8d13d02f0a7ad5f7b6b42e4f5428fb2ccafa24feaa2671df81"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError2Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "ffdb0168202192bb665d19c74fc161b0bc3db33e",
+      "bytes": 123,
+      "sha256": "7212edf8195081f82634add833f5ec8ea559ea09daa0f1a18bfe469262f6630a"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError2Test.php",
+      "gitMode": "100644",
+      "gitBlob": "220e9367115a3a043310cd6c092ba94fa0747f34",
+      "bytes": 1020,
+      "sha256": "26aa601c84bf90f2d135997f02bd8793573f31ca10e15d9486b6a51e3d4395dd"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError3Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "03c4fecb03d82b8c4476b9bc1a41107c93aedb3f",
+      "bytes": 155,
+      "sha256": "d27e37fffd47403a1097ef7b5316c2cf5da19b71113228156c2a55cc551c55cc"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError3Test.php",
+      "gitMode": "100644",
+      "gitBlob": "4218746787f1f5849e27bb1401d3d2a3fb656906",
+      "bytes": 1014,
+      "sha256": "b70c69316c4cce27528ec168524ca210113b20e5d0119945094447ab7a7badeb"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError4Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "849b43c7fc1b1f40fb1d0b6e956e627c12e2ef84",
+      "bytes": 163,
+      "sha256": "399e8c0016fea664ca595a124448a6ed9c91e04505221763c1efec5571c519cb"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError4Test.php",
+      "gitMode": "100644",
+      "gitBlob": "e84a07163b0fa60218959ff2cbec6240add99d92",
+      "bytes": 1023,
+      "sha256": "6c8512311ff7b860cad708f08f5614864fb2a1afc1dd5490589b43650bd12c1a"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError5Test.inc",
+      "gitMode": "100644",
+      "gitBlob": "b8b73e6c7a86593a2ca5efaac3fa5891caf8e396",
+      "bytes": 155,
+      "sha256": "2517f0d5c3e1876a7e1161ad3ef6fa832129a5c5ad69b564a5ec073679c0bd5d"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeParseError5Test.php",
+      "gitMode": "100644",
+      "gitBlob": "1c8e65043a97424f45faed4d8cc6a3963842a841",
+      "bytes": 1036,
+      "sha256": "07a2e3a5c82b8b11b0d77a5c27d79731e2eba34e58cecdf016315eb3599ad177"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "c9415c3f95aa6508dfe4bef0f5442c2b52ace2b1",
+      "bytes": 1713,
+      "sha256": "c958d50906136f87a70c200ac934c9f9739fb6b95a79d4639348430be25d2497"
+    },
+    {
+      "path": "Tests/Utils/UseStatements/UseTypeTest.php",
+      "gitMode": "100644",
+      "gitBlob": "285fac70232f9abe02f3fcfd0dd5daf49c2944a9",
+      "bytes": 9690,
+      "sha256": "c9d8139ec246ee3f5f8db1dafece83878ab284f22d3dac895a0f78bc764240f1"
+    },
+    {
+      "path": "Tests/Utils/Variables/GetMemberPropertiesDiffTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "d04cc7753031dd565c5ed8aa25325154ed562029",
+      "bytes": 28,
+      "sha256": "938a1e738d10d681cdedfc27b71b433504137a5ef51db9cbaf5b3df5d6c85684"
+    },
+    {
+      "path": "Tests/Utils/Variables/GetMemberPropertiesDiffTest.php",
+      "gitMode": "100644",
+      "gitBlob": "e44426e3ee994320e1eb3365145f10daf91e7ba7",
+      "bytes": 1703,
+      "sha256": "4dba1b37e46a4fa195b6343807d9bdeba2e1a76d5a3a435d5311c03ac5278029"
+    },
+    {
+      "path": "Tests/Utils/Variables/GetMemberPropertiesTest.php",
+      "gitMode": "100644",
+      "gitBlob": "738de7aa30184c6c90031850723e2c2f9073ca30",
+      "bytes": 4377,
+      "sha256": "e0d6160ca77378f65a64bbfb32bf231980d8bc0ae2cffbd371ee59e76a43b68b"
+    },
+    {
+      "path": "Tests/Utils/Variables/IsPHPReservedVarNameTest.php",
+      "gitMode": "100644",
+      "gitBlob": "4808f8e6da5484ab7d23789f92f4519c9d8790ab",
+      "bytes": 5571,
+      "sha256": "ab43f7868a90e3ef4cf5efcf5b8673d0eb8e9e502826d2d80b5b2715d2af3ef6"
+    },
+    {
+      "path": "Tests/Utils/Variables/IsSuperglobalTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "9186bd658a8821ca2b161f4419a108f8d6411c82",
+      "bytes": 850,
+      "sha256": "25c87d1029f2c110d3200eb897683e765e7932a37189c541c38f288b4bdd3425"
+    },
+    {
+      "path": "Tests/Utils/Variables/IsSuperglobalTest.php",
+      "gitMode": "100644",
+      "gitBlob": "d7205af2febb2612b9a3b8c5c9c0913b7696b045",
+      "bytes": 7569,
+      "sha256": "137f937256b019fc96f9d9fb143c9c7875cf6cd270e741d4fd28180f9ca84102"
+    },
+    {
+      "path": "Tests/Utils/Variables/README-GetAttributeOpenersTests.md",
+      "gitMode": "100644",
+      "gitBlob": "f31a9605ccca3b8e415546273384c3470dd8dc13",
+      "bytes": 145,
+      "sha256": "5d69ccb8a650ee7e433a393087d43ebee927f50197676fe7c770f0c2e9f20258"
+    },
+    {
+      "path": "Tests/Xtra/Messages/HasNewLineSupportTest.inc",
+      "gitMode": "100644",
+      "gitBlob": "1c97c6adce2ddd75b0fb40b5213f237b47d8e036",
+      "bytes": 51,
+      "sha256": "edc05537fc19c9965e573394950d778afbea92ab88292646dd5bd7474e9ebf97"
+    },
+    {
+      "path": "Tests/Xtra/Messages/HasNewLineSupportTest.php",
+      "gitMode": "100644",
+      "gitBlob": "c1778654ed0013334d6828649ffbe94ccd280c00",
+      "bytes": 5139,
+      "sha256": "0faa4143ed19b84e2ef38a3aa28eaae3c465d43a8579a47c586589a28ac14711"
+    },
+    {
+      "path": "Tests/Xtra/README.md",
+      "gitMode": "100644",
+      "gitBlob": "97cff0ddd79dc4d361c4b7fa52e4798e9eaa9545",
+      "bytes": 728,
+      "sha256": "de3a7ca349a2cf64e82d9132dbb302d12180caa47d9684a308dcf910d2057106"
+    },
+    {
+      "path": "Tests/bootstrap.php",
+      "gitMode": "100644",
+      "gitBlob": "5666e77265c5869194e383f653b883dc06628955",
+      "bytes": 3980,
+      "sha256": "375973a72d6be7035a41fcd4bce4f0d31326d119cc55efbe4e177c12dff79ded"
+    },
+    {
+      "path": "composer.json",
+      "gitMode": "100644",
+      "gitBlob": "39890d8a7a4d2c85042f4436bf33dbe2ee27ade4",
+      "bytes": 3333,
+      "sha256": "5f6de926469b672d95098bf85eec16ca796969fba16a010db55b2f0ce2f16801"
+    },
+    {
+      "path": "docs/.gitignore",
+      "gitMode": "100644",
+      "gitBlob": "a5a45a8b2377887a7a3e40dcc41f3eaf7e7ad4d2",
+      "bytes": 39,
+      "sha256": "13d4c342dd7352bc003fe529fe62e8c6adb996565f48c839e21490610c7da3d1"
+    },
+    {
+      "path": "docs/CNAME",
+      "gitMode": "100644",
+      "gitBlob": "3ba68c3d33a0763f30334b3b60ec4582ce7ab1d7",
+      "bytes": 14,
+      "sha256": "794fbcc8ba019c9d6d913636a2a001e0fe3a119b806e16920481d23a053428c3"
+    },
+    {
+      "path": "docs/Gemfile",
+      "gitMode": "100644",
+      "gitBlob": "b78190abab9144f03720dbb9076eba61e9632fd3",
+      "bytes": 114,
+      "sha256": "b118442c34de1f774ff705673d9a2938ca9f2d71372a03fd637ea8b1ede2fe07"
+    },
+    {
+      "path": "docs/README.md",
+      "gitMode": "100644",
+      "gitBlob": "5a02feacbd766f34b5f2db3b8c0a167fcb5fff9f",
+      "bytes": 804,
+      "sha256": "1aa9a53ca6b261b21eb2508ddaf8eef2659ea726187cf55facc6b372a5d0c229"
+    },
+    {
+      "path": "docs/_config.yml",
+      "gitMode": "100644",
+      "gitBlob": "7650fa643588f8aeacb27478db428af01e499320",
+      "bytes": 1298,
+      "sha256": "9a5c320d8a4fc5559bcca59dc1d93c661ce3682b855ab96464f0973cf63d786e"
+    },
+    {
+      "path": "docs/_layouts/default.html",
+      "gitMode": "100644",
+      "gitBlob": "7cdfaae92efcb6b7c642a5dfe4c20c560c87e510",
+      "bytes": 5367,
+      "sha256": "76542f742edc97324edf0f64308e01c99322a71255f6e5e21877a8b079e9cbc6"
+    },
+    {
+      "path": "docs/assets/css/style.scss",
+      "gitMode": "100644",
+      "gitBlob": "8e6c4129ee23334fc4bb76b3462a98e290e6e8f7",
+      "bytes": 3819,
+      "sha256": "622e9afb323312ccd9a522afdbd722fa8c6b4be1fdfd0353d1ef06c9e1724dea"
+    },
+    {
+      "path": "docs/assets/css/syntax.css",
+      "gitMode": "100644",
+      "gitBlob": "ffc36bdddb77c3d36e210e73725ad47815021ca4",
+      "bytes": 4617,
+      "sha256": "a3601fcb4671d9fef32ab72c744bcd6113280969d69c6f80a911e4986eac7f4c"
+    },
+    {
+      "path": "docs/assets/js/mastodon.js",
+      "gitMode": "100644",
+      "gitBlob": "421fdb2ac14f9e02a80baafc20f38838f8d45cfe",
+      "bytes": 4908,
+      "sha256": "5c3edca7d483a3651037e693f3e4124069ae9e00e131182961f610ced843330d"
+    },
+    {
+      "path": "docs/phpdoc/.nojekyll",
+      "gitMode": "100644",
+      "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/robots.txt",
+      "gitMode": "100644",
+      "gitBlob": "a2a00dda540de71479c97529704e2460067f8669",
+      "bytes": 115,
+      "sha256": "37bd241999ce9bf6e194a048b2ea5ce9ea2600975cfc61afc49b4253cc46d82b"
+    },
+    {
+      "path": "phpcs.xml.dist",
+      "gitMode": "100644",
+      "gitBlob": "f547cfc6ee874b1c0fbf9a0be22306b2f1c0923a",
+      "bytes": 5947,
+      "sha256": "52b1925441937b4cab4a703f14e32abf86c7b866a9ff3f21e2b07cc74737ad3d"
+    },
+    {
+      "path": "phpcsutils-autoload.php",
+      "gitMode": "100644",
+      "gitBlob": "39b47fc51222bfbaaf6d1c4d3a52ad05459b491f",
+      "bytes": 2332,
+      "sha256": "244a5927cab4ebded80abef1edac1dd172bf2a0476775b5730c8f3bc2300878a"
+    },
+    {
+      "path": "phpstan.neon.dist",
+      "gitMode": "100644",
+      "gitBlob": "02242e592a347b06086a72072fc5ea90f144f4b1",
+      "bytes": 6595,
+      "sha256": "b0cbd002a9c181325c0be4ac02b2d9881483b77aa45f31133634c88ab38d360f"
+    },
+    {
+      "path": "phpunit.xml.dist",
+      "gitMode": "100644",
+      "gitBlob": "9a0cf660888504bd2d736ee06028bb476e1a7f4f",
+      "bytes": 2747,
+      "sha256": "67359965cb7c2c46d37c160e5758d80b233b36156f76f989ffe56533af1b635b"
+    },
+    {
+      "path": "phpunit10.xml.dist",
+      "gitMode": "100644",
+      "gitBlob": "1f050cc11b30aa2ab377a8b78f47ba994c328597",
+      "bytes": 3127,
+      "sha256": "78d8b1f5d3284399a32e71e088c32337b20e780c78916a1c0acb62ea855cea80"
+    }
+  ],
+  "vendorFileCount": 58,
+  "vendorComparisons": [
+    {
+      "path": "CHANGELOG.md",
+      "vendorSha256": "f3643642871aac9b61d6dd852382b4fcdb1929a5c4d4199cddf59d2072bace77",
+      "checkoutSha256": "f3643642871aac9b61d6dd852382b4fcdb1929a5c4d4199cddf59d2072bace77",
+      "matches": true
+    },
+    {
+      "path": "composer.json",
+      "vendorSha256": "5f6de926469b672d95098bf85eec16ca796969fba16a010db55b2f0ce2f16801",
+      "checkoutSha256": "5f6de926469b672d95098bf85eec16ca796969fba16a010db55b2f0ce2f16801",
+      "matches": true
+    },
+    {
+      "path": "LICENSE",
+      "vendorSha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "checkoutSha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/AbstractSniffs/AbstractArrayDeclarationSniff.php",
+      "vendorSha256": "6a58b386b04f8413dcbfbf4ef61659ed87adfe5657caf704a22e58cf3a877ddc",
+      "checkoutSha256": "6a58b386b04f8413dcbfbf4ef61659ed87adfe5657caf704a22e58cf3a877ddc",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/BCFile.php",
+      "vendorSha256": "d2002e952a9d552c7006f3a2f8f743f615f5c798ce1ad5a3071c4c0c6764a120",
+      "checkoutSha256": "d2002e952a9d552c7006f3a2f8f743f615f5c798ce1ad5a3071c4c0c6764a120",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/BCTokens.php",
+      "vendorSha256": "4a4b880522587abcb0a5336caae5d0530b9e80571195d681e854d7d1897fd9d3",
+      "checkoutSha256": "4a4b880522587abcb0a5336caae5d0530b9e80571195d681e854d7d1897fd9d3",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/BackCompat/Helper.php",
+      "vendorSha256": "d3736b6d554f5328a1944984edbb3ea2a7a114adb7c036c3e3bf9c02313e8671",
+      "checkoutSha256": "d3736b6d554f5328a1944984edbb3ea2a7a114adb7c036c3e3bf9c02313e8671",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/InvalidTokenArray.php",
+      "vendorSha256": "fb2472b6705beb54231053c3b8d407b29fde744d9a9ecb47449fa3e731d52188",
+      "checkoutSha256": "fb2472b6705beb54231053c3b8d407b29fde744d9a9ecb47449fa3e731d52188",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/LogicException.php",
+      "vendorSha256": "6c39615975f4044e4ebbb8f1565542b780c32ff9bc07d5b99d03ae6b89c56290",
+      "checkoutSha256": "6c39615975f4044e4ebbb8f1565542b780c32ff9bc07d5b99d03ae6b89c56290",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/MissingArgumentError.php",
+      "vendorSha256": "2467e3911eaaa72970cfa550ff527d8931acfeb867c62010b376b52878741476",
+      "checkoutSha256": "2467e3911eaaa72970cfa550ff527d8931acfeb867c62010b376b52878741476",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/OutOfBoundsStackPtr.php",
+      "vendorSha256": "4eb40b468ec9d69d8c12f491f326c7d3848fd8ec3a0e9cdcd7361f27107645a9",
+      "checkoutSha256": "4eb40b468ec9d69d8c12f491f326c7d3848fd8ec3a0e9cdcd7361f27107645a9",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/RuntimeException.php",
+      "vendorSha256": "6ed06af7c9471ddd39e8f99d791e30dcf6ac42f51e55e27b84a5b1c9933a52bd",
+      "checkoutSha256": "6ed06af7c9471ddd39e8f99d791e30dcf6ac42f51e55e27b84a5b1c9933a52bd",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestFileNotFound.php",
+      "vendorSha256": "c4e4406c11544d0feb72a47752de1a2f739e46db4a3e521b06c0f62f5130e064",
+      "checkoutSha256": "c4e4406c11544d0feb72a47752de1a2f739e46db4a3e521b06c0f62f5130e064",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestMarkerNotFound.php",
+      "vendorSha256": "61e67cb8dd6e99192ac31deaa87e8b59f3b445f1d282f93bf26d7e062e5e48d4",
+      "checkoutSha256": "61e67cb8dd6e99192ac31deaa87e8b59f3b445f1d282f93bf26d7e062e5e48d4",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TestTargetNotFound.php",
+      "vendorSha256": "4ca01c7871ee0e3672d493286f0e9489efbd617fd3d2ba60caaecac16373877d",
+      "checkoutSha256": "4ca01c7871ee0e3672d493286f0e9489efbd617fd3d2ba60caaecac16373877d",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/TypeError.php",
+      "vendorSha256": "af585da697ef790506465722bed481bcd5bafa418a7caee31c9cbd48e3a8619b",
+      "checkoutSha256": "af585da697ef790506465722bed481bcd5bafa418a7caee31c9cbd48e3a8619b",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/UnexpectedTokenType.php",
+      "vendorSha256": "4b7892d839be0d9ea5219a3b25d14f54178ee8cf0455044e33a557fe5a56fc21",
+      "checkoutSha256": "4b7892d839be0d9ea5219a3b25d14f54178ee8cf0455044e33a557fe5a56fc21",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Exceptions/ValueError.php",
+      "vendorSha256": "00ce4730b5fed6ddec28279fcc1a96862a9655410b8016fbb14c2ab5b1fa1956",
+      "checkoutSha256": "00ce4730b5fed6ddec28279fcc1a96862a9655410b8016fbb14c2ab5b1fa1956",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Fixers/SpacesFixer.php",
+      "vendorSha256": "555f5b61bf34205da9692dc43fdecd864cd008379f6a6b5ad3862f9f94c72bc6",
+      "checkoutSha256": "555f5b61bf34205da9692dc43fdecd864cd008379f6a6b5ad3862f9f94c72bc6",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/AttributeHelper.php",
+      "vendorSha256": "72c93e4acfaf21beb7adb3e2e8f7a7b1b32d081c01fb3c2b0c6b294eb776d457",
+      "checkoutSha256": "72c93e4acfaf21beb7adb3e2e8f7a7b1b32d081c01fb3c2b0c6b294eb776d457",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/Cache.php",
+      "vendorSha256": "62ebd52fc3c1fe935d1ff45ffc98640398d8e3ea5074766c4fd6d8275030a3bc",
+      "checkoutSha256": "62ebd52fc3c1fe935d1ff45ffc98640398d8e3ea5074766c4fd6d8275030a3bc",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/IsShortArrayOrList.php",
+      "vendorSha256": "bda6fadb488a87c169b9e8b168141219b4f9b2df26993e4661ecf7a1f51cad0c",
+      "checkoutSha256": "bda6fadb488a87c169b9e8b168141219b4f9b2df26993e4661ecf7a1f51cad0c",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/IsShortArrayOrListWithCache.php",
+      "vendorSha256": "5a77fb04852ef7456ac41b237b9eb796a5bd64dfaff06096997c375967da732a",
+      "checkoutSha256": "5a77fb04852ef7456ac41b237b9eb796a5bd64dfaff06096997c375967da732a",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/NoFileCache.php",
+      "vendorSha256": "2f07d2492646cfa3d427758f3dfbe2934d9fcd22daf32a5c75638ff5d49ce0a6",
+      "checkoutSha256": "2f07d2492646cfa3d427758f3dfbe2934d9fcd22daf32a5c75638ff5d49ce0a6",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Internal/StableCollections.php",
+      "vendorSha256": "d1d3a31c81502aebb0de8f16c766dc8b32c43f69fc7bd6d95ecb11c1e841d4c3",
+      "checkoutSha256": "d1d3a31c81502aebb0de8f16c766dc8b32c43f69fc7bd6d95ecb11c1e841d4c3",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/ruleset.xml",
+      "vendorSha256": "97f1470a57ba091afae547bf660e3065efce489519bb4e485a70e0cf1e02f904",
+      "checkoutSha256": "97f1470a57ba091afae547bf660e3065efce489519bb4e485a70e0cf1e02f904",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/ConfigDouble.php",
+      "vendorSha256": "08c1b0dba13ff9fb703f2496b0996996c14340440b4c72d0001c4a629bbf9f4f",
+      "checkoutSha256": "08c1b0dba13ff9fb703f2496b0996996c14340440b4c72d0001c4a629bbf9f4f",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/RulesetDouble.php",
+      "vendorSha256": "5e6cbbd9a254ad39570b31af80035b7c11f5675394df0ed4ce7ebf741415f6de",
+      "checkoutSha256": "5e6cbbd9a254ad39570b31af80035b7c11f5675394df0ed4ce7ebf741415f6de",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/TestUtils/UtilityMethodTestCase.php",
+      "vendorSha256": "943c3734899b7f4f55937483f78ff311ed38c4d71e8c0d37cae4d6aff9487bee",
+      "checkoutSha256": "943c3734899b7f4f55937483f78ff311ed38c4d71e8c0d37cae4d6aff9487bee",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Tokens/Collections.php",
+      "vendorSha256": "b4199a15eb64d014a2ab5e5d581f2a729031ed287b46398a1fca69c41fabbb4f",
+      "checkoutSha256": "b4199a15eb64d014a2ab5e5d581f2a729031ed287b46398a1fca69c41fabbb4f",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Tokens/TokenHelper.php",
+      "vendorSha256": "2d5c648febb90c93b45b8a7545e34e1427b4b4c077d1fefc4eef096e0abadbc9",
+      "checkoutSha256": "2d5c648febb90c93b45b8a7545e34e1427b4b4c077d1fefc4eef096e0abadbc9",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Arrays.php",
+      "vendorSha256": "2ea599cc62fe14e852a4c69470e0ac543aaa921e85cab9984305522782aa9ae5",
+      "checkoutSha256": "2ea599cc62fe14e852a4c69470e0ac543aaa921e85cab9984305522782aa9ae5",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/AttributeBlock.php",
+      "vendorSha256": "73a35a5acd09ebd2697ce90b08e2e49f9b0f85b0555caf45317bfd7c79d6f41f",
+      "checkoutSha256": "73a35a5acd09ebd2697ce90b08e2e49f9b0f85b0555caf45317bfd7c79d6f41f",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Conditions.php",
+      "vendorSha256": "6cd60b9a9a3d2770c9d515a5cb69ed460533d511d403feb2d99b1fb1f16ae9c7",
+      "checkoutSha256": "6cd60b9a9a3d2770c9d515a5cb69ed460533d511d403feb2d99b1fb1f16ae9c7",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Constants.php",
+      "vendorSha256": "28019bf5b3de49cbf4531211077aa0cf2015f841a4353335e0df83109e037b28",
+      "checkoutSha256": "28019bf5b3de49cbf4531211077aa0cf2015f841a4353335e0df83109e037b28",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Context.php",
+      "vendorSha256": "a79913e769e9b74cc080eb845185c63b88c1d33bfc7543bab79e9981d097661a",
+      "checkoutSha256": "a79913e769e9b74cc080eb845185c63b88c1d33bfc7543bab79e9981d097661a",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/ControlStructures.php",
+      "vendorSha256": "a9f04c07cd1918aa5b160e2a9a1e25e2fd1aae3d4673aea66e710db2d7125729",
+      "checkoutSha256": "a9f04c07cd1918aa5b160e2a9a1e25e2fd1aae3d4673aea66e710db2d7125729",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/FileInfo.php",
+      "vendorSha256": "1ebae0097238d145536e825481a19d907c93620e74b1aee70a327a919657f2c9",
+      "checkoutSha256": "1ebae0097238d145536e825481a19d907c93620e74b1aee70a327a919657f2c9",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/FilePath.php",
+      "vendorSha256": "48c66a564685aac15bbcc2f3386b41edeb2d1629ccf98f8016e63c7c44db4b49",
+      "checkoutSha256": "48c66a564685aac15bbcc2f3386b41edeb2d1629ccf98f8016e63c7c44db4b49",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/FunctionDeclarations.php",
+      "vendorSha256": "c52ab2a744a5e0a79265a085da825cd01dc1dbe9434a3988fc227e1eac17035d",
+      "checkoutSha256": "c52ab2a744a5e0a79265a085da825cd01dc1dbe9434a3988fc227e1eac17035d",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/GetTokensAsString.php",
+      "vendorSha256": "7871927ec646f9cf9add5200395f7c0e0adb1e7a63118b443322e49ca8340aff",
+      "checkoutSha256": "7871927ec646f9cf9add5200395f7c0e0adb1e7a63118b443322e49ca8340aff",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Lists.php",
+      "vendorSha256": "f993c204489174a2347b28d0b8c50dcbbec5c91d5555f2241e02c6d62e398c70",
+      "checkoutSha256": "f993c204489174a2347b28d0b8c50dcbbec5c91d5555f2241e02c6d62e398c70",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/MessageHelper.php",
+      "vendorSha256": "30784d492d0f2eaf0a67d90a4bf276eeac245187990dcad15cf500b7c6879b34",
+      "checkoutSha256": "30784d492d0f2eaf0a67d90a4bf276eeac245187990dcad15cf500b7c6879b34",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Namespaces.php",
+      "vendorSha256": "0f940df991582dd231ee945d9026666a5bda8144427bbc24ffba91c221609183",
+      "checkoutSha256": "0f940df991582dd231ee945d9026666a5bda8144427bbc24ffba91c221609183",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/NamingConventions.php",
+      "vendorSha256": "0172024f240ea7ae8d57517b0f136f731dc4f4fade26c12e2214f6caf8ce0240",
+      "checkoutSha256": "0172024f240ea7ae8d57517b0f136f731dc4f4fade26c12e2214f6caf8ce0240",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Numbers.php",
+      "vendorSha256": "cd308ab55a6271e83551b46feb61fc5de70e59ae2484687ff8e4641984a9c03d",
+      "checkoutSha256": "cd308ab55a6271e83551b46feb61fc5de70e59ae2484687ff8e4641984a9c03d",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/ObjectDeclarations.php",
+      "vendorSha256": "f1169cc4081c4c0002300c2e97d68ddc20ff669593522a6e67443c6caf15754f",
+      "checkoutSha256": "f1169cc4081c4c0002300c2e97d68ddc20ff669593522a6e67443c6caf15754f",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Operators.php",
+      "vendorSha256": "8f4fef9d8e8df5708a7ce8182bd67017751fa1f3c6ed0b902ef982cf142bfed3",
+      "checkoutSha256": "8f4fef9d8e8df5708a7ce8182bd67017751fa1f3c6ed0b902ef982cf142bfed3",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Orthography.php",
+      "vendorSha256": "1d6bf110f0a65de4c7592419ec22fb5b2e16a4a7684ab4ea6db76a80906e6095",
+      "checkoutSha256": "1d6bf110f0a65de4c7592419ec22fb5b2e16a4a7684ab4ea6db76a80906e6095",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Parentheses.php",
+      "vendorSha256": "8b94b5ae5c83fd072c2d30a1517d7a141db000537df9cef4a0f125aa3f0277d9",
+      "checkoutSha256": "8b94b5ae5c83fd072c2d30a1517d7a141db000537df9cef4a0f125aa3f0277d9",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/PassedParameters.php",
+      "vendorSha256": "5c2759b67c446a6bef12ca483474d9250b7ba565179691e10ec7f196eca8029c",
+      "checkoutSha256": "5c2759b67c446a6bef12ca483474d9250b7ba565179691e10ec7f196eca8029c",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Scopes.php",
+      "vendorSha256": "a3d194ff875e3e2edec4feee315c3b2d60ec9c283204e7c1c863f91d9e7a0b17",
+      "checkoutSha256": "a3d194ff875e3e2edec4feee315c3b2d60ec9c283204e7c1c863f91d9e7a0b17",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/TextStrings.php",
+      "vendorSha256": "c1460031de01b328c51e5a79b2057b39009ac33c8a1c4f8454f6eff2b35a3bc1",
+      "checkoutSha256": "c1460031de01b328c51e5a79b2057b39009ac33c8a1c4f8454f6eff2b35a3bc1",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/TypeString.php",
+      "vendorSha256": "b589fc8a2f5b940065b81381d6496bb45d79f01185f94673ffe74aeec9b8b041",
+      "checkoutSha256": "b589fc8a2f5b940065b81381d6496bb45d79f01185f94673ffe74aeec9b8b041",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/UseStatements.php",
+      "vendorSha256": "3557d24d777d5a01f842940d36e8c96ac788d3d2534f3547056e0ccff85579bb",
+      "checkoutSha256": "3557d24d777d5a01f842940d36e8c96ac788d3d2534f3547056e0ccff85579bb",
+      "matches": true
+    },
+    {
+      "path": "PHPCSUtils/Utils/Variables.php",
+      "vendorSha256": "72892e8d71bce7f197125f0d2fda7528bed3f3fb44b1da03ee21057f96805726",
+      "checkoutSha256": "72892e8d71bce7f197125f0d2fda7528bed3f3fb44b1da03ee21057f96805726",
+      "matches": true
+    },
+    {
+      "path": "phpcsutils-autoload.php",
+      "vendorSha256": "244a5927cab4ebded80abef1edac1dd172bf2a0476775b5730c8f3bc2300878a",
+      "checkoutSha256": "244a5927cab4ebded80abef1edac1dd172bf2a0476775b5730c8f3bc2300878a",
+      "matches": true
+    },
+    {
+      "path": "README.md",
+      "vendorSha256": "0798bec3682922d38d44594308411a18415eff907a244f9d4a527e2c47ae1368",
+      "checkoutSha256": "0798bec3682922d38d44594308411a18415eff907a244f9d4a527e2c47ae1368",
+      "matches": true
+    }
+  ],
+  "vendorFilesMatchCheckout": true
+}

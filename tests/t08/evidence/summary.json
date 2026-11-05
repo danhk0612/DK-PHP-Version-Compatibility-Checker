@@ -1,0 +1,438 @@
+{
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "41941111848",
+    "checkoutSha": "2db833a86dc4dcdb2f4b8b89f90f1bc4e77b5eb4"
+  },
+  "publish": {
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0,
+    "command": "dotnet publish <project> -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -p:PublishTrimmed=false -o artifacts/t08/publish --verbosity normal -clp:Summary"
+  },
+  "runtimePackages": [
+    {
+      "id": "Microsoft.NETCore.App.Runtime.win-x64",
+      "version": "10.0.14",
+      "archiveSha256": "a3ea61b4a2da6d28e562dd1cdacf80eb4dd6b9727b0a2b47f9d6aba90dbbcb1f"
+    },
+    {
+      "id": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+      "version": "10.0.14",
+      "archiveSha256": "a6dba3ca8b8b5b7945399545d881e0ac294746a7571f2209981934d49ecfe8cc"
+    },
+    {
+      "id": "Microsoft.NETCore.App.Host.win-x64",
+      "version": "10.0.14",
+      "archiveSha256": "2a4547b0e6cf0dd15e723531daa5450d99d4e151105aec0d31f2b0c7cfb286db"
+    }
+  ],
+  "publishFileCount": 400,
+  "unmappedPublishFiles": [],
+  "packId": "dk-php84-alpha2-20261029",
+  "packManifestSha256": "a1bda4ffcf3c776f22c345c8985e872a45c6e1d6e8ba129f52cbac6d8d096c62",
+  "packFileCount": 865,
+  "copiedPackDocumentCount": 16,
+  "phpInfo": "php-info-no-ini.txt",
+  "phpDependencyDiagnostics": [
+    {
+      "target": "brotlicommon.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-brotlicommon.dll.txt"
+    },
+    {
+      "target": "brotlidec.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-brotlidec.dll.txt"
+    },
+    {
+      "target": "deplister.exe",
+      "exitCode": 1,
+      "evidence": "php-imports-deplister.exe.txt"
+    },
+    {
+      "target": "ext/php_bz2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_bz2.dll.txt"
+    },
+    {
+      "target": "ext/php_com_dotnet.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_com_dotnet.dll.txt"
+    },
+    {
+      "target": "ext/php_curl.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_curl.dll.txt"
+    },
+    {
+      "target": "ext/php_dba.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_dba.dll.txt"
+    },
+    {
+      "target": "ext/php_dl_test.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_dl_test.dll.txt"
+    },
+    {
+      "target": "ext/php_enchant.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_enchant.dll.txt"
+    },
+    {
+      "target": "ext/php_exif.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_exif.dll.txt"
+    },
+    {
+      "target": "ext/php_ffi.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_ffi.dll.txt"
+    },
+    {
+      "target": "ext/php_fileinfo.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_fileinfo.dll.txt"
+    },
+    {
+      "target": "ext/php_ftp.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_ftp.dll.txt"
+    },
+    {
+      "target": "ext/php_gd.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_gd.dll.txt"
+    },
+    {
+      "target": "ext/php_gettext.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_gettext.dll.txt"
+    },
+    {
+      "target": "ext/php_gmp.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_gmp.dll.txt"
+    },
+    {
+      "target": "ext/php_intl.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_intl.dll.txt"
+    },
+    {
+      "target": "ext/php_ldap.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_ldap.dll.txt"
+    },
+    {
+      "target": "ext/php_mbstring.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_mbstring.dll.txt"
+    },
+    {
+      "target": "ext/php_mysqli.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_mysqli.dll.txt"
+    },
+    {
+      "target": "ext/php_odbc.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_odbc.dll.txt"
+    },
+    {
+      "target": "ext/php_opcache.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_opcache.dll.txt"
+    },
+    {
+      "target": "ext/php_openssl.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_openssl.dll.txt"
+    },
+    {
+      "target": "ext/php_pdo_firebird.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pdo_firebird.dll.txt"
+    },
+    {
+      "target": "ext/php_pdo_mysql.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pdo_mysql.dll.txt"
+    },
+    {
+      "target": "ext/php_pdo_odbc.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pdo_odbc.dll.txt"
+    },
+    {
+      "target": "ext/php_pdo_pgsql.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pdo_pgsql.dll.txt"
+    },
+    {
+      "target": "ext/php_pdo_sqlite.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pdo_sqlite.dll.txt"
+    },
+    {
+      "target": "ext/php_pgsql.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_pgsql.dll.txt"
+    },
+    {
+      "target": "ext/php_shmop.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_shmop.dll.txt"
+    },
+    {
+      "target": "ext/php_snmp.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_snmp.dll.txt"
+    },
+    {
+      "target": "ext/php_soap.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_soap.dll.txt"
+    },
+    {
+      "target": "ext/php_sockets.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_sockets.dll.txt"
+    },
+    {
+      "target": "ext/php_sodium.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_sodium.dll.txt"
+    },
+    {
+      "target": "ext/php_sqlite3.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_sqlite3.dll.txt"
+    },
+    {
+      "target": "ext/php_sysvshm.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_sysvshm.dll.txt"
+    },
+    {
+      "target": "ext/php_tidy.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_tidy.dll.txt"
+    },
+    {
+      "target": "ext/php_xsl.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_xsl.dll.txt"
+    },
+    {
+      "target": "ext/php_zend_test.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_zend_test.dll.txt"
+    },
+    {
+      "target": "ext/php_zip.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-ext-php_zip.dll.txt"
+    },
+    {
+      "target": "extras/ssl/legacy.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-extras-ssl-legacy.dll.txt"
+    },
+    {
+      "target": "glib-2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-glib-2.dll.txt"
+    },
+    {
+      "target": "gmodule-2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-gmodule-2.dll.txt"
+    },
+    {
+      "target": "gobject-2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-gobject-2.dll.txt"
+    },
+    {
+      "target": "icudt77.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-icudt77.dll.txt"
+    },
+    {
+      "target": "icuin77.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-icuin77.dll.txt"
+    },
+    {
+      "target": "icuio77.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-icuio77.dll.txt"
+    },
+    {
+      "target": "icuuc77.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-icuuc77.dll.txt"
+    },
+    {
+      "target": "lib/enchant/libenchant2_hunspell.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-lib-enchant-libenchant2_hunspell.dll.txt"
+    },
+    {
+      "target": "libcrypto-3-x64.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libcrypto-3-x64.dll.txt"
+    },
+    {
+      "target": "libenchant2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libenchant2.dll.txt"
+    },
+    {
+      "target": "libpq.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libpq.dll.txt"
+    },
+    {
+      "target": "libsasl.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libsasl.dll.txt"
+    },
+    {
+      "target": "libsodium.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libsodium.dll.txt"
+    },
+    {
+      "target": "libsqlite3.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libsqlite3.dll.txt"
+    },
+    {
+      "target": "libssh2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libssh2.dll.txt"
+    },
+    {
+      "target": "libssl-3-x64.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-libssl-3-x64.dll.txt"
+    },
+    {
+      "target": "nghttp2.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-nghttp2.dll.txt"
+    },
+    {
+      "target": "php-cgi.exe",
+      "exitCode": 1,
+      "evidence": "php-imports-php-cgi.exe.txt"
+    },
+    {
+      "target": "php-win.exe",
+      "exitCode": 1,
+      "evidence": "php-imports-php-win.exe.txt"
+    },
+    {
+      "target": "php.exe",
+      "exitCode": 1,
+      "evidence": "php-imports-php.exe.txt"
+    },
+    {
+      "target": "php8.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-php8.dll.txt"
+    },
+    {
+      "target": "php8phpdbg.dll",
+      "exitCode": 1,
+      "evidence": "php-imports-php8phpdbg.dll.txt"
+    },
+    {
+      "target": "phpdbg.exe",
+      "exitCode": 1,
+      "evidence": "php-imports-phpdbg.exe.txt"
+    }
+  ],
+  "loadedPhpModuleCount": 28,
+  "externalCrtModules": [
+    {
+      "path": "msvcp_win.dll",
+      "bytes": 678704,
+      "sha256": "fe301645d9dfa975793a3f9fdb7494accb912e6325adf72dc0caee354957b8cb",
+      "fileVersion": "10.0.20348.5756 (WinBuild.160101.0800)",
+      "productVersion": "10.0.20348.5756",
+      "companyName": "Microsoft Corporation",
+      "productName": "Microsoft® Windows® Operating System",
+      "originalFilename": "msvcp_win.dll",
+      "copyright": "© Microsoft Corporation. All rights reserved.",
+      "modulePath": "C:\\Windows\\System32\\msvcp_win.dll",
+      "inRedistributedPhpZip": false,
+      "externalCrtCandidate": true
+    },
+    {
+      "path": "ucrtbase.dll",
+      "bytes": 1149616,
+      "sha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555",
+      "fileVersion": "10.0.20348.5756 (WinBuild.160101.0800)",
+      "productVersion": "10.0.20348.5756",
+      "companyName": "Microsoft Corporation",
+      "productName": "Microsoft® Windows® Operating System",
+      "originalFilename": "ucrtbase.dll",
+      "copyright": "© Microsoft Corporation. All rights reserved.",
+      "modulePath": "C:\\Windows\\System32\\ucrtbase.dll",
+      "inRedistributedPhpZip": false,
+      "externalCrtCandidate": true
+    },
+    {
+      "path": "VCRUNTIME140.dll",
+      "bytes": 178616,
+      "sha256": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7",
+      "fileVersion": "14.51.36247.0",
+      "productVersion": "14.51.36247.0",
+      "companyName": "Microsoft Corporation",
+      "productName": "Microsoft® Visual Studio®",
+      "originalFilename": "vcruntime140.dll",
+      "copyright": "© Microsoft Corporation. All rights reserved.",
+      "modulePath": "C:\\Windows\\SYSTEM32\\VCRUNTIME140.dll",
+      "inRedistributedPhpZip": false,
+      "externalCrtCandidate": true
+    }
+  ],
+  "correspondingSource": [
+    {
+      "package": "phpcompatibility/php-compatibility",
+      "version": "10.0.0-alpha2",
+      "sourceUrl": "https://github.com/PHPCompatibility/PHPCompatibility.git",
+      "sourceCommit": "e0f0e5a3dc819a4a0f8d679a0f2453d941976e18",
+      "archivePath": "corresponding-source/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.zip",
+      "archiveSha256": "17712d3e93f6b835957d50a7a5de54e530dd3861f44c3917d18c6575f2968763",
+      "archiveBytes": 1304441,
+      "inventoryPath": "corresponding-source/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.json",
+      "inventorySha256": "56ef8f3db1d5df096b07c69191fd468107807702bdc4f057a442451b3def6594",
+      "trackedFileCount": 783,
+      "vendorFileCount": 244,
+      "vendorFilesMatchCheckout": true
+    },
+    {
+      "package": "phpcsstandards/phpcsutils",
+      "version": "1.2.3",
+      "sourceUrl": "https://github.com/PHPCSStandards/PHPCSUtils.git",
+      "sourceCommit": "5f35d9408c54d7b529501f3c688b6eae562aea1f",
+      "archivePath": "corresponding-source/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.zip",
+      "archiveSha256": "cbe2ab1dbaea6c57662bc6cbbf01c13a6f05e9f0d702ced5dc26fb0987dcac56",
+      "archiveBytes": 738767,
+      "inventoryPath": "corresponding-source/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.json",
+      "inventorySha256": "dc77d678b6b7a081f225347d3e564abab529d93a09f7028c3fa04c4ed8558c81",
+      "trackedFileCount": 516,
+      "vendorFileCount": 58,
+      "vendorFilesMatchCheckout": true
+    }
+  ],
+  "sourceCollectionPassed": true,
+  "scope": "Actual Windows self-contained publish and complete prepared pack file/source/license inventory. This is evidence collection, not a redistribution/legal approval or clean Windows deployment test."
+}

@@ -127,18 +127,19 @@
     "license": "MIT",
     "storedLicensePath": "licenses/engine/Composer-generated-autoloader-LICENSE",
     "runtimeLicensePath": "engine/vendor/composer/LICENSE",
-    "upstreamLicenseUrl": "https://github.com/composer/composer/blob/35cb6d47d03b0cae52dc12d686f941365b20f08b/LICENSE",
+    "upstreamLicenseUrl": "https://github.com/composer/composer/blob/472b418967419c6124edd91dc6310a3bec091dae/LICENSE",
     "upstreamLicenseGitBlob": "62ecfd8d0046b60517ea7370300f52744f1ab85d",
-    "comparisonCommit": "35cb6d47d03b0cae52dc12d686f941365b20f08b",
+    "comparisonCommit": "472b418967419c6124edd91dc6310a3bec091dae",
     "transformation": "Composer Compiler::addFile prepends and appends one LF byte to the root LICENSE when packaging it. Applying that transformation reproduces the stored runtime license bytes.",
-    "transformationSourceUrl": "https://github.com/composer/composer/blob/35cb6d47d03b0cae52dc12d686f941365b20f08b/src/Composer/Compiler.php",
-    "compilerGitBlob": "6b82b90a04282c4c55f1f97df257c6e457771fa0",
-    "actualGeneratorVersionEvidence": "tools/runtime/verification/composer-version.txt, to be retained by each Windows audit; the comparison source version above does not establish the actual Composer build version.",
+    "transformationSourceUrl": "https://github.com/composer/composer/blob/472b418967419c6124edd91dc6310a3bec091dae/src/Composer/Compiler.php",
+    "compilerGitBlob": "c11617e43d9dc0fffecb53341d400c52189f7de3",
+    "actualGeneratorVersionEvidence": "tests/t08/evidence/composer-version.txt; current source license checked at this exact generator version",
     "distributionObligations": [
       "Preserve the copyright and MIT permission/disclaimer text with the generated autoloader files.",
       "Composer is a preparation dependency, not a required end-user executable and not a redistributed PHAR in the current pack."
     ],
-    "licenseSha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024"
+    "licenseSha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024",
+    "actualGeneratorVersion": "2.11.1"
   },
   "legalTexts": [
     {

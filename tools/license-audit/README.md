@@ -22,7 +22,7 @@ CI artifact는 7일 보관하며 publish 바이너리와 다운로드 cache는 �
 
 ## 실측과 판정
 
-[Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41939522179)에서 Windows Server 2022 x64 / SDK10.0.403, self-contained publish 경고·오류 0, 파일 400개 출처 매핑/팩 865개 inventory와 엔진 LGPL vendor 302개 바이트 대조를 통과했습니다. 검증 head `e223788bb4e01d5c2686c8ba5ffb59b126c383ea`, 실제 checkout merge ref `9eaee10d8a74080dbdbed3558ee143701d300a87`입니다. 후속 고지·근거·상태 커밋은 수집기/제품/워크플로 실행 코드를 변경하지 않습니다.
+[Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)에서 Windows Server 2022 x64 / SDK10.0.403, self-contained publish 경고·오류 0, 파일 400개 출처 매핑/팩 865개 inventory와 엔진 LGPL vendor 302개 바이트 대조를 통과했습니다. 검증 head `5290d3b7a45e6c06444d9d6011c0b691d61797b6`, 실제 checkout merge ref `2db833a86dc4dcdb2f4b8b89f90f1bc4e77b5eb4`입니다. 후속 고지·근거·상태 커밋은 수집기/제품/감사 job의 실행 단계를 변경하지 않습니다. 일회성 이전 아티팩트 정리 job은 성공 후 제거했습니다.
 
 [원본 실측](../../tests/t08/evidence/summary.json), [전체 근거 해시](../../tests/t08/evidence/provenance.json), [배포 판정·미해결 조건](../../LICENSING.md)을 확인합니다. `.NETCore`/`WindowsDesktop`/host는 실제 10.0.14이며 Composer 생성기는 실측2.11.1입니다. 원본 engine license5개와 source license를 실제 생성기 버전에서도 대조했습니다.
 

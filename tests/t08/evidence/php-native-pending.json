@@ -1,0 +1,118 @@
+{
+  "sbomSha256": "72a6a342cc529514f053a9b86dabd5a39979f67f62444e0c1592cf0011e0ac49",
+  "candidateCount": 102,
+  "scope": "Official in-ZIP SBOM is a candidate superset, not an exact list of shipped components",
+  "copyleftOrAlternativeCandidates": [
+    {
+      "name": "libbcmath",
+      "version": "0.2",
+      "license": "LGPL-2.1-only",
+      "sourcePath": "ext/bcmath/libbcmath",
+      "sourceUrl": null,
+      "sourceRef": null,
+      "sourceCommit": null,
+      "distributionUrl": null,
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libmbfl",
+      "version": "1.3.2",
+      "license": "LGPL-2.1-only",
+      "sourcePath": "ext/mbstring/libmbfl",
+      "sourceUrl": null,
+      "sourceRef": null,
+      "sourceCommit": null,
+      "distributionUrl": null,
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "freetype",
+      "version": "2.15.0",
+      "license": "FTL OR GPL-2.0-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/freetype",
+      "sourceRef": "freetype-2.15.0",
+      "sourceCommit": "64edb7bb59160252ff9c9ae7a89d80e5aa96e012",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/freetype-2.15.0-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "glib",
+      "version": "2.90.1",
+      "license": "LGPL-2.1-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/glib",
+      "sourceRef": "glib-2.90.1",
+      "sourceCommit": "3d33aa2203f1686cb7ff8ff63c707855c019b5b1",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/glib-2.90.1-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libintl",
+      "version": "1.0",
+      "license": "LGPL-2.1-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/gettext",
+      "sourceRef": "libintl-1.0",
+      "sourceCommit": "cd6fcaeffc493305f9c0081310efa0e063060da6",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libintl-1.0-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libzstd",
+      "version": "1.5.7",
+      "license": "BSD-3-Clause OR GPL-2.0-only",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/facebook/zstd",
+      "sourceRef": "v1.5.7",
+      "sourceCommit": "f8745da6ff1ad1e7bab384bd1f9d742439278e99",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libzstd-1.5.7-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libenchant2",
+      "version": "2.8.21-1",
+      "license": "LGPL-2.1-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/enchant",
+      "sourceRef": "libenchant2-2.8.21-1",
+      "sourceCommit": "247f2c2ce53cdd5f7f6bf9b31552f3890229ac4b",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libenchant2-2.8.21-1-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libiconv",
+      "version": "1.19",
+      "license": "LGPL-2.1-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/libiconv",
+      "sourceRef": "libiconv-1.19",
+      "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libiconv-1.19-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "libqdbm",
+      "version": "1.8.78",
+      "license": "LGPL-2.1-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/qdbm",
+      "sourceRef": "libqdbm-1.8.78",
+      "sourceCommit": "586aa477ff42f0d307dc26adada275642630b28f",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libqdbm-1.8.78-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    },
+    {
+      "name": "mpir",
+      "version": "3.0.0-3",
+      "license": "LGPL-3.0-or-later",
+      "sourcePath": null,
+      "sourceUrl": "https://github.com/winlibs/mpir",
+      "sourceRef": "mpir-3.0.0-3",
+      "sourceCommit": "428e153fb13739dbb6f301408d3c23910ec10333",
+      "distributionUrl": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/mpir-3.0.0-3-vs17-x64.zip",
+      "reviewStatus": "pending native file/static-link/source/relink attribution; alternative license not selected"
+    }
+  ],
+  "releaseCleared": false
+}

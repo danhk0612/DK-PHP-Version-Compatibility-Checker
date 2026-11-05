@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-11-05",
+  "records": [
+    {
+      "storedPath": "licenses/php/embedded/libmagic-LICENSE",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/fileinfo/libmagic/LICENSE",
+      "gitBlob": "16410a17f2f5b533f7f6455c15b17b0a0e724363",
+      "transformation": "none",
+      "sha256": "0bfa856a9930bddadbef95d1be1cf4e163c0be618e76ea3275caaf255283e274"
+    },
+    {
+      "storedPath": "licenses/php/embedded/libmbfl-LICENSE",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/mbstring/libmbfl/LICENSE",
+      "gitBlob": "78192cde7c5cacdd5a58b6bb60c7b24a034fb5f1",
+      "transformation": "none",
+      "sha256": "31d9cadcc63c15b79fc59c70f043956104a34c75f23f0ac0ada53c1edfeb88ca"
+    },
+    {
+      "storedPath": "licenses/php/embedded/libbcmath-LICENSE",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/bcmath/libbcmath/LICENSE",
+      "gitBlob": "bb5d10dd73eb04316a9709d638515115a3041d60",
+      "transformation": "none",
+      "sha256": "7586d794d062a2a4a16513d95358aecaee4450e2062f7e64ce5ce63ac7212fd6"
+    },
+    {
+      "storedPath": "licenses/php/embedded/libavifinfo-LICENSE",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/standard/libavifinfo/LICENSE",
+      "gitBlob": "330b6b87bb6e8ae0ff7517fec06984155c88ea55",
+      "transformation": "none",
+      "sha256": "5d40dcb72f934c3d08e10ddb8ba4844de17bf6f9aabc1a382aacf8a8bf4567f8"
+    },
+    {
+      "storedPath": "licenses/php/embedded/lexbor-LICENSE",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/dom/lexbor/LICENSE",
+      "gitBlob": "f433b1a53f5b830a205fd2df78e2b34974656c7b",
+      "transformation": "none",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "storedPath": "licenses/php/embedded/libcperciva-license-header.txt",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/hash/hash_sha_ni.c",
+      "gitBlob": "d321ec2e05cc2cd71aee422f36a08a01802c1391",
+      "transformation": "First source comment only; license/copyright header unchanged",
+      "sha256": "2fb38b20f64cda46d0539ffbdbcce3e35ac37e181b2452556d4bd1347518b94d"
+    },
+    {
+      "storedPath": "licenses/dotnet/UPSTREAM-WINDOWS-LICENSE-INFORMATION.md",
+      "url": "https://github.com/dotnet/core/blob/main/license-information-windows.md",
+      "transformation": "none; informational upstream policy, not a license",
+      "sha256": "3bdf7142d570f11780d1a5fcb6cbe47f5cf4a15bc634acf8db93fe3be8837119"
+    },
+    {
+      "storedPath": "licenses/dotnet/UPSTREAM-LICENSE-INFORMATION.md",
+      "url": "https://github.com/dotnet/core/blob/main/license-information.md",
+      "transformation": "none; informational upstream policy, not a license",
+      "sha256": "87f9974735fa705f5ed13367de111b94d09573205c4b90e07cf6d8301081dc10"
+    },
+    {
+      "storedPath": "licenses/dotnet/Microsoft.NET-Library-License.txt",
+      "sourceUrl": "https://dotnet.microsoft.com/en-us/dotnet_library_license.htm",
+      "sha256": "543874f493cff185162e0dace87eb81b705257f09c89418ed64a9a47b2a211a6",
+      "sourceHtmlSha256": "0f69be2c8ac44c3980047664c3347ff22cba5842dc9d8b0a88a4f0914645a780",
+      "transformation": "UTF-8 readable text extracted from official HTML body/main; formatting only, full terms retained"
+    },
+    {
+      "storedPath": "licenses/dotnet/Windows-SDK-License.txt",
+      "sourceUrl": "https://learn.microsoft.com/en-us/legal/windows-sdk/license",
+      "sha256": "b71e309726559116012f5cf674391086a90dfe8349f93467096676862f57abe8",
+      "sourceHtmlSha256": "1d314bcbda435dabaca8902385c2f5e40ae1375d516ddb832d4faf3f26de5a35",
+      "transformation": "UTF-8 readable text extracted from official HTML body/main; formatting only, full terms retained"
+    },
+    {
+      "storedPath": "licenses/php/embedded/libcperciva-sse2-license-header.txt",
+      "url": "https://github.com/php/php-src/blob/php-8.4.27/ext/hash/hash_sha_sse2.c",
+      "gitBlob": "7185a587b15067810fbe939e6363f6a8be17a77e",
+      "transformation": "First source comment only; license/copyright header unchanged",
+      "sha256": "52c8a6828d2339e651800498f858e1feab26217bf498fd5d576b745099a36690"
+    }
+  ],
+  "phpAndZendOriginals": [
+    "licenses/php/PHP-8.4.27-LICENSE",
+    "licenses/php/Zend-8.4.27-LICENSE"
+  ],
+  "phpLaterLicenseRoute": "not elected in this audit; preserve original terms; latest official https://www.php.net/license/ allows earlier-version election separately",
+  "nativeReleaseCleared": false
+}
