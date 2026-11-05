@@ -68,6 +68,8 @@ jobs:
         run: |
           python tools/license-audit/Collect-PhpCoreSource.py --sbom tools/runtime/php/extras/sbom/php.cdx.json --php-info artifacts/t08-minimal/comparison/php-info-no-ini.txt --probe artifacts/t08-minimal/comparison/php-probe.json --output artifacts/t08-minimal/core-source
           if ($LASTEXITCODE -ne 0) { throw 'PHP core source material verification failed' }
+          python tests/t08-minimal/test_generated_source.py --core-source artifacts/t08-minimal/core-source --sbom tools/runtime/php/extras/sbom/php.cdx.json --output artifacts/t08-minimal/generated-source-tests.json
+          if ($LASTEXITCODE -ne 0) { throw 'Generated source provenance regression failed' }
       - name: Preserve comparison, source and actual GUI/service evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

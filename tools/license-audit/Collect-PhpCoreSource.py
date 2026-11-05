@@ -237,15 +237,109 @@ def bundled_checks(sbom, php_rows):
         matched = actual is not None and actual == expected
         if actual is not None and not matched:
             pending = 'Collected source differs from the publisher source-digest assertion'
-        result.append({'name': component['name'], 'version': component.get('version'),
+        generated_count = sum(row.get('origin') == 'generated-config' for row in rows)
+        item = {'name': component['name'], 'version': component.get('version'),
                        'sourcePath': source_path, 'sourceFileCount': len(rows),
-                       'gitByteIdentityVerified': bool(rows),
+                       'gitByteIdentityVerified': bool(rows) and generated_count == 0,
                        'officialExpectedSha256': expected, 'officialActualSha256': actual,
                        'officialFormat': source_format,
                        'officialFormatSource': SOURCE_DIGEST_GENERATOR_URL,
                        'officialAggregateComparisonPerformed': actual is not None,
-                       'officialAggregateMatchVerified': matched, 'pending': pending})
+                       'officialAggregateMatchVerified': matched, 'pending': pending}
+        if generated_count:
+            item.update({'rawGitSourceFileCount': len(rows) - generated_count,
+                         'generatedInputFileCount': generated_count,
+                         'generatedInputBasis': 'Pinned Windows configure header recipe; not Git blob bytes'})
+        result.append(item)
     return result
+
+
+def generated_windows_source(php_rows, php_summary, output):
+    """Reconstruct only the reviewed headers hashed after Windows configure.
+
+    Raw Git archives remain unchanged. No JavaScript, configure or native build
+    executes; the two generated inputs have separate files and provenance.
+    """
+    require(php_summary['commit'] == PHP_COMMIT, 'Unexpected PHP source generation commit')
+    archive = output / php_summary['archive']
+    require(digest(archive.read_bytes()) == php_summary['archiveSha256'],
+            'Raw PHP source archive changed before generated input reconstruction')
+    indexed = {row['path']: row for row in php_rows}
+    reviewed = {
+        'ext/mbstring/config.w32': '9d17f9be4068ce1961400250444d9477d62320833ae2c6a3929862e5577e03e9',
+        'ext/mbstring/libmbfl/config.h.w32': '5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535',
+        'ext/date/config.w32': '6c7603af630544ef0805ef35c579a94dc7d380b9ee1b97d5fd8132b8e153a3a7',
+    }
+    inputs, payloads = [], {}
+    with zipfile.ZipFile(archive) as package:
+        for path, expected in reviewed.items():
+            row = indexed.get(path)
+            require(row is not None and row['gitMode'] in ('100644', '100755'),
+                    'Missing pinned configure input: ' + path)
+            data = package.read('php-' + PHP_COMMIT + '/' + path)
+            blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+            require(blob == row['gitBlob'] and digest(data) == row['sha256'] == expected,
+                    'Pinned configure input bytes changed: ' + path)
+            payloads[path] = data
+            inputs.append({'sourcePath': path, 'gitBlob': blob, 'sha256': expected,
+                           'bytes': len(data), 'sourceCommit': PHP_COMMIT})
+
+    mbstring = payloads['ext/mbstring/config.w32'].decode('utf-8')
+    require('FSO.CopyFile("ext\\\\mbstring\\\\libmbfl\\\\config.h.w32",' in mbstring
+            and '"ext\\\\mbstring\\\\libmbfl\\\\config.h", true);' in mbstring,
+            'Reviewed libmbfl CopyFile recipe changed')
+    date = payloads['ext/date/config.w32'].decode('utf-8')
+    require('FSO.CreateTextFile("ext/date/lib/timelib_config.h", true)' in date,
+            'Reviewed timelib header destination changed')
+    literals = re.findall(r'tl_config.WriteLine\("(.*)"\);', date)
+    require(len(literals) == 10, 'Reviewed timelib literal count changed')
+    # These pinned literals use JSON-compatible JavaScript escapes; this is
+    # literal decoding, never evaluation of a general JavaScript expression.
+    date_data = ('\r\n'.join(json.loads('"' + value + '"') for value in literals)
+                 + '\r\n').encode('ascii')
+    outputs = [
+        ('ext/mbstring/libmbfl/config.h', payloads['ext/mbstring/libmbfl/config.h.w32'],
+         '5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535',
+         'Copy config.h.w32 byte-for-byte to config.h per ext/mbstring/config.w32',
+         ['ext/mbstring/config.w32', 'ext/mbstring/libmbfl/config.h.w32']),
+        ('ext/date/lib/timelib_config.h', date_data,
+         '4851e9b846d1af42859d4abb3b63c59824751730233beeff0e33be07a6ccca2d',
+         'Decode ten reviewed WriteLine string literals; ASCII TextStream.WriteLine CRLF per ext/date/config.w32',
+         ['ext/date/config.w32']),
+    ]
+    destination = output / 'generated-source'
+    generated_archive = output / 'generated-windows-config.zip'
+    require(not destination.exists() and not generated_archive.exists(),
+            'Preserve existing generated input evidence; use a fresh output')
+    rows, generated = [], []
+    with zipfile.ZipFile(generated_archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as package:
+        for path, data, expected, recipe, source_paths in outputs:
+            require(path not in indexed and digest(data) == expected,
+                    'Generated header changed or would replace a raw Git file: ' + path)
+            file = destination / path
+            file.parent.mkdir(parents=True, exist_ok=True)
+            file.write_bytes(data)
+            info = zipfile.ZipInfo(path, date_time=(1980, 1, 1, 0, 0, 0))
+            info.create_system = 3
+            info.external_attr = int('100644', 8) << 16
+            info.compress_type = zipfile.ZIP_DEFLATED
+            package.writestr(info, data)
+            rows.append({'path': path, 'gitMode': '100644', 'bytes': len(data),
+                         'sha256': expected, 'origin': 'generated-config'})
+            generated.append({'path': path, 'storedPath': file.relative_to(output).as_posix(),
+                              'bytes': len(data), 'sha256': expected, 'recipe': recipe,
+                              'inputSourcePaths': source_paths, 'gitByteIdentityVerified': False})
+    require(digest(archive.read_bytes()) == php_summary['archiveSha256'],
+            'Raw PHP source archive changed during generated input reconstruction')
+    provenance = {'sourceCommit': PHP_COMMIT, 'rawArchive': php_summary['archive'],
+                  'rawArchiveSha256': php_summary['archiveSha256'], 'rawArchiveUnchanged': True,
+                  'inputs': inputs, 'outputs': generated, 'archive': generated_archive.name,
+                  'archiveSha256': digest(generated_archive.read_bytes()),
+                  'archiveBytes': generated_archive.stat().st_size,
+                  'scope': 'Two configured header inputs, separate from unmodified Git sources; no configure script or native build executed',
+                  'nativeBuildOrRelinkVerified': False, 'redistributionCleared': False}
+    write(output / 'generated-windows-config.json', provenance)
+    return rows, provenance
 
 
 def main():
@@ -308,25 +402,31 @@ def main():
                 'Candidate core observation differs from pinned source assumptions')
         observations.update({'sha256': digest(info), 'iconvVersion': '1.19', 'bcmathEnabled': True,
                              'note': 'Compiled/runtime metadata supports inclusion but does not prove every static object or complete relink inputs'})
-    sources, php_rows = [], None
+    sources, php_rows, php_summary = [], None, None
     for identity in identities:
         summary, rows = collect_source(identity, args.output)
         sources.append(summary)
         if identity['name'] == 'php':
-            php_rows = rows
+            php_rows, php_summary = rows, summary
         print('Collected source ' + identity['name'] + ': ' + str(summary['trackedFileCount']) + ' checked files', flush=True)
-    bundled = bundled_checks(sbom, php_rows)
+    raw_bundled = bundled_checks(sbom, php_rows)
+    generated_rows, generated_provenance = generated_windows_source(php_rows, php_summary, args.output)
+    bundled = bundled_checks(sbom, php_rows + generated_rows)
     source_matches = bool(bundled) and all(row['officialAggregateMatchVerified'] for row in bundled)
     report = {'phpVersion': PHP_VERSION, 'phpSourceCommit': PHP_COMMIT,
               'inputSbomSha256': digest(sbom_bytes), 'inputSbomComponentCount': len(sbom['components']),
               'sbomScope': 'Candidate superset; only independently scoped core dependencies selected here',
               'observations': observations, 'sources': sources,
+              'rawBundledSourceChecks': raw_bundled,
+              'generatedWindowsSource': generated_provenance,
               'bundledSourceChecks': bundled,
               'sourceDigestGenerator': {'repository': 'https://github.com/php/php-sdk-binary-tools',
                                         'commit': SOURCE_DIGEST_GENERATOR_COMMIT,
                                         'file': 'bin/phpsdk_sbom.php', 'url': SOURCE_DIGEST_GENERATOR_URL,
                                         'gitBlob': 'c616a6c3a4f896ca9708e89476340e3c9ce00f20'},
               'sourceCollectionPassed': source_matches, 'bundledSourceMatchesSbom': source_matches, 'redistributionCleared': False,
+              'sourceCollectionScope': 'Raw tracked source archives plus two pinned Windows configure header inputs reproduce bundled source digests; not complete binary reproduction or relink clearance',
+              'nativeBuildOrRelinkVerified': False,
               'remaining': ['Confirm complete binary-to-source/build-configuration correspondence and relink route',
                             'Provide matching source, legal texts and reconstruction material durably with the final distribution',
                             'Retain Microsoft/proprietary toolchain terms separately; no compiler/toolchain files were copied or executed']}
