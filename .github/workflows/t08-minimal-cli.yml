@@ -1,0 +1,84 @@
+name: T08 minimal CLI pack and core source verification
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/engine-pack/**'
+      - 'tools/license-audit/**'
+      - 'tests/t08-minimal/**'
+      - 'src/**'
+      - 'global.json'
+      - '.github/workflows/t08-minimal-cli.yml'
+permissions:
+  contents: read
+jobs:
+  verify-minimal:
+    runs-on: windows-2022
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare and preserve the full baseline
+        shell: pwsh
+        run: |
+          New-Item artifacts/t08-minimal -ItemType Directory -Force | Out-Null
+          ./tools/engine-pack/Prepare-Pack.ps1 -RuntimeProfile Full -OutputDirectory artifacts/t08-minimal/full-runtime
+          Move-Item artifacts/t04 artifacts/t08-minimal/full-results
+          python -c "import sys;sys.path.insert(0,'tools/engine-pack');from pack_contract import inventory,write;from pathlib import Path;write(Path('artifacts/t08-minimal/full-before.json'),inventory(Path('artifacts/t08-minimal/full-runtime')))"
+          if ($LASTEXITCODE -ne 0) { throw 'Full baseline inventory failed' }
+      - name: Prepare the new default minimal CLI candidate
+        shell: pwsh
+        run: |
+          ./tools/engine-pack/Prepare-Pack.ps1
+          Move-Item artifacts/t04 artifacts/t08-minimal/minimal-results
+          python tests/t08-minimal/compare_pack.py --full artifacts/t08-minimal/full-runtime --minimal tools/runtime --full-before artifacts/t08-minimal/full-before.json --full-results artifacts/t08-minimal/full-results --minimal-results artifacts/t08-minimal/minimal-results --output artifacts/t08-minimal/comparison
+          if ($LASTEXITCODE -ne 0) { throw 'Full/minimal comparison failed' }
+      - name: Build unchanged product and service/display/GUI verification
+        shell: pwsh
+        run: |
+          if ((dotnet --version) -ne '10.0.403') { throw 'Unexpected SDK' }
+          dotnet --info | Out-File artifacts/t08-minimal/dotnet-info.txt
+          foreach ($id in @('05', '06', '07')) {
+            $project = "tests/t$id/T$id.Verification.csproj"
+            dotnet restore $project
+            if ($LASTEXITCODE -ne 0) { throw "T$id restore failed" }
+            dotnet build $project -c Release --no-restore "-bl:artifacts/t08-minimal/build-t$id.binlog"
+            if ($LASTEXITCODE -ne 0) { throw "T$id build failed" }
+          }
+      - name: Exercise actual service and GUI on the minimal CLI pack
+        shell: pwsh
+        run: |
+          $dotnetExe = (Get-Command dotnet).Source
+          $env:PATH = @((Split-Path $dotnetExe), "$env:SystemRoot/System32", $env:SystemRoot, "$env:SystemRoot/System32/WindowsPowerShell/v1.0") -join ';'
+          foreach ($id in @('05', '06', '07')) {
+            & $dotnetExe run --project "tests/t$id/T$id.Verification.csproj" -c Release --no-build -- "$pwd" "$pwd/tools/runtime"
+            if ($LASTEXITCODE -ne 0) { throw "T$id regression failed on minimal CLI pack" }
+          }
+      - name: Collect pinned PHP core and linked library source material
+        shell: pwsh
+        run: |
+          python tools/license-audit/Collect-PhpCoreSource.py --sbom tools/runtime/php/extras/sbom/php.cdx.json --php-info artifacts/t08-minimal/comparison/php-info-no-ini.txt --output artifacts/t08-minimal/core-source
+          if ($LASTEXITCODE -ne 0) { throw 'PHP core source material verification failed' }
+      - name: Preserve comparison, source and actual GUI/service evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-minimal-cli-evidence
+          path: |
+            artifacts/t08-minimal/
+            !artifacts/t08-minimal/full-runtime/**
+            !artifacts/t08-minimal/core-source/checkouts/**
+            artifacts/t05/
+            artifacts/t06/
+            artifacts/t07/
+          include-hidden-files: true
+          retention-days: 7

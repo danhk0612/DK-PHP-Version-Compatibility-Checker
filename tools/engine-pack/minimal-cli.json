@@ -1,0 +1,13 @@
+{
+  "profile": "MinimalCli",
+  "files": [
+    "php.exe",
+    "php8.dll",
+    "license.txt",
+    "readme-redist-bins.txt",
+    "extras/sbom/php.cdx.json",
+    "extras/sbom/php.spdx.json",
+    "extras/sbom/php.openvex.json"
+  ],
+  "scope": "Unmodified allowlisted subset of the approved PHP ZIP. Original SBOMs remain archive provenance, not an exact description of the reduced runtime. Selection does not declare native-license/source compliance."
+}

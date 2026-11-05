@@ -1,13 +1,15 @@
 """Windows maintainer preparation/verification only; no GUI or app execution service."""
 import argparse
+import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import platform
 import shutil
 import struct
 import subprocess
 import tempfile
+import zipfile
 
 from pack_contract import PROFILE, PACKAGES, inventory, read, require, sha, validate, write
 
@@ -24,9 +26,92 @@ def source_snapshot(root):
             'directories': sorted(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_dir())}
 
 
-def prepare(pack):
+
+def runtime_configuration(source, profile):
+    require(profile in ('Full', 'MinimalCli'), 'Unsupported runtime profile')
+    if profile == 'Full':
+        return source['packId'], None, None
+    config = source['minimalCli']
+    filename = config['selectionFile']
+    require(isinstance(filename, str) and Path(filename).name == filename, 'Invalid runtime selection configuration path')
+    path = HERE / filename
+    selection = read(path)
+    require(selection['profile'] == profile and isinstance(selection['files'], list)
+            and selection['files'] and len(selection['files']) == len(set(selection['files'])),
+            'Invalid runtime selection allowlist')
+    return config['packId'], selection['files'], path
+
+
+def select_runtime(pack, unpacked, archive, profile):
+    """Copy an unchanged official-archive subset into a new managed pack."""
+    source = read(HERE / 'sources.json')
+    require(sha(archive) == source['php']['sha256'], 'Official PHP archive hash mismatch')
+    pack_id, allowlist, selection_path = runtime_configuration(source, profile)
+    php = pack / 'php'
+    require(not php.exists(), 'PHP output already exists; preserve it and choose a fresh directory')
+    extracted = inventory(unpacked)
+    archive_files = {}
+    with zipfile.ZipFile(archive) as bundle:
+        for entry in bundle.infolist():
+            if entry.is_dir():
+                continue
+            name = entry.filename
+            canonical = PurePosixPath(name)
+            require(not canonical.is_absolute() and '\\' not in name and ':' not in name
+                    and all(part not in ('.', '..') for part in canonical.parts)
+                    and canonical.as_posix() == name and name not in archive_files,
+                    'Unsafe or duplicate official archive entry')
+            digest = hashlib.sha256()
+            with bundle.open(entry) as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                    digest.update(chunk)
+            digest = digest.hexdigest()
+            archive_files[name] = {'path': name, 'sha256': digest, 'bytes': entry.file_size}
+    require(extracted == {name: row['sha256'] for name, row in archive_files.items()},
+            'Extracted PHP files differ from the verified archive')
+    selected = sorted(archive_files if allowlist is None else allowlist)
+    require(all(name in archive_files for name in selected), 'Allowlisted PHP file is absent from the official archive')
+    php.mkdir(parents=True)
+    for name in selected:
+        target = php.joinpath(*PurePosixPath(name).parts)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(unpacked.joinpath(*PurePosixPath(name).parts), target)
+    require(inventory(php) == {name: archive_files[name]['sha256'] for name in selected},
+            'Selected PHP copy differs from the verified archive')
+    kept = [archive_files[name] for name in selected]
+    omitted = [archive_files[name] for name in sorted(archive_files) if name not in selected]
+    record = {
+        'profile': profile, 'packId': pack_id,
+        'sourceUrl': source['php']['url'], 'archiveSha256': sha(archive), 'archiveBytes': archive.stat().st_size,
+        'selectionFile': selection_path.name if selection_path else None,
+        'selectionFileSha256': sha(selection_path) if selection_path else None,
+        'sourceFileCount': len(archive_files), 'sourceBytes': sum(row['bytes'] for row in archive_files.values()),
+        'selectedFileCount': len(kept), 'selectedBytes': sum(row['bytes'] for row in kept),
+        'omittedFileCount': len(omitted), 'omittedBytes': sum(row['bytes'] for row in omitted),
+        'keptFiles': kept, 'omittedFiles': omitted,
+        'scope': 'Unmodified bytes from the hash-verified official ZIP; original SBOMs describe the input archive candidate superset, not a trimmed component list. No license clearance is implied.',
+    }
+    (pack / 'verification').mkdir(parents=True, exist_ok=True)
+    write(pack / 'verification/runtime-selection.json', record)
+    print('RUNTIME_SELECTION_JSON=' + json.dumps({key: value for key, value in record.items()
+                                               if key not in ('keptFiles', 'omittedFiles')}))
+
+
+def prepare(pack, profile=None):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Actual Windows x64 required')
     source = read(HERE / 'sources.json')
+    selection_path = pack / 'verification/runtime-selection.json'
+    selection = read(selection_path) if selection_path.is_file() else None
+    profile = profile or (selection['profile'] if selection else 'Full')
+    pack_id, allowlist, config_path = runtime_configuration(source, profile)
+    if selection is not None:
+        require(selection['profile'] == profile and selection['packId'] == pack_id
+                and selection['archiveSha256'] == source['php']['sha256'], 'Runtime selection/profile identity mismatch')
+        if config_path is not None:
+            require(selection['selectionFileSha256'] == sha(config_path)
+                    and set(allowlist) == {row['path'] for row in selection['keptFiles']}, 'Runtime allowlist changed since selection')
+    else:
+        require(profile == 'Full', 'MinimalCli preparation requires verified runtime-selection evidence')
     versions = {p['name']: p['version'] for p in read(pack / 'engine/composer.lock')['packages']}
     require(versions == PACKAGES, 'Approved engine versions differ')
     require(sha(pack / 'engine/composer.lock') == sha(HERE / 'composer.lock'), 'Lock changed during installation')
@@ -34,6 +119,9 @@ def prepare(pack):
     phpcs = pack / 'engine/vendor/squizlabs/php_codesniffer/bin/phpcs'
     engine = pack / 'engine'
     env = dict(os.environ, PHPRC='', PHP_INI_SCAN_DIR='', COMPOSER_DISABLE_NETWORK='1')
+    # Do not let setup PHP directories supply omitted DLLs during candidate checks.
+    system_root = Path(os.environ['SystemRoot'])
+    env['PATH'] = os.pathsep.join([str(pack / 'php'), str(system_root / 'System32'), str(system_root)])
     raw = REPO / 'artifacts/t04'
     raw.mkdir(parents=True, exist_ok=True)
     def run(args, label, environment=env):
@@ -156,12 +244,16 @@ def prepare(pack):
         after = source_snapshot(subject)
         require(after == before, 'Target source tree changed')
     php_files = prefix_inventory(pack, 'php')
+    if selection is not None:
+        require(php_files == {'php/' + row['path']: row['sha256'] for row in selection['keptFiles']},
+                'Runtime files changed after verified archive selection')
     engine_files = prefix_inventory(pack, 'engine')
     limitations = ['PHPCompatibility 10.0.0-alpha2 is a pre-release; static checks do not guarantee runtime compatibility.',
                    'The dynamic-property fixture is not detected by this engine.']
     targets = {v: {'passed': True, 'limitations': limitations} for v in source['targets']}
     results = {
-        'packId': source['packId'], 'reportProfile': PROFILE,
+        'packId': pack_id, 'reportProfile': PROFILE, 'runtimeProfile': profile,
+        'runtimeSelectionPath': 'verification/runtime-selection.json' if selection else None,
         'environment': {'windows': platform.platform(), 'python': platform.python_version(),
                         'runId': os.environ.get('GITHUB_RUN_ID'), 'sourceSha': os.environ.get('GITHUB_SHA')},
         'versions': versions, 'runtimeVersion': source['php']['version'], 'cliVersion': runtime_version, 'archiveSha256': source['php']['sha256'],
@@ -181,7 +273,7 @@ def prepare(pack):
                 licenses.append({'path': name, 'sha256': digest})
     write(pack / 'verification/license-files.json', licenses)
     manifest = {
-        'schemaVersion': 1, 'packId': source['packId'], 'reportProfile': PROFILE,
+        'schemaVersion': 1, 'packId': pack_id, 'reportProfile': PROFILE,
         'runtime': {'version': source['php']['version'], 'cliVersion': runtime_version, 'sourceUrl': source['php']['url'],
                     'archiveSha256': source['php']['sha256'], 'executable': 'php/php.exe', 'files': php_files},
         'engine': {'versions': versions, 'lockSha256': sha(engine / 'composer.lock'),
@@ -197,7 +289,14 @@ def prepare(pack):
     shutil.copy2(pack / 'verification/results.json', raw / 'results.json')
     shutil.copy2(pack / 'verification/license-files.json', raw / 'license-files.json')
     write(raw / 'files.json', inventory(pack))
-    summary = {'packId': manifest['packId'], 'environment': results['environment'], 'checks': results['checks'],
+    if selection is not None:
+        shutil.copy2(selection_path, raw / 'runtime-selection.json')
+    summary = {'packId': manifest['packId'], 'runtimeProfile': profile,
+               'runtimeFileCount': len(php_files),
+               'runtimeBytes': sum((pack / name).stat().st_size for name in php_files),
+               'omittedRuntimeFileCount': selection['omittedFileCount'] if selection else None,
+               'runtimeSelectionPath': 'verification/runtime-selection.json' if selection else None,
+               'environment': results['environment'], 'checks': results['checks'],
                'cases': len(baseline), 'annotationComparisons': len(annotation_results),
                'offlineComparisons': len(offline_equal), 'versions': versions, 'runtimeVersion': source['php']['version'], 'cliVersion': runtime_version,
                'manifestSha256': sha(pack / 'manifest.json'), 'fileCount': len(inventory(pack)),
@@ -209,10 +308,18 @@ def prepare(pack):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prepare', action='store_true')
+    parser.add_argument('--select-runtime', action='store_true')
+    parser.add_argument('--profile', choices=('Full', 'MinimalCli'))
+    parser.add_argument('--archive', type=Path)
+    parser.add_argument('--archive-directory', type=Path)
     parser.add_argument('pack', type=Path)
     args = parser.parse_args()
-    if args.prepare:
-        prepare(args.pack.resolve())
+    if args.select_runtime:
+        require(not args.prepare and args.profile is not None and args.archive is not None
+                and args.archive_directory is not None, 'Runtime selection needs profile, archive and extracted directory')
+        select_runtime(args.pack.resolve(), args.archive_directory.resolve(), args.archive.resolve(), args.profile)
+    elif args.prepare:
+        prepare(args.pack.resolve(), args.profile)
     else:
         validate(args.pack.resolve())
         print('Pack contract validation passed.')

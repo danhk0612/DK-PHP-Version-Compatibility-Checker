@@ -11,5 +11,9 @@
     "8.3",
     "8.4"
   ],
-  "packId": "dk-php84-alpha2-20261029"
+  "packId": "dk-php84-alpha2-20261029",
+  "minimalCli": {
+    "packId": "dk-php84-alpha2-minimalcli-20261105",
+    "selectionFile": "minimal-cli.json"
+  }
 }
