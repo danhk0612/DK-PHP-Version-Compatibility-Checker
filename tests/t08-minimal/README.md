@@ -12,12 +12,12 @@ python -c "import sys;sys.path.insert(0,'tools/engine-pack');from pack_contract 
 ./tools/engine-pack/Prepare-Pack.ps1
 Move-Item artifacts/t04 artifacts/t08-minimal/minimal-results
 python tests/t08-minimal/compare_pack.py --full artifacts/t08-minimal/full-runtime --minimal tools/runtime --full-before artifacts/t08-minimal/full-before.json --full-results artifacts/t08-minimal/full-results --minimal-results artifacts/t08-minimal/minimal-results --output artifacts/t08-minimal/comparison
-python tools/license-audit/Collect-PhpCoreSource.py --sbom tools/runtime/php/extras/sbom/php.cdx.json --php-info artifacts/t08-minimal/comparison/php-info-no-ini.txt --output artifacts/t08-minimal/core-source
+python tools/license-audit/Collect-PhpCoreSource.py --sbom tools/runtime/php/extras/sbom/php.cdx.json --php-info artifacts/t08-minimal/comparison/php-info-no-ini.txt --probe artifacts/t08-minimal/comparison/php-probe.json --output artifacts/t08-minimal/core-source
 ```
 
 `compare_pack.py`는 stdlib만 사용합니다. 두 팩의 schema1/해시/lock/목표 계약, 기존 Full 전체 inventory 불변, 허용 목록과 보존 PHP 파일 바이트, 서로 다른 packId, 양쪽 24개 fixture·9개 annotation·24개 오프라인 대조, 설정 격리·원본 불변을 확인합니다. PE 실행 파일은 php.exe/php8.dll만 허용하고 실제 유지/제외 파일 및 크기 감소를 기록합니다. 메타데이터로 보존하는 원본 SBOM은 전체 입력 ZIP의 후보 목록이며 축소 팩의 정확한 구성 요소 목록으로 부르지 않습니다.
 
-PHP 프로브는 ini를 배제하고 최소 PHP 및 Windows 시스템 경로만 PATH에 둡니다. 설치된 setup-PHP 디렉터리가 누락 DLL을 대신 공급하지 않게 합니다. 원본 Full의 deplister도 DLL이 없는 별도 임시 디렉터리로 복사하여 최소 후보 두 PE의 import를 관측합니다. upstream BindImageEx BOOL의 TRUE인 exit1과 개별 OK/NOTFOUND를 구분합니다. 환경/서버 변수 없이 제한된 phpinfo와 password_algos/확장 목록을 기록합니다.
+PHP 프로브는 ini를 배제하고 최소 PHP 및 Windows 시스템 경로만 PATH에 둡니다. 설치된 setup-PHP 디렉터리가 누락 DLL을 대신 공급하지 않게 합니다. 원본 Full의 deplister도 DLL이 없는 별도 임시 디렉터리로 복사하여 최소 후보 두 PE의 import를 관측합니다. upstream BindImageEx BOOL의 TRUE인 exit1과 개별 OK/NOTFOUND를 구분합니다. 가상 CRT API-set의 NOTFOUND는 실제 WinDLL 로딩과 Windows 시스템 backing module 경로/해시로 해결 여부를 확인하며 이름만으로 무시하지 않습니다. 환경/서버 변수 없이 제한된 phpinfo와 password_algos/확장 목록을 기록합니다.
 
 [Windows workflow](../../.github/workflows/t08-minimal-cli.yml)는 Full→기본 MinimalCli 준비/비교 후 기존 T05 서비스 61건·T06 화면 21건·T07 실제 GUI 36건을 같은 최소 팩에서 실행합니다. 회귀 실행 PATH도 setup-PHP 없이 dotnet과 Windows 시스템 경로로 제한합니다. 이 스크립트를 작성한 것만으로 실제 Windows 통과를 선언하지 않습니다.
 

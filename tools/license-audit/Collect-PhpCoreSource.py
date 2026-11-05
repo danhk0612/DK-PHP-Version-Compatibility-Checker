@@ -198,6 +198,7 @@ def main():
     parser.add_argument('--sbom', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--php-info', type=Path, help='safe candidate module/configuration text, with environment/variables excluded')
+    parser.add_argument('--probe', type=Path, help='safe candidate phpVersion/passwordAlgorithms/extensions JSON')
     args = parser.parse_args()
     require(not args.output.exists(), 'Output exists; preserve it and use a fresh collection directory')
     sbom_bytes = args.sbom.read_bytes()
@@ -221,7 +222,28 @@ def main():
                    and any(p.get('name') == 'php:source-url' for p in c.get('properties', []))]
         require(len(matches) == 1, 'Expected one exact core source identity in SBOM: ' + name + '@' + version)
         identities.append(source_identity(matches[0]))
-    observations = {'provided': args.php_info is not None}
+    observations = {'provided': args.php_info is not None, 'probeProvided': args.probe is not None}
+    if args.probe:
+        probe_bytes = args.probe.read_bytes()
+        probe = json.loads(probe_bytes.decode('utf-8-sig'))
+        require(isinstance(probe, dict) and set(probe) == {'phpVersion', 'passwordAlgorithms', 'extensions'},
+                'Expected only safe version/algorithm/extension probe fields')
+        require(probe['phpVersion'] == PHP_VERSION, 'Probe PHP version differs from the pinned source')
+        algorithms = probe['passwordAlgorithms']
+        require(isinstance(algorithms, list) and all(isinstance(item, str) for item in algorithms),
+                'Expected password algorithm names in candidate probe')
+        observations.update({'probeSha256': digest(probe_bytes), 'passwordAlgorithms': algorithms})
+        if any(algorithm.startswith('argon2') for algorithm in algorithms):
+            matches = [component for component in sbom.get('components', [])
+                       if component.get('name') == 'libargon2' and component.get('version') == '20190702']
+            require(len(matches) == 1, 'Expected one exact libargon2 source candidate for enabled Argon2')
+            identity = source_identity(matches[0])
+            require(identity['commit'] == 'fb53ef37be212380d51877b70f514f3bf2c1ee40',
+                    'Argon2 source candidate differs from reviewed SBOM identity')
+            identity['inclusionBasis'] = ('Candidate password_algos enables Argon2; source version/ref is from '
+                                          'the official SBOM, not a runtime-reported library version')
+            identities.append(identity)
+            observations['argon2SourceVersionBasis'] = 'SBOM source candidate; runtime reports algorithm availability only'
     if args.php_info:
         info = args.php_info.read_bytes()
         text = info.decode('utf-8-sig')

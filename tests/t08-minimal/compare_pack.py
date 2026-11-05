@@ -1,5 +1,7 @@
 """Compare fresh Full/MinimalCli packs and execute isolated Windows CLI probes."""
 import argparse
+import ctypes
+import ctypes.wintypes
 import hashlib
 import json
 import os
@@ -86,8 +88,25 @@ def php_probes(full, minimal, output):
             for line in result.stdout.decode('utf-8-sig').splitlines():
                 require(',' in line, 'Unrecognized dependency row')
                 module, status = line.rsplit(',', 1)
-                rows.append({'module': module, 'result': status})
-            require(rows and all(row['result'] == 'OK' for row in rows), 'Minimal runtime has an unresolved dependency')
+                row = {'module': module, 'result': status}
+                if status == 'NOTFOUND' and module.lower().startswith('api-ms-win-crt-'):
+                    # BindImageEx searches physical files; API-set contracts can
+                    # instead be mapped by the actual Windows loader to UCRT.
+                    # Verify that mapping rather than ignoring a filename prefix.
+                    library = ctypes.WinDLL(module)
+                    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+                    filename = kernel.GetModuleFileNameW
+                    filename.argtypes = (ctypes.wintypes.HMODULE, ctypes.wintypes.LPWSTR, ctypes.wintypes.DWORD)
+                    filename.restype = ctypes.wintypes.DWORD
+                    buffer = ctypes.create_unicode_buffer(32768)
+                    require(filename(library._handle, buffer, len(buffer)) > 0, 'Cannot resolve API-set backing module')
+                    backing = Path(buffer.value).resolve()
+                    require(backing.is_file() and backing.is_relative_to(Path(os.environ['SystemRoot']).resolve()),
+                            'API-set backing module is not a Windows system file')
+                    row.update({'windowsLoaderResolved': True, 'backingModule': str(backing), 'backingSha256': sha(backing)})
+                rows.append(row)
+            require(rows and all(row['result'] == 'OK' or row.get('windowsLoaderResolved') is True for row in rows),
+                    'Minimal runtime has an unresolved dependency')
             imports.append({'image': name, 'exitCode': result.returncode, 'imports': rows})
     write(output / 'minimal-imports.json', {'toolSource': 'https://github.com/php/php-src/blob/php-8.4.27/win32/build/deplister.c',
                                            'isolation': 'temporary tool copy; minimal cwd and Windows-only PATH', 'images': imports})
