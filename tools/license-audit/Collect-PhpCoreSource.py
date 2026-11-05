@@ -71,6 +71,37 @@ def checked_name(name):
     return path
 
 
+def raw_blobs(checkout, entries):
+    """Read original objects through one batch process, independent of checkout filters."""
+    process = subprocess.Popen(['git', '-c', 'protocol.file.allow=never', '-C', str(checkout),
+                                'cat-file', '--batch'], stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        for filename, mode, blob in entries:
+            process.stdin.write((blob + '\n').encode('ascii'))
+            process.stdin.flush()
+            header = process.stdout.readline().split()
+            require(len(header) == 3 and header[0].decode() == blob and header[1] == b'blob',
+                    'Unexpected Git batch object header: ' + filename)
+            size = int(header[2])
+            data = process.stdout.read(size)
+            require(len(data) == size and process.stdout.read(1) == b'\n',
+                    'Truncated Git batch object: ' + filename)
+            actual = hashlib.sha1(b'blob ' + str(size).encode() + b'\0' + data).hexdigest()
+            require(actual == blob, 'Raw Git blob SHA-1 mismatch: ' + filename)
+            yield filename, mode, blob, data
+        process.stdin.close()
+        require(process.wait(timeout=REPO_TIMEOUT) == 0, 'Git batch object reader failed')
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+        process.stdout.close()
+        process.stderr.close()
+        if not process.stdin.closed:
+            process.stdin.close()
+
+
 def collect_source(identity, output):
     name, commit = identity['name'], identity['commit']
     checkout = output / 'checkouts' / name
@@ -99,16 +130,22 @@ def collect_source(identity, output):
     require(entries, 'Empty source checkout: ' + name)
     archive = output / (name + '-' + commit + '.zip')
     prefix = name + '-' + commit + '/'
-    rows, legal, build = [], [], []
+    rows, legal, build, checkout_differences = [], [], [], []
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as package:
-        for filename, mode, blob in entries:
+        for filename, mode, blob, data in raw_blobs(checkout, entries):
             # core.symlinks=false materializes link blobs as plain target text.
             # Retain their Git mode in both the manifest and ZIP Unix attributes.
             source = checkout.joinpath(*PurePosixPath(filename).parts)
             require(not source.is_symlink(), 'Unexpected filesystem symlink: ' + filename)
-            data = source.read_bytes()
-            blob_digest = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
-            require(blob_digest == blob, 'Checkout bytes differ from Git blob: ' + name + '/' + filename)
+            checkout_data = source.read_bytes()
+            if checkout_data != data:
+                checkout_differences.append({'path': filename, 'checkoutBytes': len(checkout_data),
+                    'checkoutSha256': digest(checkout_data), 'gitBlobSha256': digest(data),
+                    'differenceKind': ('git-ident-expansion' if
+                        re.sub(rb'\$Id: [0-9a-f]{40} \$', b'$Id$', checkout_data) == data
+                        else 'line-ending-conversion' if
+                        checkout_data.replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n')
+                        else 'other-checkout-transformation')})
             row = {'path': filename, 'gitMode': mode, 'gitBlob': blob,
                    'bytes': len(data), 'sha256': digest(data)}
             rows.append(row)
@@ -127,11 +164,29 @@ def collect_source(identity, output):
             if (re.search(r'(?i)(\.w32$|\.vcxproj$|\.sln$|\.mak$|(^|/)(makefile|configure|buildconf|cmakelists|meson\.build))', filename)
                     or filename in ('README.md', 'README', 'INSTALL')):
                 build.append(filename)
+    if checkout_differences:
+        names = b''.join(row['path'].encode('utf-8') + b'\0' for row in checkout_differences)
+        result = subprocess.run(['git', '-C', str(checkout), 'check-attr', '--cached', '-z',
+                                 '--stdin', 'text', 'eol', 'filter', 'working-tree-encoding', 'ident'],
+                                input=names, capture_output=True, timeout=REPO_TIMEOUT)
+        require(result.returncode == 0, 'Unable to inspect pinned checkout attributes')
+        values = result.stdout.rstrip(b'\0').split(b'\0')
+        attributes = {}
+        require(len(values) % 3 == 0, 'Unexpected Git attribute output')
+        for offset in range(0, len(values), 3):
+            path, attribute, value = (item.decode('utf-8') for item in values[offset:offset + 3])
+            attributes.setdefault(path, {})[attribute] = value
+        for row in checkout_differences:
+            row['pinnedGitAttributes'] = attributes.get(row['path'], {})
     manifest = output / (name + '-' + commit + '-files.json')
     write(manifest, {'repository': identity['repository'], 'commit': actual,
-                     'trackedFiles': rows, 'legalFiles': legal, 'buildMaterialPaths': build})
+                     'trackedFiles': rows, 'legalFiles': legal, 'buildMaterialPaths': build,
+                     'checkoutDifferences': checkout_differences})
     summary = dict(identity, checkoutCommit=actual, trackedFileCount=len(rows),
-                   checkoutBytesMatchGitBlobs=True,
+                   archiveBytesMatchGitBlobs=True, gitBlobSha1Verified=True,
+                   archiveSource='git cat-file --batch raw blob objects; no checkout conversion',
+                   checkoutBytesMatchGitBlobs=not checkout_differences,
+                   checkoutDifferenceCount=len(checkout_differences),
                    archive=archive.name, archiveSha256=digest(archive.read_bytes()),
                    archiveBytes=archive.stat().st_size, inventory=manifest.name,
                    inventorySha256=digest(manifest.read_bytes()), legalFiles=legal,
