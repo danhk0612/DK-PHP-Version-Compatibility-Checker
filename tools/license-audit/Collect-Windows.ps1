@@ -151,8 +151,8 @@ foreach ($file in Get-ChildItem $pack -File -Recurse -Force | Sort-Object FullNa
 Save-Json $packFiles (Join-Path $out 'pack-files.json')
 Save-Json $copied (Join-Path $out 'copied-pack-documents.json')
 $php = Join-Path $pack 'php/php.exe'
-& $php -n -i | Out-File (Join-Path $out 'php-info-no-ini.txt') -Encoding utf8
-if ($LASTEXITCODE -ne 0) { throw 'Pack PHP -n -i failed.' }
+& $php -n -r 'phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES | INFO_LICENSE);' | Out-File (Join-Path $out 'php-info-no-ini.txt') -Encoding utf8
+if ($LASTEXITCODE -ne 0) { throw 'Pack PHP module/configuration inspection failed.' }
 $deplister = Join-Path $pack 'php/deplister.exe'
 $dependencyDiagnostics = @()
 if (Test-Path $deplister) {

@@ -46,3 +46,22 @@ jobs:
             !artifacts/t08/downloads/**
           include-hidden-files: true
           retention-days: 7
+  remove-superseded-generated-artifact:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 't08-licenses'
+    runs-on: windows-2022
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Remove this task's superseded artifact containing environment output
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $artifact = gh api "repos/${{ github.repository }}/actions/artifacts/13375033302" | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot verify superseded artifact identity' }
+          if ($artifact.name -ne 't08-license-inventory' -or $artifact.workflow_run.id -ne 41939522179 -or $artifact.workflow_run.head_branch -ne 't08-licenses') { throw 'Artifact identity differs; do not delete' }
+          gh api --method DELETE "repos/${{ github.repository }}/actions/artifacts/13375033302" --silent
+          if ($LASTEXITCODE -ne 0) { throw 'Superseded generated artifact removal failed' }
+          Write-Output 'Removed superseded T08 generated artifact 13375033302'
