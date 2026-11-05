@@ -3,13 +3,13 @@
   "environment": {
     "windows": "Windows-2022Server-10.0.20348-SP0",
     "python": "3.12.10",
-    "runId": "41974331131",
-    "sourceSha": "086d71d9d0153496fdb43cc6ae9e8f7f56feb955"
+    "runId": "41976238445",
+    "sourceSha": "3abf1a6ab9accc840e777ad0b9bff79db1a8d6c8"
   },
   "fullPackId": "dk-php84-alpha2-20261029",
   "minimalPackId": "dk-php84-alpha2-minimalcli-20261105",
-  "fullManifestSha256": "989031f7b6022013e6a0a6fff366327a5e133d68ae5a9a497b910a544c90ba8a",
-  "minimalManifestSha256": "14a93ec0e5df74a17071b2596b0f7233022d3a0fc572c8c21ade5d905e1015af",
+  "fullManifestSha256": "e83d055998d09b783eaa6903eb304359060db495e42a8c5d30260dd786b98ad7",
+  "minimalManifestSha256": "2db7cb94549182cf94253480285d5f5e895e3801a0e4905bae3341de7a1e90cb",
   "fullBaselineUnchanged": true,
   "targets": [
     "8.2",

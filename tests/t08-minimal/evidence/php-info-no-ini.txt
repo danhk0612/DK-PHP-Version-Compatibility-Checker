@@ -1,7 +1,7 @@
 phpinfo()
 PHP Version => 8.4.27
 
-System => Windows NT runnervmquqza 10.0 build 20348 (Windows Server 2022) AMD64
+System => Windows NT runnervmnjgfq 10.0 build 20348 (Windows Server 2022) AMD64
 Build Date => Oct 26 2026 09:52:08
 Build System => Microsoft Windows Server 2022 Datacenter [10.0.20348]
 Build Provider => The PHP Group

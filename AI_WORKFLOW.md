@@ -82,7 +82,9 @@ GitHub danhk0612/DK-PHP-Version-Compatibility-Checker의 T08 남은 배포 라�
 최신 main·PR #1~#8와 t08-minimal-cli 실제 상태, AGENTS와 6개 기준 문서, LICENSING/THIRD-PARTY-NOTICES를 읽어.
 B안은 승인됐으며 최소 CLI 선택은 tools/engine-pack/minimal-cli.json과 tests/t08-minimal의 실제 검증을 기준으로 해.
 기존 Full 기준과 tests/t08/evidence, 최소 팩 검증·코어 소스 근거를 보존해. GUI/목표/엔진 버전·스택은 바꾸지 마.
-우선 tests/t08-minimal/evidence의 libmbfl/timelib 공식 SBOM 해시 불일치 원인을 조사해. 공식 tar.xz도 같은 두 경로에서 불일치하며 생성 파일 누락으로 설명되지 않았어.
+libmbfl/timelib 불일치는 Windows configure 생성 헤더 2개로 해소됐어. raw 21/23과 별도 생성물 포함 23/23을 구분해 보존해.
+LICENSING의 실제 빌드·재링크 잔여 관문과 tests/t08-minimal/evidence/official-build-evidence.json부터 확인해.
+공식 builder/SDK 고정 소스·라이선스 및 정확한 의존성 ZIP/도구/링크 입력을 관리 영역에 고정해. 이동하는 최신 deps 목록을 그대로 쓰지 마.
 PHP 코어 BCMath/libiconv 등 LGPL 적용 코드의 실제 빌드 설정·대응 application code·수정/재링크 경로를 확인해.
 수집한 소스 ZIP과 bundled digest 일치만으로 바이너리 대응/재링크를 완료 처리하지 마.
 in-ZIP SBOM은 후보 superset이고 Argon2 관측은 알고리즘 활성 확인임을 유지해.

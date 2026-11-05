@@ -8,8 +8,8 @@
   "environment": {
     "windows": "Windows-2022Server-10.0.20348-SP0",
     "python": "3.12.10",
-    "runId": "41974331131",
-    "sourceSha": "086d71d9d0153496fdb43cc6ae9e8f7f56feb955"
+    "runId": "41976238445",
+    "sourceSha": "3abf1a6ab9accc840e777ad0b9bff79db1a8d6c8"
   },
   "checks": {
     "fixtureRegression": true,
@@ -31,7 +31,7 @@
   },
   "runtimeVersion": "8.4.27-1",
   "cliVersion": "8.4.27",
-  "manifestSha256": "989031f7b6022013e6a0a6fff366327a5e133d68ae5a9a497b910a544c90ba8a",
+  "manifestSha256": "e83d055998d09b783eaa6903eb304359060db495e42a8c5d30260dd786b98ad7",
   "fileCount": 866,
   "licenseFileCount": 6,
   "targets": [

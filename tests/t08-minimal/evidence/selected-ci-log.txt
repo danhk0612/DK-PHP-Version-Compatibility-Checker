@@ -1,15 +1,15 @@
-2026-11-05T05:31:11.0973130Z     0 Warning(s)
-2026-11-05T05:31:11.0973475Z     0 Error(s)
-2026-11-05T05:31:14.4396917Z     0 Warning(s)
-2026-11-05T05:31:14.4397428Z     0 Error(s)
-2026-11-05T05:31:17.8334301Z     0 Warning(s)
-2026-11-05T05:31:17.8334664Z     0 Error(s)
-2026-11-05T05:32:21.4318958Z Collected source php: 25836 checked files
-2026-11-05T05:32:24.6763557Z Collected source libiconv: 1148 checked files
-2026-11-05T05:32:29.1375972Z Collected source libxml2: 4053 checked files
-2026-11-05T05:32:30.4754159Z Collected source zlib: 254 checked files
-2026-11-05T05:32:31.2583461Z Collected source wineditline: 19 checked files
-2026-11-05T05:32:32.4432383Z Collected source libargon2: 65 checked files
-2026-11-05T05:32:32.4878749Z PHP_CORE_SOURCE_JSON={"phpSourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e", "archives": 6, "trackedFiles": 31375, "sourceCollectionPassed": false, "redistributionCleared": false}
-2026-11-05T05:32:32.4886697Z ValueError: Pinned PHP source does not match all official bundled-source digest assertions; inspect core-source.json
-2026-11-05T05:32:42.4314377Z SHA256 digest of uploaded artifact zip is dc642f3ad6213bf1992ae599c0c6aa0d1bad7e4084098e3bee408a73c8367717
+2026-11-05T05:49:06.6130359Z     0 Warning(s)
+2026-11-05T05:49:06.6130594Z     0 Error(s)
+2026-11-05T05:49:09.1953806Z     0 Warning(s)
+2026-11-05T05:49:09.1954033Z     0 Error(s)
+2026-11-05T05:49:11.8065029Z     0 Warning(s)
+2026-11-05T05:49:11.8065272Z     0 Error(s)
+2026-11-05T05:50:05.3144736Z Collected source php: 25836 checked files
+2026-11-05T05:50:08.2757289Z Collected source libiconv: 1148 checked files
+2026-11-05T05:50:11.8750651Z Collected source libxml2: 4053 checked files
+2026-11-05T05:50:13.0671803Z Collected source zlib: 254 checked files
+2026-11-05T05:50:13.7587021Z Collected source wineditline: 19 checked files
+2026-11-05T05:50:14.8519770Z Collected source libargon2: 65 checked files
+2026-11-05T05:50:15.0772349Z PHP_CORE_SOURCE_JSON={"phpSourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e", "archives": 6, "trackedFiles": 31375, "sourceCollectionPassed": true, "redistributionCleared": false}
+2026-11-05T05:50:20.2084674Z {"scopePassed": true, "passed": 9}
+2026-11-05T05:50:26.6416150Z SHA256 digest of uploaded artifact zip is 411140c1787488cbe47113dda0fda404c6c3b0ad023243c4cb20b1aef9cd6e81

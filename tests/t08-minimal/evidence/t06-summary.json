@@ -3,8 +3,8 @@
     "os": "Microsoft Windows NT 10.0.20348.0",
     "architecture": "X64",
     "sdk": "10.0.403",
-    "runId": "41974331131",
-    "sourceSha": "086d71d9d0153496fdb43cc6ae9e8f7f56feb955"
+    "runId": "41976238445",
+    "sourceSha": "3abf1a6ab9accc840e777ad0b9bff79db1a8d6c8"
   },
   "packId": "dk-php84-alpha2-minimalcli-20261105",
   "targets": [
@@ -38,7 +38,7 @@
   "failures": [],
   "windows": [
     {
-      "hwnd": "7010C",
+      "hwnd": "600AC",
       "width": 960,
       "height": 680,
       "visible": true,
@@ -50,7 +50,7 @@
       "file": "ready-inputs.png",
       "width": 944,
       "height": 675,
-      "sha256": "355282cd8438e32ff8cff481036bd41dfe93a290dd612d5376853eb418721e8d",
+      "sha256": "05194dd167e082a497cc9c4921091626ff36ffcd6009186b152c728dee29d6ab",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -58,7 +58,7 @@
       "file": "completed-zero.png",
       "width": 944,
       "height": 675,
-      "sha256": "36ff87df62e17c6aa2b68922f4a909144c7791603e58433d7579ae9cdb18e158",
+      "sha256": "286e9ccd8351dce3e512f277c9500fcff18239a853722fb78bc788cc7a1b46d1",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -66,7 +66,7 @@
       "file": "completed-findings.png",
       "width": 944,
       "height": 675,
-      "sha256": "6ddcfdcbcab6abf0a28f85d2f79bf815a0fb269ec0caa6cfd07a373137b2f4ba",
+      "sha256": "ecf0ff62c0346ca3f0be97c688bf6bb807a5c821dc8e309856bf2b08a1e92408",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -74,7 +74,7 @@
       "file": "no-files.png",
       "width": 944,
       "height": 675,
-      "sha256": "d13da8df5421ef81d9fe21e666dc1b5976003f685c1495591efe3e7d8da3b1cc",
+      "sha256": "0c34bec3628256b92eabd9171476aefd7a780d6e3b20a48c964cc442157c756b",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -82,7 +82,7 @@
       "file": "failed-unknown.png",
       "width": 944,
       "height": 675,
-      "sha256": "0d7377e8750c6a548439027e455371d4895c33e880f02533da0637460214bf48",
+      "sha256": "f9c8e5ddf81b49d41466c0e60f545d290473c7af2b3a2c0d641266f5dd30e05b",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -90,7 +90,7 @@
       "file": "failed-partial.png",
       "width": 944,
       "height": 675,
-      "sha256": "f83289ee95232fa7cef7fed3196432e07fdf35dba6bc09b7e9c319f913f3ed9b",
+      "sha256": "3b58303c79d888b3ed48775bde2030a49cecb4f6088926cda12ec949f7b23efa",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -98,7 +98,7 @@
       "file": "minimum-size.png",
       "width": 744,
       "height": 555,
-      "sha256": "6fbcf27ee9f952c5613b7f6cba82ddce89bad31d86c77d790fe6e4b4c52390f7",
+      "sha256": "2c714f8d97904840d900076bc0aa06586586173795bd892b6262784027dbc92e",
       "labelledTestData": true,
       "visibleHwnd": true
     },
@@ -106,7 +106,7 @@
       "file": "minimum-long-diagnostics.png",
       "width": 744,
       "height": 555,
-      "sha256": "c701d9bb6c64629395c6fcb7171e0a1c8928f7150685a63c924fee29ed5728a6",
+      "sha256": "cf380b1006df73575fe9cdb0f8855140bc32ce684438345c4857f666b2420821",
       "labelledTestData": true,
       "visibleHwnd": true
     },

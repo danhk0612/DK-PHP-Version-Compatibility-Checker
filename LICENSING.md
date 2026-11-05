@@ -55,11 +55,19 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 코어 소스 수집기는 PHP 태그의 고정 커밋과 libiconv/libxml2/zlib/wineditline 및 관측된 Argon2 후보의 전체 tracked 경로·변환 전 Git blob 바이트를 대조합니다. export-ignore로 생략되는 파일을 포함해 ZIP을 만들고 공식 SBOM bundled digest를 대조합니다. Argon2 런타임 관측은 알고리즘 활성 여부이며 버전·소스 커밋은 SBOM 근거로 구분합니다. 이 수집은 네이티브 바이너리 재현, 전체 application code/빌드 설정·재링크 경로의 검증이나 지속적인 소스 제공을 대신하지 않습니다.
 
-### 아직 통과하지 못한 소스 대응 관문
+### Windows 설정 생성물과 소스 대조
 
-공식 bundled digest 23개 중 libmbfl 1.3.2와 timelib 2022.17의 2개가 수집한 원문과 일치하지 않습니다. PHP 공식 source tar.xz는 공개 SHA-256과 일치했고, 그 두 경로의 파일 목록·내용은 pinned Git과 동일했습니다. 따라서 생성 파일 누락으로 설명되지 않았습니다. [개별 기대/실제 해시와 공식 소스 대조](tests/t08-minimal/evidence/release-source-comparison.json)를 보존합니다.
+원본만 대조하면 libmbfl/timelib의 집계가 달랐던 원인을 확인했습니다. pinned `ext/mbstring/config.w32`는 `config.h.w32`를 `libmbfl/config.h`로 복사하고, `ext/date/config.w32`는 10개 문자열을 ASCII·CRLF로 `timelib_config.h`에 기록합니다. 이 두 헤더를 별도 생성물로 포함하면 공식 bundled digest 23개가 모두 일치합니다. 원본 Git·Unix tar·Windows source ZIP에는 설정 전에 만드는 두 파일이 없으므로 원본끼리 동일하다는 사실만으로 생성물 영향을 배제했던 이전 판단은 잘못됐습니다.
 
-libmbfl은 Full/SBOM 후보이며 최소 팩에는 mbstring 확장이 없습니다. timelib은 활성 date 코어 관련 항목이어서 최소 팩의 소스 검토에도 남습니다. 수집기는 이 불일치에서 실패하며 `sourceCollectionPassed=false`, `redistributionCleared=false`를 기록합니다. 원인을 확인하기 전 소스 대응이나 재링크를 완료로 선언하지 않습니다. 이 결과 자체로 바이너리 손상·라이선스 위반을 단정하지 않습니다.
+원본 소스 ZIP은 수정하지 않습니다. `rawBundledSourceChecks`는 21/23을 보존하고, `generatedWindowsSource`에는 입력 3개 Git blob/SHA·검토한 생성 절차·출력 2개 SHA와 별도 ZIP을 기록합니다. 생성 파일을 Git 원문이라고 표시하지 않습니다. [생성물 근거](tests/t08-minimal/evidence/generated-windows-config.json)와 [설정 포함 대조](tests/t08-minimal/evidence/core-source.json)를 사용합니다. 입력 또는 생성물이 바뀌면 실패하도록 하고 변조 대조를 수행합니다.
+
+공식 Windows `php-8.4.27-1-src.zip`은 공개 SHA-256 `9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d`와 일치합니다. [전체 25,836파일 대조](tests/t08-minimal/evidence/windows-source-comparison.json)에서 경로가 pinned Git과 동일하고 차이 7개는 `$Id$` 확장뿐입니다. 이 source ZIP도 설정 전 원문이며 두 생성 헤더는 별도로 추적합니다. libmbfl은 전체 ZIP/SBOM 후보이고 최소 팩에 mbstring 확장을 추가하지 않았습니다.
+
+### 실제 빌드·재링크에 남은 관문
+
+[공식 Windows 빌드 조사](tests/t08-minimal/evidence/official-build-evidence.json)와 [선택 로그](tests/t08-minimal/evidence/official-build-selected-log.txt)에서 builder head `68dc945d9509c41b72332c74c8b99731bb75bc25`, x64 NTS 작업, SDK 설정 2.9.0, MSVC 도구 14.44.35207/컴파일러 19.44.35229, PGI→default/cache 훈련→PGO→snap 절차를 확인했습니다. `libiconv_a.lib`와 `libxml2_a_dll.lib`의 정적 선택도 관측했습니다. 해당 공식 작업 산출물과 실제 배포 ZIP 사이의 직접 해시 연결은 아직 수행하지 않았습니다.
+
+다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 고정하고, 이미 수집한 libiconv 등 관련 정적 라이브러리를 재빌드한 뒤 PHP application code를 수정 라이브러리로 재링크·회귀 검증하는 것입니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
 
 ## 재현과 공식 근거
 

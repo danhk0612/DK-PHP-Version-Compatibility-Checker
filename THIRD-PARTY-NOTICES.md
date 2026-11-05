@@ -34,7 +34,7 @@ PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 �
 
 ## 최소 CLI의 코어 소스 원문
 
-소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 해시 불일치도 미해결입니다.
+소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 대조는 별도 Windows 설정 헤더를 포함해 해소했습니다. 원본·생성물의 구분과 실제 재링크·최종 재배포 관문은 유지합니다.
 
 ## Windows .NET self-contained 구성
 

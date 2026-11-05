@@ -1,0 +1,15 @@
+{
+  "passed": [
+    "exact two configured headers",
+    "generated headers do not claim Git blob identity",
+    "raw-only 21/23 observation preserved",
+    "configured source matches all 23 official digests",
+    "mixed raw and generated source is not mislabeled as Git bytes",
+    "input raw source archives unchanged",
+    "source archive corruption rejected",
+    "changed configuration rejected even with recomputed archive checksum",
+    "changed generated output fails source digest gate"
+  ],
+  "scopePassed": true,
+  "scope": "Pinned Windows configuration provenance and corruption rejection; no native compilation/relink"
+}

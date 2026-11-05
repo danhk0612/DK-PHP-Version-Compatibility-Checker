@@ -16,7 +16,7 @@
   "matchedComponents": 21,
   "totalComponents": 23,
   "redistributionCleared": false,
-  "conclusion": "Official tar source and raw pinned Git have identical libmbfl/timelib path sets and bytes; both still differ from two in-ZIP SBOM aggregates. Cause remains unresolved; generated-source omission does not explain these two paths.",
+  "conclusion": "Official tar source and raw pinned Git have identical libmbfl/timelib path sets and bytes. These raw-only paths omit two Windows configure headers. See Collect-PhpCoreSource.py generatedWindowsSource for the separately traced 23/23 configured comparison.",
   "components": [
     {
       "name": "Berkeley uuencode",
