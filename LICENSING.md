@@ -69,6 +69,12 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 고정하고, 이미 수집한 libiconv 등 관련 정적 라이브러리를 재빌드한 뒤 PHP application code를 수정 라이브러리로 재링크·회귀 검증하는 것입니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
 
+### 검증용 libiconv 빌드 진행
+
+[공식 의존성 후보 해시](tests/t08-minimal/evidence/native-inputs.json)는 2026-11-05 다운로드한 현재 파일의 해시이며, 과거 공식 빌드의 실제 입력과 바이트 일치를 뜻하지 않습니다. [독립 Windows 빌드 결과](tests/t08-minimal/evidence/libiconv-rebuild.json)는 고정 libiconv 소스 원본과 검증용 마커 사본의 정적 라이브러리 빌드·서로 다른 SHA·`_libiconv_version` 링커 심볼을 확인합니다. SDK는 10.0.26100.0입니다. source commit·artifact 해시는 [실행 근거](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 따릅니다.
+
+마커는 격리된 감사용 사본의 `_LIBICONV_VERSION + 1`이며 실제 버전을 의미하지 않습니다. 이 결과는 **PHP 재링크 및 실행 결과 변화를 확인한 것이 아닙니다**. 원본/변경 라이브러리를 각각 PHP에 연결해 출력과 검사 회귀를 대조하고 정확한 나머지 빌드 입력·최종 소스 제공을 확인하는 작업이 남습니다.
+
 ## 재현과 공식 근거
 
 [Windows 수집 절차](tools/license-audit/README.md)를 따릅니다. 배포 바이너리·NuGet download cache·vendor 소스 자체는 Git에 추가하지 않았습니다. 원문 고지·파일 inventory·source 대조·검토 근거만 보존합니다. `source-checks`의 실제 소스 ZIP은 일시 artifact에 있으며 최종 배포 시 재생성·동시 제공해야 합니다.

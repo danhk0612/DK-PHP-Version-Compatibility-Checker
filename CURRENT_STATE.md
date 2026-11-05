@@ -35,6 +35,8 @@ T02는 사용자 승인으로 확정했습니다. 초기 목표 8.2/8.3/8.4, 공
 
 - **승인된 T08 B안 기능·설정 포함 소스 대조 통과**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)에서 Full 79개 PHP 파일/96,050,460바이트 → MinimalCli 7개/13,043,511바이트(86.42% 감소), 원본/Full 불변·목표/엔진/lock 불변·기본 24건·annotation 9건·오프라인 각24건을 확인했습니다. 빌드 경고·오류 0, T05 61/T06 21/T07 36건과 생성 소스 변조 대조 9건이 통과했습니다. 원본 소스 6개/31,375파일 및 별도 설정 헤더2개를 추적합니다. raw21/23의 원인은 Windows configure 생성물이었고, 생성물을 포함하면23/23입니다. 이전에 생성 파일 영향이 아니라고 판단한 내용을 정정했습니다. 공식 Windows source ZIP 25,836파일은 pinned Git과 경로가 같고7개 ident 확장만 다릅니다. 공식 빌드의 정적 libiconv/libxml2 선택·버전·PGO 경로도 확인했습니다. [실측·소스/빌드 근거](tests/t08-minimal/evidence/), [재현 안내](tests/t08-minimal/README.md)를 사용합니다. 실제 재빌드·수정 재링크·최종 고지/소스 지속 제공은 미완료로 T08 부분 검증을 유지합니다.
 
+- **T08 네이티브 입력·libiconv 부분 검증**. [Windows 입력 수집](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42008865873)에서 공식 의존성5개의 현재 ZIP·SHA를 기록했습니다. 과거 공식 빌드 입력과 바이트 동일성은 미확인입니다. [Windows 빌드](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42009675167)에서 고정 libiconv 원문 1,148파일을 Git blob과 대조하고 원본 및 버전 표시만 변경한 검증용 사본을 Windows SDK 10.0.26100.0으로 각각 빌드했습니다. 두 정적 라이브러리 해시가 다르고 `_libiconv_version` 링커 심볼이 존재합니다. [실측·해시](tests/t08-minimal/evidence/native-rebuild-provenance.json). 마커는 실제 버전 변경이 아닙니다. PHP 재링크·출력 변화·회귀와 최종 라이선스/소스 제공은 미검증입니다.
+
 ## 확정한 향후 버전 확장 구조
 
 사용자가 이후 최신 PHP도 지원 가능한 시스템을 요청했습니다. 목표 목록·구성요소 버전·검증 근거를 앱 코드와 분리한 단일 활성 엔진 팩으로 관리합니다. 새 목표는 해당 엔진 규칙과 회귀·안전성·오프라인 검증을 거쳐 팩 데이터로 추가하며 GUI/실행 코드에 초기 세 버전을 고정하지 않습니다. 호환 스키마/profile의 팩은 앱 종료 후 수동 교체합니다. 자동 다운로드/갱신 UI는 아직 보류입니다.

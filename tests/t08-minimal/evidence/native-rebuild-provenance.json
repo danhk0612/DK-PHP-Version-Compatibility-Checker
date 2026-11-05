@@ -1,0 +1,17 @@
+{
+  "nativeInputsRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42008865873",
+  "nativeInputsArtifact": 13405822915,
+  "nativeInputsArtifactSha256": "62da7a9260d341fe792cbeed3dd485dcce23426428fc80d9200c86cbd721ba62",
+  "libiconvRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42009675167",
+  "libiconvTestedHead": "70a6bf63d48010342ecc74798106b833f436e5ff",
+  "libiconvArtifact": 13406242906,
+  "libiconvArtifactSha256": "5c039d957888dc08bc7abe9c3feb017954780d1a1da278af29c828b9543b0093",
+  "artifactRetentionDays": 7,
+  "historicalBuildByteIdentityVerified": false,
+  "nativePhpRelinkVerified": false,
+  "redistributionCleared": false,
+  "files": {
+    "native-inputs.json": "ff21fa67115a11b8996834a863bc10f4267a3ba71a8a9bfbea1f92ffe07f33a0",
+    "libiconv-rebuild.json": "29ee25db411f4e84eec7c0cef32dbe534a560b5e4840dbbda346ac18d1fca8fc"
+  }
+}
