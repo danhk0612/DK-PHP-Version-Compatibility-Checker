@@ -67,7 +67,7 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 [공식 Windows 빌드 조사](tests/t08-minimal/evidence/official-build-evidence.json)와 [선택 로그](tests/t08-minimal/evidence/official-build-selected-log.txt)에서 builder head `68dc945d9509c41b72332c74c8b99731bb75bc25`, x64 NTS 작업, SDK 설정 2.9.0, MSVC 도구 14.44.35207/컴파일러 19.44.35229, PGI→default/cache 훈련→PGO→snap 절차를 확인했습니다. `libiconv_a.lib`와 `libxml2_a_dll.lib`의 정적 선택도 관측했습니다. 해당 공식 작업 산출물과 실제 배포 ZIP 사이의 직접 해시 연결은 아직 수행하지 않았습니다.
 
-다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 고정하고, 이미 수집한 libiconv 등 관련 정적 라이브러리를 재빌드한 뒤 PHP application code를 수정 라이브러리로 재링크·회귀 검증하는 것입니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
+다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 실제 배포물에 대응시키고 최종 제공을 검증하는 것입니다. 격리 libiconv/PHP 재링크와 회귀 결과는 아래에 기록합니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
 
 ### 검증용 libiconv 빌드 진행
 
