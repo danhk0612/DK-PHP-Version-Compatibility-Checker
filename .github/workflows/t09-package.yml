@@ -1,0 +1,40 @@
+name: T09 local audit package rehearsal
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/packaging/**'
+      - 'tests/t09/**'
+      - '.github/workflows/t09-package.yml'
+permissions:
+  contents: read
+jobs:
+  package-rehearsal:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare verified minimal engine pack
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Rehearse package locally without distribution clearance
+        shell: pwsh
+        run: ./tools/packaging/Prepare-AuditPackage.ps1
+      - name: Preserve metadata only while release gates remain open
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t09-package-metadata
+          path: artifacts/t09/evidence/
+          if-no-files-found: warn
+          retention-days: 7
