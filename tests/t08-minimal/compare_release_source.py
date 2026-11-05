@@ -1,5 +1,6 @@
 """Compare the pinned official PHP source archive with in-ZIP bundled digests.
-No extraction, source execution or build occurs. Mismatches remain unresolved.
+Raw source comparison only; Windows configure headers are reconstructed separately.
+No extraction, source execution or native build occurs.
 """
 import argparse
 import hashlib
@@ -23,7 +24,7 @@ if not ARCHIVE.exists():
     with urllib.request.urlopen(URL, timeout=60) as response:
         ARCHIVE.write_bytes(response.read())
 assert sha(ARCHIVE.read_bytes()) == EXPECTED
-source_rows = json.loads(INVENTORY.read_text())['trackedFiles']
+source_rows = json.loads(INVENTORY.read_text(encoding='utf-8-sig'))['trackedFiles']
 git_rows = {row['path']: row['sha256'] for row in source_rows}
 sbom_bytes = SBOM.read_bytes()
 sbom = json.loads(sbom_bytes.decode('utf-8-sig'))
@@ -67,7 +68,7 @@ report = {'provenance': {'officialSourceArchiveUrl': URL, 'archiveSha256': EXPEC
     'reproducer': 'tests/t08-minimal/compare_release_source.py'},
     'matchedComponents': sum(row['match'] for row in results), 'totalComponents': len(results),
     'redistributionCleared': False,
-    'conclusion': 'Official tar source and raw pinned Git have identical libmbfl/timelib path sets and bytes; both still differ from two in-ZIP SBOM aggregates. Cause remains unresolved; generated-source omission does not explain these two paths.',
+    'conclusion': 'Official tar source and raw pinned Git have identical libmbfl/timelib path sets and bytes. These raw-only paths omit two Windows configure headers. See Collect-PhpCoreSource.py generatedWindowsSource for the separately traced 23/23 configured comparison.',
     'components': results}
 OUTPUT.write_text(json.dumps(report, indent=2) + '\n')
 print(json.dumps({'matchedComponents': report['matchedComponents'],

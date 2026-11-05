@@ -20,7 +20,7 @@ parser.add_argument('--output', required=True, type=Path)
 args = parser.parse_args()
 report = json.loads((args.core_source / 'core-source.json').read_text(encoding='utf-8-sig'))
 summary = next(row for row in report['sources'] if row['name'] == 'php')
-rows = json.loads((args.core_source / summary['inventory']).read_text())['trackedFiles']
+rows = json.loads((args.core_source / summary['inventory']).read_text(encoding='utf-8-sig'))['trackedFiles']
 sbom = json.loads(args.sbom.read_text(encoding='utf-8-sig'))
 archive = args.core_source / summary['archive']
 original = archive.read_bytes()
