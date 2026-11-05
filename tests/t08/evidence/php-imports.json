@@ -1,0 +1,2998 @@
+{
+  "tool": "PHP8.4.27 deplister (BindImageEx BOOL return)",
+  "exitInterpretation": "1=true return; each import OK/NOTFOUND is preserved; not a static-library/source attribution proof",
+  "sourceUrl": "https://github.com/php/php-src/blob/php-8.4.27/win32/build/deplister.c",
+  "images": [
+    {
+      "evidence": "php-imports-brotlicommon.dll.txt",
+      "rawSha256": "1082b5a83ca19f0a3a2c994fb93e354812c7e9b39edd5c944f36838aead15e4a",
+      "entries": [
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-brotlidec.dll.txt",
+      "rawSha256": "d71f1872e726c532c1cd512a3dc6b27a7d63f357642107af4513fcffce57e2e6",
+      "entries": [
+        {
+          "module": "brotlicommon.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-deplister.exe.txt",
+      "rawSha256": "387a20b23d8d7607bf45721fc150750e8cc7a6d6933563b42776f190aef6ed63",
+      "entries": [
+        {
+          "module": "imagehlp.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_bz2.dll.txt",
+      "rawSha256": "fc879695e7ad8731d47f3e7ac4cc37d7a36404850dde46030ef8bf206de2debd",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_com_dotnet.dll.txt",
+      "rawSha256": "62bf58d58955f066304122e97491380b976a8ba28ff2a4d72e4545b946b1ddd2",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "OLEAUT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ole32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "USER32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_curl.dll.txt",
+      "rawSha256": "7e5fdda9c083ec716051cd212138b85be989901cf04c2ca570ae97f7a8b7a995",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "Secur32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "IPHLPAPI.DLL",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "CRYPT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WLDAP32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "Normaliz.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssh2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "nghttp2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "brotlidec.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-multibyte-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_dba.dll.txt",
+      "rawSha256": "8e07892f9e9562952b8d360949b2b1aa545b3db4424b4ce583333c9661405aef",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ntdll.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_dl_test.dll.txt",
+      "rawSha256": "87275f0541f45a8952b650503bb74b57a7a40c9630f0a78f0c1d03459808ab95",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_enchant.dll.txt",
+      "rawSha256": "7c0b9d800d182fbb3d07aa54ac8466e60b25f34b0371c9e97c6cf19d5a790b9e",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libenchant2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_exif.dll.txt",
+      "rawSha256": "9a90845320db1d963ec0af01c3e36fdf7df8f62a9e83043e3a4d37133b9520f7",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_ffi.dll.txt",
+      "rawSha256": "8f0f25538d0e2f8d040e993805238937df0e9d606bf7ace99b92bbdaf38858d4",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_fileinfo.dll.txt",
+      "rawSha256": "c78cbb26984a87e5be41f31b565986510cca28d21dcf593e272fe8c4fabc8ab9",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_ftp.dll.txt",
+      "rawSha256": "997ce06ed59e46358d399f6924b92fa1282a8ee493e28d37539a21bced2addd7",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_gd.dll.txt",
+      "rawSha256": "354a51d5b80f6ae206ebffd2d8fbf68f937ea43a877dcd75c56f6f7922f8b011",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "USER32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "GDI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_gettext.dll.txt",
+      "rawSha256": "1c5ce2d8e28b29bbc9dc39ad0fdb50b2e489c0d8728ab7171c84b5f06bd61b40",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_gmp.dll.txt",
+      "rawSha256": "bdf59f0b690d4a56f99f5823f54d7557d0dcd74401b7f3629349c91ac3ecf977",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_intl.dll.txt",
+      "rawSha256": "19f241196cdb9f6986699c3f495b08359fa6385f9e8de4e370f5a2a4743ac191",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "icuin77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "icuio77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "icuuc77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "MSVCP140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_ldap.dll.txt",
+      "rawSha256": "02534f314903fb3979658513026df0ecffeea5aadf16a5329fc7f0373bc71b2f",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libsasl.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_mbstring.dll.txt",
+      "rawSha256": "b85909ba09ec366b16051e60e32bf72786bfba77a1f80b2cb99d4a3190893707",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_mysqli.dll.txt",
+      "rawSha256": "331c05335d16c2685ff6472968a545434170451ebc49fdfe5eb0d6ae7a0a442f",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_odbc.dll.txt",
+      "rawSha256": "8388cd9a3ba6a1b52c80d3d08b6dd0dd912142ff6d949128cf897e77f9fd0c45",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ODBC32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_opcache.dll.txt",
+      "rawSha256": "8cc2681c713a9f5fa432ce75e7a6f3556c6b6cec0b5378a0c7ad7e2ca2e369f5",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_openssl.dll.txt",
+      "rawSha256": "57e04c8753a05ebc7f2fc844998dd671d67fd5f633aaec2cd291e34709e90912",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "CRYPT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pdo_firebird.dll.txt",
+      "rawSha256": "f574555ac75f2981a8f023e1655f3b7f182b19fe8b6b475eed8418ccebe930a4",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "fbclient.dll",
+          "result": "NOTFOUND"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pdo_mysql.dll.txt",
+      "rawSha256": "39b43c8d855a9d11d218426b201084437f727eb300cdd10cd33cc68a8ed550a1",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pdo_odbc.dll.txt",
+      "rawSha256": "ca33a183aa0489fc1342cf86012cd3c331c78bb813767583534f673675aa6af0",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ODBC32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pdo_pgsql.dll.txt",
+      "rawSha256": "0ea69e6f544f2e3fbf38977901edb0179c02eab8ee95a692588f30ee22de42e9",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "LIBPQ.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pdo_sqlite.dll.txt",
+      "rawSha256": "8db341db976efc668b932d0a50eaf8d5c2d2051d8808f73c16a5db72b491b841",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libsqlite3.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_pgsql.dll.txt",
+      "rawSha256": "0978d8e64977bbcbd87e3815ed4b74765465c25b078fdd63d4c7f1f12d8b6cf8",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "LIBPQ.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_shmop.dll.txt",
+      "rawSha256": "005bec287d0892d07effd38b751ee5690170e6b64cffc475436331537fa7f8a2",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_snmp.dll.txt",
+      "rawSha256": "8b3032dd79f90da16adcb464df7b0273da2dfe2b23a7995d3b5d8c16faa22b32",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_soap.dll.txt",
+      "rawSha256": "8d9c4b50687733c1039185948bf79e871efd4afd048c14c0cbe12659f6a47260",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_sockets.dll.txt",
+      "rawSha256": "13999006c4bfd8ff1710415be544e69038a362b433331cb921af956f92524c81",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "IPHLPAPI.DLL",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_sodium.dll.txt",
+      "rawSha256": "c782df75ea9f51f34ff972966b16556005767245fc212dcf234bab7f47dbcb46",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libsodium.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_sqlite3.dll.txt",
+      "rawSha256": "a3cbb92fd430fed88590faac8ccdda72bcc7e9933f2c329f593870f04f500c29",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libsqlite3.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_sysvshm.dll.txt",
+      "rawSha256": "005bec287d0892d07effd38b751ee5690170e6b64cffc475436331537fa7f8a2",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_tidy.dll.txt",
+      "rawSha256": "a8af37b6bb6c9d6dd753f07aecc0e7fb9bb968d945ceb416a4f7c52b770e87c8",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_xsl.dll.txt",
+      "rawSha256": "f672ed5eaa7434adb3dfc9aad6906c5b282b0cc0421b0d20edce35a7cbb248f1",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_zend_test.dll.txt",
+      "rawSha256": "d6991e88ab78caffc3e451457ba56eabe5ae2d5e8f28ef41a9a0f3799c1414b5",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-ext-php_zip.dll.txt",
+      "rawSha256": "8cd13664f6da3a0424fb905209f8f08846697057303034ffee592df1a1f0009a",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "bcrypt.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-extras-ssl-legacy.dll.txt",
+      "rawSha256": "eb4d21530bc8885f47b3049f3c264e0fba4709164ed4222fd5478107bdc97915",
+      "entries": [
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-glib-2.dll.txt",
+      "rawSha256": "15289d590dac8afac84b3af3a548385b053a78b0c559baa4d2e48b80a560f4f1",
+      "entries": [
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "USER32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "SHELL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ole32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-process-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-gmodule-2.dll.txt",
+      "rawSha256": "704fcd1f7cc38375e204f6544f48836ee4f55b2e01053f035583708a78b1c036",
+      "entries": [
+        {
+          "module": "glib-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-gobject-2.dll.txt",
+      "rawSha256": "3bcffa7c9bfa801aaec68ea957fde31e6da26dfa23b6e3cafe21ccf20eecdbe7",
+      "entries": [
+        {
+          "module": "glib-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-icudt77.dll.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "evidence": "php-imports-icuin77.dll.txt",
+      "rawSha256": "89b9a8ff84c31d341c38e4f06fb18d5ce51e723397854cb5a07ef719d1766d62",
+      "entries": [
+        {
+          "module": "icuuc77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "MSVCP140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-icuio77.dll.txt",
+      "rawSha256": "e6640e68120e5939d4ade4c449cb5e2a06299fea55ec743ddca78074224c28e3",
+      "entries": [
+        {
+          "module": "icuuc77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "icuin77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "MSVCP140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-icuuc77.dll.txt",
+      "rawSha256": "63226d0fff7b9964d0fa768e506676c1529eda8ba41c25908ec246aaaac62db6",
+      "entries": [
+        {
+          "module": "icudt77.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "MSVCP140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-lib-enchant-libenchant2_hunspell.dll.txt",
+      "rawSha256": "ec1918b9ed49fbc00f0ca271450fef04e2fe6a45e9cef71415abe200fdf5279a",
+      "entries": [
+        {
+          "module": "glib-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libenchant2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "MSVCP140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140_1.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libcrypto-3-x64.dll.txt",
+      "rawSha256": "b0e45b0171754246879dc6d2ef1d59450e038a847d6200f8783f38e3c337a387",
+      "entries": [
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "CRYPT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "USER32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "bcrypt.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libenchant2.dll.txt",
+      "rawSha256": "74e035ed1db238ae6470e07b0d006b0c35c9069d3dcacdd76249baba80cebc70",
+      "entries": [
+        {
+          "module": "glib-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "gobject-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "gmodule-2.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libpq.dll.txt",
+      "rawSha256": "ac6de633c4f951b022d08cfc73479adbdd33ed408d718a2e94fc9ae05b51c4fa",
+      "entries": [
+        {
+          "module": "libssl-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "Secur32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WLDAP32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "SHELL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libsasl.dll.txt",
+      "rawSha256": "113d3c41282e0ea073efdd967b9b93890f1636b7e552272432919960b8038d93",
+      "entries": [
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-conio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libsodium.dll.txt",
+      "rawSha256": "98ea03bc58f7a1831b1d22e3cdce53403d5e26678c4a91d3ff7634b37dc531aa",
+      "entries": [
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libsqlite3.dll.txt",
+      "rawSha256": "466de375751cb2167ef92604b3989acf0df73e71d4951b0f6a7998fc6c1e1e2a",
+      "entries": [
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libssh2.dll.txt",
+      "rawSha256": "054fbc7cc60caf46333158941ae944cae7ce1fa45d3b6fab5aeca08d25a82695",
+      "entries": [
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "USER32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-libssl-3-x64.dll.txt",
+      "rawSha256": "4b211739cbf6974c525a3dfde3f9af8ab0239490979270fa6e601368e7f3a7a1",
+      "entries": [
+        {
+          "module": "libcrypto-3-x64.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-nghttp2.dll.txt",
+      "rawSha256": "f20b9de27dfc4107c460fe67362906e11c2d18bf41f8857bb50fdf462e64b82b",
+      "entries": [
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-php-cgi.exe.txt",
+      "rawSha256": "5f473cabcf68095fb796225587c4ad8bdc772812d20f0c16e227b2257047f225",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-php-win.exe.txt",
+      "rawSha256": "84bad5987b47bc660204a7d9e179fbcb4d98ac367e31607235ca5b3b531fd7c8",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "SHELL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-php.exe.txt",
+      "rawSha256": "208d7b8fbaa93113988ef304b8eaf1d75cc38cdf032958ee6b81db7db339db9c",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "SHELL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-php8.dll.txt",
+      "rawSha256": "8781d00cdaad2d2fff46f8c3fd5298ed49e05e42d5642edc782e5407adef256c",
+      "entries": [
+        {
+          "module": "IPHLPAPI.DLL",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "CRYPT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ole32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "DNSAPI.dll",
+          "result": "OK"
+        },
+        {
+          "module": "bcrypt.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-php8phpdbg.dll.txt",
+      "rawSha256": "da12631b096c477d4e04be0868e1d1b0694669bcc9bed245c709f6290242f555",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    },
+    {
+      "evidence": "php-imports-phpdbg.exe.txt",
+      "rawSha256": "5d691903c102ccbe118a23c3a45cc1dd942ef34dee6307338c589bc848a2703b",
+      "entries": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "OK"
+        }
+      ]
+    }
+  ]
+}

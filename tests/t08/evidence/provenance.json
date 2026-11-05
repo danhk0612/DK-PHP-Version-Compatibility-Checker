@@ -1,0 +1,105 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848",
+  "testedHead": "5290d3b7a45e6c06444d9d6011c0b691d61797b6",
+  "checkoutMergeRef": "2db833a86dc4dcdb2f4b8b89f90f1bc4e77b5eb4",
+  "artifactId": 13376586947,
+  "artifactSha256": "19138f856260511cc3dda684e10cf7b0d754c7accbc0ae74e2bd7109e1e64429",
+  "publishWarnings": 0,
+  "publishErrors": 0,
+  "publishFiles": 400,
+  "preparedPackFiles": 865,
+  "vendorSourceMatches": 302,
+  "licenseClearance": "partial; native PHP source/notices/relink and final distribution gates remain",
+  "firstRun": {
+    "url": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41938836148",
+    "finding": "WindowsDesktop runtime nupkg lacked WPF/WinForms third-party notices; supplemented from exact nuspec source commit and re-ran complete collection"
+  },
+  "rawEvidence": {
+    "composer-version.txt": {
+      "sha256": "0880e1ea559c1013e5d3e8404dddf79c938f8d35ea9d8f563f792c6a97e85c5e",
+      "bytes": 45
+    },
+    "copied-pack-documents.json": {
+      "sha256": "d3ca47a0e460e9bbcf3086f8c30c0b17a79480f7a6c983a877be43bb02fcfdce",
+      "bytes": 2971
+    },
+    "corresponding-source.json": {
+      "sha256": "f05f1c77e0fe26579f1986e947d32184145c520da2f1837bef0d9b0f311b6de5",
+      "bytes": 1560
+    },
+    "dotnet-packages.json": {
+      "sha256": "318168efe0d1d0d87fb33d22f74f48b156f88cfd4dc2e0125ee2232c874634e3",
+      "bytes": 7705
+    },
+    "pack-files.json": {
+      "sha256": "0fe3d9d7acb749b3f59c9494207c47fac985c838a924ac7b429b86cb7f9c353c",
+      "bytes": 390488
+    },
+    "pack-manifest.json": {
+      "sha256": "a1bda4ffcf3c776f22c345c8985e872a45c6e1d6e8ba129f52cbac6d8d096c62",
+      "bytes": 149187
+    },
+    "php-info-no-ini.txt": {
+      "sha256": "58c42f3cec120d6d4b53aa6cf0adb2a6ce37a420d265c49d2b712d6393f1f320",
+      "bytes": 13952
+    },
+    "php-loaded-modules.json": {
+      "sha256": "07f755567cd8a890e9fb020c9936c07496a3a9cc38c9fa444d58c74ce4b27571",
+      "bytes": 16481
+    },
+    "php.cdx.json": {
+      "sha256": "72a6a342cc529514f053a9b86dabd5a39979f67f62444e0c1592cf0011e0ac49",
+      "bytes": 336465
+    },
+    "php.openvex.json": {
+      "sha256": "4e9c8f01ff7f087ac01d1cb0edd33ab0569349f4e390523ee5a56d0b37e4a16b",
+      "bytes": 36840
+    },
+    "php.spdx.json": {
+      "sha256": "675b1632a0f09308ff695f514e1b250e28c77086a7b0904b547017c363186c87",
+      "bytes": 206448
+    },
+    "publish-files.json": {
+      "sha256": "e61e6fe4e7801978d170e6a2c6de93bfc2005dc57034412d3126997595bad9e9",
+      "bytes": 283661
+    },
+    "publish-result.json": {
+      "sha256": "f4828da92bb06b9fd512264acf1401b45db6af889028b98597fdf10931d65713",
+      "bytes": 249
+    },
+    "source-checks/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.json": {
+      "sha256": "56ef8f3db1d5df096b07c69191fd468107807702bdc4f057a442451b3def6594",
+      "bytes": 310744
+    },
+    "source-checks/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.json": {
+      "sha256": "dc77d678b6b7a081f225347d3e564abab529d93a09f7028c3fa04c4ed8558c81",
+      "bytes": 160443
+    },
+    "summary.json": {
+      "sha256": "8b480a27d25ad13df22815ec40461438bb29558965f1d2f018f4131d7d0467f8",
+      "bytes": 13403
+    }
+  },
+  "derivedEvidence": {
+    "php-imports.json": {
+      "sha256": "393ec9dfe25d4463ff17eb2a11495dd709c1f5b5967fefa71f51c1fd73b3caf6",
+      "bytes": 72830
+    },
+    "php-native-pending.json": {
+      "sha256": "0af6bc681ae01dd241d80d7188b6e90b0bc65849f84a9ec23d2a3650122bef97",
+      "bytes": 5152
+    },
+    "publish-license-map.json": {
+      "sha256": "504bfff000a068b43b228536a60d8afb4616688eaf0946fccccd98751a794537",
+      "bytes": 169630
+    }
+  },
+  "sourceArchiveDelivery": "Two engine source ZIPs generated and checked in CI; archive hashes/file identities preserved.7-day artifact is not final durable release source delivery.",
+  "collectionOutputReview": {
+    "environmentAndServerVariablesExcluded": true,
+    "supersededGeneratedArtifact": 13375033302,
+    "deleted": true,
+    "verifiedBy": "cleanup job126961844264 success plus run41939522179 artifact list empty",
+    "cleanupJobRemovedFromFinalWorkflow": true
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "exitCode": 0,
+  "warnings": 0,
+  "errors": 0,
+  "command": "dotnet publish <project> -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -p:PublishTrimmed=false -o artifacts/t08/publish --verbosity normal -clp:Summary"
+}

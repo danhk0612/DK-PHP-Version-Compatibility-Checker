@@ -3,3 +3,5 @@ tests/t04/evidence/*.json -text whitespace=cr-at-eol
 tests/t05/evidence/*.json -text whitespace=cr-at-eol
 tests/t06/evidence/*.json -text whitespace=cr-at-eol
 tests/t07/evidence/*.json -text whitespace=cr-at-eol
+licenses/** -text -whitespace
+tests/t08/evidence/** -text -whitespace

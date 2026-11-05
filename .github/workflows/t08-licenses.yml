@@ -1,0 +1,48 @@
+name: T08 distribution license inventory
+on:
+  pull_request:
+    branches: [main, t07-gui-integration]
+    paths:
+      - 'tools/license-audit/**'
+      - 'licenses/**'
+      - 'LICENSE'
+      - 'THIRD-PARTY-NOTICES*'
+      - 'src/**'
+      - 'tools/engine-pack/**'
+      - 'global.json'
+      - '.github/workflows/t08-licenses.yml'
+permissions:
+  contents: read
+jobs:
+  collect-windows-inventory:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare the unchanged verified engine pack
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Publish and collect actual distribution/license/source evidence
+        shell: pwsh
+        run: ./tools/license-audit/Collect-Windows.ps1
+      - name: Preserve audit evidence and corresponding source sidecars
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-license-inventory
+          path: |
+            artifacts/t08/
+            !artifacts/t08/publish/**
+            !artifacts/t08/downloads/**
+          include-hidden-files: true
+          retention-days: 7
