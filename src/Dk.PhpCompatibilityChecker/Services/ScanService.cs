@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using Dk.PhpCompatibilityChecker.Models;
 
 namespace Dk.PhpCompatibilityChecker.Services;
@@ -41,8 +42,8 @@ public sealed class ScanService : IAsyncDisposable
         var ownsWork = false;
         ScanResult result;
         string? cleanupFailure = null;
-        int? engineExitCode = null;
-        string? engineError = null;
+        var retained = new List<ScanResult>();
+        IReadOnlyList<string>? activeInputs = null;
         try
         {
             var source = Path.TrimEndingDirectorySeparator(Path.GetFullPath(request.SourceDirectory));
@@ -73,80 +74,41 @@ public sealed class ScanService : IAsyncDisposable
             Directory.CreateDirectory(work);
             ownsWork = true;
             SourceFileEnumerator.RejectReparseAncestors(work);
-            var fileList = Path.Combine(work, "files.txt");
-            await File.WriteAllLinesAsync(fileList, selected, new UTF8Encoding(false), cancellationToken).ConfigureAwait(false);
-            // Recheck the approved inputs immediately before starting the external reader.
-            foreach (var file in selected)
-                SourceFileEnumerator.RejectReparseAncestors(file);
-            var start = new ProcessStartInfo
-            {
-                FileName = pack.PhpExecutable,
-                WorkingDirectory = pack.EngineDirectory,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = new UTF8Encoding(false, true),
-                StandardErrorEncoding = Encoding.UTF8
-            };
-            // PHPCS checks extension keys case-sensitively. Preserve only the
-            // actual spellings already approved by our php/inc-only enumerator.
-            var extensions = new[] { "php", "inc" }
-                .Concat(selected.Select(file => Path.GetExtension(file)[1..]))
-                .Distinct(StringComparer.Ordinal);
-            // Bound the isolated engine at 512 MiB; PHP's 128 MiB default is too
-            // small for the reported large-project scan. No user php.ini is read.
-            foreach (var argument in new[] { "-n", "-d", "memory_limit=512M", pack.PhpcsEntryPoint, "--standard=" + pack.RulesetPath,
-                "--runtime-set", "testVersion", request.TargetPhpVersion, "--report=json", "-q", "--no-cache",
-                "--ignore-annotations", "--extensions=" + string.Join(",", extensions), "--file-list=" + fileList })
-                start.ArgumentList.Add(argument);
-            start.Environment["PHPRC"] = "";
-            start.Environment["PHP_INI_SCAN_DIR"] = "";
-            using var process = new Process { StartInfo = start };
-            lock (_gate)
+            async Task ProcessBatchAsync(IReadOnlyList<string> batch)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                process.Start();
-                _process = process;
-            }
-            // Drain raw streams concurrently; decode only after both pipes are closed.
-            // A decoder failure must not leave a full pipe blocking the child process.
-            var output = ReadBytesAsync(process.StandardOutput.BaseStream);
-            var error = ReadBytesAsync(process.StandardError.BaseStream);
-            try
-            {
-                try
-                {
-                    await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
-                }
-                catch
-                {
-                    Kill(process);
-                    await process.WaitForExitAsync().ConfigureAwait(false);
-                    await Task.WhenAll(output, error).ConfigureAwait(false);
-                    throw;
-                }
-                await Task.WhenAll(output, error).ConfigureAwait(false);
-                engineExitCode = process.ExitCode;
-                engineError = new UTF8Encoding(false, true).GetString(await error.ConfigureAwait(false));
+                activeInputs = batch;
+                var attempt = await RunBatchAsync(request, pack, batch, work, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
-                result = new PhpcsReportParser().Parse(request, selected, pack.EngineInfo, engineExitCode.Value,
-                    new UTF8Encoding(false, true).GetString(await output.ConfigureAwait(false)), engineError);
+                if (attempt.MemoryFailure && batch.Count > 1)
+                {
+                    // Do not retain the failed parent report: retried children own
+                    // these inputs and findings must never be counted twice.
+                    var middle = batch.Count / 2;
+                    await ProcessBatchAsync(batch.Take(middle).ToArray()).ConfigureAwait(false);
+                    await ProcessBatchAsync(batch.Skip(middle).ToArray()).ConfigureAwait(false);
+                }
+                else
+                {
+                    var leaf = attempt.Result;
+                    if (leaf.Status == ScanStatus.Failed)
+                        leaf = leaf with { FailureMessage = leaf.FailureMessage + Environment.NewLine + InputDescription(batch) };
+                    retained.Add(leaf);
+                }
+                activeInputs = null;
             }
-            finally
-            {
-                lock (_gate)
-                    if (ReferenceEquals(_process, process))
-                        _process = null;
-            }
+
+            foreach (var batch in selected.Chunk(100))
+                await ProcessBatchAsync(batch).ConfigureAwait(false);
+            result = Aggregate(request, selected.Count, pack.EngineInfo, retained);
         }
         catch (Exception ex) when (ex is InvalidDataException or IOException or UnauthorizedAccessException or ArgumentException
             or InvalidOperationException or Win32Exception or OperationCanceledException or NotSupportedException)
         {
-            result = new ScanResult(request, ScanStatus.Failed, selected.Count, null, 0, 0,
-                Array.Empty<ScanIssue>(), pack?.EngineInfo,
-                ex is OperationCanceledException ? "종료 요청으로 검사가 완료되지 않았습니다." : ex.Message)
-            { EngineExitCode = engineExitCode, EngineStandardError = engineError };
+            var reason = ex is OperationCanceledException ? "종료 요청으로 검사가 완료되지 않았습니다." : ex.Message;
+            if (activeInputs is not null)
+                reason += Environment.NewLine + InputDescription(activeInputs);
+            result = Aggregate(request, selected.Count, pack?.EngineInfo, retained, reason);
         }
         finally
         {
@@ -162,6 +124,118 @@ public sealed class ScanService : IAsyncDisposable
             result = result with { Status = ScanStatus.Failed,
                 FailureMessage = string.IsNullOrEmpty(result.FailureMessage) ? cleanupFailure : result.FailureMessage + " " + cleanupFailure };
         return result;
+    }
+
+    private async Task<(ScanResult Result, bool MemoryFailure)> RunBatchAsync(ScanRequest request,
+        EnginePack pack, IReadOnlyList<string> batch, string work, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var fileList = Path.Combine(work, "files.txt");
+        await File.WriteAllLinesAsync(fileList, batch, new UTF8Encoding(false), cancellationToken).ConfigureAwait(false);
+        // A new process or retry must not follow a link substituted after an earlier batch.
+        foreach (var file in batch)
+            SourceFileEnumerator.RejectReparseAncestors(file);
+        var start = new ProcessStartInfo
+        {
+            FileName = pack.PhpExecutable,
+            WorkingDirectory = pack.EngineDirectory,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            StandardOutputEncoding = new UTF8Encoding(false, true),
+            StandardErrorEncoding = Encoding.UTF8
+        };
+        var extensions = new[] { "php", "inc" }
+            .Concat(batch.Select(file => Path.GetExtension(file)[1..]))
+            .Distinct(StringComparer.Ordinal);
+        foreach (var argument in new[] { "-n", "-d", "memory_limit=512M", pack.PhpcsEntryPoint, "--standard=" + pack.RulesetPath,
+            "--runtime-set", "testVersion", request.TargetPhpVersion, "--report=json", "-q", "--no-cache",
+            "--ignore-annotations", "--extensions=" + string.Join(",", extensions), "--file-list=" + fileList })
+            start.ArgumentList.Add(argument);
+        start.Environment["PHPRC"] = "";
+        start.Environment["PHP_INI_SCAN_DIR"] = "";
+        using var process = new Process { StartInfo = start };
+        lock (_gate)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            process.Start();
+            _process = process;
+        }
+        // Drain both raw pipes before strict decoding, including cancellation.
+        var output = ReadBytesAsync(process.StandardOutput.BaseStream);
+        var error = ReadBytesAsync(process.StandardError.BaseStream);
+        try
+        {
+            try
+            {
+                await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch
+            {
+                Kill(process);
+                await process.WaitForExitAsync().ConfigureAwait(false);
+                await Task.WhenAll(output, error).ConfigureAwait(false);
+                throw;
+            }
+            await Task.WhenAll(output, error).ConfigureAwait(false);
+            var stderr = new UTF8Encoding(false, true).GetString(await error.ConfigureAwait(false));
+            var stdout = new UTF8Encoding(false, true).GetString(await output.ConfigureAwait(false));
+            cancellationToken.ThrowIfCancellationRequested();
+            var parsed = new PhpcsReportParser().Parse(request, batch, pack.EngineInfo, process.ExitCode, stdout, stderr);
+            const string fatalMemory = @"(?m)^\s*(?:PHP )?Fatal error:\s+Allowed memory size of \d+ bytes exhausted";
+            var memoryFailure = process.ExitCode == 255
+                && (stderr.Split('\n').Any(line => line.Trim() == "The PHP_CodeSniffer \"phpcs\" command ran out of memory.")
+                    || Regex.IsMatch(stdout, fatalMemory, RegexOptions.CultureInvariant)
+                    || Regex.IsMatch(stderr, fatalMemory, RegexOptions.CultureInvariant));
+            return (parsed, memoryFailure);
+        }
+        finally
+        {
+            lock (_gate)
+                if (ReferenceEquals(_process, process))
+                    _process = null;
+        }
+    }
+
+    private static string InputDescription(IReadOnlyList<string> inputs)
+    {
+        if (inputs.Count == 1)
+            return "실패한 입력 파일: " + inputs[0];
+        return "실패한 묶음 입력 파일 (" + inputs.Count + "개):" + Environment.NewLine
+            + string.Join(Environment.NewLine, inputs.Take(5))
+            + (inputs.Count > 5 ? Environment.NewLine + "이외 " + (inputs.Count - 5) + "개" : "");
+    }
+
+    private static ScanResult Aggregate(ScanRequest request, int selectedCount, ScanEngineInfo? engineInfo,
+        IReadOnlyList<ScanResult> leaves, string? interrupted = null)
+    {
+        var issues = leaves.SelectMany(leaf => leaf.Issues).ToArray();
+        var completed = leaves.Where(leaf => leaf.Status == ScanStatus.Completed).Sum(leaf => leaf.SelectedFileCount);
+        var failure = leaves.FirstOrDefault(leaf => leaf.Status == ScanStatus.Failed);
+        var completedAll = interrupted is null && failure is null && completed == selectedCount && selectedCount > 0;
+        int? processed = interrupted is null && leaves.All(leaf => leaf.ProcessedFileCount.HasValue)
+            ? leaves.Sum(leaf => leaf.ProcessedFileCount!.Value) : null;
+        var failureMessage = interrupted ?? (failure is null ? null : string.Join(Environment.NewLine,
+            leaves.Where(leaf => leaf.Status == ScanStatus.Failed).Select(leaf => leaf.FailureMessage)));
+        if (!completedAll && selectedCount > 0)
+        {
+            var failedInputs = leaves.Where(leaf => leaf.Status == ScanStatus.Failed).Sum(leaf => leaf.SelectedFileCount);
+            var unstarted = selectedCount - leaves.Sum(leaf => leaf.SelectedFileCount);
+            failureMessage = $"검사 완료 파일: {completed}/{selectedCount}. 실패 입력 파일: {failedInputs}. 결과 미확인 파일: {unstarted}."
+                + Environment.NewLine + (failureMessage ?? "검사를 완료하지 못했습니다.");
+        }
+        // Multiple real processes have no single OS exit code. A terminal
+        // failure retains its actual exit and diagnostics, not an invented sum.
+        var diagnostic = failure ?? (completedAll && leaves.Count == 1 ? leaves[0] : null);
+        return new ScanResult(request, completedAll ? ScanStatus.Completed : ScanStatus.Failed,
+            selectedCount, processed, issues.Count(issue => issue.Type == "ERROR"),
+            issues.Count(issue => issue.Type == "WARNING"), Array.AsReadOnly(issues), engineInfo, failureMessage)
+        {
+            EngineExitCode = diagnostic?.EngineExitCode,
+            EngineStandardError = diagnostic?.EngineStandardError,
+            EngineStandardOutputPreview = diagnostic?.EngineStandardOutputPreview
+        };
     }
 
     public ValueTask DisposeAsync()

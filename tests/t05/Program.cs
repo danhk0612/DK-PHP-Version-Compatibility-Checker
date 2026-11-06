@@ -40,6 +40,7 @@ internal static class Program
                 await FixtureCases();
                 await ServiceCases();
                 await MemoryCases();
+                await BatchCases();
                 await PackCases();
                 await SyntheticProcessCases();
             }
@@ -529,6 +530,163 @@ internal static class Program
                 && result.ProcessedFileCount == 28817 && result.Issues.Count == 0,
                 "Large actual PHPCS scan failed: " + result.FailureMessage + " " + result.EngineStandardError);
             Unchanged(before, project);
+        });
+    }
+
+    private static (string Pack, string Project, string Log) BatchFixture(string name, int count,
+        string mode = "normal", int threshold = 0, string poison = "00105.php")
+    {
+        var pack = CopyPack("batch-pack-" + name);
+        var project = NewProject("batch-subject-" + name);
+        for (var index = 0; index < count; index++)
+            Subject(project, index.ToString("D5") + ".php");
+        var log = Path.Combine(Area, "batch-" + name + ".jsonl");
+        var config = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { mode, threshold, poison, log })));
+        // This is trusted, test-owned engine code. It never executes inspected source.
+        PatchEntry(pack, "<?php $cfg=json_decode(base64_decode('" + config + "'),true);\n" + """
+            $list=null;
+            foreach ($argv as $arg) {
+                if (str_starts_with($arg, '--file-list=')) { $list=substr($arg,12); }
+            }
+            $inputs=file($list, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            file_put_contents($cfg['log'], json_encode(['pid'=>getmypid(),'files'=>$inputs,'memory'=>ini_get('memory_limit')])."\n", FILE_APPEND);
+            $poison=count(array_intersect(explode('|',$cfg['poison']), array_map('basename',$inputs)))>0;
+            if ($cfg['mode']==='cancel' && $poison) { sleep(120); }
+            if ($cfg['mode']==='unrelated' && $poison) {
+                fwrite(STDOUT,'{broken'); fwrite(STDERR,'Unrelated engine failure'); exit(255);
+            }
+            $memory=($cfg['mode']==='split' && count($inputs)>$cfg['threshold'])
+                || ($cfg['mode']==='poison' && $poison);
+            if ($memory && count($inputs)===1) {
+                echo 'Fatal error: Allowed memory size of 536870912 bytes exhausted'; exit(255);
+            }
+            $files=[];
+            foreach ($inputs as $input) {
+                $message=$cfg['mode']==='message' ? 'Fatal error: Allowed memory size of 536870912 bytes exhausted' : 'Test-owned batch finding';
+                $files[$input]=['errors'=>1,'warnings'=>0,'messages'=>[['message'=>$message,'source'=>'T05.Batch','severity'=>5,'type'=>'ERROR','line'=>1,'column'=>1,'fixable'=>false]]];
+            }
+            echo json_encode(['totals'=>['errors'=>count($inputs),'warnings'=>0,'fixable'=>0],'files'=>$files], JSON_THROW_ON_ERROR);
+            if ($memory) {
+                if ($cfg['mode']==='split') { echo "\n"; $allocation=str_repeat('x',600*1024*1024); }
+                fwrite(STDERR,'The PHP_CodeSniffer "phpcs" command ran out of memory.'); exit(255);
+            }
+            exit($cfg['mode']==='message' ? 255 : 2);
+            """);
+        return (pack, project, log);
+    }
+
+    private static HashSet<string> TempChildren()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "DK-PHP-Compatibility-Checker");
+        return Directory.Exists(root) ? Directory.GetDirectories(root).ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static bool ProcessExists(int pid)
+    {
+        try { using var process = Process.GetProcessById(pid); return !process.HasExited; }
+        catch (ArgumentException) { return false; }
+    }
+
+    private static JsonElement[] BatchAttempts(string log)
+    {
+        if (!File.Exists(log)) return [];
+        using var stream = new FileStream(log, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reader = new StreamReader(stream);
+        // The helper appends one newline-terminated record per invocation. A
+        // concurrently observed incomplete final record is not an entered batch.
+        return reader.ReadToEnd().Split('\n').SkipLast(1).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line =>
+        {
+            using var document = JsonDocument.Parse(line);
+            return document.RootElement.Clone();
+        }).ToArray();
+    }
+
+    private static async Task BatchCases()
+    {
+        await Case("batch service uses fresh processes of at most 100 and aggregates exact findings", async () =>
+        {
+            var f = BatchFixture("normal", 205); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var attempts = BatchAttempts(f.Log);
+            Check(attempts.Select(x => x.GetProperty("files").GetArrayLength()).SequenceEqual(new[] { 100, 100, 5 }), "Initial batches differ from 100/100/5");
+            Check(attempts.All(x => x.GetProperty("memory").GetString() == "512M"), "A batch changed memory policy");
+            Check(attempts.Select(x => x.GetProperty("pid").GetInt32()).Distinct().Count() == 3, "Batches reused the same PHP process");
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 205 && result.ProcessedFileCount == 205
+                && result.ErrorCount == 205 && result.Issues.Select(x => x.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 205,
+                "Batch findings/counts were lost or duplicated");
+            Check(result.EngineExitCode is null, "Multiple processes fabricated one OS exit code"); Unchanged(before, f.Project);
+        });
+        await Case("memory retry discards failed-parent partial findings and fully recovers", async () =>
+        {
+            var f = BatchFixture("split", 27, "split", 10); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 7, "Memory retry did not halve to bounded leaves");
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 27 && result.Issues.Count == 27
+                && result.ErrorCount == 27 && result.Issues.Select(x => x.FilePath).Distinct().Count() == 27,
+                "Recovered memory parents leaked duplicate findings or failure status");
+            Check(string.IsNullOrEmpty(result.FailureMessage) && string.IsNullOrEmpty(result.EngineStandardError), "Recovered parents leaked terminal diagnostics");
+            Unchanged(before, f.Project);
+        });
+        await Case("singleton memory failures name all inputs and preserve siblings and later batches", async () =>
+        {
+            var f = BatchFixture("poison", 205, "poison", poison: "00105.php|00106.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var poison = Path.Combine(f.Project, "00105.php");
+            var secondPoison = Path.Combine(f.Project, "00106.php");
+            Check(result.Status == ScanStatus.Failed && result.SelectedFileCount == 205 && result.ProcessedFileCount is null
+                && result.EngineExitCode == 255 && result.Issues.Count == 203 && result.ErrorCount == 203,
+                "Singleton failure hid good results or became a completed scan");
+            Check(result.FailureMessage?.Contains(poison, StringComparison.Ordinal) == true
+                && result.FailureMessage.Contains(secondPoison, StringComparison.Ordinal), "Failed singleton inputs were not all identified");
+            Check(result.Issues.All(x => !x.FilePath.Equals(poison, StringComparison.OrdinalIgnoreCase)
+                && !x.FilePath.Equals(secondPoison, StringComparison.OrdinalIgnoreCase)), "Failed input invented findings");
+            Check(BatchAttempts(f.Log).Any(x => x.GetProperty("files").GetArrayLength() == 1
+                && x.GetProperty("files")[0].GetString() == poison), "Poison batch never narrowed to one file");
+            Unchanged(before, f.Project);
+        });
+        await Case("non-memory exit 255 is not retried and later batches are retained", async () =>
+        {
+            var f = BatchFixture("unrelated", 205, "unrelated", poison: "00000.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255,
+                "Unrelated failure triggered memory retries or discarded later successes");
+            Unchanged(before, f.Project);
+        });
+        await Case("memory words in JSON findings do not trigger memory retries", async () =>
+        {
+            var f = BatchFixture("message", 27, "message");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 1 && result.Status == ScanStatus.Failed && result.Issues.Count == 27,
+                "Quoted finding text was misclassified as a PHP allocation fatal");
+        });
+        await Case("Dispose during a later batch preserves earlier results and starts no following batch", async () =>
+        {
+            var f = BatchFixture("cancel", 205, "cancel", poison: "00100.php");
+            var before = Snapshot(f.Project); var beforeTemp = TempChildren();
+            var service = new ScanService(f.Pack); int? pid = null;
+            try
+            {
+                var scan = service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+                var deadline = DateTime.UtcNow.AddSeconds(30);
+                while (BatchAttempts(f.Log).Length < 2 && DateTime.UtcNow < deadline && !scan.IsCompleted)
+                    await Task.Delay(50);
+                var attempts = BatchAttempts(f.Log); Check(attempts.Length == 2, "Second batch did not enter the controlled wait");
+                pid = attempts[^1].GetProperty("pid").GetInt32();
+                await service.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(15));
+                var result = await scan.WaitAsync(TimeSpan.FromSeconds(5));
+                Check(result.Status == ScanStatus.Failed && result.Issues.Count == 100 && result.SelectedFileCount == 205
+                    && result.ProcessedFileCount is null, "Cancellation lost earlier findings or claimed all files complete");
+                Check(BatchAttempts(f.Log).Length == 2 && !ProcessExists(pid.Value), "Dispose started another batch or left a child alive");
+                Check(TempChildren().SetEquals(beforeTemp), "Batch work folder survived disposal"); Unchanged(before, f.Project);
+            }
+            finally { await service.DisposeAsync(); }
         });
     }
 
