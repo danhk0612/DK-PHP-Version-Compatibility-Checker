@@ -1,4 +1,4 @@
-# 고정 엔진 팩 준비 (T04)
+# 고정 엔진 팩 준비 (T04 / 승인된 T08 B안)
 
 이 폴더는 개발자용 도구 준비 절차입니다. 검사 대상 프로젝트와 분리된 **새 저장소 checkout**에서 실행합니다. PHP/Composer를 대상 프로젝트에 설치하지 않습니다. 생성물 `tools/runtime/`은 Git에서 제외하며 앱·ZIP·Release를 만들지 않습니다.
 
@@ -12,6 +12,8 @@ python tools/engine-pack/verify_pack.py tools/runtime
 python tests/t04/test_pack_contract.py tools/runtime
 ```
 
+기본 프로필은 `MinimalCli`이며 `minimal-cli.json`의 7개 PHP 파일만 복사합니다. PHP/엔진 버전·목표는 그대로이고 별도 packId를 사용합니다. 전체 비교 기준은 `./tools/engine-pack/Prepare-Pack.ps1 -RuntimeProfile Full -OutputDirectory <새 경로>`로 준비합니다. 두 프로필은 원본 ZIP 전체 SHA와 각 유지/제외 파일의 SHA·크기를 대조하고 `verification/runtime-selection.json`에 기록합니다. 원본 SBOM은 전체 ZIP 후보 목록이며 최소 팩의 정확한 구성 요소 수를 뜻하지 않습니다. [B안 비교·소스 검토](../../tests/t08-minimal/README.md)를 따릅니다.
+
 첫 명령은 인터넷이 필요합니다. 공식 PHP ZIP을 sources.json의 정확한 URL에서 받아 SHA-256을 대조하고, 별도 Composer HOME/cache에서 제품 lock을 install·audit합니다. `--no-scripts`를 사용하며 승인한 installer 플러그인만 허용합니다. 기존 runtime은 덮어쓰지 않습니다. 실패한 준비 폴더는 활성 팩으로 사용하지 말고 보존/조사 후 새 checkout에서 재시도합니다. 의존성 변경이 필요하면 승인 버전·lock·검증 근거를 먼저 갱신하며 자동 최신 버전 선택은 하지 않습니다.
 
 첫 명령의 실제 검증 단계는 관리자 권한의 Windows 검증 환경이 필요합니다. 생성된 PHP 실행 파일에만 임시 outbound 방화벽 규칙을 적용하고 finally에서 제거합니다. 인터넷 연결 양성 대조→차단 확인→동일 검사→규칙 제거와 연결 복구를 검증합니다. 이는 개발자용 검증의 권한이며 일반 사용자의 앱 검사에 관리자 권한을 요구하는 설계가 아닙니다. Composer를 검사 PATH에서 제외하고 PHP를 절대 경로로 실행합니다. 일반 PC에서 실행 가능한 제품인지, CRT가 없는 PC에서 어떻게 동작하는지는 T09에서 확인합니다.
@@ -23,7 +25,7 @@ python tests/t04/test_pack_contract.py tools/runtime
 ```text
 tools/runtime/
   manifest.json
-  php/                 # 공식 ZIP 전체 (DLL 최소화는 하지 않음)
+  php/                 # 기본 MinimalCli: 공식 ZIP의 허용 파일, 원본 바이트 보존
   engine/              # composer.json/lock, ruleset.xml, vendor/
   verification/        # 실제 results/audit, fixture, license 파일 목록
 ```
@@ -73,4 +75,4 @@ tools/runtime/
 
 검증 head는 `c8776b443597ad2a138d7200b90c64f004bfc497`, 실제 checkout merge ref는 `64751b83e80c1b180bf8ad18875a239790e0be73`입니다. [summary](../../tests/t04/evidence/summary.json), [manifest](../../tests/t04/evidence/manifest.json), [results](../../tests/t04/evidence/results.json), [전체 파일](../../tests/t04/evidence/files.json), [license 원본 목록](../../tests/t04/evidence/license-files.json), [거부 시험](../../tests/t04/evidence/contract-tests.json), [실행/아티팩트 근거](../../tests/t04/evidence/provenance.json)를 보존했습니다. 이후 문서·실측 보존 커밋은 준비/검증 실행 코드를 변경하지 않아 재실행하지 않았습니다.
 
-865개 파일은 준비된 팩의 포함 예정 목록입니다. 실제 ZIP 목록은 T09에서 다시 대조합니다. Composer 생성 파일은 준비 도구 버전에 따라 달라질 수 있으므로 새 준비물은 자체 manifest/hash를 검증하고 기존 실측과 비교합니다. 구성이 달라지면 새 packId와 해당 검증 자료를 사용합니다. 이번 파일명 검색에서 찾은 license 원본은 6개이며 T08은 이것 외에 각 DLL·Zend·대응 소스·Composer autoloader 고지도 검토해야 합니다.
+위 865개 파일은 T04 당시 Full 팩의 실측입니다. T08의 프로필 선택 증거 파일을 추가한 새 Full 기준은 866개이며 최소 후보는 별도 manifest를 사용합니다. 실제 ZIP 목록은 T09에서 다시 대조합니다. Composer 생성 파일은 준비 도구 버전에 따라 달라질 수 있으므로 새 준비물은 자체 manifest/hash를 검증하고 기존 실측과 비교합니다. 구성이 달라지면 새 packId와 해당 검증 자료를 사용합니다. 이번 파일명 검색에서 찾은 license 원본은 6개이며 T08은 이것 외에 각 DLL·Zend·대응 소스·Composer autoloader 고지도 검토해야 합니다.

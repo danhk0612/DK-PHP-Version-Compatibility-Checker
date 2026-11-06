@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "electionMade": true,
+  "approvedDate": "2026-11-06",
+  "approvalBasis": "User approved the recommended PHP v4 / Zend v3 subsequent-license election in this project conversation.",
+  "phpVersion": "4",
+  "zendVersion": "3.0",
+  "spdx": "BSD-3-Clause",
+  "scope": "Covered PHP/Zend code only; independent licenses unchanged",
+  "selectedLicenseFiles": [
+    {
+      "path": "licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+      "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789"
+    }
+  ],
+  "provenanceFiles": [
+    {
+      "path": "licenses/php/selected/php-licensing.html",
+      "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5"
+    }
+  ],
+  "records": [
+    {
+      "path": "licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+      "url": "https://www.php.net/license/4_0.txt",
+      "bytes": 1574,
+      "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789",
+      "transformation": "none"
+    },
+    {
+      "path": "licenses/php/selected/php-licensing.html",
+      "url": "https://www.php.net/license/",
+      "bytes": 37810,
+      "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5",
+      "transformation": "none"
+    }
+  ],
+  "legacyProvenanceFiles": [
+    "licenses/php/PHP-8.4.27-LICENSE",
+    "licenses/php/Zend-8.4.27-LICENSE",
+    "licenses/php/ZIP-license.txt"
+  ],
+  "redistributionCleared": false,
+  "publicReleaseApproved": false,
+  "notes": [
+    "The common official PHP License v4 text names both PHP Group and Zend copyright holders.",
+    "The official license page states PHP historical-version election and Zend Engine v3 terms.",
+    "Original source headers and legacy license texts are retained as provenance; no upstream file was relicensed or edited.",
+    "MIT own code, LGPL components, other embedded copyrights and Microsoft binary terms remain separate."
+  ]
+}

@@ -31,7 +31,13 @@ T02는 사용자 승인으로 확정했습니다. 초기 목표 8.2/8.3/8.4, 공
 
 - **T07 GUI 실제 검사 연결·보호 검증 완료**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788)에서 SDK 10.0.403 build 경고·오류 0, 통합 36건을 통과했습니다. 실제 폴더 선택·취소/목표/버튼/엔진·대표 24 fixture·0건/NoFiles/읽기 실패/합성 부분 결과·한국어와 설정 격리·원본 불변·응답/중복 방어를 확인했습니다. 검사 중 반복 닫기에서 실제 PHP 자식 종료와 자체 작업 정리를 기다렸고 팩 준비 중 닫기도 통과했습니다. 1000개 파일의 2000개 문제를 파일별 원값 및 마지막 grid 행까지 대조했습니다. 약 1.49초, Dispatcher 최대 관측 간격 54.72ms, GUI/PHP working set 표본 최대 약 176.85/29.34 MiB이며 해당 fixture/CI의 관측값입니다. [화면 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221) 21건도 통과했습니다. [통합 안내](tests/t07/README.md), [원본 요약·화면·해시](tests/t07/evidence/)를 보존했습니다. Windows 11 배포·완전한 런타임 호환 보장은 아닙니다.
 
-- **T08 부분 검증, 배포 구성 판단 필요**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)에서 SDK 10.0.403 self-contained publish 경고·오류 0, 400파일 출처 매핑과 팩 865파일 inventory를 보존했습니다. 엔진 LGPL 2개의 전체 pinned source checkout을 만들고 배포 파일 302개가 원본과 일치함을 확인했습니다. 자체 MIT LICENSE, 엔진/GPL/PHP/Zend/일부 내장 고지·실제 NuGet 고지와 Microsoft 예외 조건을 준비했습니다. PHP 전체 ZIP의 네이티브 코드 고지·대응 소스/재링크 및 최종 소스 동시 제공은 미완료입니다. [LICENSING.md](LICENSING.md)의 A/B 구성 판단안과 [실측](tests/t08/evidence/)을 확인합니다. 수집기 성공을 배포 허가로 처리하지 않습니다.
+- **T08 부분 검증, B안 승인·최소 CLI 검증**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)에서 SDK 10.0.403 self-contained publish 경고·오류 0, 400파일 출처 매핑과 기존 Full 팩 865파일 inventory를 보존했습니다. 엔진 LGPL 2개의 전체 pinned source checkout을 만들고 배포 파일 302개가 원본과 일치함을 확인했습니다. 자체 MIT LICENSE, 엔진/GPL/PHP/Zend/일부 내장 고지·실제 NuGet 고지와 Microsoft 예외 조건을 준비했습니다. PHP 전체 ZIP의 네이티브 코드 고지·대응 소스/재링크 및 최종 소스 동시 제공은 미완료입니다. [LICENSING.md](LICENSING.md)의 승인된 구성·잔여 관문과 [실측](tests/t08/evidence/)을 확인합니다. 수집기 성공을 배포 허가로 처리하지 않습니다.
+
+- **승인된 T08 B안 기능·설정 포함 소스 대조 통과**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)에서 Full 79개 PHP 파일/96,050,460바이트 → MinimalCli 7개/13,043,511바이트(86.42% 감소), 원본/Full 불변·목표/엔진/lock 불변·기본 24건·annotation 9건·오프라인 각24건을 확인했습니다. 빌드 경고·오류 0, T05 61/T06 21/T07 36건과 생성 소스 변조 대조 9건이 통과했습니다. 원본 소스 6개/31,375파일 및 별도 설정 헤더2개를 추적합니다. raw21/23의 원인은 Windows configure 생성물이었고, 생성물을 포함하면23/23입니다. 이전에 생성 파일 영향이 아니라고 판단한 내용을 정정했습니다. 공식 Windows source ZIP 25,836파일은 pinned Git과 경로가 같고7개 ident 확장만 다릅니다. 공식 빌드의 정적 libiconv/libxml2 선택·버전·PGO 경로도 확인했습니다. [실측·소스/빌드 근거](tests/t08-minimal/evidence/), [재현 안내](tests/t08-minimal/README.md)를 사용합니다. 공식 배포물의 정확한 재현·최종 고지/소스 지속 제공은 미완료로 T08 부분 검증을 유지합니다.
+
+- **T08 네이티브 입력·libiconv 부분 검증**. [Windows 입력 수집](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42008865873)에서 공식 의존성5개의 현재 ZIP·SHA를 기록했습니다. 과거 공식 빌드 입력과 바이트 동일성은 미확인입니다. [Windows 빌드](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42009675167)에서 고정 libiconv 원문 1,148파일을 Git blob과 대조하고 원본 및 버전 표시만 변경한 검증용 사본을 Windows SDK 10.0.26100.0으로 각각 빌드했습니다. 두 정적 라이브러리 해시가 다르고 `_libiconv_version` 링커 심볼이 존재합니다. [실측·해시](tests/t08-minimal/evidence/native-rebuild-provenance.json). 마커는 실제 버전 변경이 아닙니다. 이 단독 빌드만으로는 PHP 재링크를 확인하지 못했으며, 후속 격리 재링크 결과는 아래에 기록합니다. 최종 라이선스/소스 제공은 미검증입니다.
+
+- **T08 격리 PHP 수정 재링크 검증 통과**. [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 고정 PHP 8.4.27 소스와 원본/마커 libiconv를 각각 빌드·링크했습니다. `ICONV_VERSION`은 각각 1.19/1.20으로 확인했으며 1.20은 수정 라이브러리가 사용됐는지 확인하는 테스트 마커입니다. 같은 PHPCS 엔진·목표에서 fixture 24개 결과가 일치했고 검사 대상·fixture·엔진 팩 불변을 확인했습니다. [결과·해시](tests/t08-minimal/evidence/php-relink/provenance.json). 검증용 `--disable-all` 빌드는 공식 배포 PHP 바이너리의 재현이 아니며, 이 실험의 네트워크 차단은 검증하지 않았습니다. 실제 배포와의 정확한 입력 대응, 최종 고지·소스 지속 제공은 미완료입니다.
 
 ## 확정한 향후 버전 확장 구조
 
@@ -45,8 +51,22 @@ WPF 입력·결과 화면과 공유 표시 모델, C# 검사 서비스·manifest
 
 D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니다. 자체 MIT LICENSE와 서드파티 고지 초안을 작성했습니다. 외부 native 구성의 라이선스/대응 소스·최종 배포 조건은 T08 부분 검증으로 남습니다.
 
-## 다음 작업
+## 다음 작업과 사용자 확인
 
-**T08 재개 전 배포 구성 판단 / 고성능 Chat, 후속 검증은 저성능 Work.** [LICENSING.md](LICENSING.md)의 A(전체 PHP ZIP 유지) 또는 B(검사에 필요한 CLI 팩 축소 검토)를 판단합니다. 권장 검토 방향은 B이지만 아직 승인하거나 팩을 변경하지 않았습니다. B도 기본 PHP의 BCMath 등 LGPL 대응 소스 의무가 없어지는 것은 아닙니다. 선택 후 해당 범위의 네이티브 출처/고지·소스/재링크·팩 재검증 관문을 완료하고 T08 상태를 갱신합니다. T10/T09는 T08 미완료로 선행 대기입니다.
+2026-11-06 지시에 따라 사용자 확인 이전의 자동화 준비를 분담했습니다. [소스·고지 동반 ZIP 생성](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646759), [팩 교체·새 OS 프로세스·복원 시험](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [self-contained ZIP 생성·한글 경로 창 표시/종료·파일 불변](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466)이 Windows Server 2022에서 통과했습니다. tests/t10/evidence, tests/t09/evidence와 tests/t08-minimal/evidence/source-sidecar.json에 근거를 보존했습니다. 실행 ZIP은 runner 내부에서만 만들고 외부 업로드하지 않았습니다.
 
-현재 작업은 PR #1~#6 기반 PR #7(t08-licenses)에 있습니다. main 미병합이며 제품/팩/버전·이름/스택을 바꾸지 않았습니다. 새 작업은 최신 원격 상태와 관련 문서를 재확인하고 사용자 구성 판단 없이 파일을 제거하지 않습니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
+2026-11-06 사용자가 PHP v4/Zend v3 후속 조건 선택을 승인했고 license-election.json과 고지·공식 원문에 반영했습니다. 자체 MIT와 독립 LGPL/Microsoft 조건은 별개입니다. 같은 checkout에서 후보와 source sidecar를 만들고 두 ZIP SHA·고지·선택 원문·엔진 레시피·프로젝트 소스 대응을 검증합니다. 로컬 자가사용 후보 생성은 tools/packaging/Prepare-LocalTest.ps1을 사용합니다. 공개 Release와 지속 배포 승인은 별도입니다. Windows 11 직접 시험은 tests/t09/WINDOWS11_TEST.md를 따릅니다. T08 최종 배포 조건과 깨끗한 Windows 11 검증은 아직 완료가 아니며 T09/T10의 개발자 자동시험을 최종 배포 승인으로 승격하지 않습니다.
+
+현재 작업은 Draft PR #8(t08-minimal-cli), main 미병합입니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
+
+[승인 후 페어링 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42058108214)에서 `licenseElectionMade=true`, `scopePassed=true`, `candidateForUserTesting=true`, `publicReleaseApproved=false`를 확인했습니다. 해당 실행·ZIP/고지/소스 해시는 tests/t09/evidence/approved-pair/provenance.json을 따릅니다. 사용자 Windows11 자가사용 시험은 준비 명령과 문서로 진행할 수 있으며 공개배포는 별도입니다.
+
+로컬 준비 명령은 PHP·Composer 사전 설치 없이 공식 PHP ZIP·Composer 2.11.1을 고정 해시로 검증하여 임시 관리 영역에서 사용하고 정리합니다. [전역 PHP·Composer 없는 Windows 전체 준비 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503)에서 엔진 준비·자체 포함 publish·소스/고지 ZIP·앱 기동·페어링·환경 복원·준비 도구 제거를 통과했습니다. 중첩 checkout에서 이전 소스 경로가 269자이고 전역 core.longpaths=false인 조건도 통과했습니다. 엔진·PHP 코어·빌드 레시피의 소스 checkout은 짧은 시스템 TEMP 경로에서 수행하고 성공/실패 시 정리하며, 최종 ZIP·inventory·고지는 artifacts에 보존합니다. 실행 기준 commit과 최신 두 ZIP SHA는 tests/t09/evidence/bootstrap-preparation.json을 따릅니다. 사용자 Windows 11 시험과 공개 배포의 잔여 조건은 유지합니다.
+
+검사 실패 화면은 기존 이유와 엔진 종료 코드·stderr 앞/뒤 일부·JSON 구문 해석 실패 시 stdout 앞/뒤 일부를 표시합니다. 읽기 전용 오류 영역을 클릭하고 Ctrl+A/C로 선택·복사할 수 있습니다. 사용자 시험의 47파일 검사는 완료됐고, 전체 28,817파일 검사는 기존 단일 프로세스에서 128MB와 512MB 한도를 모두 소진했습니다.
+
+사용자 승인에 따라 최대 100개 파일씩 새 PHP 프로세스에서 순차 검사합니다. 각 프로세스의 한도는 512MB이며, exit255와 실제 메모리 소진 진단이 확인된 묶음만 절반으로 재시도합니다. 단일 파일도 실패하면 경로를 표시하고 정상 형제/후속 묶음의 유효 결과는 보존하며 전체는 실패입니다. 재시도 상위 결과는 합산하지 않습니다. 처리 수가 미확인인 최종 결과나 중단이 있으면 전체 처리 수도 미확인이고, 실패 이유에는 검증된 완료 수를 따로 표시합니다. 여러 성공 프로세스에 하나의 OS 종료 코드를 만들어 붙이지 않습니다.
+
+[Windows 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379)에서 T05 71건/T06 25건/T07 36건을 통과했습니다. 실제 PHPCS의 자체 생성 28,817파일 검사, 205입력의 100/100/5 분할·새 프로세스·정확한 합산, 실제 PHP 메모리 소진 후 재분할 복구, 복수 단일 실패 경로·정상 결과 보존, 비메모리/불량 UTF8/JSON 메시지 오인 방지, 후속 묶음 도중 Dispose의 결과 보존·자식 종료·다음 실행 차단·임시 정리를 검증했습니다. [후보 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858759)도 통과했습니다. 최신 수정 기준과 해당 후보 ZIP 해시는 tests/t09/evidence/batched-scans.json을 따릅니다. 이전 memory-and-copy/scan-failure-diagnostics는 메모리 한도·진단 표시 보완, bootstrap-preparation은 긴 경로 준비 검증 근거입니다.
+
+다음은 tests/t09/WINDOWS11_TEST.md의 로컬 진단 재빌드로 사용자 전체 프로젝트를 재검사하는 것입니다. 자체 생성 파일 통과가 실제 프로젝트 또는 파일 하나의 512MB 내 완료를 보장하지 않으며, 해당 재시험과 나머지 Windows 11 직접 시험은 남습니다.

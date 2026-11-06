@@ -1,0 +1,28 @@
+name: T08 native build input inventory
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/license-audit/Collect-NativeInputs.ps1'
+      - '.github/workflows/t08-native-inputs.yml'
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Inventory official current dependency ZIP bytes
+        shell: pwsh
+        run: ./tools/license-audit/Collect-NativeInputs.ps1
+      - name: Preserve candidate inputs and observed hashes
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-native-inputs
+          path: artifacts/t08-native-inputs/
+          if-no-files-found: warn
+          retention-days: 7

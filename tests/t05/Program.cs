@@ -39,6 +39,8 @@ internal static class Program
                 ParserCases();
                 await FixtureCases();
                 await ServiceCases();
+                await MemoryCases();
+                await BatchCases();
                 await PackCases();
                 await SyntheticProcessCases();
             }
@@ -156,6 +158,22 @@ internal static class Program
         {
             foreach (var text in new[] { "pollution\n" + Report((file, [])).ToJsonString(), "{", "null", "[]" })
             { var r = Parse(text); Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null, "Malformed JSON looked successful"); }
+        });
+        Pure("parser preserves bounded fatal stdout diagnostics and actual exit", () =>
+        {
+            const string fatal = "Fatal error: Allowed memory size of 134217728 bytes exhausted";
+            var r = Parse(fatal, 255, "PHP Fatal error: memory exhausted");
+            Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null && r.EngineExitCode == 255,
+                "Fatal output changed failure or exit semantics");
+            Check(r.EngineStandardOutputPreview == fatal && r.EngineStandardError == "PHP Fatal error: memory exhausted",
+                "Fatal stdout/stderr was hidden");
+            r = Parse("BEGIN" + new string('x', 10000) + fatal, 255);
+            Check(r.EngineStandardOutputPreview is { Length: < 2200 } preview
+                && preview.StartsWith("BEGIN", StringComparison.Ordinal) && preview.EndsWith(fatal, StringComparison.Ordinal),
+                "Large malformed output lost bounded head/tail diagnostics");
+            Check(Parse(Report((file, [])).ToJsonString()).EngineStandardOutputPreview is null,
+                "Valid reports unnecessarily retained a stdout preview");
+            Check(Parse("", 255).EngineStandardOutputPreview is null, "Empty output invented engine text");
         });
         Pure("parser rejects duplicate JSON keys", () =>
         {
@@ -479,6 +497,211 @@ internal static class Program
             }
         });
     }
+    private static async Task MemoryCases()
+    {
+        await Case("synthetic engine allocation fails at 128M and service permits 512M", async () =>
+        {
+            var copy = CopyPack("memory-capacity-pack");
+            var project = NewProject("memory-capacity-subject");
+            var file = Subject(project, "subject.php");
+            var before = Snapshot(project);
+            var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(Report((file, [])).ToJsonString()));
+            PatchEntry(copy, "<?php $buffer = str_repeat('x', 160 * 1024 * 1024); "
+                + "if (ini_get('memory_limit') !== '512M') { fwrite(STDERR, 'Unexpected memory limit'); exit(255); } "
+                + "echo base64_decode('" + payload + "');\n");
+            var baseline = await Run(Path.Combine(copy, "php/php.exe"),
+                new[] { "-n", "-d", "memory_limit=128M", Path.Combine(copy, "engine/vendor/squizlabs/php_codesniffer/bin/phpcs") }, copy);
+            Check(baseline.Exit == 255 && (baseline.Out + baseline.Error).Contains("Allowed memory size", StringComparison.Ordinal),
+                "128M capacity control did not reproduce a PHP allocation failure");
+            await using var service = new ScanService(copy);
+            var result = await service.ScanAsync(new ScanRequest(project, Pack.Targets[^1].Version, true));
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 1 && result.Issues.Count == 0,
+                "Service did not supply the bounded 512M engine limit: " + result.FailureMessage);
+            Unchanged(before, project);
+        });
+        await Case("actual engine completes 28817 generated files without changing inputs", async () =>
+        {
+            var project = NewProject("large-file-count");
+            for (var index = 0; index < 28817; index++)
+                Subject(project, index.ToString("D5") + ".php", "<?php echo 1;\n");
+            var before = Snapshot(project);
+            var result = await Scan(project, Pack.Targets[^1].Version);
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 28817
+                && result.ProcessedFileCount == 28817 && result.Issues.Count == 0,
+                "Large actual PHPCS scan failed: " + result.FailureMessage + " " + result.EngineStandardError);
+            Unchanged(before, project);
+        });
+    }
+
+    private static (string Pack, string Project, string Log) BatchFixture(string name, int count,
+        string mode = "normal", int threshold = 0, string poison = "00105.php")
+    {
+        var pack = CopyPack("batch-pack-" + name);
+        var project = NewProject("batch-subject-" + name);
+        for (var index = 0; index < count; index++)
+            Subject(project, index.ToString("D5") + ".php");
+        var log = Path.Combine(Area, "batch-" + name + ".jsonl");
+        var config = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { mode, threshold, poison, log })));
+        // This is trusted, test-owned engine code. It never executes inspected source.
+        PatchEntry(pack, "<?php $cfg=json_decode(base64_decode('" + config + "'),true);\n" + """
+            $list=null;
+            foreach ($argv as $arg) {
+                if (str_starts_with($arg, '--file-list=')) { $list=substr($arg,12); }
+            }
+            $inputs=file($list, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            file_put_contents($cfg['log'], json_encode(['pid'=>getmypid(),'files'=>$inputs,'memory'=>ini_get('memory_limit')])."\n", FILE_APPEND);
+            $poison=count(array_intersect(explode('|',$cfg['poison']), array_map('basename',$inputs)))>0;
+            if ($cfg['mode']==='cancel' && $poison) { sleep(120); }
+            if ($cfg['mode']==='unrelated' && $poison) {
+                fwrite(STDOUT,'{broken'); fwrite(STDERR,'Unrelated engine failure'); exit(255);
+            }
+            if ($cfg['mode']==='utf8' && $poison) {
+                fwrite(STDOUT,"\xFF"); fwrite(STDERR,'Invalid stdout encoding'); exit(255);
+            }
+            $memory=($cfg['mode']==='split' && count($inputs)>$cfg['threshold'])
+                || ($cfg['mode']==='poison' && $poison);
+            if ($memory && count($inputs)===1) {
+                echo 'Fatal error: Allowed memory size of 536870912 bytes exhausted'; exit(255);
+            }
+            $files=[];
+            foreach ($inputs as $input) {
+                $message=$cfg['mode']==='message' ? 'Fatal error: Allowed memory size of 536870912 bytes exhausted' : 'Test-owned batch finding';
+                $files[$input]=['errors'=>1,'warnings'=>0,'messages'=>[['message'=>$message,'source'=>'T05.Batch','severity'=>5,'type'=>'ERROR','line'=>1,'column'=>1,'fixable'=>false]]];
+            }
+            echo json_encode(['totals'=>['errors'=>count($inputs),'warnings'=>0,'fixable'=>0],'files'=>$files], JSON_THROW_ON_ERROR);
+            if ($memory) {
+                if ($cfg['mode']==='split') { echo "\n"; $allocation=str_repeat('x',600*1024*1024); }
+                fwrite(STDERR,'The PHP_CodeSniffer "phpcs" command ran out of memory.'); exit(255);
+            }
+            exit($cfg['mode']==='message' ? 255 : 2);
+            """);
+        return (pack, project, log);
+    }
+
+    private static HashSet<string> TempChildren()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "DK-PHP-Compatibility-Checker");
+        return Directory.Exists(root) ? Directory.GetDirectories(root).ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static bool ProcessExists(int pid)
+    {
+        try { using var process = Process.GetProcessById(pid); return !process.HasExited; }
+        catch (ArgumentException) { return false; }
+    }
+
+    private static JsonElement[] BatchAttempts(string log)
+    {
+        if (!File.Exists(log)) return [];
+        using var stream = new FileStream(log, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reader = new StreamReader(stream);
+        // The helper appends one newline-terminated record per invocation. A
+        // concurrently observed incomplete final record is not an entered batch.
+        return reader.ReadToEnd().Split('\n').SkipLast(1).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line =>
+        {
+            using var document = JsonDocument.Parse(line);
+            return document.RootElement.Clone();
+        }).ToArray();
+    }
+
+    private static async Task BatchCases()
+    {
+        await Case("batch service uses fresh processes of at most 100 and aggregates exact findings", async () =>
+        {
+            var f = BatchFixture("normal", 205); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var attempts = BatchAttempts(f.Log);
+            Check(attempts.Select(x => x.GetProperty("files").GetArrayLength()).SequenceEqual(new[] { 100, 100, 5 }), "Initial batches differ from 100/100/5");
+            Check(attempts.All(x => x.GetProperty("memory").GetString() == "512M"), "A batch changed memory policy");
+            Check(attempts.Select(x => x.GetProperty("pid").GetInt32()).Distinct().Count() == 3, "Batches reused the same PHP process");
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 205 && result.ProcessedFileCount == 205
+                && result.ErrorCount == 205 && result.Issues.Select(x => x.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 205,
+                "Batch findings/counts were lost or duplicated");
+            Check(result.EngineExitCode is null, "Multiple processes fabricated one OS exit code"); Unchanged(before, f.Project);
+        });
+        await Case("memory retry discards failed-parent partial findings and fully recovers", async () =>
+        {
+            var f = BatchFixture("split", 27, "split", 10); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 7, "Memory retry did not halve to bounded leaves");
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 27 && result.Issues.Count == 27
+                && result.ErrorCount == 27 && result.Issues.Select(x => x.FilePath).Distinct().Count() == 27,
+                "Recovered memory parents leaked duplicate findings or failure status");
+            Check(string.IsNullOrEmpty(result.FailureMessage) && string.IsNullOrEmpty(result.EngineStandardError), "Recovered parents leaked terminal diagnostics");
+            Unchanged(before, f.Project);
+        });
+        await Case("singleton memory failures name all inputs and preserve siblings and later batches", async () =>
+        {
+            var f = BatchFixture("poison", 205, "poison", poison: "00105.php|00106.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var poison = Path.Combine(f.Project, "00105.php");
+            var secondPoison = Path.Combine(f.Project, "00106.php");
+            Check(result.Status == ScanStatus.Failed && result.SelectedFileCount == 205 && result.ProcessedFileCount is null
+                && result.EngineExitCode == 255 && result.Issues.Count == 203 && result.ErrorCount == 203,
+                "Singleton failure hid good results or became a completed scan");
+            Check(result.FailureMessage?.Contains(poison, StringComparison.Ordinal) == true
+                && result.FailureMessage.Contains(secondPoison, StringComparison.Ordinal), "Failed singleton inputs were not all identified");
+            Check(result.Issues.All(x => !x.FilePath.Equals(poison, StringComparison.OrdinalIgnoreCase)
+                && !x.FilePath.Equals(secondPoison, StringComparison.OrdinalIgnoreCase)), "Failed input invented findings");
+            Check(BatchAttempts(f.Log).Any(x => x.GetProperty("files").GetArrayLength() == 1
+                && x.GetProperty("files")[0].GetString() == poison), "Poison batch never narrowed to one file");
+            Unchanged(before, f.Project);
+        });
+        await Case("non-memory exit 255 is not retried and later batches are retained", async () =>
+        {
+            var f = BatchFixture("unrelated", 205, "unrelated", poison: "00000.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255,
+                "Unrelated failure triggered memory retries or discarded later successes");
+            Unchanged(before, f.Project);
+        });
+        await Case("invalid UTF8 keeps the observed exit and does not discard later batches", async () =>
+        {
+            var f = BatchFixture("utf8", 205, "utf8", poison: "00000.php");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255
+                && result.EngineStandardError == "Invalid stdout encoding", "Invalid UTF8 lost actual metadata or later results");
+        });
+        await Case("memory words in JSON findings do not trigger memory retries", async () =>
+        {
+            var f = BatchFixture("message", 27, "message");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 1 && result.Status == ScanStatus.Failed && result.Issues.Count == 27,
+                "Quoted finding text was misclassified as a PHP allocation fatal");
+        });
+        await Case("Dispose during a later batch preserves earlier results and starts no following batch", async () =>
+        {
+            var f = BatchFixture("cancel", 205, "cancel", poison: "00100.php");
+            var before = Snapshot(f.Project); var beforeTemp = TempChildren();
+            var service = new ScanService(f.Pack); int? pid = null;
+            try
+            {
+                var scan = service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+                var deadline = DateTime.UtcNow.AddSeconds(30);
+                while (BatchAttempts(f.Log).Length < 2 && DateTime.UtcNow < deadline && !scan.IsCompleted)
+                    await Task.Delay(50);
+                var attempts = BatchAttempts(f.Log); Check(attempts.Length == 2, "Second batch did not enter the controlled wait");
+                pid = attempts[^1].GetProperty("pid").GetInt32();
+                await service.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(15));
+                var result = await scan.WaitAsync(TimeSpan.FromSeconds(5));
+                Check(result.Status == ScanStatus.Failed && result.Issues.Count == 100 && result.SelectedFileCount == 205
+                    && result.ProcessedFileCount is null, "Cancellation lost earlier findings or claimed all files complete");
+                Check(BatchAttempts(f.Log).Length == 2 && !ProcessExists(pid.Value), "Dispose started another batch or left a child alive");
+                Check(TempChildren().SetEquals(beforeTemp), "Batch work folder survived disposal"); Unchanged(before, f.Project);
+            }
+            finally { await service.DisposeAsync(); }
+        });
+    }
+
     private static async Task<(int Exit, string Out, string Error)> Run(string executable, string[] args, string cwd)
     {
         var start = new ProcessStartInfo(executable) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = cwd, CreateNoWindow = true };

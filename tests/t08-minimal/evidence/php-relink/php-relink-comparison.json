@@ -1,0 +1,403 @@
+{
+  "scopePassed": true,
+  "original": {
+    "phpVersion": "8.4.27",
+    "iconvVersion": "1.19",
+    "phpExeSha256": "416fc1a237e1098eeb3d9613f23af1fd0500eb25f02fe5c0ab49655149fa9eaa",
+    "phpDllSha256": "14e79d93fbee5cc483c521768bcc2e436f936c814c285a5d628c3ef23097f6c8"
+  },
+  "marker": {
+    "phpVersion": "8.4.27",
+    "iconvVersion": "1.20",
+    "phpExeSha256": "f2f1fc9d3cba7fd4931134526f3de21d826fbcaa12d66ee97eee7b19d9379da3",
+    "phpDllSha256": "b4d10c0394c55195b520b7db11a724e36806580d09636d7fa95609bc261cbab5"
+  },
+  "cases": [
+    {
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.2",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.3",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.4",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "file": "compatibility/mysql_control.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/mysql_control.php",
+      "target": "8.3",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/mysql_control.php",
+      "target": "8.4",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.3",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+          "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 6,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.4",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+          "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 6,
+          "column": 16
+        }
+      ]
+    },
+    {
+      "file": "compatibility/get_class_control.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/get_class_control.php",
+      "target": "8.3",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/get_class_control.php",
+      "target": "8.4",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.3",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.4",
+      "expectation": "finding",
+      "exit": 2,
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Implicitly marking a parameter as nullable is deprecated since PHP 8.4. Update the type to be explicitly nullable instead. Found implicitly nullable parameter: $value.",
+          "source": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 2,
+          "column": 39
+        }
+      ]
+    },
+    {
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.3",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.4",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.2",
+      "expectation": "observe_only",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.3",
+      "expectation": "observe_only",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.4",
+      "expectation": "observe_only",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/declared_property.php",
+      "target": "8.2",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/declared_property.php",
+      "target": "8.3",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    },
+    {
+      "file": "compatibility/declared_property.php",
+      "target": "8.4",
+      "expectation": "no_findings",
+      "exit": 0,
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": []
+    }
+  ],
+  "comparedCases": 24,
+  "subjectUnchanged": true,
+  "repositoryFixturesUnchanged": true,
+  "enginePackUnchanged": true,
+  "markerMeaning": "Audit-only libiconv variable change, not a library version update",
+  "limits": [
+    "No proof of original official binary reproducibility",
+    "No network blocking test",
+    "No legal/redistribution clearance",
+    "No product pack replacement"
+  ]
+}

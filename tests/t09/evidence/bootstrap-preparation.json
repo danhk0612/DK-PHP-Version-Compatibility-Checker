@@ -1,0 +1,253 @@
+{
+  "testedCommit": "bd2a400b52b05574b26aca1b076a2264c62bd0dd",
+  "workflowRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503",
+  "runId": 42147647503,
+  "jobId": 127662899375,
+  "environment": "windows-2022 x64 / PowerShell 7 / SDK 10.0.403",
+  "globalPhpAndComposerRemovedFromPath": true,
+  "commandsConfirmedAbsentBeforePreparation": true,
+  "entryPoint": "pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1",
+  "entryPointCompleted": true,
+  "processEnvironmentRestored": true,
+  "bootstrapToolsRemoved": true,
+  "metadataArtifact": {
+    "id": 13471091844,
+    "sha256": "409107f9843e09fc19e79bd4a38017993a59959dfe1782a97834112889aaa411",
+    "bytes": 146674,
+    "containsProductZip": false
+  },
+  "pairing": {
+    "scopePassed": true,
+    "licenseElectionMade": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchive": "DK-PHP-Compatibility-audit-only.zip",
+    "binaryArchiveSha256": "d01dc773dabbc0543e79e97047c81c59168b2bf084468df13965a3dad07d93b9",
+    "sourceArchive": "DK-PHP-Compatibility-sources-and-notices.zip",
+    "sourceArchiveSha256": "d96b11ece7c352f4952167ccd9dcaad18a49592619f32f393cf5933a73615472",
+    "sourceManifestSha256": "a9f76f1ac25981918658c6820c4730f87584d3f3eee6b6fc208c36e7be13f503",
+    "licenseElectionSha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1",
+    "matchedNotices": [
+      {
+        "path": "LICENSE",
+        "sha256": "5a13982c96f5944565b18a3831965647c19f68ff65347c14cb6bb2edfd7ab43c"
+      },
+      {
+        "path": "license-election.json",
+        "sha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1"
+      },
+      {
+        "path": "LICENSING.md",
+        "sha256": "5706e168d338bebade78a6d1c1e0a7f47ddc233b0a3684848d5ba125e9cf165f"
+      },
+      {
+        "path": "THIRD-PARTY-NOTICES.md",
+        "sha256": "9954f2b1cc5b087f9c203f268808bb50b9a74d3569a56ff48321a4c4877bd121"
+      },
+      {
+        "path": "licenses/common/GPL-3.0.txt",
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NET-Library-License.txt",
+        "sha256": "543874f493cff185162e0dace87eb81b705257f09c89418ed64a9a47b2a211a6"
+      },
+      {
+        "path": "licenses/dotnet/UPSTREAM-LICENSE-INFORMATION.md",
+        "sha256": "87f9974735fa705f5ed13367de111b94d09573205c4b90e07cf6d8301081dc10"
+      },
+      {
+        "path": "licenses/dotnet/UPSTREAM-WINDOWS-LICENSE-INFORMATION.md",
+        "sha256": "3bdf7142d570f11780d1a5fcb6cbe47f5cf4a15bc634acf8db93fe3be8837119"
+      },
+      {
+        "path": "licenses/dotnet/Windows-SDK-License.txt",
+        "sha256": "b71e309726559116012f5cf674391086a90dfe8349f93467096676862f57abe8"
+      },
+      {
+        "path": "licenses/engine/Composer-generated-autoloader-LICENSE",
+        "sha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024"
+      },
+      {
+        "path": "licenses/engine/composer-installer-1.1.0-LICENSE.md",
+        "sha256": "ff8952f52de516acd28e4ed2b8da83742fad13678515782d502a4086dd0d8045"
+      },
+      {
+        "path": "licenses/engine/PHPCompatibility-10.0.0-alpha2-LICENSE",
+        "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+      },
+      {
+        "path": "licenses/engine/PHPCSUtils-1.2.3-LICENSE",
+        "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+      },
+      {
+        "path": "licenses/engine/PHP_CodeSniffer-4.0.4-licence.txt",
+        "sha256": "ad489e425c9a48b9fe97b8c11dd5f422606aa72e7726a438cd01ebee22d8ba80"
+      },
+      {
+        "path": "licenses/php/PHP-8.4.27-LICENSE",
+        "sha256": "b42e4df5e50e6ecda1047d503d6d91d71032d09ed1027ba1ef29eed26f890c5a"
+      },
+      {
+        "path": "licenses/php/Zend-8.4.27-LICENSE",
+        "sha256": "509aeb3be64e428d7e0004ce224620ab01bf94adaacefbb449611939df56bc5b"
+      },
+      {
+        "path": "licenses/php/ZIP-license.txt",
+        "sha256": "098bdc5b9808fc16bef4b7154e876ac08ca249549727cde3b3f3f3b431e27cca"
+      },
+      {
+        "path": "licenses/php/ZIP-readme-redist-bins.txt",
+        "sha256": "c24722e9e3c627e3c7e8a5efd50c5c0aa1d9f689c3e03dc28a632f1f6218ca5e"
+      },
+      {
+        "path": "tools/license-audit/license-election.json",
+        "sha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1"
+      },
+      {
+        "path": "licenses/php/embedded/lexbor-LICENSE",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "path": "licenses/php/embedded/libavifinfo-LICENSE",
+        "sha256": "5d40dcb72f934c3d08e10ddb8ba4844de17bf6f9aabc1a382aacf8a8bf4567f8"
+      },
+      {
+        "path": "licenses/php/embedded/libbcmath-LICENSE",
+        "sha256": "7586d794d062a2a4a16513d95358aecaee4450e2062f7e64ce5ce63ac7212fd6"
+      },
+      {
+        "path": "licenses/php/embedded/libcperciva-license-header.txt",
+        "sha256": "2fb38b20f64cda46d0539ffbdbcce3e35ac37e181b2452556d4bd1347518b94d"
+      },
+      {
+        "path": "licenses/php/embedded/libcperciva-sse2-license-header.txt",
+        "sha256": "52c8a6828d2339e651800498f858e1feab26217bf498fd5d576b745099a36690"
+      },
+      {
+        "path": "licenses/php/embedded/libmagic-LICENSE",
+        "sha256": "0bfa856a9930bddadbef95d1be1cf4e163c0be618e76ea3275caaf255283e274"
+      },
+      {
+        "path": "licenses/php/embedded/libmbfl-LICENSE",
+        "sha256": "31d9cadcc63c15b79fc59c70f043956104a34c75f23f0ac0ada53c1edfeb88ca"
+      },
+      {
+        "path": "licenses/php/selected/php-licensing.html",
+        "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5"
+      },
+      {
+        "path": "licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+        "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789"
+      },
+      {
+        "path": "licenses/php/selected/README.md",
+        "sha256": "5217c7be1d40b429207183d84150f2d3c1862b86c024ed999c688f8252e0dc4e"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/LICENSE.TXT",
+        "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/Microsoft.NETCore.App.Host.win-x64.nuspec",
+        "sha256": "50bf648cd76c1fd8e4b7728d9e8f316930d6997852181d1afae95a2cc764463c"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+        "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/LICENSE.TXT",
+        "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/Microsoft.NETCore.App.Runtime.win-x64.nuspec",
+        "sha256": "8c99e7284e82388e25102c91372872d7138d031f2261f8cdbab63b650ddbc78c"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+        "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/LICENSE",
+        "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/Microsoft.WindowsDesktop.App.Runtime.win-x64.nuspec",
+        "sha256": "896132be4b59c2d631b6337c97f032293a7bcf4d51fac8b1589c0bbc39de3a3c"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-winforms-THIRD-PARTY-NOTICES.TXT",
+        "sha256": "5a412b38efae0b162dc0893b319023f4cd14a8985a0f9f9ae01ac052b37a36eb"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-wpf-THIRD-PARTY-NOTICES.TXT",
+        "sha256": "d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9"
+      },
+      {
+        "path": "licenses/php/core-source/libargon2/LICENSE",
+        "sha256": "220f8736a89ff51c92ef3d497f413b48e6cf1df3d6278bc909c6308c78e1718e"
+      },
+      {
+        "path": "licenses/php/core-source/libxml2/Copyright",
+        "sha256": "c5c63674f8a83c4d2e385d96d1c670a03cb871ba2927755467017317878574bd"
+      },
+      {
+        "path": "licenses/php/core-source/wineditline/COPYING",
+        "sha256": "e1a9520a9b3143ad64adb356c5d2fca6bb09a3ad3950cf1f7213946543582440"
+      },
+      {
+        "path": "licenses/php/core-source/zlib/LICENSE",
+        "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+      },
+      {
+        "path": "licenses/php/core-source/libiconv/source/COPYING",
+        "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      {
+        "path": "licenses/php/core-source/libiconv/source/COPYING.LIB",
+        "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+      },
+      {
+        "path": "licenses/php/core-source/libiconv/source/libcharset/COPYING.LIB",
+        "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+      },
+      {
+        "path": "licenses/php/core-source/zlib/contrib/dotzlib/LICENSE_1_0.txt",
+        "sha256": "36266a8fd073568394cb81cdb2b124f7fdae2c64c1a7ed09db34b4d22efa2951"
+      },
+      {
+        "path": "licenses/php/core-source/zlib/contrib/minizip/LICENSE.Info-Zip",
+        "sha256": "fc686023047ce5ce3a18a9b8a777156f0e475929d3de06bac279f3c025d2b2ca"
+      },
+      {
+        "path": "licenses/php/core-source/php/ext/date/lib/LICENSE.rst",
+        "sha256": "2120d029e7c67b9d08c1f665f1c3ed581206f00970b664cccdebe1419bf566e9"
+      }
+    ],
+    "engineRecipeBytesMatched": true,
+    "currentProjectSourceBytesMatched": true,
+    "allSourceMembersVerified": true,
+    "fullBinarySourceCorrespondenceVerified": false,
+    "durablePairedPublicationVerified": false,
+    "redistributionCleared": false,
+    "limits": [
+      "Pairing identifies exact local audit archives, not legal clearance",
+      "Official PHP build correspondence remains reviewed separately",
+      "Clean Windows 11 and missing-CRT behavior require user testing",
+      "Keep both archives and this manifest together; CI retention is temporary"
+    ]
+  },
+  "limits": [
+    "Windows Server CI is not the user's Windows 11 test.",
+    "No release, tag, or merge was performed."
+  ],
+  "longPathRegression": {
+    "nestedCheckout": "local-test/portable",
+    "formerSourcePathLength": 269,
+    "globalCoreLongpaths": false,
+    "sourceCheckouts": "short unique system TEMP directories; per-checkout core.longpaths=true",
+    "engineSourceCollectionPassed": true,
+    "coreAndBuildSourceCollectionPassed": true
+  }
+}

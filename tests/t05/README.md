@@ -14,6 +14,10 @@ dotnet run --project tests/t05/T05.Verification.csproj -c Release --no-build -- 
 
 프로세스 회귀는 별도 임시 팩 복사본의 PHPCS 진입점에 자체 작성한 PHP helper를 배치하고 해당 manifest·증거 파일 해시를 맞춘 **합성 테스트 도구**를 사용합니다. stdout/stderr 각 1MiB의 동시 수집 및 single-flight/Dispose의 자식 종료·자체 작업 폴더 정리를 확인합니다. 이 팩의 규칙/버전 지원 검증을 주장하지 않으며 검사 대상 PHP를 실행하지 않습니다. 제품에 임의 명령 실행 seam을 추가하지 않습니다.
 
+분할 회귀는 205개 입력의 100/100/5 새 프로세스 호출·정확한 합산, 메모리 실패만 재분할하고 상위 결과를 버리는 동작, 복수 실패 파일 식별과 정상 결과 보존, 기타 exit255/잘못된 UTF8/JSON 메시지 속 메모리 단어의 오인 방지, 후속 묶음 대기 중 Dispose의 자식 종료·이전 결과 보존·다음 실행 차단을 확인합니다. 합성 엔진의 split 모드는 실제 PHP 512M 한도를 초과하는 할당을 시도하고 나머지 모드는 별도로 프로토콜을 대조합니다. 자체 생성 28,817개 파일은 승인된 실제 PHPCS로 검사하며 사용자 프로젝트의 복잡도·메모리 사용을 재현했다고 주장하지 않습니다.
+
 실측은 `artifacts/t05/summary.json`, `T05_SUMMARY_JSON=` 콘솔 출력에 남깁니다. 하나라도 실패하면 exit 1입니다. 테스트 구현 자체는 실행 성공 근거가 아니며 실제 Windows CI 결과를 별도 확인합니다. GUI 연결(T07), 깨끗한 Windows 11 배포(T09), 팩 교체/복원 통합(T10)은 이 검증으로 완료 처리하지 않습니다.
 
-최종 검증: [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517), Windows Server 2022 x64·SDK 10.0.403에서 build 경고 0/오류 0, 회귀 61건 통과. 실제 24 fixture를 포함하며 전체 통과 항목은 [summary.json](evidence/summary.json)에 있습니다. 초기 실행에서 발견한 테스트 JSON 생성 오류와 PHPCS 확장자 대소문자 차이를 보완한 뒤 전체를 다시 실행했습니다. 검증 head `f08de1dae5d91474ca1672d0cd128bcc0b69c784` 이후의 문서/실측 보존 커밋은 실행 코드를 변경하지 않습니다. [팩 구성](evidence/pack-manifest.json)과 [아티팩트/실측 SHA-256](evidence/provenance.json)을 보존하며 JSON 원본 바이트는 gitattributes로 유지합니다.
+최초 T05 완료 근거: [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517), Windows Server 2022 x64·SDK 10.0.403에서 build 경고 0/오류 0, 회귀 61건 통과. 실제 24 fixture를 포함하며 전체 통과 항목은 [summary.json](evidence/summary.json)에 있습니다. 초기 실행에서 발견한 테스트 JSON 생성 오류와 PHPCS 확장자 대소문자 차이를 보완한 뒤 전체를 다시 실행했습니다. 검증 head `f08de1dae5d91474ca1672d0cd128bcc0b69c784` 이후의 문서/실측 보존 커밋은 실행 코드를 변경하지 않습니다. [팩 구성](evidence/pack-manifest.json)과 [아티팩트/실측 SHA-256](evidence/provenance.json)을 보존하며 JSON 원본 바이트는 gitattributes로 유지합니다.
+
+현재 분할 검사 검증은 [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379)의 71건이며, 최신 실행/아티팩트·범위는 [batched-scans.json](../t09/evidence/batched-scans.json)을 따릅니다. 위 evidence/summary.json은 초기 61건의 원문 근거입니다.
