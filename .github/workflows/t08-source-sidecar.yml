@@ -38,6 +38,12 @@ jobs:
           foreach ($name in @('php','composer')) {
             if (Get-Command $name -ErrorAction SilentlyContinue) { throw "Unexpected global tool: $name" }
           }
+          # Reproduce a normal Windows Git installation without a global long-path opt-in.
+          git config --global core.longpaths false
+          if ($LASTEXITCODE -ne 0) { throw 'Could not set the long-path regression condition.' }
+          $formerPath=Join-Path $pwd 'artifacts/t08/downloads/source-phpcompatibility-php-compatibility/PHPCompatibility/Tests/ControlStructures/ForbiddenSwitchWithMultipleDefaultBlocksParseError1UnitTest.inc'
+          if ($formerPath.Length -le 260) { throw 'Runner path is too short to exercise the reported failure.' }
+          Write-Output "Former source path length: $($formerPath.Length); global core.longpaths=false"
           $beforePath=$env:PATH
           $beforePhprc=$env:PHPRC
           $beforeScanDir=$env:PHP_INI_SCAN_DIR

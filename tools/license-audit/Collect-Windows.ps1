@@ -239,29 +239,37 @@ foreach ($name in @('phpcompatibility/php-compatibility', 'phpcsstandards/phpcsu
     $url = $dependency.source.url
     if ($reference -notmatch '^[0-9a-f]{40}$' -or $url -notmatch '^https://github\.com/[^/]+/[^/]+\.git$') { throw 'Unexpected locked source identity.' }
     $safe = $name.Replace('/', '-')
-    $checkout = Join-Path $out ('downloads/source-' + $safe)
-    & git init --quiet $checkout
-    if ($LASTEXITCODE -ne 0) { throw 'Source checkout init failed.' }
-    & git -C $checkout config core.autocrlf false
-    & git -C $checkout config core.eol lf
-    & git -C $checkout remote add origin $url
-    & git -C $checkout fetch --no-tags --depth 1 origin $reference
-    if ($LASTEXITCODE -ne 0) { throw 'Pinned LGPL source fetch failed.' }
-    & git -C $checkout checkout --detach --quiet FETCH_HEAD
-    if ($LASTEXITCODE -ne 0) { throw 'Pinned LGPL source checkout failed.' }
-    $actual = (& git -C $checkout rev-parse HEAD).Trim()
-    if ($actual -ne $reference) { throw 'Source checkout commit differs from lock.' }
-    $sourceOut = Join-Path $out 'corresponding-source'
-    New-Item $sourceOut -ItemType Directory -Force | Out-Null
-    $archiveName = "$safe-$reference.zip"
-    $inventoryName = "$safe-$reference.json"
-    & python $helper $checkout (Join-Path $pack ('engine/vendor/' + $name)) (Join-Path $sourceOut $archiveName) (Join-Path $sourceOut $inventoryName)
-    if ($LASTEXITCODE -ne 0) { throw 'Full source enumeration/byte check failed.' }
-    $sourceInventory = Get-Content (Join-Path $sourceOut $inventoryName) -Raw | ConvertFrom-Json
-    $sourceRecords += [ordered]@{ package = $name; version = $dependency.version; sourceUrl = $url; sourceCommit = $actual
-        archivePath = ('corresponding-source/' + $archiveName); archiveSha256 = $sourceInventory.archiveSha256; archiveBytes = $sourceInventory.archiveBytes
-        inventoryPath = ('corresponding-source/' + $inventoryName); inventorySha256 = (Digest (Join-Path $sourceOut $inventoryName)); trackedFileCount = $sourceInventory.trackedFileCount
-        vendorFileCount = $sourceInventory.vendorFileCount; vendorFilesMatchCheckout = $sourceInventory.vendorFilesMatchCheckout }
+    # Full upstream test names exceed MAX_PATH under a nested user checkout.
+    # Keep the temporary source checkout outside the repository; retain ZIP/inventory evidence.
+    $checkout = Join-Path ([IO.Path]::GetTempPath()) ('dk-src-' + [guid]::NewGuid().ToString('N'))
+    try {
+        & git init --quiet $checkout
+        if ($LASTEXITCODE -ne 0) { throw 'Source checkout init failed.' }
+        & git -C $checkout config core.longpaths true
+        if ($LASTEXITCODE -ne 0) { throw 'Source checkout long-path configuration failed.' }
+        & git -C $checkout config core.autocrlf false
+        & git -C $checkout config core.eol lf
+        & git -C $checkout remote add origin $url
+        & git -C $checkout fetch --no-tags --depth 1 origin $reference
+        if ($LASTEXITCODE -ne 0) { throw 'Pinned LGPL source fetch failed.' }
+        & git -C $checkout checkout --detach --quiet FETCH_HEAD
+        if ($LASTEXITCODE -ne 0) { throw 'Pinned LGPL source checkout failed.' }
+        $actual = (& git -C $checkout rev-parse HEAD).Trim()
+        if ($actual -ne $reference) { throw 'Source checkout commit differs from lock.' }
+        $sourceOut = Join-Path $out 'corresponding-source'
+        New-Item $sourceOut -ItemType Directory -Force | Out-Null
+        $archiveName = "$safe-$reference.zip"
+        $inventoryName = "$safe-$reference.json"
+        & python $helper $checkout (Join-Path $pack ('engine/vendor/' + $name)) (Join-Path $sourceOut $archiveName) (Join-Path $sourceOut $inventoryName)
+        if ($LASTEXITCODE -ne 0) { throw 'Full source enumeration/byte check failed.' }
+        $sourceInventory = Get-Content (Join-Path $sourceOut $inventoryName) -Raw | ConvertFrom-Json
+        $sourceRecords += [ordered]@{ package = $name; version = $dependency.version; sourceUrl = $url; sourceCommit = $actual
+            archivePath = ('corresponding-source/' + $archiveName); archiveSha256 = $sourceInventory.archiveSha256; archiveBytes = $sourceInventory.archiveBytes
+            inventoryPath = ('corresponding-source/' + $inventoryName); inventorySha256 = (Digest (Join-Path $sourceOut $inventoryName)); trackedFileCount = $sourceInventory.trackedFileCount
+            vendorFileCount = $sourceInventory.vendorFileCount; vendorFilesMatchCheckout = $sourceInventory.vendorFilesMatchCheckout }
+    } finally {
+        if (Test-Path -LiteralPath $checkout) { Remove-Item -LiteralPath $checkout -Recurse -Force }
+    }
 }
 Save-Json $sourceRecords (Join-Path $out 'corresponding-source.json')
 $manifest = Get-Content (Join-Path $pack 'manifest.json') -Raw | ConvertFrom-Json
