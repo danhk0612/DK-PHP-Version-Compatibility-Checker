@@ -14,7 +14,7 @@ Push-Location $repo
 $oldPath=$env:PATH
 $oldPhprc=$env:PHPRC
 $oldScanDir=$env:PHP_INI_SCAN_DIR
-$bootstrap=Join-Path $repo ('artifacts/local-preparation-' + [guid]::NewGuid())
+$bootstrap=[IO.Path]::GetFullPath((Join-Path $repo ('artifacts/local-preparation-' + [guid]::NewGuid())))
 try {
     # Preparation tools are private to this invocation, never installed globally.
     ./tools/packaging/Prepare-Bootstrap.ps1 -OutputDirectory $bootstrap

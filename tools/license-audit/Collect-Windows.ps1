@@ -17,7 +17,12 @@ function Save-Json($Value, [string]$Path) {
 function Digest([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Relative([string]$Root, [string]$Path) { [IO.Path]::GetRelativePath($Root, $Path).Replace('\', '/') }
 function File-Record([string]$Root, [IO.FileInfo]$File) {
-    $version = if ($File.Extension -in @('.exe', '.dll')) { [Diagnostics.FileVersionInfo]::GetVersionInfo($File.FullName) } else { $null }
+    $version = if ($File.Extension -in @('.exe', '.dll')) {
+        [Diagnostics.FileVersionInfo]::GetVersionInfo($File.FullName)
+    } else {
+        [pscustomobject]@{ FileVersion = $null; ProductVersion = $null; CompanyName = $null
+            ProductName = $null; OriginalFilename = $null; LegalCopyright = $null }
+    }
     [ordered]@{ path = (Relative $Root $File.FullName); bytes = $File.Length; sha256 = (Digest $File.FullName)
         fileVersion = $version.FileVersion; productVersion = $version.ProductVersion; companyName = $version.CompanyName
         productName = $version.ProductName; originalFilename = $version.OriginalFilename; copyright = $version.LegalCopyright }
