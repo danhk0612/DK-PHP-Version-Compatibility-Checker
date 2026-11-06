@@ -94,7 +94,9 @@ public sealed class ScanService : IAsyncDisposable
             var extensions = new[] { "php", "inc" }
                 .Concat(selected.Select(file => Path.GetExtension(file)[1..]))
                 .Distinct(StringComparer.Ordinal);
-            foreach (var argument in new[] { "-n", pack.PhpcsEntryPoint, "--standard=" + pack.RulesetPath,
+            // Bound the isolated engine at 512 MiB; PHP's 128 MiB default is too
+            // small for the reported large-project scan. No user php.ini is read.
+            foreach (var argument in new[] { "-n", "-d", "memory_limit=512M", pack.PhpcsEntryPoint, "--standard=" + pack.RulesetPath,
                 "--runtime-set", "testVersion", request.TargetPhpVersion, "--report=json", "-q", "--no-cache",
                 "--ignore-annotations", "--extensions=" + string.Join(",", extensions), "--file-list=" + fileList })
                 start.ArgumentList.Add(argument);

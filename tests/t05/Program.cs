@@ -39,6 +39,7 @@ internal static class Program
                 ParserCases();
                 await FixtureCases();
                 await ServiceCases();
+                await MemoryCases();
                 await PackCases();
                 await SyntheticProcessCases();
             }
@@ -495,6 +496,42 @@ internal static class Program
             }
         });
     }
+    private static async Task MemoryCases()
+    {
+        await Case("synthetic engine allocation fails at 128M and service permits 512M", async () =>
+        {
+            var copy = CopyPack("memory-capacity-pack");
+            var project = NewProject("memory-capacity-subject");
+            var file = Subject(project, "subject.php");
+            var before = Snapshot(project);
+            var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(Report((file, [])).ToJsonString()));
+            PatchEntry(copy, "<?php $buffer = str_repeat('x', 160 * 1024 * 1024); "
+                + "if (ini_get('memory_limit') !== '512M') { fwrite(STDERR, 'Unexpected memory limit'); exit(255); } "
+                + "echo base64_decode('" + payload + "');\n");
+            var baseline = await Run(Path.Combine(copy, "php/php.exe"),
+                new[] { "-n", "-d", "memory_limit=128M", Path.Combine(copy, "engine/vendor/squizlabs/php_codesniffer/bin/phpcs") }, copy);
+            Check(baseline.Exit == 255 && (baseline.Out + baseline.Error).Contains("Allowed memory size", StringComparison.Ordinal),
+                "128M capacity control did not reproduce a PHP allocation failure");
+            await using var service = new ScanService(copy);
+            var result = await service.ScanAsync(new ScanRequest(project, Pack.Targets[^1].Version, true));
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 1 && result.Issues.Count == 0,
+                "Service did not supply the bounded 512M engine limit: " + result.FailureMessage);
+            Unchanged(before, project);
+        });
+        await Case("actual engine completes 28817 generated files without changing inputs", async () =>
+        {
+            var project = NewProject("large-file-count");
+            for (var index = 0; index < 28817; index++)
+                Subject(project, index.ToString("D5") + ".php", "<?php echo 1;\n");
+            var before = Snapshot(project);
+            var result = await Scan(project, Pack.Targets[^1].Version);
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 28817
+                && result.ProcessedFileCount == 28817 && result.Issues.Count == 0,
+                "Large actual PHPCS scan failed: " + result.FailureMessage + " " + result.EngineStandardError);
+            Unchanged(before, project);
+        });
+    }
+
     private static async Task<(int Exit, string Out, string Error)> Run(string executable, string[] args, string cwd)
     {
         var start = new ProcessStartInfo(executable) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = cwd, CreateNoWindow = true };

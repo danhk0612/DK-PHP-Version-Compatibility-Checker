@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -223,7 +224,7 @@ internal static class Program
             Model.ApplyResult(Result(ScanStatus.Failed, 17, null, failure: "검증용: 파일을 읽을 수 없습니다.")); Pump();
             Check(Model.ProcessedFileCountText == "미확인" && Model.FailureText.Contains("읽을", StringComparison.Ordinal), "Failure count/reason hidden");
             AssertCounts("17", "미확인", "0", "0"); AssertTextBindings();
-            Check(Control<TextBlock>("FailureTextBlock").Text == Model.FailureText, "Visible failure reason differs");
+            Check(Control<TextBox>("FailureTextBlock").Text == Model.FailureText, "Visible failure reason differs");
             Capture("failed-unknown");
         });
         Case("failed scan exposes engine exit and both diagnostic streams in the existing view", () =>
@@ -240,9 +241,41 @@ internal static class Program
                 && Model.FailureText.Contains("255", StringComparison.Ordinal)
                 && Model.FailureText.Contains(memoryError, StringComparison.Ordinal)
                 && Model.FailureText.Contains(output, StringComparison.Ordinal), "Engine failure detail is hidden or replaced the original reason");
-            Check(Control<TextBlock>("FailureTextBlock").Text == Model.FailureText, "Engine diagnostics are absent from the visible binding");
+            Check(Control<TextBox>("FailureTextBlock").Text == Model.FailureText, "Engine diagnostics are absent from the visible binding");
             AssertCounts("28817", "미확인", "0", "0"); AssertTextBindings();
             Capture("failed-engine-diagnostics");
+        });
+        Case("failure detail supports actual clipboard copy while remaining read-only", () =>
+        {
+            Model.ApplyResult(Result(ScanStatus.Failed, 28817, null, failure: "검증용 JSON 실패") with
+            {
+                EngineExitCode = 255,
+                EngineStandardError = "PHP Fatal error: Allowed memory size exhausted" + Environment.NewLine + "두 번째 줄",
+                EngineStandardOutputPreview = "stdout diagnostic"
+            }); Pump();
+            var detail = Control<TextBox>("FailureTextBlock");
+            Check(detail.IsVisible && detail.IsReadOnly && detail.TextWrapping == TextWrapping.Wrap,
+                "Failure detail is not visible, read-only and wrapped");
+            var previousText = Clipboard.ContainsText() ? Clipboard.GetText() : null;
+            try
+            {
+                Clipboard.Clear();
+                detail.Focus(); detail.SelectAll(); Pump();
+                Check(detail.SelectedText == Model.FailureText, "Selecting failure detail lost text");
+                Check(ApplicationCommands.Copy.CanExecute(null, detail), "Copy command unavailable for selected failure detail");
+                ApplicationCommands.Copy.Execute(null, detail); Pump();
+                Check(Clipboard.ContainsText() && Clipboard.GetText() == Model.FailureText,
+                    "Actual clipboard content differs from the complete failure detail");
+                Clipboard.SetText("MUST-NOT-REPLACE-FAILURE");
+                Check(!ApplicationCommands.Paste.CanExecute(null, detail), "Read-only failure detail permits paste");
+                ApplicationCommands.Paste.Execute(null, detail); Pump();
+                Check(detail.Text == Model.FailureText, "Paste changed the displayed failure detail");
+            }
+            finally
+            {
+                if (previousText is null) Clipboard.Clear(); else Clipboard.SetText(previousText);
+                detail.Select(0, 0);
+            }
         });
         Case("oversized stderr keeps first and last diagnostics within a bounded view", () =>
         {
@@ -265,7 +298,8 @@ internal static class Program
                     EngineStandardError = "HIDDEN-ERROR",
                     EngineStandardOutputPreview = "HIDDEN-OUTPUT"
                 }); Pump();
-                Check(Model.FailureText == "" && Control<TextBlock>("FailureTextBlock").Text == "", "Non-failure state exposes diagnostic metadata");
+                Check(Model.FailureText == "" && Control<TextBox>("FailureTextBlock").Text == ""
+                    && Control<TextBox>("FailureTextBlock").Visibility == Visibility.Collapsed, "Non-failure state exposes diagnostic metadata");
             }
         });
         Case("partial failed findings and excluded paths are displayed as incomplete", () =>
@@ -295,7 +329,7 @@ internal static class Program
             var other = Path.Combine(Area, "other-source"); Directory.CreateDirectory(other);
             Control<TextBox>("SourceFolderTextBox").Text = other; Pump();
             Check(Model.Status == ScanStatus.Idle && Model.Issues.Count == 0 && Model.ExcludedPaths.Count == 0 && Model.FailureText == "", "Input edit retained old result context");
-            Check(Control<DataGrid>("IssuesGrid").Items.Count == 0 && Control<ListBox>("ExcludedPathsList").Items.Count == 0 && Control<TextBlock>("FailureTextBlock").Text == "", "Visible stale rows/failure survived edit");
+            Check(Control<DataGrid>("IssuesGrid").Items.Count == 0 && Control<ListBox>("ExcludedPathsList").Items.Count == 0 && Control<TextBox>("FailureTextBlock").Text == "", "Visible stale rows/failure survived edit");
             Model.SourceDirectory = Project; Pump();
         });
         Case("result request restores the associated visible inputs", () =>
@@ -364,7 +398,7 @@ internal static class Program
         {
             Await(Window!.LoadPackAsync(Path.Combine(Area, "missing-pack"))); Pump();
             Check(Model.Status == ScanStatus.Failed && Model.Targets.Count == 0 && Model.SelectedTarget is null && !Model.CanPrepareScan, "Missing pack retained usable support/input state");
-            Check(!string.IsNullOrWhiteSpace(Control<TextBlock>("FailureTextBlock").Text), "Missing pack reason invisible");
+            Check(!string.IsNullOrWhiteSpace(Control<TextBox>("FailureTextBlock").Text), "Missing pack reason invisible");
         });
         Case("invalid manifest clears targets instead of inventing support", () =>
         {
@@ -403,7 +437,7 @@ internal static class Program
     {
         Check(Control<TextBlock>("StatusTextBlock").Text == Model.StatusText, "Status binding differs");
         Check(Control<TextBlock>("SummaryTextBlock").Text == Model.SummaryText, "Summary binding differs");
-        Check(Control<TextBlock>("FailureTextBlock").Text == Model.FailureText, "Failure binding differs");
+        Check(Control<TextBox>("FailureTextBlock").Text == Model.FailureText, "Failure binding differs");
         Check(Control<TextBlock>("LimitationsTextBlock").Text == Model.LimitationsText, "Limitations binding differs");
     }
     private static T Control<T>(string name) where T : DependencyObject =>
