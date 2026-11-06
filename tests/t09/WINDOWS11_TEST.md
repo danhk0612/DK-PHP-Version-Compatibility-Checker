@@ -12,6 +12,21 @@ pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1
 
 완료 시 표시되는 실행 ZIP, 소스·고지 ZIP, `paired-candidate.json`을 한 세트로 보존합니다. `paired-candidate.json`의 두 SHA-256을 실제 ZIP과 대조하고 압축 해제해 테스트합니다. 준비 명령은 로컬 파일만 생성하며 ZIP을 외부에 업로드하지 않습니다. 명령이 실패하면 오류와 `artifacts/`의 근거를 보존하고 실패 상태를 통과로 취급하지 않습니다.
 
+## 검사 실패 원인 확인용 로컬 진단 빌드
+
+이미 단일 준비 명령을 완료했고 `artifacts/t09/stage`가 있는 PC에서, 실패 상세 표시 등 코드 변경을 빠르게 확인할 때만 사용합니다. 저장소에서 `git pull --ff-only` 후 아래를 실행합니다. 기존 stage/ZIP/페어링 근거는 보존하며 새 폴더는 로컬 진단용 빌드입니다. 기존 소스 ZIP·paired-candidate.json은 이 새 앱 바이너리를 검증한 근거가 아닙니다. 정식 로컬 후보를 다시 만들 때는 단일 준비 명령과 페어링 검증을 사용합니다.
+
+```powershell
+$diagnostic = Join-Path $PWD ('artifacts/diagnostic-' + [guid]::NewGuid().ToString('N'))
+Copy-Item -LiteralPath './artifacts/t09/stage' -Destination $diagnostic -Recurse
+if (-not $?) { throw '기존 준비 폴더 복사 실패' }
+dotnet publish ./src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release -r win-x64 --self-contained true '-p:PublishSingleFile=false' '-p:PublishTrimmed=false' -o $diagnostic
+if ($LASTEXITCODE -ne 0) { throw '진단용 빌드 실패' }
+& (Join-Path $diagnostic 'Dk.PhpCompatibilityChecker.exe')
+```
+
+실패하면 상태 영역에서 엔진 종료 코드·상세 오류·JSON 해석에 실패한 표준 출력 일부를 확인합니다. 긴 내용은 기존 상태 영역에서 스크롤합니다. 메모리 한도는 이 수정으로 바꾸지 않았습니다. 원본 소스나 진단 전체를 자동 전송하지 않습니다.
+
 ## 준비
 
 1. Windows 11 x64의 버전·빌드, VC++ x64 런타임 설치 여부, 일반 사용자 계정 여부를 기록합니다. 가능하면 개발 도구/.NET SDK가 없는 VM 또는 PC를 사용합니다. .NET Desktop Runtime의 별도 설치 없이 후보가 실행되는지 확인합니다.
