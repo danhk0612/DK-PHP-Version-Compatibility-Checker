@@ -4,7 +4,7 @@
 
 ## 로컬 후보 생성: 단일 진입 명령
 
-새 checkout에서 PowerShell 7을 열고 아래 명령을 실행합니다. 준비에는 Windows x64, .NET SDK 10.0.403, Python 3.12 이상, Git, 준비용 PHP 8.4와 Composer 2, 인터넷이 필요합니다. 기존 출력은 덮어쓰지 않으므로 재시도 시 새 checkout을 사용합니다. 팩 준비의 방화벽 검증 때문에 **준비 명령에만 관리자 권한**이 필요합니다. 생성된 앱의 기본 실행/검사는 일반 사용자로 수행합니다. Visual Studio C++ 컴파일러는 이 후보 생성에 필요하지 않습니다.
+새 checkout에서 PowerShell 7을 열고 아래 명령을 실행합니다. 준비에는 Windows x64, .NET SDK 10.0.403, Python 3.12 이상, Git, 인터넷이 필요합니다. PHP·Composer 사전 설치는 필요하지 않습니다. 준비 명령이 공식 PHP ZIP과 Composer 2.11.1을 고정 SHA-256으로 검증한 뒤 저장소 artifacts 아래 임시 준비 폴더에서만 사용하고 종료 시 제거합니다. 사용자 PATH·PHP 설정은 실행 중에만 변경하며 종료 시 복원합니다. 이 준비용 전체 PHP는 제품의 최소 CLI 팩에 포함하지 않습니다. 기존 출력은 덮어쓰지 않으므로 재시도 시 새 checkout을 사용합니다. 팩 준비의 방화벽 검증 때문에 **준비 명령에만 관리자 권한**이 필요합니다. 생성된 앱의 기본 실행/검사는 일반 사용자로 수행합니다. Visual Studio C++ 컴파일러는 이 후보 생성에 필요하지 않습니다.
 
 ```powershell
 pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1

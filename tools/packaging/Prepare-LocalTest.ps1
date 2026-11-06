@@ -5,13 +5,28 @@ $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Windows x64 PowerShell 7 required.' }
 $repo=(Resolve-Path $RepoRoot).Path
-foreach ($command in @('dotnet','python','git','php','composer')) { Get-Command $command -ErrorAction Stop | Out-Null }
+foreach ($command in @('dotnet','python','git')) { Get-Command $command -ErrorAction Stop | Out-Null }
 if ((& dotnet --version).Trim() -ne '10.0.403') { throw 'Install .NET SDK 10.0.403 before preparation.' }
 foreach ($path in @('artifacts/t08','artifacts/t08-core-source','artifacts/t08-build-source','artifacts/t08-source-sidecar','artifacts/t09')) {
     if (Test-Path -LiteralPath (Join-Path $repo $path)) { throw "Preserve previous output and use a fresh checkout: $path" }
 }
 Push-Location $repo
+$oldPath=$env:PATH
+$oldPhprc=$env:PHPRC
+$oldScanDir=$env:PHP_INI_SCAN_DIR
+$bootstrap=Join-Path $repo ('artifacts/local-preparation-' + [guid]::NewGuid())
 try {
+    # Preparation tools are private to this invocation, never installed globally.
+    ./tools/packaging/Prepare-Bootstrap.ps1 -OutputDirectory $bootstrap
+    $env:PATH="$bootstrap;$bootstrap/php;$oldPath"
+    $env:PHPRC=Join-Path $bootstrap 'php/php.ini'
+    $env:PHP_INI_SCAN_DIR=Join-Path $bootstrap 'empty-ini'
+    foreach ($name in @('php','composer')) {
+        $resolved=(Get-Command $name -ErrorAction Stop).Source
+        if (-not $resolved.StartsWith($bootstrap + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) {
+            throw "Preparation command did not resolve to the private tool: $name"
+        }
+    }
     if (-not (Test-Path tools/runtime)) { ./tools/engine-pack/Prepare-Pack.ps1 }
     python tools/engine-pack/verify_pack.py tools/runtime
     if ($LASTEXITCODE -ne 0) { throw 'Engine pack validation failed' }
@@ -33,4 +48,10 @@ try {
     Write-Output "$repo/artifacts/t08-source-sidecar/DK-PHP-Compatibility-sources-and-notices.zip"
     Write-Output "$repo/artifacts/t09/evidence/paired-candidate.json"
     Write-Output 'Follow tests/t09/WINDOWS11_TEST.md. Public redistribution is not approved.'
-} finally { Pop-Location }
+} finally {
+    $env:PATH=$oldPath
+    $env:PHPRC=$oldPhprc
+    $env:PHP_INI_SCAN_DIR=$oldScanDir
+    if (Test-Path -LiteralPath $bootstrap) { Remove-Item -LiteralPath $bootstrap -Recurse -Force }
+    Pop-Location
+}
