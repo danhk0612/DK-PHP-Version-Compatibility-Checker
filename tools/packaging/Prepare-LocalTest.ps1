@@ -22,7 +22,7 @@ try {
     $env:PHPRC=Join-Path $bootstrap 'php/php.ini'
     $env:PHP_INI_SCAN_DIR=Join-Path $bootstrap 'empty-ini'
     foreach ($name in @('php','composer')) {
-        $resolved=(Get-Command $name -ErrorAction Stop).Source
+        $resolved=[IO.Path]::GetFullPath((Get-Command $name -ErrorAction Stop).Source)
         if (-not $resolved.StartsWith($bootstrap + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)) {
             throw "Preparation command did not resolve to the private tool: $name"
         }
