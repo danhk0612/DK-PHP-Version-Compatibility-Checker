@@ -27,7 +27,7 @@ CI와 동일한 기본 창 검증은 빌드 후 `./tests/t03/Test-Window.ps1`로
 - 서비스는 검사마다 팩을 다시 검증합니다. .php/.inc를 읽기 전용으로 열거하고 reparse 경로는 제외 목록으로 알립니다. 루트/상위 링크·읽기 불가·소스/팩/작업 폴더 중첩은 실패입니다. Windows directory handle의 NT 경로도 비교하여 SUBST 드라이브 별칭 중첩을 검사하며 해석할 수 없으면 작업 폴더를 만들기 전에 실패합니다.
 - 대상 밖 사용자 임시 영역의 file-list, 전용 ruleset/cwd, -n·ini 환경 격리·ignore-annotations·no-cache를 사용합니다. shell과 대상 PHP/Composer/bootstrap을 실행하지 않습니다. stdout/stderr는 동시에 raw stream으로 수집한 뒤 엄격한 UTF-8로 해석합니다.
 - `PhpcsReportParser`는 원문 행·파일/전체 totals·선택 파일 대응과 PHPCS4의 exit bit(수정가능 1/나머지 2)를 대조합니다. 같은 줄 다른 규칙도 보존합니다. 실패/부분 결과를 Completed 0건으로 만들지 않습니다.
-- ScanResult는 기존 positional 계약을 유지하며 ExcludedPaths(항상 목록), EngineExitCode(int?), EngineStandardError(string?) init 메타데이터를 추가했습니다. ProcessedFileCount의 null은 미확인입니다. stderr를 별도 엔진 ERROR/WARNING으로 집계하지 않습니다.
+- ScanResult는 기존 positional 계약을 유지하며 ExcludedPaths(항상 목록), EngineExitCode(int?), EngineStandardError(string?), EngineStandardOutputPreview(string?) init 메타데이터를 사용합니다. JSON 구문 해석이 실패한 경우에만 stdout 앞/뒤 일부(각 최대 1,024자와 생략 표시)를 보존하며 정상 보고서 전체는 추가 보존하지 않습니다. 실패 화면에는 종료 코드·stderr 앞/뒤 일부(총 최대 2,048자)·stdout 미리보기를 표시하고 성공/대상 없음에는 표시하지 않습니다. 별도 진단 파일이나 자동 업로드를 만들지 않습니다. ProcessedFileCount의 null은 미확인입니다. stderr를 별도 엔진 ERROR/WARNING으로 집계하지 않습니다.
 
 [검증 콘솔](../tests/t05/README.md)은 제품 프로젝트를 참조하는 별도 테스트 전용 콘솔이며 새 제품 계층·패키지·Python/Composer 런타임 의존성을 추가하지 않습니다. T05는 GUI/XAML을 변경하지 않았으며 T06이 화면·표시 모델을 추가했습니다. 실제 검사 GUI 응답·버튼 흐름은 T07에서 검증했으며 깨끗한 Windows 11/CRT 배포·팩 교체 통합 검증은 T09/T10에 남아 있습니다. 네트워크 공유의 여러 별칭 조합이나 외부 동시 파일 변경에 대한 완전한 격리를 보장하지 않습니다.
 

@@ -157,6 +157,22 @@ internal static class Program
             foreach (var text in new[] { "pollution\n" + Report((file, [])).ToJsonString(), "{", "null", "[]" })
             { var r = Parse(text); Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null, "Malformed JSON looked successful"); }
         });
+        Pure("parser preserves bounded fatal stdout diagnostics and actual exit", () =>
+        {
+            const string fatal = "Fatal error: Allowed memory size of 134217728 bytes exhausted";
+            var r = Parse(fatal, 255, "PHP Fatal error: memory exhausted");
+            Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null && r.EngineExitCode == 255,
+                "Fatal output changed failure or exit semantics");
+            Check(r.EngineStandardOutputPreview == fatal && r.EngineStandardError == "PHP Fatal error: memory exhausted",
+                "Fatal stdout/stderr was hidden");
+            r = Parse("BEGIN" + new string('x', 10000) + fatal, 255);
+            Check(r.EngineStandardOutputPreview is { Length: < 2200 } preview
+                && preview.StartsWith("BEGIN", StringComparison.Ordinal) && preview.EndsWith(fatal, StringComparison.Ordinal),
+                "Large malformed output lost bounded head/tail diagnostics");
+            Check(Parse(Report((file, [])).ToJsonString()).EngineStandardOutputPreview is null,
+                "Valid reports unnecessarily retained a stdout preview");
+            Check(Parse("", 255).EngineStandardOutputPreview is null, "Empty output invented engine text");
+        });
         Pure("parser rejects duplicate JSON keys", () =>
         {
             var text = Report((file, [])).ToJsonString().Replace("\"totals\":", "\"totals\":{},\"totals\":", StringComparison.Ordinal);

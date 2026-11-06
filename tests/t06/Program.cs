@@ -226,6 +226,48 @@ internal static class Program
             Check(Control<TextBlock>("FailureTextBlock").Text == Model.FailureText, "Visible failure reason differs");
             Capture("failed-unknown");
         });
+        Case("failed scan exposes engine exit and both diagnostic streams in the existing view", () =>
+        {
+            const string memoryError = "PHP Fatal error: Allowed memory size exhausted in bundled engine";
+            const string output = "Fatal error: diagnostic from engine stdout";
+            Model.ApplyResult(Result(ScanStatus.Failed, 28817, null, failure: "검사 엔진의 JSON 출력이 올바르지 않습니다.") with
+            {
+                EngineExitCode = 255,
+                EngineStandardError = memoryError,
+                EngineStandardOutputPreview = output
+            }); Pump();
+            Check(Model.FailureText.Contains("JSON", StringComparison.Ordinal)
+                && Model.FailureText.Contains("255", StringComparison.Ordinal)
+                && Model.FailureText.Contains(memoryError, StringComparison.Ordinal)
+                && Model.FailureText.Contains(output, StringComparison.Ordinal), "Engine failure detail is hidden or replaced the original reason");
+            Check(Control<TextBlock>("FailureTextBlock").Text == Model.FailureText, "Engine diagnostics are absent from the visible binding");
+            AssertCounts("28817", "미확인", "0", "0"); AssertTextBindings();
+            Capture("failed-engine-diagnostics");
+        });
+        Case("oversized stderr keeps first and last diagnostics within a bounded view", () =>
+        {
+            var error = "FIRST-DIAGNOSTIC" + new string('x', 10000) + "LAST-DIAGNOSTIC";
+            Model.ApplyResult(Result(ScanStatus.Failed, 1, null, failure: "검사 실패") with
+                { EngineExitCode = 255, EngineStandardError = error }); Pump();
+            Check(Model.FailureText.Contains("FIRST-DIAGNOSTIC", StringComparison.Ordinal)
+                && Model.FailureText.Contains("LAST-DIAGNOSTIC", StringComparison.Ordinal)
+                && Model.FailureText.Contains("중간 생략", StringComparison.Ordinal)
+                && Model.FailureText.Length < 2200, "Large stderr is unbounded or loses its first/last detail");
+            AssertTextBindings();
+        });
+        Case("completed and empty scans do not expose stale engine diagnostic metadata", () =>
+        {
+            foreach (var status in new[] { ScanStatus.Completed, ScanStatus.NoFiles })
+            {
+                Model.ApplyResult(Result(status, 0, 0) with
+                {
+                    EngineExitCode = 255,
+                    EngineStandardError = "HIDDEN-ERROR",
+                    EngineStandardOutputPreview = "HIDDEN-OUTPUT"
+                }); Pump();
+                Check(Model.FailureText == "" && Control<TextBlock>("FailureTextBlock").Text == "", "Non-failure state exposes diagnostic metadata");
+            }
+        });
         Case("partial failed findings and excluded paths are displayed as incomplete", () =>
         {
             var excluded = new[] { Path.Combine(Project, "제외된 링크"), Path.Combine(Project, "cloud-placeholder.php") };
@@ -243,6 +285,13 @@ internal static class Program
         });
         Case("input edits clear stale findings, exclusions and failure diagnostics", () =>
         {
+            Model.ApplyResult(Result(ScanStatus.Failed, 10, 1, LongIssues(), "검사 실패") with
+            {
+                ExcludedPaths = new[] { Path.Combine(Project, "제외된 링크") },
+                EngineExitCode = 255,
+                EngineStandardError = "STALE-ERROR",
+                EngineStandardOutputPreview = "STALE-OUTPUT"
+            }); Pump();
             var other = Path.Combine(Area, "other-source"); Directory.CreateDirectory(other);
             Control<TextBox>("SourceFolderTextBox").Text = other; Pump();
             Check(Model.Status == ScanStatus.Idle && Model.Issues.Count == 0 && Model.ExcludedPaths.Count == 0 && Model.FailureText == "", "Input edit retained old result context");

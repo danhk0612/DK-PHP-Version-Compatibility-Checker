@@ -94,7 +94,25 @@ public sealed class ScanPresentation : INotifyPropertyChanged
         _ => "검사할 폴더와 목표 PHP 버전을 선택하세요."
     };
 
-    public string FailureText => _result?.FailureMessage ?? _packFailure;
+    public string FailureText
+    {
+        get
+        {
+            var message = _result?.FailureMessage ?? _packFailure;
+            if (_status != ScanStatus.Failed || _result is null)
+                return message;
+            var details = new List<string>();
+            if (!string.IsNullOrWhiteSpace(message))
+                details.Add(message);
+            if (_result.EngineExitCode is int exitCode)
+                details.Add("검사 엔진 종료 코드: " + Count(exitCode));
+            if (!string.IsNullOrWhiteSpace(_result.EngineStandardError))
+                details.Add("검사 엔진 상세 오류:" + Environment.NewLine + DiagnosticPreview(_result.EngineStandardError));
+            if (!string.IsNullOrWhiteSpace(_result.EngineStandardOutputPreview))
+                details.Add("검사 엔진 표준 출력 일부:" + Environment.NewLine + _result.EngineStandardOutputPreview);
+            return string.Join(Environment.NewLine, details);
+        }
+    }
     public string SelectedFileCountText => _result is null ? UnavailableCount : Count(_result.SelectedFileCount);
     public string ProcessedFileCountText => _result is null ? UnavailableCount
         : _result.ProcessedFileCount is int count ? Count(count) : "미확인";
@@ -182,6 +200,16 @@ public sealed class ScanPresentation : INotifyPropertyChanged
 
     private string UnavailableCount => _status == ScanStatus.Idle ? "—" : "미확인";
     private static string Count(int value) => value.ToString(CultureInfo.InvariantCulture);
+
+    private static string DiagnosticPreview(string text)
+    {
+        const int limit = 2048;
+        const string marker = "\n[중간 생략]\n";
+        if (text.Length <= limit)
+            return text;
+        var side = (limit - marker.Length) / 2;
+        return text[..side] + marker + text[^side..];
+    }
 
     private void ResetResult()
     {

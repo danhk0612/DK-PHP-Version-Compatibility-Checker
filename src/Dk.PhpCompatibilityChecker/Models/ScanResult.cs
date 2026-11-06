@@ -14,4 +14,5 @@ public sealed record ScanResult(
     public IReadOnlyList<string> ExcludedPaths { get; init; } = Array.Empty<string>();
     public int? EngineExitCode { get; init; }
     public string? EngineStandardError { get; init; }
+    public string? EngineStandardOutputPreview { get; init; }
 }
