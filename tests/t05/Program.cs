@@ -555,6 +555,9 @@ internal static class Program
             if ($cfg['mode']==='unrelated' && $poison) {
                 fwrite(STDOUT,'{broken'); fwrite(STDERR,'Unrelated engine failure'); exit(255);
             }
+            if ($cfg['mode']==='utf8' && $poison) {
+                fwrite(STDOUT,"\xFF"); fwrite(STDERR,'Invalid stdout encoding'); exit(255);
+            }
             $memory=($cfg['mode']==='split' && count($inputs)>$cfg['threshold'])
                 || ($cfg['mode']==='poison' && $poison);
             if ($memory && count($inputs)===1) {
@@ -657,6 +660,15 @@ internal static class Program
                 && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255,
                 "Unrelated failure triggered memory retries or discarded later successes");
             Unchanged(before, f.Project);
+        });
+        await Case("invalid UTF8 keeps the observed exit and does not discard later batches", async () =>
+        {
+            var f = BatchFixture("utf8", 205, "utf8", poison: "00000.php");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255
+                && result.EngineStandardError == "Invalid stdout encoding", "Invalid UTF8 lost actual metadata or later results");
         });
         await Case("memory words in JSON findings do not trigger memory retries", async () =>
         {

@@ -179,8 +179,21 @@ public sealed class ScanService : IAsyncDisposable
                 throw;
             }
             await Task.WhenAll(output, error).ConfigureAwait(false);
-            var stderr = new UTF8Encoding(false, true).GetString(await error.ConfigureAwait(false));
-            var stdout = new UTF8Encoding(false, true).GetString(await output.ConfigureAwait(false));
+            string? stderr = null;
+            string stdout;
+            try
+            {
+                stderr = new UTF8Encoding(false, true).GetString(await error.ConfigureAwait(false));
+                stdout = new UTF8Encoding(false, true).GetString(await output.ConfigureAwait(false));
+            }
+            catch (DecoderFallbackException ex)
+            {
+                // Keep the observed exit/diagnostic metadata even when a pipe
+                // cannot be decoded. Other batches can still retain good results.
+                return (new ScanResult(request, ScanStatus.Failed, batch.Count, null, 0, 0,
+                    Array.Empty<ScanIssue>(), pack.EngineInfo, ex.Message)
+                    { EngineExitCode = process.ExitCode, EngineStandardError = stderr }, false);
+            }
             cancellationToken.ThrowIfCancellationRequested();
             var parsed = new PhpcsReportParser().Parse(request, batch, pack.EngineInfo, process.ExitCode, stdout, stderr);
             const string fatalMemory = @"(?m)^\s*(?:PHP )?Fatal error:\s+Allowed memory size of \d+ bytes exhausted";
@@ -216,8 +229,9 @@ public sealed class ScanService : IAsyncDisposable
         var completedAll = interrupted is null && failure is null && completed == selectedCount && selectedCount > 0;
         int? processed = interrupted is null && leaves.All(leaf => leaf.ProcessedFileCount.HasValue)
             ? leaves.Sum(leaf => leaf.ProcessedFileCount!.Value) : null;
-        var failureMessage = interrupted ?? (failure is null ? null : string.Join(Environment.NewLine,
-            leaves.Where(leaf => leaf.Status == ScanStatus.Failed).Select(leaf => leaf.FailureMessage)));
+        var messages = new[] { interrupted }.Concat(leaves.Where(leaf => leaf.Status == ScanStatus.Failed)
+            .Select(leaf => leaf.FailureMessage)).Where(message => !string.IsNullOrEmpty(message)).ToArray();
+        var failureMessage = messages.Length == 0 ? null : string.Join(Environment.NewLine, messages);
         if (!completedAll && selectedCount > 0)
         {
             var failedInputs = leaves.Where(leaf => leaf.Status == ScanStatus.Failed).Sum(leaf => leaf.SelectedFileCount);
