@@ -17,13 +17,17 @@ jobs:
   prepare:
     runs-on: windows-2022
     timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: local-test/portable
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          path: local-test/portable
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
-          global-json-file: global.json
+          global-json-file: local-test/portable/global.json
       - name: Prepare full local candidate without global PHP or Composer
         shell: pwsh
         run: |
@@ -58,10 +62,10 @@ jobs:
         with:
           name: t08-source-sidecar
           path: |
-            artifacts/t08-source-sidecar/source-sidecar.json
-            artifacts/t09/evidence/
-            artifacts/t08-core-source/core-source.json
-            artifacts/t08-build-source/build-source.json
-            artifacts/t08/corresponding-source.json
+            local-test/portable/artifacts/t08-source-sidecar/source-sidecar.json
+            local-test/portable/artifacts/t09/evidence/
+            local-test/portable/artifacts/t08-core-source/core-source.json
+            local-test/portable/artifacts/t08-build-source/build-source.json
+            local-test/portable/artifacts/t08/corresponding-source.json
           retention-days: 7
           if-no-files-found: warn
