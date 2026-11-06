@@ -9,6 +9,7 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import subprocess
+import tempfile
 import zipfile
 
 PHP_VERSION = '8.4.27'
@@ -104,95 +105,98 @@ def raw_blobs(checkout, entries):
 
 def collect_source(identity, output):
     name, commit = identity['name'], identity['commit']
-    checkout = output / 'checkouts' / name
-    checkout.parent.mkdir(parents=True, exist_ok=True)
-    run(['git', 'init', '--quiet', str(checkout)])
-    for key, value in [('core.autocrlf', 'false'), ('core.eol', 'lf'),
-                       ('core.symlinks', 'false'), ('core.longpaths', 'true')]:
-        git(checkout, 'config', key, value)
-    git(checkout, 'remote', 'add', 'origin', identity['repository'])
-    git(checkout, 'fetch', '--no-tags', '--depth', '1', 'origin', commit)
-    git(checkout, 'checkout', '--detach', '--quiet', 'FETCH_HEAD')
-    actual = git(checkout, 'rev-parse', 'HEAD').decode().strip()
-    require(actual == commit, 'Fetched source commit mismatch: ' + name)
-    entries = []
-    for entry in git(checkout, 'ls-files', '--stage', '-z').split(b'\0'):
-        if not entry:
-            continue
-        header, raw_name = entry.split(b'\t', 1)
-        mode, blob, stage = header.decode().split()
-        filename = raw_name.decode('utf-8')
-        checked_name(filename)
-        require(stage == '0' and mode in ('100644', '100755', '120000'),
-                'Unsupported Git source mode (including unresolved submodule): ' + header.decode() + ' ' + filename)
-        entries.append((filename, mode, blob))
-    entries.sort()
-    require(entries, 'Empty source checkout: ' + name)
-    archive = output / (name + '-' + commit + '.zip')
-    prefix = name + '-' + commit + '/'
-    rows, legal, build, checkout_differences = [], [], [], []
-    with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as package:
-        for filename, mode, blob, data in raw_blobs(checkout, entries):
-            # core.symlinks=false materializes link blobs as plain target text.
-            # Retain their Git mode in both the manifest and ZIP Unix attributes.
-            source = checkout.joinpath(*PurePosixPath(filename).parts)
-            require(not source.is_symlink(), 'Unexpected filesystem symlink: ' + filename)
-            checkout_data = source.read_bytes()
-            if checkout_data != data:
-                checkout_differences.append({'path': filename, 'checkoutBytes': len(checkout_data),
-                    'checkoutSha256': digest(checkout_data), 'gitBlobSha256': digest(data),
-                    'differenceKind': ('git-ident-expansion' if
-                        re.sub(rb'\$Id: [0-9a-f]{40} \$', b'$Id$', checkout_data) == data
-                        else 'line-ending-conversion' if
-                        checkout_data.replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n')
-                        else 'other-checkout-transformation')})
-            row = {'path': filename, 'gitMode': mode, 'gitBlob': blob,
-                   'bytes': len(data), 'sha256': digest(data)}
-            rows.append(row)
-            info = zipfile.ZipInfo(prefix + filename, date_time=(1980, 1, 1, 0, 0, 0))
-            info.create_system = 3
-            info.external_attr = int(mode, 8) << 16
-            info.compress_type = zipfile.ZIP_DEFLATED
-            package.writestr(info, data)
-            basename = PurePosixPath(filename).name
-            if re.match(r'(?i)^(license|licence|copying|notice|copyright)', basename) or filename == 'README.REDIST.BINS':
-                destination = output / 'licenses' / name / filename
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                destination.write_bytes(data)
-                legal.append({'sourcePath': filename, 'storedPath': destination.relative_to(output).as_posix(),
-                              'gitBlob': blob, 'sha256': row['sha256'], 'bytes': len(data)})
-            if (re.search(r'(?i)(\.w32$|\.vcxproj$|\.sln$|\.mak$|(^|/)(makefile|configure|buildconf|cmakelists|meson\.build))', filename)
-                    or filename in ('README.md', 'README', 'INSTALL')):
-                build.append(filename)
-    if checkout_differences:
-        names = b''.join(row['path'].encode('utf-8') + b'\0' for row in checkout_differences)
-        result = subprocess.run(['git', '-C', str(checkout), 'check-attr', '--cached', '-z',
-                                 '--stdin', 'text', 'eol', 'filter', 'working-tree-encoding', 'ident'],
-                                input=names, capture_output=True, timeout=REPO_TIMEOUT)
-        require(result.returncode == 0, 'Unable to inspect pinned checkout attributes')
-        values = result.stdout.rstrip(b'\0').split(b'\0')
-        attributes = {}
-        require(len(values) % 3 == 0, 'Unexpected Git attribute output')
-        for offset in range(0, len(values), 3):
-            path, attribute, value = (item.decode('utf-8') for item in values[offset:offset + 3])
-            attributes.setdefault(path, {})[attribute] = value
-        for row in checkout_differences:
-            row['pinnedGitAttributes'] = attributes.get(row['path'], {})
-    manifest = output / (name + '-' + commit + '-files.json')
-    write(manifest, {'repository': identity['repository'], 'commit': actual,
-                     'trackedFiles': rows, 'legalFiles': legal, 'buildMaterialPaths': build,
-                     'checkoutDifferences': checkout_differences})
-    summary = dict(identity, checkoutCommit=actual, trackedFileCount=len(rows),
-                   archiveBytesMatchGitBlobs=True, gitBlobSha1Verified=True,
-                   archiveSource='git cat-file --batch raw blob objects; no checkout conversion',
-                   checkoutBytesMatchGitBlobs=not checkout_differences,
-                   checkoutDifferenceCount=len(checkout_differences),
-                   archive=archive.name, archiveSha256=digest(archive.read_bytes()),
-                   archiveBytes=archive.stat().st_size, inventory=manifest.name,
-                   inventorySha256=digest(manifest.read_bytes()), legalFiles=legal,
-                   buildMaterialCount=len(build), buildMaterialPaths=build,
-                   gitSymlinkCount=sum(mode == '120000' for _, mode, _ in entries))
-    return summary, rows
+    # Source filenames can exceed Windows MAX_PATH below a nested project path.
+    # Keep only final archives/inventories under output; remove the short checkout
+    # on both successful collection and exceptions.
+    with tempfile.TemporaryDirectory(prefix='dk-src-') as work:
+        checkout = Path(work) / 's'
+        run(['git', 'init', '--quiet', str(checkout)])
+        for key, value in [('core.autocrlf', 'false'), ('core.eol', 'lf'),
+                           ('core.symlinks', 'false'), ('core.longpaths', 'true')]:
+            git(checkout, 'config', key, value)
+        git(checkout, 'remote', 'add', 'origin', identity['repository'])
+        git(checkout, 'fetch', '--no-tags', '--depth', '1', 'origin', commit)
+        git(checkout, 'checkout', '--detach', '--quiet', 'FETCH_HEAD')
+        actual = git(checkout, 'rev-parse', 'HEAD').decode().strip()
+        require(actual == commit, 'Fetched source commit mismatch: ' + name)
+        entries = []
+        for entry in git(checkout, 'ls-files', '--stage', '-z').split(b'\0'):
+            if not entry:
+                continue
+            header, raw_name = entry.split(b'\t', 1)
+            mode, blob, stage = header.decode().split()
+            filename = raw_name.decode('utf-8')
+            checked_name(filename)
+            require(stage == '0' and mode in ('100644', '100755', '120000'),
+                    'Unsupported Git source mode (including unresolved submodule): ' + header.decode() + ' ' + filename)
+            entries.append((filename, mode, blob))
+        entries.sort()
+        require(entries, 'Empty source checkout: ' + name)
+        archive = output / (name + '-' + commit + '.zip')
+        prefix = name + '-' + commit + '/'
+        rows, legal, build, checkout_differences = [], [], [], []
+        with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as package:
+            for filename, mode, blob, data in raw_blobs(checkout, entries):
+                # core.symlinks=false materializes link blobs as plain target text.
+                # Retain their Git mode in both the manifest and ZIP Unix attributes.
+                source = checkout.joinpath(*PurePosixPath(filename).parts)
+                require(not source.is_symlink(), 'Unexpected filesystem symlink: ' + filename)
+                checkout_data = source.read_bytes()
+                if checkout_data != data:
+                    checkout_differences.append({'path': filename, 'checkoutBytes': len(checkout_data),
+                        'checkoutSha256': digest(checkout_data), 'gitBlobSha256': digest(data),
+                        'differenceKind': ('git-ident-expansion' if
+                            re.sub(rb'\$Id: [0-9a-f]{40} \$', b'$Id$', checkout_data) == data
+                            else 'line-ending-conversion' if
+                            checkout_data.replace(b'\r\n', b'\n') == data.replace(b'\r\n', b'\n')
+                            else 'other-checkout-transformation')})
+                row = {'path': filename, 'gitMode': mode, 'gitBlob': blob,
+                       'bytes': len(data), 'sha256': digest(data)}
+                rows.append(row)
+                info = zipfile.ZipInfo(prefix + filename, date_time=(1980, 1, 1, 0, 0, 0))
+                info.create_system = 3
+                info.external_attr = int(mode, 8) << 16
+                info.compress_type = zipfile.ZIP_DEFLATED
+                package.writestr(info, data)
+                basename = PurePosixPath(filename).name
+                if re.match(r'(?i)^(license|licence|copying|notice|copyright)', basename) or filename == 'README.REDIST.BINS':
+                    destination = output / 'licenses' / name / filename
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_bytes(data)
+                    legal.append({'sourcePath': filename, 'storedPath': destination.relative_to(output).as_posix(),
+                                  'gitBlob': blob, 'sha256': row['sha256'], 'bytes': len(data)})
+                if (re.search(r'(?i)(\.w32$|\.vcxproj$|\.sln$|\.mak$|(^|/)(makefile|configure|buildconf|cmakelists|meson\.build))', filename)
+                        or filename in ('README.md', 'README', 'INSTALL')):
+                    build.append(filename)
+        if checkout_differences:
+            names = b''.join(row['path'].encode('utf-8') + b'\0' for row in checkout_differences)
+            result = subprocess.run(['git', '-C', str(checkout), 'check-attr', '--cached', '-z',
+                                     '--stdin', 'text', 'eol', 'filter', 'working-tree-encoding', 'ident'],
+                                    input=names, capture_output=True, timeout=REPO_TIMEOUT)
+            require(result.returncode == 0, 'Unable to inspect pinned checkout attributes')
+            values = result.stdout.rstrip(b'\0').split(b'\0')
+            attributes = {}
+            require(len(values) % 3 == 0, 'Unexpected Git attribute output')
+            for offset in range(0, len(values), 3):
+                path, attribute, value = (item.decode('utf-8') for item in values[offset:offset + 3])
+                attributes.setdefault(path, {})[attribute] = value
+            for row in checkout_differences:
+                row['pinnedGitAttributes'] = attributes.get(row['path'], {})
+        manifest = output / (name + '-' + commit + '-files.json')
+        write(manifest, {'repository': identity['repository'], 'commit': actual,
+                         'trackedFiles': rows, 'legalFiles': legal, 'buildMaterialPaths': build,
+                         'checkoutDifferences': checkout_differences})
+        summary = dict(identity, checkoutCommit=actual, trackedFileCount=len(rows),
+                       archiveBytesMatchGitBlobs=True, gitBlobSha1Verified=True,
+                       archiveSource='git cat-file --batch raw blob objects; no checkout conversion',
+                       checkoutBytesMatchGitBlobs=not checkout_differences,
+                       checkoutDifferenceCount=len(checkout_differences),
+                       archive=archive.name, archiveSha256=digest(archive.read_bytes()),
+                       archiveBytes=archive.stat().st_size, inventory=manifest.name,
+                       inventorySha256=digest(manifest.read_bytes()), legalFiles=legal,
+                       buildMaterialCount=len(build), buildMaterialPaths=build,
+                       gitSymlinkCount=sum(mode == '120000' for _, mode, _ in entries))
+        return summary, rows
 
 
 def bundled_checks(sbom, php_rows):
