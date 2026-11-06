@@ -134,7 +134,7 @@
 - 금지: 직접 Release/tag 게시, 미승인 자동 설치·업데이트·관리자 권한 요구 추가, 합격을 전체 PHP 런타임 호환으로 표현.
 - 환경: 저성능 Work. 여러 기능에 걸친 문제는 고성능 Work로 범위 재판단.
 
-로컬 시험 준비의 전역 PHP·Composer 의존성을 제거했습니다. 단일 진입 명령 전체 실행 및 환경 복원·임시 도구 제거의 Windows 근거는 tests/t09/evidence/bootstrap-preparation.json입니다. Windows 11 사용자 직접 시험은 대기합니다.
+로컬 시험 준비의 전역 PHP·Composer 의존성을 제거했습니다. 중첩 경로·전역 core.longpaths=false 조건의 소스 수집, 단일 진입 명령 전체 실행 및 환경 복원·임시 도구 제거의 Windows 근거는 tests/t09/evidence/bootstrap-preparation.json입니다. Windows 11 사용자 직접 시험은 대기합니다.
 
 ## T10 — 엔진 팩 제작·수동 교체와 향후 버전 확장 검증
 

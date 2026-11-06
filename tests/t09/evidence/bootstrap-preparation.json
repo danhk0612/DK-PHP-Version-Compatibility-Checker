@@ -1,8 +1,8 @@
 {
-  "testedCommit": "ccef91d0d621603f495ca4c2c3b883bfb80fc691",
-  "workflowRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42145013558",
-  "runId": 42145013558,
-  "jobId": 127654262450,
+  "testedCommit": "bd2a400b52b05574b26aca1b076a2264c62bd0dd",
+  "workflowRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503",
+  "runId": 42147647503,
+  "jobId": 127662899375,
   "environment": "windows-2022 x64 / PowerShell 7 / SDK 10.0.403",
   "globalPhpAndComposerRemovedFromPath": true,
   "commandsConfirmedAbsentBeforePreparation": true,
@@ -11,9 +11,9 @@
   "processEnvironmentRestored": true,
   "bootstrapToolsRemoved": true,
   "metadataArtifact": {
-    "id": 13469222986,
-    "sha256": "9225d0cd6618f4a5733c9bd4d19476e3a79d997383a481dc0db360c30644b64d",
-    "bytes": 146656,
+    "id": 13471091844,
+    "sha256": "409107f9843e09fc19e79bd4a38017993a59959dfe1782a97834112889aaa411",
+    "bytes": 146674,
     "containsProductZip": false
   },
   "pairing": {
@@ -22,10 +22,10 @@
     "candidateForUserTesting": true,
     "publicReleaseApproved": false,
     "binaryArchive": "DK-PHP-Compatibility-audit-only.zip",
-    "binaryArchiveSha256": "0842a6977daf246b8a23d71c09374dedaf159460a60ff456816fa9025e55ad2a",
+    "binaryArchiveSha256": "d01dc773dabbc0543e79e97047c81c59168b2bf084468df13965a3dad07d93b9",
     "sourceArchive": "DK-PHP-Compatibility-sources-and-notices.zip",
-    "sourceArchiveSha256": "7d52e8bc2f3e571e486403ed1852efd64f2106c2e01cdd886c78ed3f0939102f",
-    "sourceManifestSha256": "9dcc48577c6dc8074749efa661780fbbd7c4eb5d4014e8f856c2a747754d34ed",
+    "sourceArchiveSha256": "d96b11ece7c352f4952167ccd9dcaad18a49592619f32f393cf5933a73615472",
+    "sourceManifestSha256": "a9f76f1ac25981918658c6820c4730f87584d3f3eee6b6fc208c36e7be13f503",
     "licenseElectionSha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1",
     "matchedNotices": [
       {
@@ -241,5 +241,13 @@
   "limits": [
     "Windows Server CI is not the user's Windows 11 test.",
     "No release, tag, or merge was performed."
-  ]
+  ],
+  "longPathRegression": {
+    "nestedCheckout": "local-test/portable",
+    "formerSourcePathLength": 269,
+    "globalCoreLongpaths": false,
+    "sourceCheckouts": "short unique system TEMP directories; per-checkout core.longpaths=true",
+    "engineSourceCollectionPassed": true,
+    "coreAndBuildSourceCollectionPassed": true
+  }
 }
