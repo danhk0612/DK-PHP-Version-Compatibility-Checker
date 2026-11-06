@@ -60,3 +60,5 @@ D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니�
 현재 작업은 Draft PR #8(t08-minimal-cli), main 미병합입니다. 병합·Release/tag는 별도 명시 지시가 필요합니다.
 
 [승인 후 페어링 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42058108214)에서 `licenseElectionMade=true`, `scopePassed=true`, `candidateForUserTesting=true`, `publicReleaseApproved=false`를 확인했습니다. 최신 실행·ZIP/고지/소스 해시는 tests/t09/evidence/approved-pair/provenance.json을 따릅니다. 사용자 Windows11 자가사용 시험은 준비 명령과 문서로 진행할 수 있으며 공개배포는 별도입니다.
+
+로컬 준비 명령은 PHP·Composer 사전 설치 없이 공식 PHP ZIP·Composer 2.11.1을 고정 해시로 검증하여 임시 관리 영역에서 사용하고 정리합니다. [전역 PHP·Composer 없는 Windows 전체 준비 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42145013558)에서 엔진 준비·자체 포함 publish·소스/고지 ZIP·앱 기동·페어링·환경 복원·준비 도구 제거를 통과했습니다. 실행 기준 commit과 최신 두 ZIP SHA는 tests/t09/evidence/bootstrap-preparation.json을 따릅니다. 사용자 Windows 11 시험과 공개 배포의 잔여 조건은 유지합니다.
