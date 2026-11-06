@@ -136,7 +136,7 @@
 
 로컬 시험 준비의 전역 PHP·Composer 의존성을 제거했습니다. 중첩 경로·전역 core.longpaths=false 조건의 소스 수집, 단일 진입 명령 전체 실행 및 환경 복원·임시 도구 제거의 Windows 근거는 tests/t09/evidence/bootstrap-preparation.json입니다. Windows 11 사용자 직접 시험은 대기합니다.
 
-실패 상세 표시 보완은 tests/t09/evidence/scan-failure-diagnostics.json의 Windows 회귀·페어링으로 검증했습니다. 사용자 28,817파일 검사 실패의 실제 원인은 상세 오류 재시험 대기이며, 메모리 부족으로 확정하거나 해결 완료로 처리하지 않습니다. 빠른 로컬 진단 재빌드는 tests/t09/WINDOWS11_TEST.md를 따릅니다.
+사용자 진단으로 128MB 소진을 확인해 엔진 한도를 512MB로 명시하고 오류 내용을 선택·복사할 수 있게 했습니다. tests/t09/evidence/memory-and-copy.json에서 실제 PHP 용량 대조·자체 생성 28,817파일의 실제 엔진 검사·클립보드 복사와 Windows 회귀/페어링을 검증했습니다. 사용자 전체 프로젝트의 512MB 재시험은 대기합니다. 빠른 로컬 진단 재빌드는 tests/t09/WINDOWS11_TEST.md를 따릅니다.
 
 ## T10 — 엔진 팩 제작·수동 교체와 향후 버전 확장 검증
 
