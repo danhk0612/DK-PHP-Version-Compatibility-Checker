@@ -1,0 +1,37 @@
+{
+  "phpVersion": "8.4.27",
+  "passwordAlgorithms": [
+    "2y",
+    "argon2i",
+    "argon2id"
+  ],
+  "extensions": [
+    "Core",
+    "bcmath",
+    "calendar",
+    "ctype",
+    "date",
+    "hash",
+    "iconv",
+    "json",
+    "pcre",
+    "random",
+    "readline",
+    "Reflection",
+    "SPL",
+    "session",
+    "tokenizer",
+    "zlib",
+    "libxml",
+    "dom",
+    "filter",
+    "standard",
+    "PDO",
+    "Phar",
+    "mysqlnd",
+    "SimpleXML",
+    "xml",
+    "xmlreader",
+    "xmlwriter"
+  ]
+}

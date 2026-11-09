@@ -13,6 +13,7 @@ public sealed class PhpcsReportParser
         var issues = new List<ScanIssue>();
         int? processed = null;
         string? failure = null;
+        string? outputPreview = null;
         try
         {
             var selected = new HashSet<string>(selectedFiles.Select(Path.GetFullPath), StringComparer.OrdinalIgnoreCase);
@@ -71,6 +72,11 @@ public sealed class PhpcsReportParser
             or NotSupportedException or OverflowException)
         {
             failure = ex is JsonException ? "검사 엔진의 JSON 출력이 올바르지 않습니다." : ex.Message;
+            // PHP fatal diagnostics may be written to stdout instead of stderr.
+            // Retain only a bounded excerpt when JSON cannot be parsed, not full reports.
+            if (ex is JsonException && !string.IsNullOrWhiteSpace(stdout))
+                outputPreview = stdout.Length <= 2048 ? stdout
+                    : stdout[..1024] + Environment.NewLine + "[중간 생략]" + Environment.NewLine + stdout[^1024..];
         }
         if (exitCode is < 0 or > 3)
         {
@@ -80,7 +86,7 @@ public sealed class PhpcsReportParser
         return new ScanResult(request, failure is null ? ScanStatus.Completed : ScanStatus.Failed,
             selectedFiles.Count, processed, issues.Count(i => i.Type == "ERROR"),
             issues.Count(i => i.Type == "WARNING"), issues.AsReadOnly(), engineInfo, failure)
-        { EngineExitCode = exitCode, EngineStandardError = stderr };
+        { EngineExitCode = exitCode, EngineStandardError = stderr, EngineStandardOutputPreview = outputPreview };
     }
 
     private static void CheckDuplicates(JsonElement element)

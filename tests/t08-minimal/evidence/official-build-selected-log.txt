@@ -1,0 +1,17 @@
+2026-10-26T09:41:18.1227172Z Processing package libargon2-20190702-vs17-x64.zip
+2026-10-26T09:41:18.7929887Z Processing package libiconv-1.19-vs17-x64.zip
+2026-10-26T09:41:21.5880125Z Processing package libxml2-2.11.9-8-vs17-x64.zip
+2026-10-26T09:41:26.4532067Z Processing package wineditline-2.208-vs17-x64.zip
+2026-10-26T09:41:26.6575062Z Processing package zlib-1.3.2-1-vs17-x64.zip
+2026-10-26T09:41:39.1467097Z Checking for pgomgr.exe ...  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64
+2026-10-26T09:41:40.5380689Z Checking for library libiconv_a.lib;libiconv.lib ... <in deps path> \lib\libiconv_a.lib
+2026-10-26T09:41:40.9475072Z Checking for library libiconv_a.lib ... <in deps path> \lib\libiconv_a.lib
+2026-10-26T09:41:41.8458093Z Checking for library libxml2_a_dll.lib;libxml2_a.lib ... <in deps path> \lib\libxml2_a_dll.lib
+2026-10-26T09:41:41.8852337Z Checking for library libiconv_a.lib;iconv_a.lib;libiconv.lib;iconv.lib ... <in deps path> \lib\libiconv_a.lib
+2026-10-26T09:45:49.4742885Z Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35229 for x64
+2026-10-26T09:45:54.2109768Z Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35229 for x64
+2026-10-26T09:50:06.3532429Z Checking for pgomgr.exe ...  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64
+2026-10-26T09:50:07.3708592Z Checking for library libiconv_a.lib;libiconv.lib ... <in deps path> \lib\libiconv_a.lib
+2026-10-26T09:50:07.7457365Z Checking for library libiconv_a.lib ... <in deps path> \lib\libiconv_a.lib
+2026-10-26T09:50:08.5594503Z Checking for library libxml2_a_dll.lib;libxml2_a.lib ... <in deps path> \lib\libxml2_a_dll.lib
+2026-10-26T09:50:08.6001159Z Checking for library libiconv_a.lib;iconv_a.lib;libiconv.lib;iconv.lib ... <in deps path> \lib\libiconv_a.lib

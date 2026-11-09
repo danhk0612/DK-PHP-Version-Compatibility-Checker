@@ -1,0 +1,20 @@
+{
+  "scopePassed": true,
+  "platform": "Microsoft Windows NT 10.0.20348.0",
+  "sdk": "10.0.403",
+  "selfContained": true,
+  "localUserTestingPrepared": true,
+  "licenseElectionMade": true,
+  "windowShown": true,
+  "normalExit": true,
+  "archive": "DK-PHP-Compatibility-audit-only.zip",
+  "archiveSha256": "b908364de7bdb334dd10632301be9572e93f0364b675c4f60d57f580775f31c3",
+  "redistributionCleared": false,
+  "releaseGatePassed": false,
+  "limits": [
+    "Windows Server runner is not clean Windows 11",
+    "No CRT-missing machine tested",
+    "No scanner GUI interaction in this packaging test",
+    "T08/T10 and durable matching-source delivery remain gates"
+  ]
+}

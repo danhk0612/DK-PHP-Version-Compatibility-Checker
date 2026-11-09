@@ -1,0 +1,49 @@
+name: T08 isolated libiconv rebuild
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/license-audit/Test-LibiconvRebuild.ps1'
+      - '.github/workflows/t08-libiconv-rebuild.yml'
+permissions:
+  contents: read
+jobs:
+  rebuild:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Fetch pinned libiconv sources
+        shell: pwsh
+        run: |
+          git init --quiet artifacts/libiconv-source
+          git -C artifacts/libiconv-source config core.autocrlf false
+          git -C artifacts/libiconv-source config core.symlinks false
+          git -C artifacts/libiconv-source config core.longpaths true
+          git -C artifacts/libiconv-source remote add origin https://github.com/winlibs/libiconv.git
+          git -C artifacts/libiconv-source fetch --no-tags --depth 1 origin 8f55a0aa6532f30f947261d90e72b200f350a5df
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned source fetch failed' }
+          git -C artifacts/libiconv-source checkout --detach --quiet FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned source checkout failed' }
+      - name: Build original and marker libraries
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64 -host_arch=x64
+          if errorlevel 1 exit /b 1
+          pwsh -NoProfile -File tools/license-audit/Test-LibiconvRebuild.ps1 -SourcePath artifacts/libiconv-source -OutputDirectory artifacts/t08-libiconv-rebuild
+          if errorlevel 1 exit /b 1
+      - name: Preserve build evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-libiconv-rebuild
+          path: |
+            artifacts/t08-libiconv-rebuild/*.json
+            artifacts/t08-libiconv-rebuild/*.log
+            artifacts/t08-libiconv-rebuild/*-symbols.txt
+            artifacts/t08-libiconv-rebuild/original/MSVC17/x64/lib/libiconv_a.lib
+            artifacts/t08-libiconv-rebuild/marker/MSVC17/x64/lib/libiconv_a.lib
+          if-no-files-found: warn
+          retention-days: 7

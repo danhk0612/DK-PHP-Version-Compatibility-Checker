@@ -1,0 +1,20 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117",
+  "jobId": 127215576765,
+  "testedHead": "d9b5e71d1044b02c2fc4de7390cf80344ea89f72",
+  "artifactId": 13410687895,
+  "artifactSha256": "95f659c3fe36c3a03b32ae8d2e878c33c74d963625f2bdb64268eff88cd707e3",
+  "retentionDays": 7,
+  "scope": "Audit PHP builds and fixture regression; not official binary reproduction or redistribution clearance",
+  "files": {
+    "libiconv-rebuild.json": "7d08782c3aeee7a6498d84e3032b3b5b2bb8a3708ffe467b2144957d979539a0",
+    "marker-buildconf.log": "f841e16e66bb6fe7bb81c2fdf866d0694b7e3ccf7b317042e4b6f5e37d2ab3bb",
+    "marker-configure.log": "d16fda109f8ca8597232d49dc39d9767a9b79f3704afef1d426fe39d93d4f43a",
+    "marker-nmake.log": "424428e0ad28e851483dda36adf93f6e3d1bbf85095c0f334a12c6fc1dbeecf4",
+    "original-buildconf.log": "f841e16e66bb6fe7bb81c2fdf866d0694b7e3ccf7b317042e4b6f5e37d2ab3bb",
+    "original-configure.log": "901df73faa383148fdf0fc60577f3677124adcb16d591b3327563ad853697cb9",
+    "original-nmake.log": "84341c2b0cdfd924af487740b162fb719f5d8cc7eb8ab938a68c3e883b22772d",
+    "php-relink-comparison.json": "e0d0a5a92656ec4955a317e024e2b6f38aa38573484bd042054846f0cfb83170",
+    "php-relink.json": "7ed3218279758d387f95a9f3d81468c5ad5e511a5d778286ac36c848850e3f3f"
+  }
+}

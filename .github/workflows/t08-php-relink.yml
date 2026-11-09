@@ -1,0 +1,94 @@
+name: T08 isolated PHP relink
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/license-audit/Test-PhpRelink.ps1'
+      - 'tools/license-audit/Test-LibiconvRebuild.ps1'
+      - 'tests/t08-minimal/check_relinked_php.py'
+      - '.github/workflows/t08-php-relink.yml'
+permissions:
+  contents: read
+jobs:
+  relink:
+    runs-on: windows-2022
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare verified PHPCS engine pack
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Prepare pinned audit inputs
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory artifacts/php-source,artifacts/php-sdk,artifacts/libiconv-source,artifacts/php-deps,artifacts/php-downloads -Force | Out-Null
+          $sourceZip = Join-Path $pwd 'artifacts/php-downloads/php-source.zip'
+          Invoke-WebRequest -Uri 'https://downloads.php.net/~windows/releases/php-8.4.27-1-src.zip' -OutFile $sourceZip
+          if ((Get-FileHash -Algorithm SHA256 $sourceZip).Hash.ToLowerInvariant() -ne '9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d') { throw 'PHP source ZIP hash mismatch' }
+          Expand-Archive -LiteralPath $sourceZip -DestinationPath artifacts/php-source
+          $inputs = Get-Content -Raw -Encoding utf8 tests/t08-minimal/evidence/native-inputs.json | ConvertFrom-Json
+          if ($inputs.files.Count -ne 5) { throw 'Unexpected dependency input count' }
+          foreach ($row in $inputs.files) {
+            if ($row.url -ne ('https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/' + $row.name)) { throw 'Unexpected dependency origin' }
+            $file = Join-Path $pwd ('artifacts/php-downloads/' + $row.name)
+            Invoke-WebRequest -Uri $row.url -OutFile $file
+            if ((Get-FileHash -Algorithm SHA256 $file).Hash.ToLowerInvariant() -ne $row.sha256) { throw "Dependency hash mismatch: $($row.name)" }
+            Expand-Archive -LiteralPath $file -DestinationPath artifacts/php-deps -Force
+          }
+          git init --quiet artifacts/php-sdk
+          git -C artifacts/php-sdk remote add origin https://github.com/php/php-sdk-binary-tools.git
+          git -C artifacts/php-sdk fetch --no-tags --depth 1 origin 81b356186db123ce9cd65149cee4683211a59ebd
+          if ($LASTEXITCODE -ne 0) { throw 'PHP SDK fetch failed' }
+          git -C artifacts/php-sdk checkout --detach --quiet FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'PHP SDK checkout failed' }
+          git init --quiet artifacts/libiconv-source
+          git -C artifacts/libiconv-source config core.autocrlf false
+          git -C artifacts/libiconv-source config core.symlinks false
+          git -C artifacts/libiconv-source config core.longpaths true
+          git -C artifacts/libiconv-source remote add origin https://github.com/winlibs/libiconv.git
+          git -C artifacts/libiconv-source fetch --no-tags --depth 1 origin 8f55a0aa6532f30f947261d90e72b200f350a5df
+          if ($LASTEXITCODE -ne 0) { throw 'libiconv source fetch failed' }
+          git -C artifacts/libiconv-source checkout --detach --quiet FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'libiconv checkout failed' }
+          $task = @'
+          @echo off
+          pwsh -NoProfile -File "%GITHUB_WORKSPACE%\tools\license-audit\Test-PhpRelink.ps1" -PhpSource "%GITHUB_WORKSPACE%\artifacts\php-source" -LibiconvSource "%GITHUB_WORKSPACE%\artifacts\libiconv-source" -DepsDirectory "%GITHUB_WORKSPACE%\artifacts\php-deps" -OutputDirectory "%GITHUB_WORKSPACE%\artifacts\t08-php-relink"
+          exit /b %errorlevel%
+          '@
+          [IO.File]::WriteAllText((Join-Path $pwd 'artifacts/php-relink-task.bat'), $task, [Text.Encoding]::ASCII)
+      - name: Build independent original and marker PHP
+        shell: cmd
+        run: |
+          call "%CD%\artifacts\php-sdk\phpsdk-vs17-x64.bat" -t "%CD%\artifacts\php-relink-task.bat"
+          if errorlevel 1 exit /b 1
+          if not exist "%CD%\artifacts\t08-php-relink\php-relink.json" exit /b 1
+      - name: Compare relinked PHP and PHPCS regressions
+        shell: pwsh
+        run: |
+          $result = Get-Content -Raw -Encoding utf8 artifacts/t08-php-relink/php-relink.json | ConvertFrom-Json
+          $original = @($result.results | Where-Object profile -eq 'original')[0].executable
+          $marker = @($result.results | Where-Object profile -eq 'marker')[0].executable
+          python tests/t08-minimal/check_relinked_php.py --original-php $original --marker-php $marker --pack tools/runtime --build-audit artifacts/t08-php-relink --output artifacts/t08-php-relink-comparison
+          if ($LASTEXITCODE -ne 0) { throw 'Relinked PHP comparison failed' }
+      - name: Preserve audit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-php-relink
+          path: |
+            artifacts/t08-php-relink/*.json
+            artifacts/t08-php-relink/*-build-material.zip
+            artifacts/t08-php-relink/*.log
+            artifacts/t08-php-relink/libiconv/*.json
+            artifacts/t08-php-relink/libiconv/*.log
+            artifacts/t08-php-relink/libiconv/*-symbols.txt
+            artifacts/t08-php-relink-comparison/
+          if-no-files-found: warn
+          retention-days: 7

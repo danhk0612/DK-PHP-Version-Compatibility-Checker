@@ -1,0 +1,74 @@
+name: T08 source and notice companion preparation
+on:
+  pull_request:
+    branches: [main, t08-licenses]
+    paths:
+      - 'tools/license-audit/**'
+      - 'tools/packaging/**'
+      - 'tools/engine-pack/**'
+      - 'tests/t09/**'
+      - 'licenses/**'
+      - 'LICENSING.md'
+      - 'THIRD-PARTY-NOTICES.md'
+      - '.github/workflows/t08-source-sidecar.yml'
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: local-test/portable
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          path: local-test/portable
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: local-test/portable/global.json
+      - name: Verify companion reconstruction inputs and pairing rejection
+        shell: pwsh
+        run: python tests/t09/check_source_sidecar.py
+      - name: Prepare full local candidate without global PHP or Composer
+        shell: pwsh
+        run: |
+          $env:PATH=(@($env:PATH -split ';' | Where-Object {
+            $entry=$_
+            $hasTool=$false
+            foreach ($name in @('php.exe','composer.bat','composer.cmd','composer.exe','composer.ps1')) {
+              if ($entry -and (Test-Path -LiteralPath (Join-Path $entry $name))) { $hasTool=$true }
+            }
+            -not $hasTool
+          }) -join ';')
+          foreach ($name in @('php','composer')) {
+            if (Get-Command $name -ErrorAction SilentlyContinue) { throw "Unexpected global tool: $name" }
+          }
+          # Reproduce a normal Windows Git installation without a global long-path opt-in.
+          git config --global core.longpaths false
+          if ($LASTEXITCODE -ne 0) { throw 'Could not set the long-path regression condition.' }
+          $formerPath=Join-Path $pwd 'artifacts/t08/downloads/source-phpcompatibility-php-compatibility/PHPCompatibility/Tests/ControlStructures/ForbiddenSwitchWithMultipleDefaultBlocksParseError1UnitTest.inc'
+          if ($formerPath.Length -le 260) { throw 'Runner path is too short to exercise the reported failure.' }
+          Write-Output "Former source path length: $($formerPath.Length); global core.longpaths=false"
+          $beforePath=$env:PATH
+          $beforePhprc=$env:PHPRC
+          $beforeScanDir=$env:PHP_INI_SCAN_DIR
+          ./tools/packaging/Prepare-LocalTest.ps1
+          if ($env:PATH -cne $beforePath -or $env:PHPRC -cne $beforePhprc -or $env:PHP_INI_SCAN_DIR -cne $beforeScanDir) {
+            throw 'Preparation did not restore process environment.'
+          }
+          if (Get-ChildItem artifacts -Directory -Filter 'local-preparation-*') { throw 'Preparation tools were not cleaned up.' }
+      - name: Preserve metadata only; local test ZIPs are not published
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-source-sidecar
+          path: |
+            local-test/portable/artifacts/t08-source-sidecar/source-sidecar.json
+            local-test/portable/artifacts/t09/evidence/
+            local-test/portable/artifacts/t08-core-source/core-source.json
+            local-test/portable/artifacts/t08-build-source/build-source.json
+            local-test/portable/artifacts/t08/corresponding-source.json
+          retention-days: 7
+          if-no-files-found: warn

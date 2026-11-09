@@ -20,7 +20,7 @@ PHPCompatibility와 PHPCSUtils는 별도 PHP 소스 라이브러리로 배포합
 
 ## PHP와 Zend
 
-초기 PHP 실행 환경은 공식 `php-8.4.27-1-nts-Win32-vs17-x64.zip`입니다. 원본 ZIP의 [license.txt](licenses/php/ZIP-license.txt), [추가 구성 고지](licenses/php/ZIP-readme-redist-bins.txt), 소스 태그의 [PHP License 3.01](licenses/php/PHP-8.4.27-LICENSE) 및 [Zend Engine License 2.00](licenses/php/Zend-8.4.27-LICENSE)를 보존합니다.
+PHP 실행 환경은 공식 `php-8.4.27-1-nts-Win32-vs17-x64.zip`의 승인된 최소 CLI 선택입니다. `php.exe`/`php8.dll`과 원문 license/readme·SBOM을 보존하고 선택 확장/DLL은 포함하지 않습니다. 원본 ZIP의 [license.txt](licenses/php/ZIP-license.txt), [추가 구성 고지](licenses/php/ZIP-readme-redist-bins.txt), 소스 태그의 [PHP License 3.01](licenses/php/PHP-8.4.27-LICENSE) 및 [Zend Engine License 2.00](licenses/php/Zend-8.4.27-LICENSE)를 보존합니다.
 
 This product includes PHP software, freely available from <http://www.php.net/software/>.
 
@@ -28,9 +28,13 @@ This product includes the Zend Engine, freely available at http://www.zend.com
 
 The Zend Engine is freely available at http://www.zend.com
 
-이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 현재 감리에서 후속 PHP/Zend 라이선스로의 선택을 선언하지 않았습니다. 현재 공식 페이지의 후속 라이선스 선택 가능성과 원본의 실제 조건을 구분합니다.
+이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 2026-11-06 사용자 승인으로 covered PHP code에는 PHP License v4, covered Zend Engine code에는 Zend Engine License v3.0 후속 조건을 선택합니다. 적용 조건은 BSD-3-Clause이며 [공식 공통 원문](licenses/php/selected/PHP-Zend-BSD-3-Clause.txt)과 [범위·출처·해시](tools/license-audit/license-election.json)를 동봉합니다. 원본 PHP 3.01/Zend 2.00 전문과 source headers는 출처 자료로 계속 보존합니다.
 
-PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 전체 ZIP의 GLib·Enchant·MPIR 등 외부 네이티브 라이브러리와 정적 포함 코드의 최종 고지·대응 소스는 아직 완성되지 않았습니다. [미해결 항목](tests/t08/evidence/php-native-pending.json)을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩에도 BCMath/libiconv 등 정적 코드가 남으며, [현재 검토](LICENSING.md)의 코어 출처·원문 고지·대응 소스/재링크 조건을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+
+## 최소 CLI의 코어 소스 원문
+
+소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 대조는 별도 Windows 설정 헤더를 포함해 해소했습니다. 원본·생성물의 구분과 실제 재링크·최종 재배포 관문은 유지합니다.
 
 ## Windows .NET self-contained 구성
 
@@ -45,6 +49,12 @@ Microsoft의 [Windows별 파일 정책](licenses/dotnet/UPSTREAM-WINDOWS-LICENSE
 | 나머지 .NET 파일 | 해당 MIT 및 별도 서드파티 고지; [파일별 대조](tests/t08/evidence/publish-license-map.json) |
 
 해당 Microsoft 바이너리를 수정하거나 자체 MIT로 재허가하지 않습니다. Microsoft 조건의 배포 형태·고지 보존·외부 배포자/사용자에게 적용할 보호 조건은 최종 배포에서 이행해야 하며, 자체 코드나 LGPL 라이브러리의 권리를 제한하는 일반 금지 조항으로 확대하지 않습니다. 원본 라이선스와 [출처·변환 근거](tools/license-audit/review-sources.json)를 함께 확인합니다.
+
+## 대응 소스와 수정·재링크 자료
+
+배포 준비 시 별도 `DK-PHP-Compatibility-sources-and-notices.zip`을 만들고 파일 목록·SHA를 `source-sidecar.json`에 기록합니다. 이 준비물에는 원문 PHP/관련 라이브러리/엔진 소스, 별도로 추적한 Windows 설정 생성물, 현재 프로젝트·빌드·검증 레시피 및 원문 고지를 포함합니다. 동반 ZIP의 생성만으로 실제 배포 바이너리 대응과 지속 제공이 완료되는 것은 아닙니다. 최종 배포 시 같은 위치에서 정확히 짝지은 바이너리와 동반 ZIP을 계속 제공해야 합니다. 라이브러리 수정 및 그 수정의 디버깅을 위한 재링크 권리를 일반적인 변경 금지 조항으로 제한하지 않습니다.
+
+PHP/Zend 후속 조건 선택은 사용자 승인으로 확정했습니다. [선택 기록](tools/license-audit/license-election.json)과 [공식 근거 snapshot](licenses/php/selected/README.md)을 함께 제공합니다. 자체 MIT와 독립 LGPL·Microsoft 조건은 이 선택과 별도로 유지합니다.
 
 ## PHP의 CRT 전제
 

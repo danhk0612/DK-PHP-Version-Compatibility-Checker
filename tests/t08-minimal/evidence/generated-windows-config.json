@@ -1,0 +1,60 @@
+{
+  "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+  "rawArchive": "php-00d8bae801541db0d95a698e108bb4b1b273fe6e.zip",
+  "rawArchiveSha256": "3690f4ccbb774cb223ca8a788561b45cd7dbf4aac35b4c3c8144fde5a04f7c9f",
+  "rawArchiveUnchanged": true,
+  "inputs": [
+    {
+      "sourcePath": "ext/mbstring/config.w32",
+      "gitBlob": "070d3d73137ac598d62e323a0e083a9b2980bee0",
+      "sha256": "9d17f9be4068ce1961400250444d9477d62320833ae2c6a3929862e5577e03e9",
+      "bytes": 2883,
+      "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e"
+    },
+    {
+      "sourcePath": "ext/mbstring/libmbfl/config.h.w32",
+      "gitBlob": "6d05bfc67c363dcdd3a9c09963fa8294e7e90bca",
+      "sha256": "5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535",
+      "bytes": 23,
+      "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e"
+    },
+    {
+      "sourcePath": "ext/date/config.w32",
+      "gitBlob": "b053e27aae354e338082668fc954e700840f8bc5",
+      "sha256": "6c7603af630544ef0805ef35c579a94dc7d380b9ee1b97d5fd8132b8e153a3a7",
+      "bytes": 1160,
+      "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "ext/mbstring/libmbfl/config.h",
+      "storedPath": "generated-source/ext/mbstring/libmbfl/config.h",
+      "bytes": 23,
+      "sha256": "5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535",
+      "recipe": "Copy config.h.w32 byte-for-byte to config.h per ext/mbstring/config.w32",
+      "inputSourcePaths": [
+        "ext/mbstring/config.w32",
+        "ext/mbstring/libmbfl/config.h.w32"
+      ],
+      "gitByteIdentityVerified": false
+    },
+    {
+      "path": "ext/date/lib/timelib_config.h",
+      "storedPath": "generated-source/ext/date/lib/timelib_config.h",
+      "bytes": 286,
+      "sha256": "4851e9b846d1af42859d4abb3b63c59824751730233beeff0e33be07a6ccca2d",
+      "recipe": "Decode ten reviewed WriteLine string literals; ASCII TextStream.WriteLine CRLF per ext/date/config.w32",
+      "inputSourcePaths": [
+        "ext/date/config.w32"
+      ],
+      "gitByteIdentityVerified": false
+    }
+  ],
+  "archive": "generated-windows-config.zip",
+  "archiveSha256": "8943c574eba5f311de4608eb05f969b4df4c7e00974e48e7bdc66de52828208c",
+  "archiveBytes": 441,
+  "scope": "Two configured header inputs, separate from unmodified Git sources; no configure script or native build executed",
+  "nativeBuildOrRelinkVerified": false,
+  "redistributionCleared": false
+}

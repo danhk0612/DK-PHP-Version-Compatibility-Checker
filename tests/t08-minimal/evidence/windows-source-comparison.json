@@ -1,0 +1,62 @@
+{
+  "provenance": {
+    "sourceUrl": "https://downloads.php.net/~windows/releases/php-8.4.27-1-src.zip",
+    "checksumUrl": "https://downloads.php.net/~windows/releases/releases.json",
+    "sourceBytes": 31802516,
+    "sourceSha256": "9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d",
+    "rawGitRepository": "https://github.com/php/php-src.git",
+    "rawGitCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+    "rawGitInventorySha256": "510fe8a31f289a66d442cef9d83d255285225b1212845aaf04039288e6ae7bb3"
+  },
+  "zipFiles": 25836,
+  "gitFiles": 25836,
+  "zipOnly": [],
+  "gitOnly": [],
+  "changed": [
+    {
+      "path": "ext/dba/libcdb/cdb.c",
+      "zipSha256": "f2360b4e203988138e9d630f7b47357727f2fe6ab8d38f60ac882c371e244e64",
+      "rawGitSha256": "7967c1e8913775c73b4a059986efd2d8c09501aaa970a663d42a548c1a034361",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "ext/dba/libcdb/cdb_make.c",
+      "zipSha256": "37b784923edf93a0297d7b77474648537d673149915c3d59db67e0e7ef4dfbf0",
+      "rawGitSha256": "d74717a83d0d83b8d52bf8ebf8a1d7897e5e88339ef0224aa682615911d0581c",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "ext/dba/libflatfile/flatfile.c",
+      "zipSha256": "1591724fb5be03c34997bb80d75827fd95163082fcf6ff9ddb93b3ba21dbf833",
+      "rawGitSha256": "8d7f3ea2c8d9130e7c46550ec6915a71a088586c9b087e2d83f38035a4a108eb",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "ext/dba/libinifile/inifile.c",
+      "zipSha256": "94a8357db2581131461c2298ed9c2e78eab4b775812e55401b3ad4b2378b7a6f",
+      "rawGitSha256": "f685dc7fb7c10359c2a96c654b6adec8bc9c08c248fcfccad13b20f354a63d7e",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "ext/ext_skel.php",
+      "zipSha256": "3332cb30c1a5c554f0718ab9c565a049ce3d3d8d6d6fc03ef1b1f1287c3e0e2e",
+      "rawGitSha256": "3be86969f3b2016541c67d0ca9f936074509974b2a84ee35930c83a36d483f55",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "ext/phar/phar/pharcommand.inc",
+      "zipSha256": "3700bd0575994ee946c2f10795bfdfc854354fa8027e162d2d48a02473827d56",
+      "rawGitSha256": "323528e3e66bdc9918ac276662e625a2db8bd10576e0d77d708a9e5e26647dd1",
+      "differenceKind": "git-ident-expansion"
+    },
+    {
+      "path": "run-tests.php",
+      "zipSha256": "8c93909ce8a606be3857fee441b99f59266f474ba238da42509a4ea904d0c684",
+      "rawGitSha256": "72430299985538bcece3f9cb3740d85957b9cabbd075e73532879bede2f07fcc",
+      "differenceKind": "git-ident-expansion"
+    }
+  ],
+  "samePaths": true,
+  "allDifferencesAreIdentExpansion": true,
+  "scope": "Source byte correspondence only; generated Windows headers are separate and no native rebuild/relink was run."
+}

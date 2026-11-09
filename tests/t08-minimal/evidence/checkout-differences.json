@@ -1,0 +1,125 @@
+{
+  "php": {
+    "inventorySha256": "76b84c6623790326f4cc04e01f2393d665fdd88d0b38ae68933b7f672835117c",
+    "checkoutDifferences": [
+      {
+        "path": "ext/dba/libcdb/cdb.c",
+        "checkoutBytes": 4044,
+        "checkoutSha256": "f2360b4e203988138e9d630f7b47357727f2fe6ab8d38f60ac882c371e244e64",
+        "gitBlobSha256": "7967c1e8913775c73b4a059986efd2d8c09501aaa970a663d42a548c1a034361",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "ext/dba/libcdb/cdb_make.c",
+        "checkoutBytes": 5621,
+        "checkoutSha256": "37b784923edf93a0297d7b77474648537d673149915c3d59db67e0e7ef4dfbf0",
+        "gitBlobSha256": "d74717a83d0d83b8d52bf8ebf8a1d7897e5e88339ef0224aa682615911d0581c",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "ext/dba/libflatfile/flatfile.c",
+        "checkoutBytes": 7377,
+        "checkoutSha256": "1591724fb5be03c34997bb80d75827fd95163082fcf6ff9ddb93b3ba21dbf833",
+        "gitBlobSha256": "8d7f3ea2c8d9130e7c46550ec6915a71a088586c9b087e2d83f38035a4a108eb",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "ext/dba/libinifile/inifile.c",
+        "checkoutBytes": 14877,
+        "checkoutSha256": "94a8357db2581131461c2298ed9c2e78eab4b775812e55401b3ad4b2378b7a6f",
+        "gitBlobSha256": "f685dc7fb7c10359c2a96c654b6adec8bc9c08c248fcfccad13b20f354a63d7e",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "ext/ext_skel.php",
+        "checkoutBytes": 13425,
+        "checkoutSha256": "3332cb30c1a5c554f0718ab9c565a049ce3d3d8d6d6fc03ef1b1f1287c3e0e2e",
+        "gitBlobSha256": "3be86969f3b2016541c67d0ca9f936074509974b2a84ee35930c83a36d483f55",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "ext/phar/phar/pharcommand.inc",
+        "checkoutBytes": 49913,
+        "checkoutSha256": "3700bd0575994ee946c2f10795bfdfc854354fa8027e162d2d48a02473827d56",
+        "gitBlobSha256": "323528e3e66bdc9918ac276662e625a2db8bd10576e0d77d708a9e5e26647dd1",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      },
+      {
+        "path": "run-tests.php",
+        "checkoutBytes": 142790,
+        "checkoutSha256": "8c93909ce8a606be3857fee441b99f59266f474ba238da42509a4ea904d0c684",
+        "gitBlobSha256": "72430299985538bcece3f9cb3740d85957b9cabbd075e73532879bede2f07fcc",
+        "differenceKind": "git-ident-expansion",
+        "pinnedGitAttributes": {
+          "text": "unspecified",
+          "eol": "unspecified",
+          "filter": "unspecified",
+          "working-tree-encoding": "unspecified",
+          "ident": "set"
+        }
+      }
+    ]
+  },
+  "libiconv": {
+    "inventorySha256": "8f52287af57c8139f9e1d4877ce47d30537551d208bf42b8775324cad081061f",
+    "checkoutDifferences": []
+  },
+  "libxml2": {
+    "inventorySha256": "c142ac238e38c0790b1e8706167511c4a1d192cd666258cb67fb613a2b1c5304",
+    "checkoutDifferences": []
+  },
+  "zlib": {
+    "inventorySha256": "d06db318357ccc3171ee3e89d1b6c8b9cab92161ddba321d73ab9717af73e7ad",
+    "checkoutDifferences": []
+  },
+  "wineditline": {
+    "inventorySha256": "f0f3acb251202db5c40e7122cc7d808c0f9cf916ae29837eba765e934b81fec9",
+    "checkoutDifferences": []
+  },
+  "libargon2": {
+    "inventorySha256": "4fe6b93ecd3af2a6b968a39cf5a1d1a73d0454ab4b1274ceb0c5fb1c35b1190b",
+    "checkoutDifferences": []
+  }
+}

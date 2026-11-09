@@ -29,3 +29,23 @@ CI artifact는 7일 보관하며 publish 바이너리와 다운로드 cache는 �
 PHP `deplister`는 BindImageEx BOOL을 반환하여 exit1이 TRUE입니다. 각 import의 OK/NOTFOUND를 별도로 보존하며 Firebird PDO의 fbclient.dll NOTFOUND도 그대로 기록했습니다. 64개 이미지 관측이나 소스 ZIP2개 생성만으로 native 출처·고지·재링크 의무가 해결된 것은 아닙니다. 환경변수/서버 변수는 수집하지 않습니다. PHP 코어 BCMath가 -n에서도 활성임을 확인했으므로 최소 CLI 후보 역시 대응 소스 검토가 필요합니다.
 
 Git에는 원문 고지·실측/파일/소스 대조 메타데이터를 보존하고, 생성한 대응 소스 ZIP의 해시를 기록했습니다. ZIP2개와 전체 로그/binlog는 7일 artifact에 있습니다. 최종 배포에서는 이를 재생성·대조하고 같은 배포 위치에서 지속 제공해야 합니다.
+
+## 승인된 B안의 PHP 코어 소스 검토
+
+최소 CLI 비교·회귀와 `Collect-PhpCoreSource.py`의 정확한 명령은 [tests/t08-minimal](../../tests/t08-minimal/README.md)을 따릅니다. 안전한 PHP 정보/알고리즘 프로브와 실제 in-ZIP CDX를 입력합니다. PHP 태그·고정 커밋과 선택한 코어 의존성 전체 tracked 경로의 변환 전 Git blob 바이트, 원문 고지·빌드 자료 및 공식 bundled-source digest를 기록합니다. Windows configure가 만드는 헤더 2개는 원본 소스와 분리해 입력 Git blob/레시피/출력 SHA를 기록하고, 원본21/23과 생성물 포함23/23을 함께 남깁니다. 코어 소스 수집 성공은 native rebuild/relink·모든 바이너리 대응·재배포 적합성 완료를 의미하지 않습니다. 최종 배포에서는 재현 가능한 소스 아카이브와 고지·재구성 자료를 같은 배포와 지속 제공해야 합니다.
+
+
+## 소스·고지 동반 ZIP 준비
+
+격리 PHP 재링크의 생성 Makefile·설정·응답 파일 보존 절차는 [최소 CLI 재링크 안내](../../tests/t08-minimal/README.md)를 따릅니다. 해당 자료 ZIP은 실행 파일이나 독점 도구체인 없이 원본/마커 감사 빌드의 실제 텍스트 입력만 보존하며, 최종 제품 전체 구성과의 대응·지속 제공은 별도입니다.
+
+실제 core source 및 engine source 수집이 완료된 뒤 다음 명령을 사용합니다. 기존 출력을 덮어쓰지 않습니다.
+
+```powershell
+python tools/license-audit/Collect-BuildSources.py --output artifacts/t08-build-source
+python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
+```
+
+[전용 Windows workflow](../../.github/workflows/t08-source-sidecar.yml)는 팩 준비→실제 publish/엔진 source 수집→core/build source 수집→동반 ZIP 순으로 실행합니다. source archive와 inventory의 기록 SHA, collector의 Git-byte 검증 및 vendor 대조 결과를 확인한 후 소스·원문 고지·현재 프로젝트 레시피를 묶습니다. core 원본6개·LGPL engine2개·builder/SDK2개와 별도 설정 생성 ZIP을 포함하며 `--build-audit`를 생략한 경우에는 buildRecipeSourcesIncluded=false로 기록합니다. 생성 결과가 법적 배포 승인이나 영구 소스 제공을 뜻하지 않습니다. PHP/Zend 후속 조건 선택은 사용자 승인으로 license-election.json에 반영했습니다. 최종 바이너리와 동반 ZIP을 같은 배포 위치에서 지속 제공하고 각각 SHA를 고정해야 합니다.
+
+재링크 workflow가 사용하는 `tests/t08-minimal/evidence/native-inputs.json`(의존성 후보 URL·고정 SHA)과 `tests/t08-minimal/check_relinked_php.py`, 후보 준비에 필요한 `tests/t09/`의 `check_pair.py`·`check_package.py`·`WINDOWS11_TEST.md`·`check_source_sidecar.py`도 동반 ZIP에 포함합니다. 페어링 검증은 여섯 파일의 존재와 현재 checkout 바이트 일치를 확인합니다. 이 목록의 해시는 현재 서버에서 수집한 후보의 해시이며 과거 공식 빌드 입력과 동일하다는 증거로 승격하지 않습니다. 동반 ZIP은 모든 일반 GUI/서비스 CI 시험 코드를 포함하지 않으므로 전체 CI 재실행에는 해당 저장소 checkout을 사용합니다.

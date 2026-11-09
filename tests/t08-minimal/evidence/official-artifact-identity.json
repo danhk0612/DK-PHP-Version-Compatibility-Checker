@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-11-09",
+  "scope": "Official workflow artifact byte identity and delivered source ZIP identity only; no native rebuild or legal clearance",
+  "officialBuild": {
+    "repository": "php/php-windows-builder",
+    "runId": 40301342976,
+    "headSha": "68dc945d9509c41b72332c74c8b99731bb75bc25",
+    "artifactId": 12641062548,
+    "artifactApi": "https://api.github.com/repos/php/php-windows-builder/actions/artifacts/12641062548",
+    "artifactBytes": 353269590,
+    "artifactSha256": "5292fcc1d336b34dc75a2c37d48aac29619d3a78b5958b4332192ce7c64f83e1",
+    "artifactDigestMatched": true,
+    "expiresAt": "2027-01-24T09:40:17Z"
+  },
+  "approvedRuntimeZip": {
+    "member": "php-8.4.27-1-nts-Win32-vs17-x64.zip",
+    "bytes": 35296081,
+    "sha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7",
+    "approvedSha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7",
+    "approvedZipBytesMatched": true,
+    "runtimeFiles": [
+      {
+        "path": "php.exe",
+        "bytes": 183808,
+        "sha256": "69f59f1e561c24c5204800ad8ecc1585d79dfa03d07a644d66f4241c86b5991e"
+      },
+      {
+        "path": "php8.dll",
+        "bytes": 11515904,
+        "sha256": "d3ab8a382818c1d937e8d88464bda8c031aa73179ae092ba8a660f1c8ff87661"
+      }
+    ],
+    "minimalManifestFilesMatched": true
+  },
+  "windowsSourceZip": {
+    "member": "php-8.4.27-1-src.zip",
+    "bytes": 31802516,
+    "sha256": "9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d",
+    "previousReviewedSha256": "9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d",
+    "previousReviewedSourceBytesMatched": true
+  },
+  "developmentPack": {
+    "member": "php-devel-pack-8.4.27-1-nts-Win32-vs17-x64.zip",
+    "bytes": 1426606,
+    "sha256": "e5f610141b9686ee13f93add3c9e9dd7996bedde7e431f2a334dbfa106f14dad",
+    "memberExtensionCounts": {
+      ".lib": 38,
+      ".obj": 0,
+      ".rsp": 0
+    },
+    "completeLinkInputsEstablished": false
+  },
+  "verificationProcedure": [
+    "Fetch artifact 12641062548 from the official php/php-windows-builder run 40301342976 with GitHub Actions artifacts API",
+    "Download archive, verify 353269590 bytes and SHA256 5292fcc1d336b34dc75a2c37d48aac29619d3a78b5958b4332192ce7c64f83e1",
+    "Use Python zipfile.ZipFile to read nested NTS x64 runtime ZIP and compare its SHA256 to the approved tools/engine-pack PHP ZIP hash; hash php.exe/php8.dll from that nested ZIP",
+    "Read nested Windows source ZIP and compare SHA256 to official-build-evidence.json; inspect development-pack member extensions without executing binaries"
+  ],
+  "historicalNativeDependencyBytesMatched": false,
+  "historicalSdkCommitVerified": false,
+  "fullBuildAndLinkInputsVerified": false,
+  "redistributionCleared": false,
+  "limits": [
+    "This connects the approved ZIP to the observed official workflow head/configuration, not to exact historical SDK tag resolution or native dependency download bytes.",
+    "The development pack contains import libraries; this inspection does not establish a complete set of relinkable object files or link response inputs.",
+    "The official artifact is temporary upstream evidence, not this project durable source distribution.",
+    "No product binaries, engine versions or target PHP versions were changed."
+  ]
+}
