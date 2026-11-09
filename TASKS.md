@@ -123,7 +123,7 @@
 - 금지: 외부 코드를 MIT로 재표시, 링크만 있으면 모든 소스 의무 충족이라고 단정, 충돌 시 이름·스택 임의 변경.
 - 환경: 저성능 Work로 자료·고지 준비. 해석 충돌은 고성능 Chat에서 사용자 판단.
 
-- 현재 근거: [Windows 실측](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)의 publish 경고·오류 0, 400파일 출처 매핑/팩 865파일, LGPL source checkout 783/516파일·배포 244/58파일 바이트 대조 통과. 자체 LICENSE·고지 초안·엔진/GPL/PHP/Zend/일부 내장 고지·NuGet 고지/Windows 파일별 예외와 원본 근거를 준비함. [LICENSING.md](LICENSING.md)의 native 포함/정적 링크·고지·대응 소스/재링크·최종 동시 제공 조건은 남음. 2026-11-05 사용자가 B안 최소 CLI 팩 축소·전체 비교 재검증을 승인했으며 PR #8에서 진행함. [B안 Windows 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)의 팩 비교·서비스61/화면21/GUI36건 및 생성 소스/변조9건이 통과함. raw source6개/31,375파일을 보존하고 Windows configure 헤더2개를 별도 추적해 공식 bundled digest23/23을 대조함(raw만21/23은 별도 유지). 공식 Windows source ZIP 전체와 builder 로그의 정적 선택/도구·PGO 경로도 확인함. 남은 범위는 builder/SDK 소스·고지와 정확한 deps/도구·링크 입력을 실제 배포물에 대응시키고 최종 고지/소스 지속 제공을 검증하는 것임. [의존성 후보 실측·libiconv 원본/마커 빌드](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 확보함. SDK 10.0.26100.0 감사 빌드임. [검증용 PHP 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 원본/마커 출력1.19/1.20, PHPCS 24사례 동일·대상/팩 불변 통과. 공식 배포 바이너리 재현·동일 입력·최종 고지와 영구 소스 제공은 미검증임. 미해결 상태에서 T08 완료/T10·T09 선행 통과로 처리하지 않음.
+- 현재 근거: [Windows 실측](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41941111848)의 publish 경고·오류 0, 400파일 출처 매핑/팩 865파일, LGPL source checkout 783/516파일·배포 244/58파일 바이트 대조 통과. 자체 LICENSE·고지 초안·엔진/GPL/PHP/Zend/일부 내장 고지·NuGet 고지/Windows 파일별 예외와 원본 근거를 준비함. [LICENSING.md](LICENSING.md)의 native 포함/정적 링크·고지·대응 소스/재링크·최종 동시 제공 조건은 남음. 2026-11-05 사용자가 B안 최소 CLI 팩 축소·전체 비교 재검증을 승인했으며 PR #8에서 진행함. [B안 Windows 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41976238445)의 팩 비교·서비스61/화면21/GUI36건 및 생성 소스/변조9건이 통과함. raw source6개/31,375파일을 보존하고 Windows configure 헤더2개를 별도 추적해 공식 bundled digest23/23을 대조함(raw만21/23은 별도 유지). 공식 Windows source ZIP 전체와 builder 로그의 정적 선택/도구·PGO 경로도 확인함. builder/SDK 소스 수집과 동반 ZIP 생성은 후속 자동시험에서 통과했음. 남은 범위는 실제 배포물에 필요한 소스·변경·빌드/링크 자료와 고지의 충분성 및 최종 소스 지속 제공 검토임. [의존성 후보 실측·libiconv 원본/마커 빌드](tests/t08-minimal/evidence/native-rebuild-provenance.json)를 확보함. SDK 10.0.26100.0 감사 빌드임. [검증용 PHP 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42018682117)에서 원본/마커 출력1.19/1.20, PHPCS 24사례 동일·대상/팩 불변 통과. 공식 배포물의 정확한 입력 대응·최종 고지와 지속 소스 제공은 미검증임. 동일 해시 바이너리 재현 자체를 별도 라이선스 완료 조건으로 추가하지 않음. 미해결 상태에서 T08 완료/T10·T09 선행 통과로 처리하지 않음.
 
 ## T09 — ZIP 배포 후보·통합 검증
 
@@ -134,9 +134,9 @@
 - 금지: 직접 Release/tag 게시, 미승인 자동 설치·업데이트·관리자 권한 요구 추가, 합격을 전체 PHP 런타임 호환으로 표현.
 - 환경: 저성능 Work. 여러 기능에 걸친 문제는 고성능 Work로 범위 재판단.
 
-로컬 시험 준비의 전역 PHP·Composer 의존성을 제거했습니다. 중첩 경로·전역 core.longpaths=false 조건의 소스 수집, 단일 진입 명령 전체 실행 및 환경 복원·임시 도구 제거의 Windows 근거는 tests/t09/evidence/bootstrap-preparation.json입니다. Windows 11 사용자 직접 시험은 대기합니다.
+로컬 시험 준비의 전역 PHP·Composer 의존성을 제거했습니다. 중첩 경로·전역 core.longpaths=false 조건의 소스 수집, 단일 진입 명령 전체 실행 및 환경 복원·임시 도구 제거의 Windows 근거는 tests/t09/evidence/bootstrap-preparation.json입니다. Windows 11 사용자 직접 시험의 확인 범위와 잔여 항목은 아래와 같습니다.
 
-사용자 진단에서 기존 단일 프로세스의 128/512MB 소진을 확인한 뒤, 승인된 최대100개 순차 분할·메모리 실패 재분할·단일 실패 파일 식별·일부 결과 합산을 구현했습니다. tests/t09/evidence/batched-scans.json에서 Windows T05 71/T06 25/T07 36건과 후보 페어링을 검증했습니다. 2026-11-09 사용자 제공 화면에서 목표8.4·하위 포함, 선택/처리28,817·ERROR550/WARNING265·완료 표시를 확인했습니다(바이너리 SHA 미수집). 해당 사용자 시험은 확인했으며 다른 목표·오프라인·원본 불변·깨끗한 Windows 11 배포 전제 등 미실행 항목은 대기합니다. 빠른 로컬 진단 재빌드는 tests/t09/WINDOWS11_TEST.md를 따릅니다. 2026-11-09 사용자 요청에 따라 실제 PC의 동일 프로젝트 오프라인 재검사는 미실행·생략으로 구분하고 재요청하지 않습니다. 기존 자동 오프라인 검증 근거는 유지합니다.
+사용자 진단에서 기존 단일 프로세스의 128/512MB 소진을 확인한 뒤, 승인된 최대100개 순차 분할·메모리 실패 재분할·단일 실패 파일 식별·일부 결과 합산을 구현했습니다. tests/t09/evidence/batched-scans.json에서 Windows T05 71/T06 25/T07 36건과 후보 페어링을 검증했습니다. 2026-11-09 사용자 제공 화면에서 목표8.4·하위 포함, 선택/처리28,817·ERROR550/WARNING265·완료 표시를 확인했습니다(바이너리 SHA 미수집). 다른 목표·원본 불변·깨끗한 Windows 11 배포 전제 등 미실행 항목은 대기합니다. 빠른 로컬 진단 재빌드는 tests/t09/WINDOWS11_TEST.md를 따릅니다. 실제 PC의 동일 프로젝트 오프라인 재검사는 사용자 요청으로 미실행·생략 처리하고 재요청하지 않습니다. 기존 자동 오프라인 검증 근거는 유지합니다.
 
 ## T10 — 엔진 팩 제작·수동 교체와 향후 버전 확장 검증
 
@@ -153,4 +153,6 @@ PHPStan(D06), D07의 자동 다운로드/업데이트 UI, 내보내기(D10), 자
 
 ## 현재 사용자 확인 경계
 
-T08 소스 동반 ZIP 생성, T10 개발용 새 OS 프로세스의 팩 교체/복원, T09 내부 ZIP 생성·실행 자동시험은 a582fc7에서 통과했습니다. 실제 근거는 CURRENT_STATE의 실행 링크와 tests/t09/evidence, tests/t10/evidence를 따릅니다. PHP v4/Zend v3 후속 조건은 2026-11-06 사용자 승인으로 반영했으며 최종 배포 pairing·지속 소스 제공 및 Windows 11 수동 시험은 남습니다. 사용자에게 감사 ZIP을 배포 가능한 후보라고 전달하지 않습니다.
+T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 OS 프로세스의 팩 교체/복원 12건, T09 내부 ZIP 생성·실행 자동시험은 통과했습니다. 최신 분할 검사 후보의 바이너리·소스 페어링도 통과했으며 tests/t09/evidence/batched-scans.json에 두 ZIP SHA와 범위를 기록했습니다. 이는 최종 공개 산출물의 지속 제공 완료나 공개 배포 승인이 아닙니다. PHP v4/Zend v3 후속 조건 선택은 이미 사용자 승인됐습니다.
+
+다음 자동 작업은 T08의 실제 제품 PHP에 대응하는 소스·변경·필요 빌드/링크 자료와 고지의 잔여 충분성 검토입니다. builder/SDK 수집 자체를 미구현으로 취급하지 않고 기존 감사 빌드와 실제 배포물의 대응을 구별합니다. 자료 대조는 저성능 Work, 해석 충돌은 고성능 Chat으로 인계합니다. 깨끗한 Windows 11의 미실행 시험은 사용자 환경이 필요하며, 동일 프로젝트 수동 오프라인 재검사는 생략 상태를 유지합니다. 최종 후보를 다시 만들면 해당 checkout의 바이너리·소스 페어링을 다시 확인합니다. 공개 산출물·소스/고지의 지속 제공과 병합·tag·Release는 명시 지시 전까지 진행하지 않습니다.
