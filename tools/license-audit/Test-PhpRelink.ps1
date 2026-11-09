@@ -25,7 +25,7 @@ $timer = [Diagnostics.Stopwatch]::StartNew()
 $libReport = Get-Content -Raw -LiteralPath (Join-Path $output 'libiconv/libiconv-rebuild.json') | ConvertFrom-Json
 $toolVersions = @()
 foreach ($tool in @('cl.exe', 'link.exe', 'nmake.exe')) {
-    $toolPath = (Get-Command $tool -CommandType Application -ErrorAction Stop).Source
+    $toolPath = @(Get-Command $tool -CommandType Application -ErrorAction Stop)[0].Source
     $version = [Diagnostics.FileVersionInfo]::GetVersionInfo($toolPath)
     $toolVersions += [ordered]@{ name=$tool; path=$toolPath; fileVersion=$version.FileVersion; productVersion=$version.ProductVersion }
 }

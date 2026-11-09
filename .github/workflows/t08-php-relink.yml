@@ -68,6 +68,7 @@ jobs:
         run: |
           call "%CD%\artifacts\php-sdk\phpsdk-vs17-x64.bat" -t "%CD%\artifacts\php-relink-task.bat"
           if errorlevel 1 exit /b 1
+          if not exist "%CD%\artifacts\t08-php-relink\php-relink.json" exit /b 1
       - name: Compare relinked PHP and PHPCS regressions
         shell: pwsh
         run: |
