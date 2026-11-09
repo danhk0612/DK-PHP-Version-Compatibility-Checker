@@ -79,5 +79,59 @@
     "Product ZIPs were generated internally and not uploaded; metadata artifact retention is temporary.",
     "Source member hashes describe the actual Windows checkout bytes, including checkout line endings.",
     "No merge, tag or Release; public redistribution is not approved."
-  ]
+  ],
+  "relatedWindowsRuns": [
+    {
+      "id": 42549726053,
+      "name": "T08 native build input inventory",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549726088,
+      "name": "T08 isolated libiconv rebuild",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549726044,
+      "name": "T10 development pack exchange",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549726014,
+      "name": "T09 local audit package rehearsal",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549726060,
+      "name": "T08 source and notice companion preparation",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549726045,
+      "name": "T08 minimal CLI pack and core source verification",
+      "conclusion": "success"
+    },
+    {
+      "id": 42549725983,
+      "name": "T08 isolated PHP relink",
+      "conclusion": "success"
+    }
+  ],
+  "regressions": {
+    "T05": {
+      "passed": 71,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T06": {
+      "passed": 25,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T07": {
+      "passed": 36,
+      "failures": 0,
+      "scopePassed": true
+    }
+  }
 }

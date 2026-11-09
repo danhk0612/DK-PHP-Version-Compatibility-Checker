@@ -28,7 +28,7 @@ T00~T07은 완료했습니다. 폴더 선택 → 목표 PHP 버전 선택 → �
 | 영역 | 확인된 결과 | 근거와 한계 |
 | --- | --- | --- |
 | 엔진·원본 보호 | 목표별 fixture, 설정 격리, 링크 제외, 입력 목록/해시 불변, 네트워크 차단 검사 | [T01](tools/ENGINE_PROBE.md), [T04](tests/t04/evidence/). 동적 속성 미탐지 등 엔진 한계를 포함한 검증입니다. |
-| 최신 서비스·GUI 회귀 | T05 71건 / T06 25건 / T07 36건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379), [근거](tests/t09/evidence/batched-scans.json). Windows Server 2022 CI입니다. |
+| 최신 서비스·GUI 회귀 | T05 71건 / T06 25건 / T07 36건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42549726045), [기준 커밋·회귀 근거](tests/t09/evidence/reconstruction-inputs.json). Windows Server 2022 CI입니다. 분할 검사 상세 근거는 [batched-scans](tests/t09/evidence/batched-scans.json)도 보존합니다. |
 | 분할 검사 | 실제 PHPCS의 자체 생성 28,817파일, 205입력 100/100/5 새 프로세스, 실제 메모리 소진 재분할, 복수 단일 실패·결과 보존·중단 정리 통과 | 같은 batched-scans 근거. 생성 입력의 통과를 사용자 프로젝트 시험으로 대체하지 않습니다. |
 | 사용자 실제 프로젝트 | 목표 8.4·하위 포함, 선택/처리 28,817, ERROR 550 / WARNING 265, 완료 표시 | 2026-11-09 사용자 제공 화면. 실행 바이너리/ZIP의 정확한 SHA는 미수집입니다. 815건은 탐지 문제 수입니다. |
 | 로컬 후보 준비 | PHP/Composer 사전 설치 없이 고정 해시 임시 도구 사용, 중첩 긴 경로 수집·환경 복원·정리 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503), [근거](tests/t09/evidence/bootstrap-preparation.json). |
@@ -42,7 +42,7 @@ batched-scans.json의 “사용자 프로젝트 재시험 전” 문구는 해�
 
 자체 LICENSE·서드파티 고지, 실제 publish 파일 출처, 엔진 LGPL 소스 바이트 대응을 준비했습니다. 최소 CLI의 코어 원문 6개와 Windows 생성 헤더 2개를 구분하고 설정 포함 bundled digest 23/23을 확인했습니다. builder/SDK 소스 2개도 수집해 엔진 2개와 함께 소스·고지 동반 ZIP을 생성하는 절차가 있습니다.
 
-동반 ZIP에는 재링크의 의존성 후보 해시 목록·결과 비교기와 후보 생성에 필요한 검증/안내 파일 6개를 명시적으로 포함합니다. 이전 필터의 누락을 보완했고, 위 최신 후보 검증에서 존재·현재 checkout 바이트 일치와 누락/변조 거부를 확인했습니다. 전체 일반 CI 시험 코드까지 동반 ZIP에 포함하는 것은 아닙니다.
+동반 ZIP에는 재링크의 의존성 후보 해시 목록·결과 비교기와 후보 생성에 필요한 검증/안내 파일 6개를 명시적으로 포함합니다. 이전 필터의 누락을 보완했고, 위 최신 후보 검증에서 존재·현재 checkout 바이트 일치와 누락/변조 거부를 확인했습니다. 관련 Windows 검증 7개(최소 CLI/코어·네이티브 입력·libiconv 빌드·PHP 재링크·소스 동반 ZIP·후보 패키징·팩 교체)도 모두 통과했습니다. 실행 ID와 서비스/GUI 회귀 수는 reconstruction-inputs 근거에 있습니다. 전체 일반 CI 시험 코드까지 동반 ZIP에 포함하는 것은 아닙니다.
 
 격리 libiconv 원본/마커 빌드 및 PHP 재링크 후 PHPCS 24사례 동일 결과를 확인했습니다. 이 감사용 축소 빌드는 실제 제품 PHP 바이너리에 필요한 전체 입력 대응을 입증하지 않습니다. [공식 artifact 직접 대조](tests/t08-minimal/evidence/official-artifact-identity.json)에서는 공식 빌드 산출물 안의 NTS x64 ZIP과 승인 PHP ZIP의 SHA 일치, php.exe/php8.dll 및 기존 Windows source ZIP 해시 일치를 확인했습니다. 과거 SDK 커밋·의존성 ZIP 바이트와 전체 빌드/링크 입력의 충분성은 여전히 미검증입니다. 자세한 원문·해시·실험 범위는 [LICENSING](LICENSING.md), [T08 최소 CLI 근거](tests/t08-minimal/evidence/)에 있습니다.
 
