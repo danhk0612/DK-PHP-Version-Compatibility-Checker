@@ -69,4 +69,6 @@ D06 PHPStan, D10 내보내기와 자동 다운로드/갱신 UI는 보류입니�
 
 [Windows 회귀](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379)에서 T05 71건/T06 25건/T07 36건을 통과했습니다. 실제 PHPCS의 자체 생성 28,817파일 검사, 205입력의 100/100/5 분할·새 프로세스·정확한 합산, 실제 PHP 메모리 소진 후 재분할 복구, 복수 단일 실패 경로·정상 결과 보존, 비메모리/불량 UTF8/JSON 메시지 오인 방지, 후속 묶음 도중 Dispose의 결과 보존·자식 종료·다음 실행 차단·임시 정리를 검증했습니다. [후보 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858759)도 통과했습니다. 최신 수정 기준과 해당 후보 ZIP 해시는 tests/t09/evidence/batched-scans.json을 따릅니다. 이전 memory-and-copy/scan-failure-diagnostics는 메모리 한도·진단 표시 보완, bootstrap-preparation은 긴 경로 준비 검증 근거입니다.
 
-다음은 tests/t09/WINDOWS11_TEST.md의 로컬 진단 재빌드로 사용자 전체 프로젝트를 재검사하는 것입니다. 자체 생성 파일 통과가 실제 프로젝트 또는 파일 하나의 512MB 내 완료를 보장하지 않으며, 해당 재시험과 나머지 Windows 11 직접 시험은 남습니다.
+2026-11-09 사용자 제공 실행 화면에서 목표 PHP 8.4·하위 폴더 포함으로 실제 프로젝트의 선택 28,817개/처리 28,817개, ERROR 550건/WARNING 265건, 상태 완료를 확인했습니다. 이는 사용자 시험 화면 근거이며 실행 바이너리의 정확한 SHA·ZIP 해시는 수집하지 않았습니다. 탐지 815건은 엔진 실행 오류 수가 아니며 실제 런타임 호환성 보장을 뜻하지 않습니다.
+
+사용자 전체 프로젝트의 검사 완료 표시 확인은 끝났습니다. 나머지 목표 버전·오프라인 재검사·원본 파일 목록/해시 불변·깨끗한 Windows 11 배포 전제 등 tests/t09/WINDOWS11_TEST.md의 미실행 항목은 여전히 검증 대기입니다. T09 전체나 공개 배포를 완료 처리하지 않습니다.
