@@ -281,8 +281,10 @@ internal static class Program
             var r = await Scan(p, excludedPaths: ["VENDOR/", "./omit.php", Path.Combine(p, "vendor")]);
             Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3,
                 r.FailureMessage ?? "Configured exclusions did not select exactly three files");
-            Check(r.Issues.Count == 2 && r.Issues.All(i => i.FilePath == sibling || i.FilePath == fileSibling),
-                "Excluded paths reached engine or sibling-prefix matches were excluded");
+            var expectedVisible = new[] { Path.GetFullPath(sibling), Path.GetFullPath(fileSibling) };
+            Check(r.Issues.Count == 2 && r.Issues.All(i => expectedVisible.Contains(i.FilePath, StringComparer.OrdinalIgnoreCase)),
+                "Excluded paths reached engine or sibling-prefix matches were excluded: "
+                + string.Join("; ", r.Issues.Select(i => i.FilePath)));
             Check(r.ExcludedPaths.Count == 2 && r.ExcludedPaths.Contains(omitted)
                 && r.ExcludedPaths.Contains(Path.Combine(p, "vendor")), "Configured exclusions were hidden or duplicated");
             Unchanged(before, p);
