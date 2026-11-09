@@ -25,6 +25,7 @@ CI와 동일한 기본 창 검증은 빌드 후 `./tests/t03/Test-Window.ps1`로
 - `EnginePackLoader.LoadAsync(packDirectory)`는 schema/profile·전체 파일/해시·lock/설치 참조·검증 근거·목표를 대조하여 `EnginePack`을 반환합니다. `Targets`의 Version/VerificationRef/Limitations를 GUI가 사용하며 숫자를 별도 고정하지 않습니다. 신뢰된 팩 구성의 정합성 검증이며 발행자 인증이나 OS sandbox가 아닙니다.
 - `await using var service = new ScanService(packDirectory);` 후 `await service.ScanAsync(request)`로 실행합니다. 동시 실행은 InvalidOperationException, Dispose 뒤 호출은 ObjectDisposedException입니다. 폴더/팩/엔진/결과 실패는 ScanResult.Failed로 반환합니다. 수명 종료 시 `await service.DisposeAsync()`로 소유 자식 프로세스 종료와 자체 임시 파일 정리를 기다립니다. 실제 WPF 종료는 T07에서 연결하여 Dispose와 실행 핸들러 완료를 기다립니다. Windows 검증 상태는 CURRENT_STATE.md를 따릅니다.
 - 서비스는 검사마다 팩을 다시 검증합니다. .php/.inc를 읽기 전용으로 열거하고 reparse 경로는 제외 목록으로 알립니다. 루트/상위 링크·읽기 불가·소스/팩/작업 폴더 중첩은 실패입니다. Windows directory handle의 NT 경로도 비교하여 SUBST 드라이브 별칭 중첩을 검사하며 해석할 수 없으면 작업 폴더를 만들기 전에 실패합니다.
+- T11의 `ScanRequest.ExcludedPaths`는 선택형 제외 목록입니다. 서비스가 비동기 작업 전에 읽기 전용 복사하고, 루트 내부의 정확한 경로만 탐색 전에 제외합니다. 폴더 하위는 방문하지 않으며 정확한 파일도 열기/엔진 입력 전에 제외합니다. 접두사가 같은 형제 경로는 유지합니다. 없는 제외 경로는 현재 탐색 결과에 추가하지 않습니다. 전체 제외는 NoFiles이며 호환성 통과가 아닙니다.
 - 대상 밖 사용자 임시 영역의 file-list, 전용 ruleset/cwd, -n -d memory_limit=512M·ini 환경 격리·ignore-annotations·no-cache를 사용합니다. shell과 대상 PHP/Composer/bootstrap을 실행하지 않습니다. stdout/stderr는 동시에 raw stream으로 수집한 뒤 엄격한 UTF-8로 해석합니다.
 - 선택 파일은 최대 100개씩 새 PHP 프로세스에서 순차 검사합니다. exit255와 실제 메모리 소진 진단이 확인된 묶음만 절반으로 재시도해 단일 실패 파일까지 식별합니다. 재시도한 상위 결과는 버리고 최종 결과만 합산하므로 중복되지 않습니다. 기타 실패는 재분할하지 않고 이후 묶음을 계속 처리합니다. 최종 실패가 있으면 전체 Failed이며 유효한 일부 결과와 모든 확인된 단일 실패 경로를 보존합니다. 종료 요청은 다음 프로세스를 시작하지 않습니다.
 - `PhpcsReportParser`는 원문 행·파일/전체 totals·선택 파일 대응과 PHPCS4의 exit bit(수정가능 1/나머지 2)를 대조합니다. 같은 줄 다른 규칙도 보존합니다. 실패/부분 결과를 Completed 0건으로 만들지 않습니다.
@@ -41,6 +42,8 @@ T05 [최종 Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatib
 `ScanPresentation`은 .NET 기본 INotifyPropertyChanged를 사용하는 단일 표시 모델입니다. `SetPack`이 받은 검증 목표 인스턴스만 선택할 수 있고, 기본 재귀는 켬입니다. 폴더/목표/재귀를 바꾸면 이전 집계·문제·실패·제외 목록을 초기화합니다. `ShowRunning()`은 입력을 잠그고 `ApplyResult(ScanResult)`는 결과의 요청과 표시 입력을 맞추며 원문 문제·nullable 처리 수·제외 경로를 보존합니다. 실패/부분 결과·NoFiles·정상 0건은 서로 다른 문구로 표시합니다. 짧은 검사 상태는 고정 헤더에 항상 표시하고 긴 설명·제외 경로·한계는 제한된 viewport에서 스크롤로 접근합니다.
 
 입력 존재 확인과 `CanPrepareScan`은 실행 가능 입력의 표시 기준입니다. T07에서 검증 팩의 ScanService와 버튼을 연결했습니다. 유효 입력·서비스가 있고 로딩/종료 중이 아닐 때만 버튼을 활성화하며 클릭 핸들러에서도 중복 실행을 거부합니다. `ShowRunning()` 뒤 비동기 ScanAsync를 호출하고 결과를 `ApplyResult()`로 반영합니다. 폴더 선택은 WPF 기본 OpenFolderDialog를 사용하며 대상 프로젝트에 파일을 쓰지 않습니다.
+
+T11의 접이식 ‘검사 제외 폴더·파일’에서 폴더·파일 추가와 선택 항목 제거를 제공합니다. 지정 목록은 현재 앱 실행 중 유지하고 검사 폴더를 바꾸면 초기화합니다. 제외 변경 시 결과를 초기화하며 검사 중에는 목록/선택 버튼도 잠급니다. 기존 하단 ‘제외된 경로’는 실제 탐색에서 건너뛴 사용자 지정 경로와 reparse 경로를 표시합니다. glob·정규식·영구 설정 저장은 포함하지 않습니다.
 
 `MainWindow(ScanPresentation)` 생성자는 검증 데이터 주입을 위한 직접 구성 경로로 자동 팩 로드를 하지 않습니다. 제품에 데모 모드·테스트 옵션은 없습니다. 테스트 콘솔이 별도 창 제목과 PNG 상단 띠로 검증 데이터임을 명시합니다. 기본 생성자는 실제 팩 부재 상태에서도 임의 목표나 가짜 결과를 만들지 않습니다.
 

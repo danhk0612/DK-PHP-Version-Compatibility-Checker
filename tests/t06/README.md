@@ -16,6 +16,8 @@ PNG는 실제 표시된 WPF client visual을 RenderTargetBitmap으로 저장합�
 
 ## 최종 실측
 
+T11 추가 검증은 제외 목록의 바인딩·중복 방지·선택 제거·소스 폴더 변경 초기화·루트/외부 경로 거부와 검사 중 제외 컨트롤 잠금을 포함합니다. 실제 엔진 및 네이티브 제외 선택은 T07에서 검증합니다. 현재 코드의 실행 근거는 CURRENT_STATE의 최신 검증을 따르며 아래 최초 실측과 구분합니다.
+
 [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40966862548)의 Windows Server 2022 x64 / SDK 10.0.403에서 build 경고 0·오류 0, 검증 21건 통과. 검증 head `5cf36d114ea3347999d1568d8d03bc1ecb848bc3`, 실제 checkout merge ref `f70e6448e7d7a214286eca8db76609e0e5ed7ab0`입니다. 캡처 캔버스에 root margin을 포함하고, 최소 크기에서 짧은 상태 자체가 항상 온전히 보이는 고정 헤더와 회귀를 보완한 뒤 전체를 재실행했습니다.
 
 [summary](evidence/summary.json)에 모든 통과 항목·실제 HWND/크기·PNG 9개 SHA-256·미검증 항목을, [provenance](evidence/provenance.json)에 아티팩트/요약 해시를 보존했습니다. 대표 PNG 3개는 Git에 원본 바이트로 보존하고 나머지 PNG 및 build.binlog/dotnet-info는 7일 CI artifact에 있습니다. 후속 문서/실측 보존 커밋은 실행 코드가 같아 재실행하지 않았습니다.

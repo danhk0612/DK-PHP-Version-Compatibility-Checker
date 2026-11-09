@@ -18,6 +18,8 @@ dotnet run --project tests/t05/T05.Verification.csproj -c Release --no-build -- 
 
 실측은 `artifacts/t05/summary.json`, `T05_SUMMARY_JSON=` 콘솔 출력에 남깁니다. 하나라도 실패하면 exit 1입니다. 테스트 구현 자체는 실행 성공 근거가 아니며 실제 Windows CI 결과를 별도 확인합니다. GUI 연결(T07), 깨끗한 Windows 11 배포(T09), 팩 교체/복원 통합(T10)은 이 검증으로 완료 처리하지 않습니다.
 
+T11 사용자 지정 제외 회귀는 폴더/정확 파일·이름 접두사 형제·한글/대소문자, 전체 제외 NoFiles·없는 제외 항목, 루트/외부/패턴 거부, 실제 ACL 거부 폴더의 탐색 전 제외, junction/원본 보호, 비동기 입력 스냅샷을 확인합니다. 남아야 할 파일의 전체 문제 목록을 제외 전 실제 엔진 결과와 대조하며 파일당 진단 수를 가정하지 않습니다.
+
 최초 T05 완료 근거: [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517), Windows Server 2022 x64·SDK 10.0.403에서 build 경고 0/오류 0, 회귀 61건 통과. 실제 24 fixture를 포함하며 전체 통과 항목은 [summary.json](evidence/summary.json)에 있습니다. 초기 실행에서 발견한 테스트 JSON 생성 오류와 PHPCS 확장자 대소문자 차이를 보완한 뒤 전체를 다시 실행했습니다. 검증 head `f08de1dae5d91474ca1672d0cd128bcc0b69c784` 이후의 문서/실측 보존 커밋은 실행 코드를 변경하지 않습니다. [팩 구성](evidence/pack-manifest.json)과 [아티팩트/실측 SHA-256](evidence/provenance.json)을 보존하며 JSON 원본 바이트는 gitattributes로 유지합니다.
 
 현재 분할 검사 검증은 [Windows Actions](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379)의 71건이며, 최신 실행/아티팩트·범위는 [batched-scans.json](../t09/evidence/batched-scans.json)을 따릅니다. 위 evidence/summary.json은 초기 61건의 원문 근거입니다.
