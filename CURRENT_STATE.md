@@ -28,11 +28,11 @@ T00~T07은 완료했습니다. 폴더 선택 → 목표 PHP 버전 선택 → �
 | 영역 | 확인된 결과 | 근거와 한계 |
 | --- | --- | --- |
 | 엔진·원본 보호 | 목표별 fixture, 설정 격리, 링크 제외, 입력 목록/해시 불변, 네트워크 차단 검사 | [T01](tools/ENGINE_PROBE.md), [T04](tests/t04/evidence/). 동적 속성 미탐지 등 엔진 한계를 포함한 검증입니다. |
-| 최신 서비스·GUI 회귀 | T05 71건 / T06 25건 / T07 36건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42549726045), [기준 커밋·회귀 근거](tests/t09/evidence/reconstruction-inputs.json). Windows Server 2022 CI입니다. 분할 검사 상세 근거는 [batched-scans](tests/t09/evidence/batched-scans.json)도 보존합니다. |
+| 최신 서비스·GUI 회귀 | T05 71건 / T06 25건 / T07 36건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208511), [기준 커밋·회귀 근거](tests/t08-minimal/evidence/php-relink/build-materials.json). Windows Server 2022 CI입니다. 분할 검사 상세 근거는 [batched-scans](tests/t09/evidence/batched-scans.json)도 보존합니다. |
 | 분할 검사 | 실제 PHPCS의 자체 생성 28,817파일, 205입력 100/100/5 새 프로세스, 실제 메모리 소진 재분할, 복수 단일 실패·결과 보존·중단 정리 통과 | 같은 batched-scans 근거. 생성 입력의 통과를 사용자 프로젝트 시험으로 대체하지 않습니다. |
 | 사용자 실제 프로젝트 | 목표 8.4·하위 포함, 선택/처리 28,817, ERROR 550 / WARNING 265, 완료 표시 | 2026-11-09 사용자 제공 화면. 실행 바이너리/ZIP의 정확한 SHA는 미수집입니다. 815건은 탐지 문제 수입니다. |
 | 로컬 후보 준비 | PHP/Composer 사전 설치 없이 고정 해시 임시 도구 사용, 중첩 긴 경로 수집·환경 복원·정리 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503), [근거](tests/t09/evidence/bootstrap-preparation.json). |
-| 최신 후보 준비·페어링 | 필수 재구성 파일 6개 포함·바이트 대조, 누락/변조 거부 등 13건과 실제 전체 준비 통과. scopePassed=true, candidateForUserTesting=true, publicReleaseApproved=false | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42549726060), [기준 커밋·두 ZIP SHA와 근거](tests/t09/evidence/reconstruction-inputs.json). 프로젝트 소스·엔진 레시피도 대조했으며 외부 공개 ZIP은 게시하지 않았습니다. |
+| 최신 후보 준비·페어링 | 필수 재구성 파일 6개 포함·바이트 대조와 전체 준비 통과. scopePassed=true, candidateForUserTesting=true, publicReleaseApproved=false | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208419), [기준 커밋·두 ZIP SHA](tests/t08-minimal/evidence/php-relink/build-materials.json). 누락/변조 거부 13건의 상세 근거는 [reconstruction-inputs](tests/t09/evidence/reconstruction-inputs.json)도 보존합니다. 외부 공개 ZIP은 게시하지 않았습니다. |
 | T09 ZIP 자동시험 | self-contained ZIP 생성, 한글 경로 앱 창 표시·응답·종료·파일 불변 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466), [근거](tests/t09/evidence/). 깨끗한 Windows 11 시험은 아닙니다. |
 | T10 팩 교체 | 같은 앱 assembly에서 reduced→full→reduced, 새 OS 프로세스의 실제 목록·검사·복원 및 잘못된 팩 거부 12건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [근거](tests/t10/evidence/). 기존 목표의 부분집합을 이용한 개발 시험이며 미래 PHP 버전 지원 검증은 아닙니다. |
 
@@ -45,6 +45,8 @@ batched-scans.json의 “사용자 프로젝트 재시험 전” 문구는 해�
 동반 ZIP에는 재링크의 의존성 후보 해시 목록·결과 비교기와 후보 생성에 필요한 검증/안내 파일 6개를 명시적으로 포함합니다. 이전 필터의 누락을 보완했고, 위 최신 후보 검증에서 존재·현재 checkout 바이트 일치와 누락/변조 거부를 확인했습니다. 관련 Windows 검증 7개(최소 CLI/코어·네이티브 입력·libiconv 빌드·PHP 재링크·소스 동반 ZIP·후보 패키징·팩 교체)도 모두 통과했습니다. 실행 ID와 서비스/GUI 회귀 수는 reconstruction-inputs 근거에 있습니다. 전체 일반 CI 시험 코드까지 동반 ZIP에 포함하는 것은 아닙니다.
 
 격리 libiconv 원본/마커 빌드 및 PHP 재링크 후 PHPCS 24사례 동일 결과를 확인했습니다. 이 감사용 축소 빌드는 실제 제품 PHP 바이너리에 필요한 전체 입력 대응을 입증하지 않습니다. [공식 artifact 직접 대조](tests/t08-minimal/evidence/official-artifact-identity.json)에서는 공식 빌드 산출물 안의 NTS x64 ZIP과 승인 PHP ZIP의 SHA 일치, php.exe/php8.dll 및 기존 Windows source ZIP 해시 일치를 확인했습니다. 과거 SDK 커밋·의존성 ZIP 바이트와 전체 빌드/링크 입력의 충분성은 여전히 미검증입니다. 자세한 원문·해시·실험 범위는 [LICENSING](LICENSING.md), [T08 최소 CLI 근거](tests/t08-minimal/evidence/)에 있습니다.
+
+[최신 재링크 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208420)에서는 원본/마커 각각 생성 자료 19개(응답 파일 각 15개)를 ZIP·inventory로 보존하고 실제 빌드 파일과 바이트를 대조했습니다. 24사례와 입력/엔진 불변 및 관련 Windows 검증 7개가 통과했습니다. [자료·도구 버전·해시](tests/t08-minimal/evidence/php-relink/build-materials.json)의 fullProductProfileVerified=false를 유지합니다. 제품의 전체 configure 옵션은 기존 PHP 실행 정보에 이미 있고, 이번 생성 자료는 --disable-all 감사 구성입니다. 제품 전체 구성의 생성 자료·소스 대응 검토와 혼동하지 않습니다.
 
 T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는 소스·변경·필요 빌드/링크 자료의 충분성과 고지·권리 조건 검토, 최종 바이너리와 소스·고지의 정확한 페어링 및 지속 제공입니다. 공식 바이너리와 동일 해시로 재생성하는 것 자체를 별도 필수 조건으로 추가하지 않습니다. 7일 Actions artifact 보관은 지속 소스 제공 완료가 아닙니다.
 

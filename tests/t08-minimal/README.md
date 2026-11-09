@@ -57,10 +57,14 @@ python tests/t08-minimal/compare_windows_source.py --zip artifacts/t08-minimal/p
 
 공식 Windows source URL은 `https://downloads.php.net/~windows/releases/php-8.4.27-1-src.zip`입니다. 31,802,516바이트/공개 SHA `9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d`를 확인했습니다. 25,836파일 경로가 pinned Git과 같고 7개 ident 확장만 다릅니다. 두 설정 생성물은 이 ZIP에도 없으므로 따로 추적합니다.
 
-[공식 builder 조사](evidence/official-build-evidence.json)는 정확한 builder commit/config URL·해시, SDK 설정·MSVC 버전, 정적 libiconv/libxml2 선택 및 PGI/PGO 경로를 기록합니다. 공식 실행 artifact와 승인 배포 ZIP의 직접 해시 연결, 실제 라이브러리 재빌드·수정 재링크·회귀는 아직 하지 않았습니다. 나머지 T08 관문은 [LICENSING.md](../../LICENSING.md)를 따릅니다.
+[공식 builder 조사](evidence/official-build-evidence.json)는 정확한 builder commit/config URL·해시, SDK 설정·MSVC 버전, 정적 libiconv/libxml2 선택 및 PGI/PGO 경로를 기록합니다. [공식 artifact 대조](evidence/official-artifact-identity.json)에서 승인 배포 ZIP과 직접 SHA 일치를 확인했습니다. 제품의 전체 configure 명령은 [PHP 실행 정보](../t08/evidence/php-info-no-ini.txt)에 이미 보존돼 있습니다. 아래 격리 재링크 시험과 실제 제품의 전체 빌드/링크 입력 대응은 구분하며, 나머지 T08 관문은 [LICENSING.md](../../LICENSING.md)를 따릅니다.
 
 ## 격리 PHP 재링크 실험
 
 [Windows workflow](../../.github/workflows/t08-php-relink.yml)는 PHP 8.4.27 Windows source ZIP과 SDK/deps를 해시 또는 고정 커밋으로 확인하고, 원본·마커 libiconv를 별도 PHP 소스/의존성 사본에 각각 링크합니다. PHP `ICONV_VERSION` 1.19/1.20, DLL 해시 차이, 검증된 기존 엔진의 24 fixture/목표 결과 일치와 입력·엔진 팩 불변을 확인합니다. 1.20은 테스트 마커입니다.
 
 [실제 결과·실행/파일 해시](evidence/php-relink/provenance.json)는 Windows Server 2022의 검증용 `--disable-all` 빌드입니다. 공식 배포물 재현·네트워크 차단·재배포 적합성을 증명하지 않습니다. PHP 빌드 결과 JSON의 PHPCS 항목은 비교 전 기록이며, 후속 비교 결과는 `php-relink-comparison.json`에 있습니다. 전체 artifact는 7일 보관합니다.
+
+각 원본/마커 빌드에서는 생성된 `Makefile`·`config.nice.bat`·`main/config.w32.h`·`resp/*.txt`와 생성된 `php8.dll.def`를 `original/marker-build-material.zip` 및 같은 이름의 JSON inventory로 보존합니다. 파일별 SHA/길이, 실제 configure 인자·도구 파일 버전·SDK 버전을 기록하며 객체·라이브러리·실행 파일은 이 자료 ZIP에 포함하지 않습니다. 비교기는 `--build-audit <감사 출력 폴더>`를 받아 ZIP 구성·해시와 실제 빌드 폴더의 바이트를 대조합니다. 자료의 `fullProductProfileVerified=false`는 축소 감사 구성을 공식 제품 전체 구성으로 승격하지 않는다는 뜻입니다.
+
+[Windows 실측](evidence/php-relink/build-materials.json)에서 각 19개 파일/응답 파일 15개 대조와 PHPCS 24사례가 통과했습니다. 누락·새 해시로 위장한 응답 변조·라이브러리 혼입 거부 등 합성 자료 4조건은 Linux Python의 임시 자체 입력으로 확인한 별도 범위입니다.

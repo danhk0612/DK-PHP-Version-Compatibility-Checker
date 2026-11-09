@@ -67,7 +67,11 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 [공식 Windows 빌드 조사](tests/t08-minimal/evidence/official-build-evidence.json)와 [선택 로그](tests/t08-minimal/evidence/official-build-selected-log.txt)에서 builder head `68dc945d9509c41b72332c74c8b99731bb75bc25`, x64 NTS 작업, SDK 설정 2.9.0, MSVC 도구 14.44.35207/컴파일러 19.44.35229, PGI→default/cache 훈련→PGO→snap 절차를 확인했습니다. `libiconv_a.lib`와 `libxml2_a_dll.lib`의 정적 선택도 관측했습니다. [공식 artifact 직접 대조](tests/t08-minimal/evidence/official-artifact-identity.json)에서 artifact 12641062548의 353,269,590바이트·공개 SHA를 확인했고, 그 안의 NTS x64 ZIP이 승인 ZIP SHA `dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7`와 일치했습니다. php.exe/php8.dll 해시와 Windows source ZIP도 기존 근거와 일치합니다. 이 연결로 과거 SDK 태그 해석·의존성 ZIP 바이트까지 확인한 것은 아닙니다. 개발 팩의 .lib 38개는 전체 재링크 객체/응답 입력의 확보를 뜻하지 않으며 .obj/.rsp는 없었습니다.
 
-다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 실제 배포물에 대응시키고 최종 제공을 검증하는 것입니다. 격리 libiconv/PHP 재링크와 회귀 결과는 아래에 기록합니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
+builder/SDK의 고정 소스와 고지는 수집했습니다. 실제 제품의 전체 configure 명령도 [PHP 실행 정보](tests/t08/evidence/php-info-no-ini.txt)에 보존했습니다. snapshot/debug-pack·NTS·object-out-dir·shared COM·without-analyzer·PGO 설정을 미확인으로 취급하지 않습니다. 남은 검토는 실제 제품 구성에 대응하는 생성 Makefile/설정/링커 응답 자료와 의존성 입력·소스의 충분성입니다. PHP의 `win32/build/Makefile`은 코어 링크 명령에 `@`를 사용해 명령 자체를 출력하지 않으므로 로그만을 전체 링크 입력 목록으로 사용하지 않습니다.
+
+격리 감사 절차는 원본/마커 빌드의 생성 Makefile·config.nice.bat·main/config.w32.h·응답 파일·정의 파일을 별도 ZIP과 SHA inventory로 보존하고, 비교기가 실제 빌드 폴더와 바이트를 대조합니다. 이는 축소 감사 구성의 자료이며 제품 전체 구성과의 대응을 완료 처리하지 않습니다. 제품 바이너리·목표·엔진·스택은 바꾸지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. 소스 수집기 자체의 `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 뜻하며, 과거 수집 결과의 `nativeBuildOrRelinkVerified=false`를 후속 격리 실험의 성공과 혼동하지 않습니다. `redistributionCleared=false`는 유지합니다.
+
+[생성 자료 실측](tests/t08-minimal/evidence/php-relink/build-materials.json)에서 원본/마커 각 19개 파일·응답 파일 15개와 실제 빌드 바이트 일치, 24사례 회귀를 확인했습니다. 수집 도구는 PATH 우선순위의 MSVC 도구 하나를 선택하며 Git의 동명 link.exe와 경로를 합치지 않습니다. 이 결과의 fullProductProfileVerified=false와 일시 artifact 보관 한계는 유지합니다.
 
 ### 검증용 libiconv 빌드 진행
 

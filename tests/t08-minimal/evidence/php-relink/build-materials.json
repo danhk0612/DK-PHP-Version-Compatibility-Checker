@@ -1,0 +1,430 @@
+{
+  "testedCommit": "0c330ff2292351609342195ca21b5768b040cc2f",
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208420",
+  "jobId": 128999308608,
+  "scope": "Generated textual input capture and exact actual-build byte comparison for reduced isolated original/marker PHP; not the official full product profile",
+  "buildMaterials": [
+    {
+      "profile": "original",
+      "sourceRoot": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\original\\php-src",
+      "configureArguments": [
+        "--disable-all",
+        "--disable-zts",
+        "--enable-cli",
+        "--with-iconv",
+        "--with-libxml",
+        "--with-simplexml",
+        "--enable-xmlwriter",
+        "--enable-tokenizer",
+        "--with-php-build=D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\original\\deps"
+      ],
+      "windowsSdkVersion": "10.0.26100.0",
+      "tools": [
+        {
+          "name": "cl.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe",
+          "fileVersion": "19.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        },
+        {
+          "name": "link.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe",
+          "fileVersion": "14.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        },
+        {
+          "name": "nmake.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\nmake.exe",
+          "fileVersion": "14.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        }
+      ],
+      "archive": "original-build-material.zip",
+      "archiveBytes": 29640,
+      "archiveSha256": "2495cdd646639dd63f0edd29782c2a868180b66fbc6b3a74d23568449e2b99f9",
+      "responseFileCount": 15,
+      "files": [
+        {
+          "path": "config.nice.bat",
+          "bytes": 332,
+          "sha256": "fd2e7909edd3f3528d91c9132e1834b249eb7b3d114c8406366ef34965dead2e"
+        },
+        {
+          "path": "main/config.w32.h",
+          "bytes": 5347,
+          "sha256": "ecf2a7cdbcf5dcc182ce70abd452a67dd2e8ee260da4ea2e06f322c86487b5a0"
+        },
+        {
+          "path": "Makefile",
+          "bytes": 80488,
+          "sha256": "2cf68b08122e2918b903a9f8b6055e4b7b91ec4e31506f28e9ba314a3fefb2ca"
+        },
+        {
+          "path": "x64/Release/php8.dll.def",
+          "bytes": 32776,
+          "sha256": "07f21f6acb19179a2fd65c70f2904f15c8b7ebc4796e731328d9a6297a946dca"
+        },
+        {
+          "path": "x64/Release/resp/CLI_GLOBAL_OBJS.txt",
+          "bytes": 801,
+          "sha256": "1ca4088b199f3267dc4b519b00202064931732f95490600753f0eeb4881f7eda"
+        },
+        {
+          "path": "x64/Release/resp/DATE_GLOBAL_OBJS.txt",
+          "bytes": 1760,
+          "sha256": "a8736c40ac3d3903f3f9ea16d801f19b67d711c20c4efe7289056a0ff63e2e4b"
+        },
+        {
+          "path": "x64/Release/resp/HASH_GLOBAL_OBJS.txt",
+          "bytes": 3687,
+          "sha256": "9f88608f6ed72da4f47306dee1ef56fad17ce83126b4dfc93274a49506128114"
+        },
+        {
+          "path": "x64/Release/resp/ICONV_GLOBAL_OBJS.txt",
+          "bytes": 154,
+          "sha256": "87ed3c419eda18466a93761e6f07ba5d24813adad2920ad7d6dda1ef4d26637d"
+        },
+        {
+          "path": "x64/Release/resp/JSON_GLOBAL_OBJS.txt",
+          "bytes": 633,
+          "sha256": "cc2825ed25b863653f0b1d916335a08162fc66367e602942d6d5ff411f233ebe"
+        },
+        {
+          "path": "x64/Release/resp/LIBXML_GLOBAL_OBJS.txt",
+          "bytes": 315,
+          "sha256": "5d06ab84c62cc82f37844f5efd7bb01e9dd4d123ccd7607d153bd05f5068a79a"
+        },
+        {
+          "path": "x64/Release/resp/PCRE_GLOBAL_OBJS.txt",
+          "bytes": 4922,
+          "sha256": "02fae6e8fc933029e4373e322f905c8da14c96b0995e5e985addac1ab6375543"
+        },
+        {
+          "path": "x64/Release/resp/PHP_GLOBAL_OBJS.txt",
+          "bytes": 20627,
+          "sha256": "0e47eb3b2b7c0eceb35e1699fc87eaac0f3865caec597cf13492d655d7fd11c3"
+        },
+        {
+          "path": "x64/Release/resp/RANDOM_GLOBAL_OBJS.txt",
+          "bytes": 1625,
+          "sha256": "ca1562a867811ab4ee69f93a93e66d55f62973150e155b98a0a57a40c7431962"
+        },
+        {
+          "path": "x64/Release/resp/REFLECTION_GLOBAL_OBJS.txt",
+          "bytes": 168,
+          "sha256": "0c40f87f1a030ef60e12989585ee27ebf6b38fa007fba8d84cda7b5bba6371cf"
+        },
+        {
+          "path": "x64/Release/resp/SIMPLEXML_GLOBAL_OBJS.txt",
+          "bytes": 162,
+          "sha256": "5f353cea4aedca51cdac4dd9469dfa7db45281ae7a47ef4e25e14d271911e8c8"
+        },
+        {
+          "path": "x64/Release/resp/SPL_GLOBAL_OBJS.txt",
+          "bytes": 1574,
+          "sha256": "f9042b51b0f6fc398c5d7fd28c49d60d979c8f2d515b2c908ce118b92a8f6c9d"
+        },
+        {
+          "path": "x64/Release/resp/STANDARD_GLOBAL_OBJS.txt",
+          "bytes": 10966,
+          "sha256": "2dcd2dc1e60ec0bf9cddc7c9251d2718f1c4d932841bb01b92fde35b0a13b416"
+        },
+        {
+          "path": "x64/Release/resp/TOKENIZER_GLOBAL_OBJS.txt",
+          "bytes": 328,
+          "sha256": "e06b21285962036d8b06be3b72564a5f432d2c903fac0dd9b77a09b985abe6fb"
+        },
+        {
+          "path": "x64/Release/resp/XMLWRITER_GLOBAL_OBJS.txt",
+          "bytes": 166,
+          "sha256": "30a1bd1e26a27c222a4acecb9a6724568b44368fc68c1fdc2b320473a4811a98"
+        }
+      ],
+      "fullProductProfileVerified": false,
+      "redistributionCleared": false,
+      "scope": "Generated textual materials from the reduced isolated original/marker audit build only; no objects, libraries, executables or proprietary toolchain files included"
+    },
+    {
+      "profile": "marker",
+      "sourceRoot": "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\marker\\php-src",
+      "configureArguments": [
+        "--disable-all",
+        "--disable-zts",
+        "--enable-cli",
+        "--with-iconv",
+        "--with-libxml",
+        "--with-simplexml",
+        "--enable-xmlwriter",
+        "--enable-tokenizer",
+        "--with-php-build=D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t08-php-relink\\marker\\deps"
+      ],
+      "windowsSdkVersion": "10.0.26100.0",
+      "tools": [
+        {
+          "name": "cl.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe",
+          "fileVersion": "19.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        },
+        {
+          "name": "link.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe",
+          "fileVersion": "14.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        },
+        {
+          "name": "nmake.exe",
+          "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\nmake.exe",
+          "fileVersion": "14.44.35229.0",
+          "productVersion": "14.44.35229.0"
+        }
+      ],
+      "archive": "marker-build-material.zip",
+      "archiveBytes": 29595,
+      "archiveSha256": "89ec3633d0752277ea8229f2137dbb4dea740aedbf11721bebdf16736b6906d7",
+      "responseFileCount": 15,
+      "files": [
+        {
+          "path": "config.nice.bat",
+          "bytes": 330,
+          "sha256": "8dc37e56ae2c5f376aa0e08b61ff125d02ed4c44752261247a6a356fc38db7c5"
+        },
+        {
+          "path": "main/config.w32.h",
+          "bytes": 5345,
+          "sha256": "c0720ba14d318b45f1beb883206db0bfa9d590ad2dcfab6ca09ee6733db722c0"
+        },
+        {
+          "path": "Makefile",
+          "bytes": 80436,
+          "sha256": "2642453ee06b7ceabe6052277c5c9d9b4af5ef20112fa2c522e8507c263eb3a5"
+        },
+        {
+          "path": "x64/Release/php8.dll.def",
+          "bytes": 32776,
+          "sha256": "07f21f6acb19179a2fd65c70f2904f15c8b7ebc4796e731328d9a6297a946dca"
+        },
+        {
+          "path": "x64/Release/resp/CLI_GLOBAL_OBJS.txt",
+          "bytes": 791,
+          "sha256": "f9bfaf5544840223d1cb92b7f8d74793318ae6c1db9cb746c164222a782c307b"
+        },
+        {
+          "path": "x64/Release/resp/DATE_GLOBAL_OBJS.txt",
+          "bytes": 1738,
+          "sha256": "6981226cdf000034d7ef7a54d2eb32e1bdb4d4d4de07ef1925c3c62293808d15"
+        },
+        {
+          "path": "x64/Release/resp/HASH_GLOBAL_OBJS.txt",
+          "bytes": 3641,
+          "sha256": "3270bd2621537252c83a4f6adea6d3a4c8cd8a5afdbab6511dba50357ec76034"
+        },
+        {
+          "path": "x64/Release/resp/ICONV_GLOBAL_OBJS.txt",
+          "bytes": 152,
+          "sha256": "9c4a78eba39bc859ef1ac5f9b564fa7ab930db6c2e901fd7f9cee486efbca89c"
+        },
+        {
+          "path": "x64/Release/resp/JSON_GLOBAL_OBJS.txt",
+          "bytes": 625,
+          "sha256": "65f0408e6cf05dcb7837558df3d5ac4199f21250f5b2f4d895ebdee8dcf7dc1f"
+        },
+        {
+          "path": "x64/Release/resp/LIBXML_GLOBAL_OBJS.txt",
+          "bytes": 311,
+          "sha256": "1c434990dd3bb6188953770ecb0a713d446d3c5dba295d544f429879a8c98b63"
+        },
+        {
+          "path": "x64/Release/resp/PCRE_GLOBAL_OBJS.txt",
+          "bytes": 4864,
+          "sha256": "cd2f8c8c29d4967e2ee6e137cfd8937d9a515abee1abe1ed4b55e9128c06f3e3"
+        },
+        {
+          "path": "x64/Release/resp/PHP_GLOBAL_OBJS.txt",
+          "bytes": 20363,
+          "sha256": "b3a6f93328dbe6657d9f701a4a7e3d6851b492735d920ab1d8bac27a83326d28"
+        },
+        {
+          "path": "x64/Release/resp/RANDOM_GLOBAL_OBJS.txt",
+          "bytes": 1605,
+          "sha256": "f0ef77f4739c53ce24bb43fcb69daf756cb293eec3051fe9025f41d6f3f268bc"
+        },
+        {
+          "path": "x64/Release/resp/REFLECTION_GLOBAL_OBJS.txt",
+          "bytes": 166,
+          "sha256": "56ccc7aef742a743ffa60e9d9c5399dcc958e369b3964dab23578fab1cd77947"
+        },
+        {
+          "path": "x64/Release/resp/SIMPLEXML_GLOBAL_OBJS.txt",
+          "bytes": 160,
+          "sha256": "3652d0513042a7d6fe2bc36cd6059128885a3021da53d2a0b405a22931bb8c27"
+        },
+        {
+          "path": "x64/Release/resp/SPL_GLOBAL_OBJS.txt",
+          "bytes": 1554,
+          "sha256": "a38b19533bcb095309d05cc1541ad7c0915bd1eb2fc0a75616c8bc71c02958fe"
+        },
+        {
+          "path": "x64/Release/resp/STANDARD_GLOBAL_OBJS.txt",
+          "bytes": 10828,
+          "sha256": "ba0ebfcc3d9e3a18cb3563b6ff805057695623f786933f1be89e9397517e5c5c"
+        },
+        {
+          "path": "x64/Release/resp/TOKENIZER_GLOBAL_OBJS.txt",
+          "bytes": 324,
+          "sha256": "4de43278126e457689823b41b05616c6d2ad8d86c9fc1cc63d3cb90e1a91820d"
+        },
+        {
+          "path": "x64/Release/resp/XMLWRITER_GLOBAL_OBJS.txt",
+          "bytes": 164,
+          "sha256": "f2834c5e2f29499db79bea306fa7b465ec73dc6c15c5d5064f3ff9fe561be9c6"
+        }
+      ],
+      "fullProductProfileVerified": false,
+      "redistributionCleared": false,
+      "scope": "Generated textual materials from the reduced isolated original/marker audit build only; no objects, libraries, executables or proprietary toolchain files included"
+    }
+  ],
+  "comparison": {
+    "scopePassed": true,
+    "comparedCases": 24,
+    "buildMaterials": [
+      {
+        "profile": "original",
+        "archive": "original-build-material.zip",
+        "archiveSha256": "2495cdd646639dd63f0edd29782c2a868180b66fbc6b3a74d23568449e2b99f9",
+        "verifiedFileCount": 19,
+        "responseFileCount": 15,
+        "actualBuildBytesMatched": true,
+        "fullProductProfileVerified": false
+      },
+      {
+        "profile": "marker",
+        "archive": "marker-build-material.zip",
+        "archiveSha256": "89ec3633d0752277ea8229f2137dbb4dea740aedbf11721bebdf16736b6906d7",
+        "verifiedFileCount": 19,
+        "responseFileCount": 15,
+        "actualBuildBytesMatched": true,
+        "fullProductProfileVerified": false
+      }
+    ],
+    "subjectUnchanged": true,
+    "repositoryFixturesUnchanged": true,
+    "enginePackUnchanged": true
+  },
+  "comparisonJsonSha256": "6020eaa55e89040135451070b0dfa6bcc5a059d594a4e48e975bbd643443ca14",
+  "metadataArtifact": {
+    "id": 13652193553,
+    "bytes": 78946,
+    "sha256": "87cf5db554a6a3e50b9b19a5095c9d15b152a37e7dc441ab8365a7a403a081ae"
+  },
+  "knownOfficialProductProfile": {
+    "phpInfoPath": "tests/t08/evidence/php-info-no-ini.txt",
+    "phpInfoSha256": "58c42f3cec120d6d4b53aa6cf0adb2a6ce37a420d265c49d2b712d6393f1f320",
+    "configureCommand": "cscript /nologo /e:jscript configure.js  \"--enable-snapshot-build\" \"--enable-debug-pack\" \"--disable-zts\" \"--enable-object-out-dir=../obj/\" \"--enable-com-dotnet=shared\" \"--without-analyzer\" \"--with-pgo\"",
+    "coreLinkTemplatePath": "win32/build/Makefile",
+    "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+    "templateSha256": "855485c40d8b22133d3fcbd6790bf54b7aec0c9722ccc9afdd512c674c11254c",
+    "coreLinkCommandEchoSuppressed": true,
+    "fullProductGeneratedInputsVerified": false
+  },
+  "syntheticMaterialChecks": {
+    "environment": "Linux Python, temporary owned fixtures",
+    "passed": 4,
+    "cases": [
+      "valid material accepted",
+      "required Makefile omission rejected",
+      "response change rejected despite refreshed truthful manifest and ZIP hashes",
+      "unexpected library payload rejected"
+    ]
+  },
+  "toolSelectionRegression": {
+    "previousFailedRun": 42551132038,
+    "cause": "Get-Command returned MSVC and Git link.exe candidates; version lookup received multiple paths",
+    "fix": "Select first application in actual PATH lookup order; require final report after SDK task",
+    "selectedLinker": {
+      "name": "link.exe",
+      "path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe",
+      "fileVersion": "14.44.35229.0",
+      "productVersion": "14.44.35229.0"
+    }
+  },
+  "candidatePreparation": {
+    "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208419",
+    "metadataArtifactId": 13651927560,
+    "metadataArtifactSha256": "149e1ffca75aac0c34a6620f3f2cbd9e11f0e7205a84a6a975e36f050bc9b6cf",
+    "pairing": {
+      "scopePassed": true,
+      "candidateForUserTesting": true,
+      "publicReleaseApproved": false,
+      "binaryArchiveSha256": "7fef24e7ac002ab396934c441e7181821d0e2297b4dd220b3e0b13a03de9897c",
+      "sourceArchiveSha256": "a736bd2ac43733a96eb323f0ed6f0b55d85b3116511fca7960bb7d198b63425e",
+      "reconstructionInputsBytesMatched": true,
+      "fullBinarySourceCorrespondenceVerified": false,
+      "durablePairedPublicationVerified": false,
+      "redistributionCleared": false
+    }
+  },
+  "relatedWindowsRuns": [
+    {
+      "id": 42568208561,
+      "name": "T08 isolated libiconv rebuild",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208777,
+      "name": "T08 native build input inventory",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208619,
+      "name": "T10 development pack exchange",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208419,
+      "name": "T08 source and notice companion preparation",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208539,
+      "name": "T09 local audit package rehearsal",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208511,
+      "name": "T08 minimal CLI pack and core source verification",
+      "conclusion": "success"
+    },
+    {
+      "id": 42568208420,
+      "name": "T08 isolated PHP relink",
+      "conclusion": "success"
+    }
+  ],
+  "regressions": {
+    "T05": {
+      "passed": 71,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T06": {
+      "passed": 25,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T07": {
+      "passed": 36,
+      "failures": 0,
+      "scopePassed": true
+    }
+  },
+  "fullProductProfileVerified": false,
+  "redistributionCleared": false,
+  "limits": [
+    "Generated material covers the --disable-all audit profile only; it does not verify the complete official product configuration.",
+    "Official historical dependency bytes/SDK commit and final corresponding material sufficiency remain separate review items.",
+    "No product PHP/engine/targets were changed, and no inspected user PHP source was executed.",
+    "The artifacts have temporary retention; durable final matching source/material provision and public release remain pending."
+  ]
+}
