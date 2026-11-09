@@ -43,6 +43,13 @@ with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
     for relative in members:
         if relative.startswith('project/src/'):
             assert sz.read(relative) == (REPO / relative.removeprefix('project/')).read_bytes(), relative
+    for relative in ('tests/t08-minimal/evidence/native-inputs.json',
+                     'tests/t08-minimal/check_relinked_php.py',
+                     'tests/t09/check_pair.py', 'tests/t09/check_package.py',
+                     'tests/t09/WINDOWS11_TEST.md', 'tests/t09/check_source_sidecar.py'):
+        member = 'project/' + relative
+        assert member in members, 'Missing reconstruction input: ' + relative
+        assert sz.read(member) == (REPO / relative).read_bytes(), relative
 report = {'scopePassed': True, 'licenseElectionMade': True,
           'candidateForUserTesting': True, 'publicReleaseApproved': False,
           'binaryArchive': package.name, 'binaryArchiveSha256': sha(package.read_bytes()),
@@ -50,6 +57,7 @@ report = {'scopePassed': True, 'licenseElectionMade': True,
           'sourceManifestSha256': sha((a.sidecar / 'source-sidecar.json').read_bytes()),
           'licenseElectionSha256': sha(election_path.read_bytes()), 'matchedNotices': notices,
           'engineRecipeBytesMatched': True, 'currentProjectSourceBytesMatched': True,
+          'reconstructionInputsBytesMatched': True,
           'allSourceMembersVerified': True, 'fullBinarySourceCorrespondenceVerified': False,
           'durablePairedPublicationVerified': False, 'redistributionCleared': False,
           'limits': ['Pairing identifies exact local audit archives, not legal clearance',

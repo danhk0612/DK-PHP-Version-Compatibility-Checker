@@ -65,7 +65,7 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 ### 실제 빌드·재링크에 남은 관문
 
-[공식 Windows 빌드 조사](tests/t08-minimal/evidence/official-build-evidence.json)와 [선택 로그](tests/t08-minimal/evidence/official-build-selected-log.txt)에서 builder head `68dc945d9509c41b72332c74c8b99731bb75bc25`, x64 NTS 작업, SDK 설정 2.9.0, MSVC 도구 14.44.35207/컴파일러 19.44.35229, PGI→default/cache 훈련→PGO→snap 절차를 확인했습니다. `libiconv_a.lib`와 `libxml2_a_dll.lib`의 정적 선택도 관측했습니다. 해당 공식 작업 산출물과 실제 배포 ZIP 사이의 직접 해시 연결은 아직 수행하지 않았습니다.
+[공식 Windows 빌드 조사](tests/t08-minimal/evidence/official-build-evidence.json)와 [선택 로그](tests/t08-minimal/evidence/official-build-selected-log.txt)에서 builder head `68dc945d9509c41b72332c74c8b99731bb75bc25`, x64 NTS 작업, SDK 설정 2.9.0, MSVC 도구 14.44.35207/컴파일러 19.44.35229, PGI→default/cache 훈련→PGO→snap 절차를 확인했습니다. `libiconv_a.lib`와 `libxml2_a_dll.lib`의 정적 선택도 관측했습니다. [공식 artifact 직접 대조](tests/t08-minimal/evidence/official-artifact-identity.json)에서 artifact 12641062548의 353,269,590바이트·공개 SHA를 확인했고, 그 안의 NTS x64 ZIP이 승인 ZIP SHA `dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7`와 일치했습니다. php.exe/php8.dll 해시와 Windows source ZIP도 기존 근거와 일치합니다. 이 연결로 과거 SDK 태그 해석·의존성 ZIP 바이트까지 확인한 것은 아닙니다. 개발 팩의 .lib 38개는 전체 재링크 객체/응답 입력의 확보를 뜻하지 않으며 .obj/.rsp는 없었습니다.
 
 다음 T08 범위는 builder/SDK 전체 소스·고지와 정확한 의존성 ZIP 해시/도구 설정을 실제 배포물에 대응시키고 최종 제공을 검증하는 것입니다. 격리 libiconv/PHP 재링크와 회귀 결과는 아래에 기록합니다. 관리 영역의 검증이며 제품 바이너리 교체·목표/엔진/스택 변경을 뜻하지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 통과했다는 뜻이며 `nativeBuildOrRelinkVerified=false`, `redistributionCleared=false`를 유지합니다.
 
@@ -95,9 +95,11 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 ### 대응 소스·고지 동시 제공 준비
 
-`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA와 승인된 적용 라이선스 선택을 기록합니다. 전체 배포 적합성은 개별 배포 자료 대조로 판단하며 선택 승인만으로 일괄 완료하지 않습니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
+`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. 재링크 workflow가 참조하는 의존성 후보 URL/해시 목록과 결과 비교기도 명시적으로 포함하고 페어링에서 현재 파일과 바이트를 대조합니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA와 승인된 적용 라이선스 선택을 기록합니다. 전체 배포 적합성은 개별 배포 자료 대조로 판단하며 선택 승인만으로 일괄 완료하지 않습니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
 
 ## 재현과 공식 근거
+
+공식 빌드와 승인 바이너리의 직접 연결은 [artifact 대조](tests/t08-minimal/evidence/official-artifact-identity.json)의 절차·해시로 재확인할 수 있습니다. 이 실측은 기존 빌드 조사 당시의 미확인 부분만 보완하며 과거 실행 기록을 소급 수정하지 않습니다.
 
 [Windows 수집 절차](tools/license-audit/README.md)를 따릅니다. 배포 바이너리·NuGet download cache·vendor 소스 자체는 Git에 추가하지 않았습니다. 원문 고지·파일 inventory·source 대조·검토 근거만 보존합니다. `source-checks`의 실제 소스 ZIP은 일시 artifact에 있으며 최종 배포 시 재생성·동시 제공해야 합니다.
 

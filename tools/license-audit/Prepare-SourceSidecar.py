@@ -11,6 +11,14 @@ import subprocess
 import zipfile
 
 REPO = Path(__file__).resolve().parents[2]
+RECONSTRUCTION_INPUTS = {
+    'tests/t08-minimal/evidence/native-inputs.json',
+    'tests/t08-minimal/check_relinked_php.py',
+    'tests/t09/check_pair.py',
+    'tests/t09/check_package.py',
+    'tests/t09/WINDOWS11_TEST.md',
+    'tests/t09/check_source_sidecar.py',
+}
 
 
 def sha(data):
@@ -83,10 +91,12 @@ def prepare(core_root, engine_root, output, build_root=None):
     # archives or a link to a moving branch. Git metadata and build outputs stay out.
     tracked = subprocess.check_output(['git', '-C', str(REPO), 'ls-files', '-z']).split(b'\0')
     recipe_paths = {p.decode('utf-8') for p in tracked if p}
+    recipe_paths.update(RECONSTRUCTION_INPUTS)
     recipe_paths.update(p.relative_to(REPO).as_posix() for p in (REPO / 'tools/license-audit').glob('*') if p.is_file())
     recipe_paths.update(p.relative_to(REPO).as_posix() for p in (REPO / '.github/workflows').glob('*.yml'))
     for relative in sorted(recipe_paths):
         if (relative.startswith(('src/', 'tools/', 'licenses/', 'tests/fixtures/', '.github/workflows/'))
+                or relative in RECONSTRUCTION_INPUTS
                 or relative in {'LICENSE', 'THIRD-PARTY-NOTICES.md', 'LICENSING.md', 'ARCHITECTURE.md', 'REQUIREMENTS.md', 'global.json'}):
             add(inside(REPO, relative), 'project/' + relative)
     instructions = '''This companion preserves original core/engine source archives and separate Windows configured headers.
