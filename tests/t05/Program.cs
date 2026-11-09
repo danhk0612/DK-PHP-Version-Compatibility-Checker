@@ -278,11 +278,18 @@ internal static class Program
             var omitted = Subject(p, "omit.php", "<?php mysql_query('excluded');\n");
             var fileSibling = Subject(p, "omit.php.more.php", "<?php mysql_query('visible');\n");
             var before = Snapshot(p);
+            var baseline = await Scan(p);
+            Check(baseline.Status == ScanStatus.Completed && baseline.SelectedFileCount == 6,
+                baseline.FailureMessage ?? "Exclusion positive-control baseline did not complete");
             var r = await Scan(p, excludedPaths: ["VENDOR/", "./omit.php", Path.Combine(p, "vendor")]);
             Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3,
                 r.FailureMessage ?? "Configured exclusions did not select exactly three files");
             var expectedVisible = new[] { Path.GetFullPath(sibling), Path.GetFullPath(fileSibling) };
-            Check(r.Issues.Count == 2 && r.Issues.All(i => expectedVisible.Contains(i.FilePath, StringComparer.OrdinalIgnoreCase)),
+            var expectedIssues = baseline.Issues.Where(i => expectedVisible.Contains(i.FilePath, StringComparer.OrdinalIgnoreCase)).ToArray();
+            Check(expectedIssues.Select(i => i.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 2
+                && expectedIssues.Length < baseline.Issues.Count, "Exclusion positive controls did not produce findings");
+            Check(r.Issues.Select(i => JsonSerializer.Serialize(i)).OrderBy(s => s, StringComparer.Ordinal)
+                .SequenceEqual(expectedIssues.Select(i => JsonSerializer.Serialize(i)).OrderBy(s => s, StringComparer.Ordinal)),
                 "Excluded paths reached engine or sibling-prefix matches were excluded: "
                 + string.Join("; ", r.Issues.Select(i => i.FilePath)));
             Check(r.ExcludedPaths.Count == 2 && r.ExcludedPaths.Contains(omitted)
