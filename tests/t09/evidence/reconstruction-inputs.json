@@ -1,0 +1,83 @@
+{
+  "testedCommit": "5805ae337b7123b303fae5fd9a2d3e252aff737c",
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42549726060",
+  "jobId": 128942363007,
+  "environment": {
+    "os": "Windows Server 2022",
+    "architecture": "x64",
+    "sdk": "10.0.403",
+    "checkoutSha": "c418c9c954dbfe8856fe6cd0233e46d4f36ffa97"
+  },
+  "syntheticRegression": {
+    "pairingCasesPassed": 13,
+    "positiveCases": 1,
+    "missingInputRejections": 6,
+    "alteredInputRejections": 6,
+    "mutatedManifestsAndZipHashesRecomputed": true,
+    "scope": "Owned synthetic collections exercise collector/pair integrity only; not native-source correctness"
+  },
+  "fullPreparation": {
+    "passed": true,
+    "globalPhpAndComposerRequired": false,
+    "sourceArchives": 10,
+    "reconstructionInputs": [
+      {
+        "path": "project/tests/t08-minimal/evidence/native-inputs.json",
+        "bytes": 2114,
+        "sha256": "ff21fa67115a11b8996834a863bc10f4267a3ba71a8a9bfbea1f92ffe07f33a0"
+      },
+      {
+        "path": "project/tests/t08-minimal/check_relinked_php.py",
+        "bytes": 7366,
+        "sha256": "f6721832b13410801ad122399dfe002f5ecf9155b6b51632a653bbc9866d0502"
+      },
+      {
+        "path": "project/tests/t09/check_pair.py",
+        "bytes": 4531,
+        "sha256": "2144ea463ab1782b07ac1064ec93752f427ee12fe4726b366e7b91b29c1f6730"
+      },
+      {
+        "path": "project/tests/t09/check_package.py",
+        "bytes": 2174,
+        "sha256": "b9b0c0466b616fa3c0135a6fe0278f96faee0dcae57ed0e7e23c4d59dee1454b"
+      },
+      {
+        "path": "project/tests/t09/WINDOWS11_TEST.md",
+        "bytes": 7511,
+        "sha256": "b5a3aab269e6408e8d90ecbfe6b76827b0a80db478cd3b6683029db42d2fda0b"
+      },
+      {
+        "path": "project/tests/t09/check_source_sidecar.py",
+        "bytes": 7851,
+        "sha256": "354b6173c270734ec062b278640339a4b2ee69219a8f1efe08669f82a046b987"
+      }
+    ]
+  },
+  "pairing": {
+    "scopePassed": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchiveSha256": "c9644b5e4b2aead299f003f8656af30eacd75c96d39aa40ee96cbec06bb2e654",
+    "sourceArchiveSha256": "28bdb570b189e8844d100e4589f025bc036cc37f4202bc5f89935155850e5b27",
+    "sourceManifestSha256": "72f6c282f2376d677ed5f31dd56f2ba58401fc3e10103158faac183bbbdc4022",
+    "reconstructionInputsBytesMatched": true,
+    "currentProjectSourceBytesMatched": true,
+    "engineRecipeBytesMatched": true,
+    "allSourceMembersVerified": true,
+    "fullBinarySourceCorrespondenceVerified": false,
+    "durablePairedPublicationVerified": false,
+    "redistributionCleared": false
+  },
+  "metadataArtifact": {
+    "id": 13644442864,
+    "bytes": 147032,
+    "sha256": "5d75f97d2fa65f0d3f33ec98ae2d279236a9b136bc7ef41504c1108fc6b2de85"
+  },
+  "limits": [
+    "Windows Server CI is not a clean Windows 11 user test.",
+    "Exact historical native dependency/SDK inputs and complete delivered native build/link correspondence remain unverified.",
+    "Product ZIPs were generated internally and not uploaded; metadata artifact retention is temporary.",
+    "Source member hashes describe the actual Windows checkout bytes, including checkout line endings.",
+    "No merge, tag or Release; public redistribution is not approved."
+  ]
+}
