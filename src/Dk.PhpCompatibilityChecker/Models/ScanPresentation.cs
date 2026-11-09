@@ -18,6 +18,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     private string _packFailure = "";
     private ScanStatus _status = ScanStatus.Idle;
     private ScanResult? _result;
+    private IReadOnlyList<string> _configuredExclusions = Array.Empty<string>();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -29,6 +30,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
             if (!CanEditInputs || _sourceDirectory == (value ?? ""))
                 return;
             _sourceDirectory = value ?? "";
+            _configuredExclusions = Array.Empty<string>();
             ResetResult();
             NotifyAll();
         }
@@ -67,6 +69,9 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     public IReadOnlyList<PhpTarget> Targets => _targets;
     public IReadOnlyList<ScanIssue> Issues => _result?.Issues ?? Array.Empty<ScanIssue>();
     public IReadOnlyList<string> ExcludedPaths => _result?.ExcludedPaths ?? Array.Empty<string>();
+    public IReadOnlyList<string> ConfiguredExclusions => _configuredExclusions;
+    public string ExclusionSummary => "검사 제외 폴더·파일 (" + Count(_configuredExclusions.Count) + ")";
+    public bool CanEditExclusions => CanEditInputs && Directory.Exists(_sourceDirectory);
     public ScanStatus Status => _status;
     public bool CanEditInputs => _status != ScanStatus.Running;
     public bool CanPrepareScan => CanEditInputs && _hasPack && _selectedTarget is not null
@@ -181,12 +186,43 @@ public sealed class ScanPresentation : INotifyPropertyChanged
         NotifyAll();
     }
 
+    public void AddExclusion(string path)
+    {
+        if (!CanEditExclusions)
+            return;
+        if (string.IsNullOrWhiteSpace(path) || path.Any(char.IsControl) || path.IndexOfAny(['*', '?']) >= 0)
+            throw new ArgumentException("제외할 파일이나 폴더의 정확한 경로를 선택하세요.");
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(_sourceDirectory));
+        var full = Path.TrimEndingDirectorySeparator(Path.GetFullPath(path, root));
+        var prefix = Path.EndsInDirectorySeparator(root) ? root : root + Path.DirectorySeparatorChar;
+        if (!full.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+            || full.Equals(root, StringComparison.OrdinalIgnoreCase) || full.Any(char.IsControl))
+            throw new ArgumentException("검사할 폴더 내부의 파일이나 하위 폴더를 선택하세요.");
+        if (_configuredExclusions.Contains(full, StringComparer.OrdinalIgnoreCase))
+            return;
+        _configuredExclusions = Array.AsReadOnly(_configuredExclusions.Append(full)
+            .OrderBy(p => p, StringComparer.OrdinalIgnoreCase).ToArray());
+        ResetResult();
+        NotifyAll();
+    }
+
+    public void RemoveExclusion(string path)
+    {
+        if (!CanEditExclusions || !_configuredExclusions.Contains(path, StringComparer.OrdinalIgnoreCase))
+            return;
+        _configuredExclusions = Array.AsReadOnly(_configuredExclusions
+            .Where(p => !p.Equals(path, StringComparison.OrdinalIgnoreCase)).ToArray());
+        ResetResult();
+        NotifyAll();
+    }
+
     public void ApplyResult(ScanResult result)
     {
         ArgumentNullException.ThrowIfNull(result);
         // Keep the displayed inputs tied to these results, even after a prior input edit.
         _sourceDirectory = result.Request.SourceDirectory;
         _includeSubdirectories = result.Request.IncludeSubdirectories;
+        _configuredExclusions = Array.AsReadOnly((result.Request.ExcludedPaths ?? Array.Empty<string>()).ToArray());
         _selectedTarget = _targets.FirstOrDefault(t => t.Version == result.Request.TargetPhpVersion);
         _packFailure = "";
         _result = result with
@@ -225,7 +261,8 @@ public sealed class ScanPresentation : INotifyPropertyChanged
             nameof(Issues), nameof(ExcludedPaths), nameof(Status), nameof(StatusText), nameof(SummaryText),
             nameof(FailureText), nameof(SelectedFileCountText), nameof(ProcessedFileCountText),
             nameof(ErrorCountText), nameof(WarningCountText), nameof(LimitationsText), nameof(InputMessage),
-            nameof(CanEditInputs), nameof(CanPrepareScan)
+            nameof(CanEditInputs), nameof(CanPrepareScan), nameof(ConfiguredExclusions),
+            nameof(ExclusionSummary), nameof(CanEditExclusions)
         })
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

@@ -1,0 +1,97 @@
+{
+  "testedCommit": "56877baa1020b24ff10771963733e59f990ebb79",
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42571152792",
+  "jobId": 129008581566,
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "42571152792",
+    "sourceSha": "4c8d40cd32480df45484a2a76b2386c50ded9f52"
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0,
+    "verificationProjects": [
+      "T05",
+      "T06",
+      "T07"
+    ]
+  },
+  "regressions": {
+    "T05": {
+      "passed": 77,
+      "failures": 0,
+      "scopePassed": true,
+      "summarySha256": "b104cced126e777685a863807f697b8c0702e311c1089967fa5da4888dd30c95"
+    },
+    "T06": {
+      "passed": 26,
+      "failures": 0,
+      "scopePassed": true,
+      "summarySha256": "fb03b71a39dfc6eba809e74e5ba44a7adbd1a87fa653497ffe09ea9db27b5fe4"
+    },
+    "T07": {
+      "passed": 37,
+      "failures": 0,
+      "scopePassed": true,
+      "summarySha256": "afd63d4342c69adc0e5216ef90dfab41613441d3351628692d00dd5ceaf06b2e"
+    }
+  },
+  "exclusionCases": [
+    "configured folder and exact file exclusions preserve sibling boundaries and findings",
+    "all selected paths excluded is NoFiles and missing exclusion paths are inert",
+    "root and outside exclusion paths fail without changing source",
+    "explicit denied directory exclusion is applied before traversal",
+    "configured link exclusions do not follow targets or allow a linked source root",
+    "scan snapshots mutable configured exclusion lists before asynchronous work",
+    "junction and file symlink excluded; linked root and ancestor rejected",
+    "configured exclusions bind, deduplicate, remove and reset with the source folder",
+    "partial failed findings and excluded paths are displayed as incomplete",
+    "input edits clear stale findings, exclusions and failure diagnostics",
+    "long failure and limits remain reachable with exclusions open at minimum size",
+    "native exclusion folder selection and exact file exclusion reach the real engine"
+  ],
+  "nativeExclusionChecks": [
+    "Actual Windows folder picker selects a child exclusion",
+    "Actual Windows OpenFileDialog selects multiple .php/.inc exclusions",
+    "Actual file picker cancellation preserves prior inputs",
+    "Remove selection button restores file findings in a fresh real engine scan"
+  ],
+  "semantics": {
+    "exactRootChildPathsOnly": true,
+    "foldersPrunedBeforeTraversalAndMetadata": true,
+    "siblingPrefixesPreserved": true,
+    "excludedFilesNotPassedToEngine": true,
+    "immutableRequestSnapshot": true,
+    "clearOnSourceFolderChange": true,
+    "persistentSettingsImplemented": false,
+    "globImplemented": false
+  },
+  "engine": {
+    "packId": "dk-php84-alpha2-minimalcli-20261105",
+    "targets": [
+      "8.2",
+      "8.3",
+      "8.4"
+    ],
+    "changed": false
+  },
+  "artifact": {
+    "id": 13653925107,
+    "bytes": 863533,
+    "sha256": "c098a3b77ffe57faf0292f63e122062426196f01cbae1748f0e7e1dd63ebbf58"
+  },
+  "screenshot": {
+    "path": "tests/t11/evidence/configured-exclusions.png",
+    "sha256": "aff638d2cd7dcd9116a48748650e6d3804d0bca4a28e2dcbd391f26a6d809550",
+    "origin": "Actual displayed WPF and native selection with owned PHP fixture, not user source",
+    "visuallyReviewed": true
+  },
+  "limits": [
+    "Windows Server 2022 CI does not replace clean Windows 11 deployment checks.",
+    "No export, PHP8.5 target activation or automatic pack downloader implemented in T11.",
+    "No new paired distribution ZIP was generated for this product change; packaging and licensing gates remain.",
+    "No merge, tag or Release; duplicate manual offline retest remains skipped as requested."
+  ]
+}

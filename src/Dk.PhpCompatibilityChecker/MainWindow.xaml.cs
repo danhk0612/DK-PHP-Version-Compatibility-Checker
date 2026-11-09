@@ -98,7 +98,7 @@ public partial class MainWindow : Window
             || _scanTask is { IsCompleted: false })
             return;
         var request = new ScanRequest(Presentation.SourceDirectory, Presentation.SelectedTarget!.Version,
-            Presentation.IncludeSubdirectories);
+            Presentation.IncludeSubdirectories, Presentation.ConfiguredExclusions);
         _scanTask = RunScanAsync(_scanService, request);
         await _scanTask;
     }
@@ -180,5 +180,42 @@ public partial class MainWindow : Window
             dialog.InitialDirectory = Presentation.SourceDirectory;
         if (dialog.ShowDialog(this) == true && !_closing)
             Presentation.SourceDirectory = dialog.FolderName;
+    }
+
+    private void OnExcludedFolderBrowse(object sender, RoutedEventArgs e)
+    {
+        if (_closing || !Presentation.CanEditExclusions)
+            return;
+        var dialog = new OpenFolderDialog { Title = "검사에서 제외할 하위 폴더 선택", Multiselect = false,
+            AddToRecent = false, InitialDirectory = Path.GetFullPath(Presentation.SourceDirectory) };
+        if (dialog.ShowDialog(this) == true && !_closing)
+            AddSelectedExclusion(dialog.FolderName);
+    }
+
+    private void OnExcludedFileBrowse(object sender, RoutedEventArgs e)
+    {
+        if (_closing || !Presentation.CanEditExclusions)
+            return;
+        var dialog = new OpenFileDialog { Title = "검사에서 제외할 파일 선택", Multiselect = true,
+            AddToRecent = false, InitialDirectory = Path.GetFullPath(Presentation.SourceDirectory),
+            Filter = "PHP 소스 (*.php;*.inc)|*.php;*.inc|모든 파일 (*.*)|*.*" };
+        if (dialog.ShowDialog(this) == true && !_closing)
+            foreach (var file in dialog.FileNames)
+                AddSelectedExclusion(file);
+    }
+
+    private void AddSelectedExclusion(string path)
+    {
+        try { Presentation.AddExclusion(path); }
+        catch (Exception ex) when (ex is ArgumentException or IOException or NotSupportedException)
+        {
+            MessageBox.Show(this, ex.Message, "제외 경로 선택", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+    private void OnRemoveExclusion(object sender, RoutedEventArgs e)
+    {
+        if (!_closing && ConfiguredExclusionsList.SelectedItem is string path)
+            Presentation.RemoveExclusion(path);
     }
 }

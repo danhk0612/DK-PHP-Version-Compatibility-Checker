@@ -166,6 +166,40 @@ internal static class Program
     }
     private static void ActualProtectionCases()
     {
+        Case("native exclusion folder selection and exact file exclusion reach the real engine", () =>
+        {
+            string p = Project("제외 & project");
+            Subject(p, "safe.php"); Subject(p, "skip/removed.php", "<?php mysql_query('bad');\n");
+            Subject(p, "skip-more/safe.php"); Subject(p, "single.php", "<?php mysql_query('bad');\n");
+            Subject(p, "second.inc", "<?php mysql_query('bad');\n");
+            Configure(p, Pack.Targets[0].Version, true);
+            C<Expander>("ExclusionSettingsExpander").IsExpanded = true; Pump();
+            var owner = new WindowInteropHelper(Window).Handle;
+            var worker = Task.Run(() => NativePicker.Select(owner, Path.Combine(p, "skip")));
+            C<Button>("ExcludeFolderButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Await(worker);
+            Check(Model.ConfiguredExclusions.Contains(Path.Combine(p, "skip"), StringComparer.OrdinalIgnoreCase),
+                "Native excluded folder not reflected in inputs");
+            worker = Task.Run(() => NativePicker.SelectFiles(owner, Path.Combine(p, "single.php"), Path.Combine(p, "second.inc")));
+            C<Button>("ExcludeFileButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker); Pump();
+            Check(Model.ConfiguredExclusions.Count == 3, "Native multi-file exclusion selection failed");
+            RunScan("configured-exclusions", p, Pack.Targets[0].Version, true);
+            Check(Model.Status == ScanStatus.Completed && Model.SelectedFileCountText == "2"
+                && Model.ProcessedFileCountText == "2" && Model.Issues.Count == 0, Model.FailureText);
+            Check(Model.ExcludedPaths.Count == 3 && Model.ConfiguredExclusions.Count == 3, "Exclusion result/context missing");
+            Capture("configured-exclusions", "T11 사용자 지정 제외 · 실제 PHPCompatibility 검사");
+            C<ListBox>("ConfiguredExclusionsList").SelectedItem = Path.Combine(p, "single.php");
+            C<Button>("RemoveExclusionButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Pump();
+            Check(Model.Status == ScanStatus.Idle && Model.Issues.Count == 0, "Exclusion edit kept stale findings");
+            RunScan("removed-file-exclusion", p, Pack.Targets[0].Version, true);
+            Check(Model.SelectedFileCountText == "3" && Model.Issues.Any(i => i.FilePath.EndsWith("single.php", StringComparison.OrdinalIgnoreCase)),
+                "Removing exclusion did not restore the file");
+            var before = Model.ConfiguredExclusions.ToArray();
+            worker = Task.Run(() => NativePicker.Cancel(owner));
+            C<Button>("ExcludeFileButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker);
+            Check(Model.ConfiguredExclusions.SequenceEqual(before), "Cancelled file picker changed exclusions");
+            C<Expander>("ExclusionSettingsExpander").IsExpanded = false; Pump();
+        });
         Case("real zero findings and empty folder have different UI meanings", () =>
         {
             string project = Project("normal-zero"); Subject(project, "safe.php");

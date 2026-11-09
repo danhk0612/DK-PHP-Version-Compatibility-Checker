@@ -14,7 +14,7 @@ public sealed record SourceFileEnumeration(
 public sealed class SourceFileEnumerator
 {
     public SourceFileEnumeration Enumerate(string directory, bool includeSubdirectories,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default, IReadOnlyList<string>? excludedPaths = null)
     {
         var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory));
         if (!Directory.Exists(root))
@@ -22,6 +22,23 @@ public sealed class SourceFileEnumerator
         if (root.Any(char.IsControl))
             throw new IOException("소스 경로에 제어 문자가 있습니다.");
         RejectReparseAncestors(root);
+        // Match lexical source-root paths before metadata/open/traversal. An
+        // explicitly omitted folder may be inaccessible or a link and must not
+        // be visited merely to decide that it is excluded.
+        var exclusions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var rootPrefix = Path.EndsInDirectorySeparator(root) ? root : root + Path.DirectorySeparatorChar;
+        foreach (var configured in excludedPaths ?? Array.Empty<string>())
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (string.IsNullOrWhiteSpace(configured) || configured.Any(char.IsControl)
+                || configured.IndexOfAny(['*', '?']) >= 0)
+                throw new ArgumentException("제외 경로는 와일드카드 없는 파일 또는 폴더 경로여야 합니다.", nameof(excludedPaths));
+            var normalized = Path.TrimEndingDirectorySeparator(Path.GetFullPath(configured, root));
+            if (normalized.Equals(root, StringComparison.OrdinalIgnoreCase)
+                || !normalized.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase))
+                throw new ArgumentException("제외 경로는 검사 폴더 내부여야 하며 검사 루트 자체는 제외할 수 없습니다.", nameof(excludedPaths));
+            exclusions.Add(normalized);
+        }
         var files = new List<string>();
         var excluded = new List<string>();
         var pending = new Stack<string>();
@@ -34,6 +51,12 @@ public sealed class SourceFileEnumerator
                 cancellationToken.ThrowIfCancellationRequested();
                 if (entry.Any(char.IsControl))
                     throw new IOException("파일 목록에 안전하게 표현할 수 없는 경로입니다: " + entry);
+                if (exclusions.Any(path => entry.Equals(path, StringComparison.OrdinalIgnoreCase)
+                    || entry.StartsWith(path + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    excluded.Add(Path.GetFullPath(entry));
+                    continue;
+                }
                 var attributes = File.GetAttributes(entry);
                 if ((attributes & FileAttributes.ReparsePoint) != 0)
                 {

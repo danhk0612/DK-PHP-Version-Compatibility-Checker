@@ -2,15 +2,15 @@
 
 ## 작업 기준
 
-- 확인일: 2026-11-09 (UTC).
+- 확인일: 2026-11-09 (한국 시간).
 - 저장소: https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker
-- 기본 브랜치: `main`. 현재 개발 결과는 `t08-minimal-cli`, Draft [PR #8](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/8)에 있으며 main에는 미병합입니다.
-- 기능 검증 기준 커밋: `2a2db7a5413fa463a258bafd62d8c94ca47e77ce`. 이후 문서 정리는 새 기능 검증이나 새 바이너리/소스 페어링을 뜻하지 않습니다.
+- 기본 브랜치: `main`. 현재 추가 기능 개발은 `t11-scan-exclusions`, Draft [PR #9](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/9)입니다. 기반인 t08-minimal-cli/PR #8과 main에는 미병합입니다.
+- 기능 검증 기준 커밋: `56877baa1020b24ff10771963733e59f990ebb79`. 이후 문서 정리는 새 기능 검증이나 새 바이너리/소스 페어링을 뜻하지 않습니다.
 - 병합·tag·Release는 별도 명시 지시가 필요합니다. 공개 배포 승인 상태는 `false`입니다.
 
 ## 구현된 기능과 유효한 결정
 
-T00~T07은 완료했습니다. 폴더 선택 → 목표 PHP 버전 선택 → 검사 → 파일·줄·원문 문제와 집계 확인의 WPF 흐름을 구현했습니다. 검사 대상은 읽기 전용이며 대상에 Composer 설치·캐시 생성·소스 실행/수정을 하지 않습니다. 정적 분석 결과는 실제 PHP 실행·DB·외부 라이브러리·서비스 정상 동작을 보장하지 않습니다.
+T00~T07과 T11 제외 기능을 완료했습니다. 폴더 선택 → 목표 PHP 버전 선택 → 검사 → 파일·줄·원문 문제와 집계 확인의 WPF 흐름을 구현했습니다. 검사 대상은 읽기 전용이며 대상에 Composer 설치·캐시 생성·소스 실행/수정을 하지 않습니다. 정적 분석 결과는 실제 PHP 실행·DB·외부 라이브러리·서비스 정상 동작을 보장하지 않습니다.
 
 - Windows 11 x64, .NET 10 WPF, SDK 10.0.403, self-contained 포터블 ZIP을 기준으로 합니다. 사용자 PC의 .NET 별도 설치를 요구하지 않는 방향입니다. 깨끗한 Windows 11의 CRT·배포 전제는 아직 확인 대기입니다.
 - 공식 PHP 8.4.27-1 NTS VS17 x64, PHPCompatibility 10.0.0-alpha2, PHP_CodeSniffer 4.0.4, PHPCSUtils 1.2.3을 고정했습니다. 목표는 8.2/8.3/8.4입니다. 사전 공개 엔진과 동적 속성 미탐지 한계를 표시합니다.
@@ -21,22 +21,28 @@ T00~T07은 완료했습니다. 폴더 선택 → 목표 PHP 버전 선택 → �
 - 실패 영역에서 이유·엔진 종료 코드·stderr 및 JSON 해석 실패 시 stdout 앞/뒤 일부를 읽고 Ctrl+A/C로 복사할 수 있습니다.
 - 자체 코드는 MIT입니다. 사용자 승인된 PHP v4/Zend v3 후속 조건 선택과 독립 LGPL/Microsoft 등 외부 조건은 구분합니다. 전체 배포 적합성은 아직 완료가 아닙니다.
 
-세부 계약은 [REQUIREMENTS](REQUIREMENTS.md), [ARCHITECTURE](ARCHITECTURE.md), [제품 코드 안내](src/README.md)를 따릅니다. PHPStan·내보내기·온라인 자동 다운로드/갱신 UI·자동 수정은 구현 범위에 추가하지 않았습니다.
+세부 계약은 [REQUIREMENTS](REQUIREMENTS.md), [ARCHITECTURE](ARCHITECTURE.md), [제품 코드 안내](src/README.md)를 따릅니다. PHPStan·자동 수정은 보류입니다. 사용자 승인으로 T11 제외 기능을 완료했고, T12 CSV/HTML 내보내기 → T13 PHP8.5 목표 검증 → T14 검증된 팩 자동 다운로드를 순차 개발합니다. 내보내기·8.5 활성화·자동 다운로드는 아직 미구현입니다.
 
 ## 현재 검증 근거
 
 | 영역 | 확인된 결과 | 근거와 한계 |
 | --- | --- | --- |
 | 엔진·원본 보호 | 목표별 fixture, 설정 격리, 링크 제외, 입력 목록/해시 불변, 네트워크 차단 검사 | [T01](tools/ENGINE_PROBE.md), [T04](tests/t04/evidence/). 동적 속성 미탐지 등 엔진 한계를 포함한 검증입니다. |
-| 최신 서비스·GUI 회귀 | T05 71건 / T06 25건 / T07 36건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208511), [기준 커밋·회귀 근거](tests/t08-minimal/evidence/php-relink/build-materials.json). Windows Server 2022 CI입니다. 분할 검사 상세 근거는 [batched-scans](tests/t09/evidence/batched-scans.json)도 보존합니다. |
+| 최신 서비스·GUI 회귀 | T05 77건 / T06 26건 / T07 37건 통과, build 경고·오류 0 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42571152792), [T11 근거](tests/t11/evidence/summary.json). Windows Server 2022 CI입니다. |
 | 분할 검사 | 실제 PHPCS의 자체 생성 28,817파일, 205입력 100/100/5 새 프로세스, 실제 메모리 소진 재분할, 복수 단일 실패·결과 보존·중단 정리 통과 | 같은 batched-scans 근거. 생성 입력의 통과를 사용자 프로젝트 시험으로 대체하지 않습니다. |
 | 사용자 실제 프로젝트 | 목표 8.4·하위 포함, 선택/처리 28,817, ERROR 550 / WARNING 265, 완료 표시 | 2026-11-09 사용자 제공 화면. 실행 바이너리/ZIP의 정확한 SHA는 미수집입니다. 815건은 탐지 문제 수입니다. |
 | 로컬 후보 준비 | PHP/Composer 사전 설치 없이 고정 해시 임시 도구 사용, 중첩 긴 경로 수집·환경 복원·정리 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503), [근거](tests/t09/evidence/bootstrap-preparation.json). |
-| 최신 후보 준비·페어링 | 필수 재구성 파일 6개 포함·바이트 대조와 전체 준비 통과. scopePassed=true, candidateForUserTesting=true, publicReleaseApproved=false | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208419), [기준 커밋·두 ZIP SHA](tests/t08-minimal/evidence/php-relink/build-materials.json). 누락/변조 거부 13건의 상세 근거는 [reconstruction-inputs](tests/t09/evidence/reconstruction-inputs.json)도 보존합니다. 외부 공개 ZIP은 게시하지 않았습니다. |
+| T08 기준 후보 준비·페어링 | 필수 재구성 파일 6개 포함·바이트 대조와 전체 준비 통과. scopePassed=true, candidateForUserTesting=true, publicReleaseApproved=false | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208419), [기준 커밋·두 ZIP SHA](tests/t08-minimal/evidence/php-relink/build-materials.json). 누락/변조 거부 13건의 상세 근거는 [reconstruction-inputs](tests/t09/evidence/reconstruction-inputs.json)도 보존합니다. 외부 공개 ZIP은 게시하지 않았습니다. T11 제품 변경의 새 후보 페어링은 아직 수행하지 않았습니다. |
 | T09 ZIP 자동시험 | self-contained ZIP 생성, 한글 경로 앱 창 표시·응답·종료·파일 불변 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466), [근거](tests/t09/evidence/). 깨끗한 Windows 11 시험은 아닙니다. |
 | T10 팩 교체 | 같은 앱 assembly에서 reduced→full→reduced, 새 OS 프로세스의 실제 목록·검사·복원 및 잘못된 팩 거부 12건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [근거](tests/t10/evidence/). 기존 목표의 부분집합을 이용한 개발 시험이며 미래 PHP 버전 지원 검증은 아닙니다. |
 
 batched-scans.json의 “사용자 프로젝트 재시험 전” 문구는 해당 자동 실행 당시의 한계 기록입니다. 현재 사용자 시험 상태는 위 화면 보고가 우선하며 원본 실행 근거를 소급 수정하지 않습니다. 같은 실제 프로젝트의 수동 오프라인 재검사는 사용자 요청으로 **미실행·생략**했습니다. 통과로 간주하지 않고 재요청하지 않습니다. 기존 자동 오프라인 근거와 오프라인 동작 요구사항은 유지합니다.
+
+## 사용자 지정 제외 기능 (T11)
+
+GUI의 ‘검사 제외 폴더·파일’에서 하위 폴더와 여러 파일을 선택하고 목록에서 제거할 수 있습니다. 지정한 폴더는 메타데이터 조회/열기/하위 탐색 전에 제외하며 정확한 파일도 엔진에 전달하지 않습니다. 이름 접두사가 같은 형제 폴더·파일은 유지합니다. 루트 자체/외부/패턴은 거부하고 기존 링크 보호를 유지합니다.
+
+지정 목록은 현재 실행 중 유지하고 검사 폴더 변경 시 초기화합니다. 제외 변경 시 오래된 결과를 초기화하고 검사 중에는 입력을 잠급니다. 요청 목록은 비동기 작업 전에 복사하며 실제 건너뛴 경로는 기존 제외 결과에 표시합니다. 영구 저장·glob은 포함하지 않습니다. 실제 네이티브 폴더/다중 파일 선택·취소, 제외 해제 후 진단 복원과 원본 불변을 확인했습니다. [실측·한계](tests/t11/evidence/summary.json), [실제 시험 화면](tests/t11/evidence/configured-exclusions.png)을 보존합니다.
 
 ## T08 배포 준비 상태
 
@@ -54,11 +60,14 @@ T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는
 
 | 구분 | 다음 작업 | 상태·권장 환경 |
 | --- | --- | --- |
+| T12 결과 내보내기 | 현재 ScanResult의 CSV/HTML 저장·실패/부분 결과·집계·제외/한계 보존 | 다음 구현. 저성능 Work. TASKS의 T12 계약을 따릅니다. |
+| T13 PHP8.5 검증 | 고정 엔진의 실제 규칙과 미탐지·토큰화 한계를 검증한 뒤 목표 활성화 | T12 후. 현재 목표는 8.2/8.3/8.4 그대로입니다. |
+| T14 팩 자동 다운로드 | 검증된 팩 목록·수신·무결성 검증·관리 영역 설치·기존 팩 보존 | T13 후 계약 설계. 공개 다운로드 산출물 게시와 T08 배포 관문은 별도입니다. |
 | T08 기술·배포 검토 | 실제 제품 PHP에 필요한 소스/빌드/링크 자료와 고지의 잔여 대응을 LICENSING 기준으로 검토 | 부분 검증. 자료 대조는 저성능 Work, 해석 충돌은 고성능 Chat. 제품 PHP 교체·스택 변경은 임의 수행하지 않습니다. |
 | T09 직접 시험 | 다른 목표, 실제 원본 목록/해시 불변, 깨끗한 Windows 11의 CRT/.NET 전제·일반 사용자·읽기 전용 위치 등 미실행 항목 기록 | [Windows 11 절차](tests/t09/WINDOWS11_TEST.md). 8.4 대규모 완료 확인과 생략한 중복 오프라인 재검사를 다시 요구하지 않습니다. |
 | T10 최종 배포 대조 | 배포에 사용할 팩 구성을 T08 고지/대응 소스와 재대조 | 개발 자동시험 완료, T08 배포 조건 대기. 저성능 Work. |
 | 최종 후보·공개 운영 | 최종 checkout에서 후보와 소스 ZIP 재생성·페어링 후 결과 검토. 병합·tag·Release 및 지속 제공은 명시 지시 후 진행 | 현재 미승인. 기존 로컬 진단 재빌드는 새 후보 페어링을 대신하지 않습니다. |
 
-현재 기능 추가 구현 Task는 없습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
+T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
-다음 Work는 현재 원격 브랜치와 이 문서·TASKS·LICENSING을 먼저 확인하고 **T08의 잔여 입력 대응/고지 검토**만 진행합니다. 기존 수집·재링크·페어링 근거를 재사용하고, 새로운 공식 자료가 있으면 출처와 해당 제품과의 연결을 검증합니다. 검증 불가 항목은 원인과 필요한 자료를 구체적으로 남깁니다. 별도 승인 없는 배포·PHP 교체·새 기능·미실행 Windows 시험의 완료 처리는 금지합니다. 작업 원칙은 [AI_WORKFLOW](AI_WORKFLOW.md)를 따릅니다.
+다음 Work는 t11-scan-exclusions의 최신 원격 상태와 이 문서·REQUIREMENTS·TASKS를 읽고 **T12 CSV/HTML 결과 내보내기**를 수행합니다. T11과 그 검증 근거를 보존하고 현재 검사 결과 스냅샷을 원본 대상 밖으로 저장하며 실패/부분 결과·미확인 수·원문/제외/한계를 유지합니다. 엔진·목표·자동 다운로드는 해당 후속 Task 전까지 바꾸지 않습니다. 범위가 명확한 저성능 Work가 적절하며 Git 반영은 작업 브랜치·검토용 PR까지입니다. 병합·Release/tag·미실행 Windows 시험 완료 처리는 금지합니다. [AI_WORKFLOW](AI_WORKFLOW.md)를 따릅니다.
