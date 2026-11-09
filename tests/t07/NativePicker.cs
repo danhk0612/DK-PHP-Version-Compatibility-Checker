@@ -10,9 +10,11 @@ using System.Text;
 internal static class NativePicker
 {
     public static long Select(IntPtr owner, string path) => Drive(owner, path);
+    public static long SelectFiles(IntPtr owner, params string[] paths) =>
+        Drive(owner, string.Join(" ", paths.Select(path => "\"" + path + "\"")), fileSelection: true);
     public static long Cancel(IntPtr owner) => Drive(owner, null);
 
-    private static long Drive(IntPtr owner, string? path)
+    private static long Drive(IntPtr owner, string? path, bool fileSelection = false)
     {
         IntPtr dialog = IntPtr.Zero;
         try
@@ -33,15 +35,17 @@ internal static class NativePicker
             if (dialog == IntPtr.Zero) throw new InvalidOperationException("Native folder picker did not appear within 20 seconds");
             if (path is null) { PostMessage(dialog, 0x0010, IntPtr.Zero, IntPtr.Zero); return dialog.ToInt64(); }
             SetForegroundWindow(dialog); Thread.Sleep(200);
-            Key(0x12, false); Key(0x44, false); Key(0x44, true); Key(0x12, true); // Alt+D address bar
+            ushort accessKey = fileSelection ? (ushort)0x4E : (ushort)0x44;
+            Key(0x12, false); Key(accessKey, false); Key(accessKey, true); Key(0x12, true); // Alt+N filename / Alt+D address
             Thread.Sleep(200);
+            Key(0x11, false); Key(0x41, false); Key(0x41, true); Key(0x11, true); // Ctrl+A
             foreach (char ch in path)
             {
                 Input(new INPUT { type = 1, data = new InputUnion { keyboard = new KEYBDINPUT { scan = ch, flags = 4 } } });
                 Input(new INPUT { type = 1, data = new InputUnion { keyboard = new KEYBDINPUT { scan = ch, flags = 6 } } });
             }
-            Key(0x0D, false); Key(0x0D, true);
-            Thread.Sleep(1200);
+            if (!fileSelection) { Key(0x0D, false); Key(0x0D, true); }
+            Thread.Sleep(fileSelection ? 200 : 1200);
             // IDOK=1 is the native dialog's Select Folder button, independent of
             // Windows display language. Navigation above selects the folder.
             IntPtr ok = IntPtr.Zero;
