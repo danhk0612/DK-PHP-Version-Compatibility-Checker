@@ -107,10 +107,11 @@ internal static class Program
     }
     private static void Unchanged(SortedDictionary<string, string> before, string root) =>
         Check(before.SequenceEqual(Snapshot(root)), "Source file/directory list or SHA-256 changed");
-    private static async Task<ScanResult> Scan(string project, string? version = null, bool recursive = true, string? pack = null)
+    private static async Task<ScanResult> Scan(string project, string? version = null, bool recursive = true, string? pack = null,
+        IReadOnlyList<string>? excludedPaths = null)
     {
         await using var service = new ScanService(pack ?? PackPath);
-        return await service.ScanAsync(new ScanRequest(project, version ?? Pack.Targets[0].Version, recursive));
+        return await service.ScanAsync(new ScanRequest(project, version ?? Pack.Targets[0].Version, recursive, excludedPaths));
     }
 
     private static JsonObject Message(string type = "ERROR", string source = "Rule.One", bool fixable = false) => new()
@@ -266,6 +267,102 @@ internal static class Program
             var local = await Scan(p, recursive: false); var all = await Scan(p);
             Check(local.Status == ScanStatus.Completed && local.SelectedFileCount == 2 && local.ProcessedFileCount == 2, "Local extension selection incorrect: status=" + local.Status + ", selected=" + local.SelectedFileCount + ", processed=" + local.ProcessedFileCount + ", failure=" + local.FailureMessage);
             Check(all.Status == ScanStatus.Completed && all.SelectedFileCount == 3 && all.ProcessedFileCount == 3, "Recursive selection incorrect: status=" + all.Status + ", selected=" + all.SelectedFileCount + ", processed=" + all.ProcessedFileCount + ", failure=" + all.FailureMessage); Unchanged(before, p);
+        });
+        await Case("configured folder and exact file exclusions preserve sibling boundaries and findings", async () =>
+        {
+            var p = NewProject("제외 한글 paths");
+            Subject(p, "keep.php");
+            Subject(p, "vendor/a.php", "<?php mysql_query('excluded');\n");
+            Subject(p, "vendor/nested/b.inc", "<?php mysql_query('excluded');\n");
+            var sibling = Subject(p, "vendor2/visible.php", "<?php mysql_query('visible');\n");
+            var omitted = Subject(p, "omit.php", "<?php mysql_query('excluded');\n");
+            var fileSibling = Subject(p, "omit.php.more.php", "<?php mysql_query('visible');\n");
+            var before = Snapshot(p);
+            var r = await Scan(p, excludedPaths: ["VENDOR/", "./omit.php", Path.Combine(p, "vendor")]);
+            Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3,
+                r.FailureMessage ?? "Configured exclusions did not select exactly three files");
+            Check(r.Issues.Count == 2 && r.Issues.All(i => i.FilePath == sibling || i.FilePath == fileSibling),
+                "Excluded paths reached engine or sibling-prefix matches were excluded");
+            Check(r.ExcludedPaths.Count == 2 && r.ExcludedPaths.Contains(omitted)
+                && r.ExcludedPaths.Contains(Path.Combine(p, "vendor")), "Configured exclusions were hidden or duplicated");
+            Unchanged(before, p);
+        });
+        await Case("all selected paths excluded is NoFiles and missing exclusion paths are inert", async () =>
+        {
+            var p = NewProject("exclude-all"); Subject(p, "a.php"); Subject(p, "nested/b.php");
+            var before = Snapshot(p);
+            var r = await Scan(p, excludedPaths: ["a.php", "nested", "not-created.php"]);
+            Check(r.Status == ScanStatus.NoFiles && r.SelectedFileCount == 0 && r.ProcessedFileCount == 0
+                && r.ExcludedPaths.Count == 2 && r.Issues.Count == 0, "Excluded inputs looked like a completed compatible scan");
+            Unchanged(before, p);
+        });
+        await Case("root and outside exclusion paths fail without changing source", async () =>
+        {
+            var p = NewProject("exclude-invalid"); Subject(p, "a.php"); var before = Snapshot(p);
+            foreach (var path in new[] { p, ".", "nested/..", "../escape", p + "-sibling", "*.php", "" })
+            {
+                var r = await Scan(p, excludedPaths: [path]);
+                Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null,
+                    "Invalid exclusion was accepted: " + path);
+            }
+            Unchanged(before, p);
+        });
+        await Case("explicit denied directory exclusion is applied before traversal", async () =>
+        {
+            var p = NewProject("exclude-denied-directory"); Subject(p, "keep.php"); Subject(p, "denied/hidden.php");
+            var before = Snapshot(p); var directory = Path.Combine(p, "denied");
+            var user = Environment.UserDomainName + "\\" + Environment.UserName;
+            var denied = await Run("icacls.exe", [directory, "/deny", user + ":(OI)(CI)(RX)"], Area);
+            Check(denied.Exit == 0, "Could not deny folder enumeration");
+            try
+            {
+                bool actuallyDenied = false;
+                try { _ = Directory.GetFileSystemEntries(directory); } catch (UnauthorizedAccessException) { actuallyDenied = true; }
+                Check(actuallyDenied, "Denied directory positive control was readable");
+                var baseline = await Scan(p);
+                Check(baseline.Status == ScanStatus.Failed, "Unexcluded denied folder looked complete");
+                var excluded = await Scan(p, excludedPaths: [directory]);
+                Check(excluded.Status == ScanStatus.Completed && excluded.SelectedFileCount == 1
+                    && excluded.ProcessedFileCount == 1 && excluded.ExcludedPaths.Contains(directory),
+                    excluded.FailureMessage ?? "Excluded denied folder was visited");
+            }
+            finally
+            {
+                var restored = await Run("icacls.exe", [directory, "/remove:d", user], Area);
+                Check(restored.Exit == 0, "Excluded folder ACL restore failed");
+            }
+            Unchanged(before, p);
+        });
+        await Case("configured link exclusions do not follow targets or allow a linked source root", async () =>
+        {
+            var p = NewProject("exclude-configured-link"); Subject(p, "keep.php");
+            var outside = NewProject("exclude-configured-link-target"); Subject(outside, "bad.php", "<?php mysql_query('outside');\n");
+            var link = Path.Combine(p, "linked");
+            var mk = await Run("cmd.exe", ["/d", "/c", "mklink", "/J", link, outside], Area);
+            Check(mk.Exit == 0, "Configured junction setup failed");
+            try
+            {
+                var before = Snapshot(p); var outsideBefore = Snapshot(outside);
+                var r = await Scan(p, excludedPaths: [link]);
+                Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 1 && r.Issues.Count == 0
+                    && r.ExcludedPaths.SequenceEqual(new[] { link }), "Configured junction was followed");
+                Check((await Scan(link, excludedPaths: ["bad.php"])).Status == ScanStatus.Failed,
+                    "Exclusions bypassed linked-root protection");
+                Unchanged(before, p); Unchanged(outsideBefore, outside);
+            }
+            finally { Directory.Delete(link); }
+        });
+        await Case("scan snapshots mutable configured exclusion lists before asynchronous work", async () =>
+        {
+            var p = NewProject("exclude-snapshot"); Subject(p, "keep.php"); Subject(p, "omit.php", "<?php mysql_query('excluded');\n");
+            var before = Snapshot(p); var configured = new List<string> { "omit.php" };
+            await using var service = new ScanService(PackPath);
+            var task = service.ScanAsync(new ScanRequest(p, Pack.Targets[0].Version, true, configured));
+            configured.Clear(); configured.Add("keep.php");
+            var r = await task;
+            Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 1 && r.Issues.Count == 0
+                && r.Request.ExcludedPaths!.SequenceEqual(new[] { "omit.php" }), "Caller mutation changed the in-flight exclusion request");
+            Unchanged(before, p);
         });
         await Case("source annotations cannot suppress selected findings", async () =>
         {

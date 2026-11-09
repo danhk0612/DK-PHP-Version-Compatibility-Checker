@@ -170,12 +170,37 @@ internal static class Program
             Check(Model.CanPrepareScan && Control<Button>("ScanButton").IsEnabled, "Valid connected inputs did not enable scan");
             Capture("ready-inputs");
         });
+        Case("configured exclusions bind, deduplicate, remove and reset with the source folder", () =>
+        {
+            Model.SourceDirectory = Project;
+            var excluded = Path.Combine(Project, "제외 & 폴더");
+            Model.AddExclusion(excluded); Model.AddExclusion(excluded.ToUpperInvariant()); Pump();
+            Check(Model.ConfiguredExclusions.Count == 1 && Control<ListBox>("ConfiguredExclusionsList").Items.Count == 1,
+                "Exclusion binding or deduplication failed");
+            Control<ListBox>("ConfiguredExclusionsList").SelectedItem = excluded;
+            Control<Button>("RemoveExclusionButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Pump();
+            Check(Model.ConfiguredExclusions.Count == 0, "Remove exclusion button did not update inputs");
+            foreach (var invalid in new[] { Project, Path.Combine(Area, "outside.php") })
+            {
+                bool rejected = false;
+                try { Model.AddExclusion(invalid); } catch (ArgumentException) { rejected = true; }
+                Check(rejected && Model.ConfiguredExclusions.Count == 0, "Root or outside exclusion accepted");
+            }
+            Model.AddExclusion(excluded);
+            Model.SourceDirectory = Path.Combine(Area, "other-exclusion-source"); Pump();
+            Check(Model.ConfiguredExclusions.Count == 0 && !Model.CanEditExclusions, "Source change retained unrelated exclusions");
+            Model.SourceDirectory = Project; Pump();
+            Check(Model.CanEditExclusions, "Exclusion editing did not restore");
+        });
         Case("running locks input controls and clears stale results", () =>
         {
             string original = Model.SourceDirectory; var target = Model.SelectedTarget; bool recursive = Model.IncludeSubdirectories;
             Model.ShowRunning(); Pump();
+            var exclusionCount = Model.ConfiguredExclusions.Count;
+            Model.AddExclusion(Path.Combine(Project, "ignored-while-running.php"));
+            Check(Model.ConfiguredExclusions.Count == exclusionCount, "Running exclusions changed");
             Check(Model.Status == ScanStatus.Running && !Model.CanPrepareScan && !Model.CanEditInputs, "Running status did not lock input");
-            foreach (var name in new[] { "SourceFolderTextBox", "FolderBrowseButton", "TargetVersionComboBox", "IncludeSubdirectoriesCheckBox" })
+            foreach (var name in new[] { "SourceFolderTextBox", "FolderBrowseButton", "TargetVersionComboBox", "IncludeSubdirectoriesCheckBox", "ExcludeFolderButton", "ExcludeFileButton", "RemoveExclusionButton", "ConfiguredExclusionsList" })
                 Check(!Control<Control>(name).IsEnabled, "Running control remained editable: " + name);
             Model.SourceDirectory = "changed"; Model.SelectedTarget = null; Model.IncludeSubdirectories = !recursive; Pump();
             Check(Model.SourceDirectory == original && ReferenceEquals(Model.SelectedTarget, target) && Model.IncludeSubdirectories == recursive, "Running input setters changed execution context");

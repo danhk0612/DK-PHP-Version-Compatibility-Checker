@@ -92,6 +92,24 @@
                     </StackPanel>
                 </Grid>
 
+                <Expander x:Name="ExclusionSettingsExpander" Header="{Binding ExclusionSummary}" Margin="0,0,0,10">
+                    <StackPanel>
+                        <WrapPanel Margin="0,5,0,5">
+                            <Button x:Name="ExcludeFolderButton" Content="폴더 추가…" Click="OnExcludedFolderBrowse"
+                                    IsEnabled="{Binding CanEditExclusions}" Padding="8,3" Margin="0,0,6,0" />
+                            <Button x:Name="ExcludeFileButton" Content="파일 추가…" Click="OnExcludedFileBrowse"
+                                    IsEnabled="{Binding CanEditExclusions}" Padding="8,3" Margin="0,0,6,0" />
+                            <Button x:Name="RemoveExclusionButton" Content="선택 항목 제거" Click="OnRemoveExclusion"
+                                    IsEnabled="{Binding CanEditExclusions}" Padding="8,3" />
+                        </WrapPanel>
+                        <ListBox x:Name="ConfiguredExclusionsList" ItemsSource="{Binding ConfiguredExclusions}" Height="70"
+                                 IsEnabled="{Binding CanEditExclusions}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 AutomationProperties.Name="검사에서 제외하도록 지정한 경로" />
+                        <TextBlock Text="지정한 폴더 내부와 지정 파일을 검사하지 않습니다. 검사 폴더를 바꾸면 목록이 초기화됩니다."
+                                   TextWrapping="Wrap" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Expander>
+
                 <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1"
                         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Padding="9,7" Margin="0,0,0,10">
                     <UniformGrid Columns="4">

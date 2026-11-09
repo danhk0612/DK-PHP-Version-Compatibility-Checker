@@ -28,6 +28,8 @@ public sealed class ScanService : IAsyncDisposable
             ObjectDisposedException.ThrowIf(_disposed, this);
             if (_active is { IsCompleted: false })
                 throw new InvalidOperationException("검사가 진행 중이므로 중복 실행할 수 없습니다.");
+            request = request with { ExcludedPaths = request.ExcludedPaths is null
+                ? null : Array.AsReadOnly(request.ExcludedPaths.ToArray()) };
             _active = Task.Run(() => RunAsync(request, _lifetime.Token));
             return _active;
         }
@@ -63,7 +65,8 @@ public sealed class ScanService : IAsyncDisposable
             if (PhysicalOverlaps(physicalSource, physicalPack) || PhysicalOverlaps(physicalWork, physicalSource)
                 || PhysicalOverlaps(physicalWork, physicalPack))
                 throw new IOException("물리 경로 기준으로 소스·엔진 팩·임시 작업 폴더가 겹칩니다.");
-            var enumeration = new SourceFileEnumerator().Enumerate(source, request.IncludeSubdirectories, cancellationToken);
+            var enumeration = new SourceFileEnumerator().Enumerate(source, request.IncludeSubdirectories,
+                cancellationToken, request.ExcludedPaths);
             selected = enumeration.Files;
             excluded = enumeration.ExcludedPaths;
             if (selected.Count == 0)
