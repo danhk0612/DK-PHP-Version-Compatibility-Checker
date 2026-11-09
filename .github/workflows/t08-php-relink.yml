@@ -74,7 +74,7 @@ jobs:
           $result = Get-Content -Raw -Encoding utf8 artifacts/t08-php-relink/php-relink.json | ConvertFrom-Json
           $original = @($result.results | Where-Object profile -eq 'original')[0].executable
           $marker = @($result.results | Where-Object profile -eq 'marker')[0].executable
-          python tests/t08-minimal/check_relinked_php.py --original-php $original --marker-php $marker --pack tools/runtime --output artifacts/t08-php-relink-comparison
+          python tests/t08-minimal/check_relinked_php.py --original-php $original --marker-php $marker --pack tools/runtime --build-audit artifacts/t08-php-relink --output artifacts/t08-php-relink-comparison
           if ($LASTEXITCODE -ne 0) { throw 'Relinked PHP comparison failed' }
       - name: Preserve audit evidence
         if: always()
@@ -83,6 +83,7 @@ jobs:
           name: t08-php-relink
           path: |
             artifacts/t08-php-relink/*.json
+            artifacts/t08-php-relink/*-build-material.zip
             artifacts/t08-php-relink/*.log
             artifacts/t08-php-relink/libiconv/*.json
             artifacts/t08-php-relink/libiconv/*.log

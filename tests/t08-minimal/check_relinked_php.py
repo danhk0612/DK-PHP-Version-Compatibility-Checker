@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import zipfile
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / 'tools/engine-pack'))
@@ -44,9 +45,50 @@ def validate_php(php, expected):
             'phpExeSha256': sha(php), 'phpDllSha256': sha(php.parent / 'php8.dll')}
 
 
+def validate_build_material(audit, profile, php):
+    material = read(audit / (profile + '-build-material.json'))
+    require(material['profile'] == profile and material['fullProductProfileVerified'] is False
+            and material['redistributionCleared'] is False, 'Audit material scope is invalid')
+    source = (audit / profile / 'php-src').resolve()
+    require(Path(material['sourceRoot']).resolve() == source and php.resolve().is_relative_to(source),
+            'Build material is not associated with the selected audit PHP')
+    require('--disable-all' in material['configureArguments'], 'Expected reduced audit configuration')
+    require({t['name'] for t in material['tools']} == {'cl.exe', 'link.exe', 'nmake.exe'}
+            and all(t['fileVersion'] for t in material['tools']), 'Missing actual build tool versions')
+    require(bool(material['windowsSdkVersion']), 'Missing audit Windows SDK version')
+    archive = audit / (profile + '-build-material.zip')
+    require(material['archive'] == archive.name and archive.stat().st_size == material['archiveBytes']
+            and sha(archive) == material['archiveSha256'], 'Build material archive checksum mismatch')
+    rows = {r['path']: r for r in material['files']}
+    require(len(rows) == len(material['files']), 'Duplicate build material inventory path')
+    require({'Makefile', 'config.nice.bat', 'main/config.w32.h'} <= rows.keys(),
+            'Missing generated build configuration')
+    response_count = 0
+    with zipfile.ZipFile(archive) as package:
+        require(len(package.namelist()) == len(rows) and set(package.namelist()) == set(rows),
+                'Build material archive membership mismatch')
+        for name, row in rows.items():
+            relative = Path(name)
+            path = (source / relative).resolve()
+            require(not relative.is_absolute() and path.is_relative_to(source) and path.is_file(),
+                    'Escaping or missing generated build file')
+            response = relative.parent.name == 'resp' and relative.suffix == '.txt'
+            require(name in {'Makefile', 'config.nice.bat', 'main/config.w32.h'}
+                    or response or relative.name == 'php8.dll.def', 'Unexpected build material file')
+            data = package.read(name)
+            require(len(data) == row['bytes'] and sha(path) == row['sha256']
+                    and data == path.read_bytes(), 'Build material bytes differ from actual build: ' + name)
+            response_count += int(response)
+    require(response_count > 0 and response_count == material['responseFileCount'],
+            'Missing or inconsistent generated response files')
+    return {'profile': profile, 'archive': archive.name, 'archiveSha256': material['archiveSha256'],
+            'verifiedFileCount': len(rows), 'responseFileCount': response_count,
+            'actualBuildBytesMatched': True, 'fullProductProfileVerified': False}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    for name in ('original-php', 'marker-php', 'pack', 'output'):
+    for name in ('original-php', 'marker-php', 'pack', 'output', 'build-audit'):
         p.add_argument('--' + name, type=Path, required=True)
     a = p.parse_args()
     require(os.name == 'nt', 'Windows audit runtime is required')
@@ -60,6 +102,8 @@ def main():
     pack_before = snapshot(pack)
     original_info = validate_php(original, '1.19')
     marker_info = validate_php(marker, '1.20')
+    build_materials = [validate_build_material(a.build_audit.resolve(), profile, php)
+                       for profile, php in (('original', original), ('marker', marker))]
     require(original_info['phpDllSha256'] != marker_info['phpDllSha256'], 'Audit PHP DLLs have identical hashes')
     fixture_root = REPO / 'tests/fixtures'
     fixture_before = snapshot(fixture_root)
@@ -111,6 +155,7 @@ def main():
     output.mkdir(parents=True)
     write(output / 'php-relink-comparison.json', {
         'scopePassed': True, 'original': original_info, 'marker': marker_info,
+        'buildMaterials': build_materials,
         'cases': results, 'comparedCases': len(results), 'subjectUnchanged': True,
         'repositoryFixturesUnchanged': True, 'enginePackUnchanged': True,
         'markerMeaning': 'Audit-only libiconv variable change, not a library version update',
