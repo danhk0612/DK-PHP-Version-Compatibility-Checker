@@ -54,7 +54,17 @@ jobs:
           $beforePath=$env:PATH
           $beforePhprc=$env:PHPRC
           $beforeScanDir=$env:PHP_INI_SCAN_DIR
+          # A previously interrupted pack build can leave a directory without a manifest.
+          New-Item -ItemType Directory -Path tools/runtime | Out-Null
+          Set-Content -LiteralPath tools/runtime/retry-marker.txt -Value 'preserve incomplete pack' -NoNewline
           ./tools/packaging/Prepare-LocalTest.ps1
+          $backups = @(Get-ChildItem artifacts -Directory -Filter 'incomplete-runtime-*')
+          if ($backups.Count -ne 1 -or
+              (Get-Content -LiteralPath (Join-Path $backups[0].FullName 'retry-marker.txt') -Raw) -cne 'preserve incomplete pack' -or
+              -not (Test-Path -LiteralPath tools/runtime/manifest.json -PathType Leaf)) {
+            throw 'Incomplete runtime was not preserved and rebuilt.'
+          }
+          Write-Output 'Incomplete runtime preservation and rebuild verified.'
           if ($env:PATH -cne $beforePath -or $env:PHPRC -cne $beforePhprc -or $env:PHP_INI_SCAN_DIR -cne $beforeScanDir) {
             throw 'Preparation did not restore process environment.'
           }

@@ -10,6 +10,8 @@
 pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1
 ```
 
+`tools/runtime` 폴더에 `manifest.json`이 없으면 준비가 중단된 팩으로 처리합니다. 기존 폴더는 `artifacts/incomplete-runtime-*`에 보존하고 검증 팩을 새로 생성합니다.
+
 완료 시 표시되는 실행 ZIP, 소스·고지 ZIP, `paired-candidate.json`을 한 세트로 보존합니다. `paired-candidate.json`의 두 SHA-256을 실제 ZIP과 대조하고 압축 해제해 테스트합니다. 준비 명령은 로컬 파일만 생성하며 ZIP을 외부에 업로드하지 않습니다. 명령이 실패하면 오류와 `artifacts/`의 근거를 보존하고 실패 상태를 통과로 취급하지 않습니다.
 
 ## 검사 실패 원인 확인용 로컬 진단 빌드
