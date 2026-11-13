@@ -12,7 +12,8 @@ param(
     [Parameter(Mandatory)] [string] $SourcePath,
     [Parameter(Mandatory)] [string] $OutputDirectory,
     [string] $MSBuildPath = 'MSBuild.exe',
-    [string] $DumpbinPath = 'dumpbin.exe'
+    [string] $DumpbinPath = 'dumpbin.exe',
+    [string] $SourceInventory
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -22,12 +23,23 @@ $output = [IO.Path]::GetFullPath($OutputDirectory).TrimEnd([IO.Path]::DirectoryS
 $comparison = [StringComparison]::OrdinalIgnoreCase
 if ($output.Equals($source, $comparison) -or $output.StartsWith($source + [IO.Path]::DirectorySeparatorChar, $comparison) -or $source.StartsWith($output + [IO.Path]::DirectorySeparatorChar, $comparison)) { throw 'Source and output must be separate directories.' }
 if (Test-Path -LiteralPath $output) { throw 'Output already exists; use a new directory.' }
-$revision = (& git -C $source rev-parse HEAD).Trim()
-if ($LASTEXITCODE -ne 0 -or $revision -ne '8f55a0aa6532f30f947261d90e72b200f350a5df') { throw 'Unexpected libiconv source commit.' }
-$root = (& git -C $source rev-parse --show-toplevel).Trim()
-if ($LASTEXITCODE -ne 0 -or -not ([IO.Path]::GetFullPath($root).TrimEnd([IO.Path]::DirectorySeparatorChar)).Equals($source, $comparison)) { throw 'SourcePath must be the Git checkout root.' }
-$index = @(& git -c core.quotepath=false -C $source ls-tree -r --full-tree HEAD)
-if ($LASTEXITCODE -ne 0 -or $index.Count -ne 1148) { throw 'Unexpected source inventory.' }
+if ($SourceInventory) {
+    $inventory = Get-Content -LiteralPath $SourceInventory -Raw -Encoding utf8 | ConvertFrom-Json
+    $revision = $inventory.commit
+    $index = @($inventory.trackedFiles | ForEach-Object {
+        "$($_.gitMode) blob $($_.gitBlob)" + "`t" + $_.path
+    })
+} else {
+    $revision = (& git -C $source rev-parse HEAD).Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read the libiconv revision.' }
+    $root = (& git -C $source rev-parse --show-toplevel).Trim()
+    if ($LASTEXITCODE -ne 0 -or -not ([IO.Path]::GetFullPath($root).TrimEnd([IO.Path]::DirectorySeparatorChar)).Equals($source, $comparison)) { throw 'SourcePath must be the Git checkout root.' }
+    $index = @(& git -c core.quotepath=false -C $source ls-tree -r --full-tree HEAD)
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read the libiconv Git tree.' }
+}
+if ($revision -ne '8f55a0aa6532f30f947261d90e72b200f350a5df' -or $index.Count -ne 1148) {
+    throw 'Unexpected libiconv source commit or inventory.'
+}
 
 function Get-GitBlobHash([byte[]] $Bytes) {
     $header = [Text.Encoding]::ASCII.GetBytes("blob $($Bytes.Length)`0")

@@ -5,7 +5,8 @@ param(
     [Parameter(Mandatory)] [string] $LibiconvSource,
     [Parameter(Mandatory)] [string] $DepsDirectory,
     [Parameter(Mandatory)] [string] $OutputDirectory,
-    [switch] $Snapshot
+    [switch] $Snapshot,
+    [string] $LibiconvInventory
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -22,7 +23,9 @@ foreach ($source in @($php, $lib, $deps)) {
 }
 New-Item -ItemType Directory -Path $output | Out-Null
 $timer = [Diagnostics.Stopwatch]::StartNew()
-& (Join-Path $PSScriptRoot 'Test-LibiconvRebuild.ps1') -SourcePath $lib -OutputDirectory (Join-Path $output 'libiconv')
+$libSourceArgs = @{}
+if ($LibiconvInventory) { $libSourceArgs.SourceInventory = $LibiconvInventory }
+& (Join-Path $PSScriptRoot 'Test-LibiconvRebuild.ps1') @libSourceArgs -SourcePath $lib -OutputDirectory (Join-Path $output 'libiconv')
 $libReport = Get-Content -Raw -LiteralPath (Join-Path $output 'libiconv/libiconv-rebuild.json') | ConvertFrom-Json
 $toolVersions = @()
 foreach ($tool in @('cl.exe', 'link.exe', 'nmake.exe')) {

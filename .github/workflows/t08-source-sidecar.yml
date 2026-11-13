@@ -70,6 +70,23 @@ jobs:
             throw 'Preparation did not restore process environment.'
           }
           if (Get-ChildItem artifacts -Directory -Filter 'local-preparation-*') { throw 'Preparation tools were not cleaned up.' }
+      - name: Relink PHP directly from the paired source companion
+        shell: pwsh
+        run: |
+          $work = Join-Path $env:RUNNER_TEMP "dk-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          python tools/license-audit/Rebuild-FromSourceSidecar.py --source artifacts/t08-source-sidecar/DK-PHP-Compatibility-sources-and-notices.zip --binary artifacts/t09/DK-PHP-Compatibility-audit-only.zip --pair artifacts/t09/evidence/paired-candidate.json --work $work
+          if ($LASTEXITCODE -ne 0) { throw 'Source companion relink failed.' }
+      - name: Preserve companion relink evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t08-companion-relink
+          path: |
+            ${{ runner.temp }}/dk-${{ github.run_id }}-${{ github.run_attempt }}/companion-relink.json
+            ${{ runner.temp }}/dk-${{ github.run_id }}-${{ github.run_attempt }}/comparison/
+            ${{ runner.temp }}/dk-${{ github.run_id }}-${{ github.run_attempt }}/result/*.log
+          retention-days: 7
+          if-no-files-found: warn
       - name: Preserve metadata only; local test ZIPs are not published
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

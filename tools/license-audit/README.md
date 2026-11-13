@@ -72,6 +72,16 @@ if ($LASTEXITCODE -ne 0 -or $sdkHead -cne $sdk.commit) { throw 'PHP SDK commit m
 
 Windows 워크플로의 `reduced`는 축소 CLI, `snapshot`은 공식 x64 NTS 스냅샷의 구성 옵션으로 CLI와 코어 DLL을 빌드합니다. 스냅샷 시험은 `snapshot-deps.json`의 순서로 의존성 ZIP을 가져와 SHA-256 검증 후 풀고, `Test-PhpRelink.ps1`에 `-Snapshot`을 전달합니다. 비교기에도 `--snapshot`을 전달하여 배포용 PHP와 원본·마커 빌드의 내장 확장 목록을 대조합니다. PGO 훈련과 전체 공식 배포 ZIP 생성은 공식 builder 레시피를 참조합니다.
 
+### 동봉 소스로 Windows 재링크
+
+짧고 공백 없는 경로를 작업 폴더로 지정합니다. Windows x64, Python 3.12 이상, PowerShell 7, Git, Visual Studio 2022 C++ x64 도구와 Windows SDK가 필요합니다. 같은 후보의 실행 ZIP·소스 ZIP·페어링 JSON을 준비합니다. 소스 ZIP에서 `project/tools/license-audit/Rebuild-FromSourceSidecar.py`를 꺼낸 뒤 실행합니다.
+
+```powershell
+python ./Rebuild-FromSourceSidecar.py --source ./DK-PHP-Compatibility-sources-and-notices.zip --binary ./DK-PHP-Compatibility-audit-only.zip --pair ./paired-candidate.json --work C:/dk-relink
+```
+
+두 ZIP의 해시를 확인하고 PHP와 libiconv의 동봉 아카이브를 풀어 빌드합니다. 도구 SDK는 고정 커밋에서 가져오고, 네이티브 의존성 ZIP은 동봉 목록의 SHA-256과 대조합니다. 결과는 작업 폴더의 `companion-relink.json`과 `comparison/`에 기록합니다. 기존 후보 ZIP을 유지하며 원본·마커 빌드의 PHP와 libiconv를 별도의 작업 폴더에 생성합니다.
+
 ### 릴리스와 대응 소스 동시 제공
 
 게시 시에는 동일한 checkout에서 만든 실행 ZIP, 소스·고지 ZIP, 두 파일의 SHA-256을 같은 GitHub Release에 첨부합니다. 다운로드 안내와 고지에는 해당 버전의 소스 ZIP 링크를 넣습니다. 이미 배포한 실행 ZIP과 짝이 되는 소스 ZIP은 해당 버전의 Release에서 계속 제공합니다. 검증 기록의 파일명·해시와 실제 첨부 파일을 대조하고, 로그인하지 않은 상태에서 두 파일을 내려받아 SHA-256을 확인합니다.
