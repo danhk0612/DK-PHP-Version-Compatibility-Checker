@@ -101,7 +101,7 @@
             <RowDefinition Height="*" MinHeight="176" MaxHeight="270" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" MinHeight="92" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="78" MaxHeight="150" />
         </Grid.RowDefinitions>
 
         <Grid Margin="0,0,0,12">
