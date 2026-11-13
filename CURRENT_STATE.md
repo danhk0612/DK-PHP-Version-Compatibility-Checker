@@ -4,8 +4,8 @@
 
 - 확인일: 2026-11-13 (한국 시간).
 - 저장소: https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker
-- 기본 브랜치: `main`. 현재 추가 기능 개발은 `t13-php85-target`, Draft [PR #11](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/11)입니다. 기반은 `t12-result-export` / PR #10입니다.
-- 기능 검증 기준 커밋: `4fbcdfdb884742f44076676ef00d1033bdaa9231`.
+- 기본 브랜치: `main`. 현재 추가 기능 개발은 `t14-engine-pack-download`, Draft [PR #12](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/12)입니다. 기반은 `t13-php85-target` / PR #11입니다.
+- 기능 검증 기준 커밋: `c2c13610044b2bfbacd17a08ecf1b8ad7af561e6`.
 - 병합·tag·Release는 별도 명시 지시가 필요합니다. 공개 배포 승인 상태는 `false`입니다.
 
 ## 구현된 기능과 유효한 결정
@@ -21,7 +21,7 @@ T00~T07과 T11 제외 기능, T12 결과 내보내기를 구현하고 검증했�
 - 실패 영역에서 이유·엔진 종료 코드·stderr 및 JSON 해석 실패 시 stdout 앞/뒤 일부를 읽고 Ctrl+A/C로 복사할 수 있습니다.
 - 자체 코드는 MIT입니다. 사용자 승인된 PHP v4/Zend v3 후속 조건 선택과 독립 LGPL/Microsoft 등 외부 조건은 구분합니다. 전체 배포 적합성은 아직 완료가 아닙니다.
 
-세부 계약은 [REQUIREMENTS](REQUIREMENTS.md), [ARCHITECTURE](ARCHITECTURE.md), [제품 코드 안내](src/README.md)를 따릅니다. PHPStan·자동 수정은 보류입니다. 다음은 T14 검증된 팩 자동 다운로드입니다.
+세부 계약은 [REQUIREMENTS](REQUIREMENTS.md), [ARCHITECTURE](ARCHITECTURE.md), [제품 코드 안내](src/README.md)를 따릅니다. PHPStan·자동 수정은 보류입니다. T14 다운로드·설치 구현은 Windows 검증용 카탈로그에서 시험했습니다. 공개 다운로드 채널은 준비 전입니다.
 
 ## 현재 검증 근거
 
@@ -52,6 +52,10 @@ GUI의 ‘검사 제외 폴더·파일’에서 하위 폴더와 여러 파일�
 
 기존 PHP CLI 8.4.27과 고정 검사 엔진으로 PHP 8.5 목표를 검증했습니다. 긴 형식 `(integer)` 캐스트의 WARNING과 `gzfile()` 정수 인자의 ERROR를 8.5에서 확인했습니다. 동일 입력을 8.4 목표로 검사한 결과와 각 수정 대조군은 탐지 0건입니다. 동적 속성 미탐지 한계가 있으며 PHP 8.5 파이프 문법은 관찰 결과만 기록합니다. 세부 관찰값과 오프라인·원본 보호·목표 교체 검증은 [T13 근거](tests/t13/evidence/summary.json)를 확인합니다.
 
+## 검증된 엔진 팩 다운로드 (T14)
+
+현재 목표를 유지하며 새 목표를 추가하는 팩을 목록에서 확인하고 사용자 확인 후 설치합니다. ZIP 크기·해시·경로와 manifest·구성·목표를 대조한 뒤 다음 실행에서 활성화합니다. 이전 팩은 유지하며 시작 시 네트워크 없이 새 팩·이전 팩·내장 팩을 확인합니다. [카탈로그·설치 계약](tools/engine-pack/DOWNLOAD-CATALOG.md)과 [검증 근거](tests/t14/evidence/summary.json)를 확인합니다. 출시 설정의 카탈로그 URL은 비어 있으며 공개 팩 게시와 배포 조건을 마친 후 연결합니다.
+
 ## T08 배포 준비 상태
 
 자체 LICENSE·서드파티 고지, 실제 publish 파일 출처, 엔진 LGPL 소스 바이트 대응을 준비했습니다. 최소 CLI의 코어 원문 6개와 Windows 생성 헤더 2개를 구분하고 설정 포함 bundled digest 23/23을 확인했습니다. builder/SDK 소스 2개도 수집해 엔진 2개와 함께 소스·고지 동반 ZIP을 생성하는 절차가 있습니다.
@@ -68,7 +72,7 @@ T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는
 
 | 구분 | 다음 작업 | 상태·권장 환경 |
 | --- | --- | --- |
-| T14 팩 자동 다운로드 | 검증된 팩 목록·수신·무결성 검증·관리 영역 설치·기존 팩 보존 | 다음 구현과 검증. 공개 다운로드 산출물 게시와 T08 배포 관문은 별도입니다. |
+| T14 공개 다운로드 연결 | 검증 팩·대응 소스·고지의 공개 채널 및 실서버 검증 | 제품 배포 조건과 게시 승인 대기. 설치 기능은 Windows 검증용 카탈로그로 시험했습니다. |
 | T08 기술·배포 검토 | 실제 제품 PHP에 필요한 소스/빌드/링크 자료와 고지의 잔여 대응을 LICENSING 기준으로 검토 | 부분 검증. 자료 대조는 저성능 Work, 해석 충돌은 고성능 Chat. 제품 PHP 교체·스택 변경은 임의 수행하지 않습니다. |
 | T09 직접 시험 | 다른 목표, 실제 원본 목록/해시 불변, 깨끗한 Windows 11의 CRT/.NET 전제·일반 사용자·읽기 전용 위치 등 미실행 항목 기록 | [Windows 11 절차](tests/t09/WINDOWS11_TEST.md). 8.4 대규모 완료 확인과 생략한 중복 오프라인 재검사를 다시 요구하지 않습니다. |
 | T10 최종 배포 대조 | 배포에 사용할 팩 구성을 T08 고지/대응 소스와 재대조 | 개발 자동시험 완료, T08 배포 조건 대기. 저성능 Work. |
@@ -76,4 +80,4 @@ T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는
 
 T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
-다음 Work는 `t13-php85-target` 최신 원격 상태와 REQUIREMENTS·TASKS를 읽고 **T14 검증된 엔진 팩 자동 다운로드**를 진행합니다. 고성능 Work에서 신뢰된 목록·다운로드·설치 경계를 검토한 뒤 저성능 Work에서 구현 및 Windows 시험을 수행합니다. 검사 중 활성 팩을 교체하지 않고 실패 시 기존 팩과 오프라인 검사를 유지합니다. 공개 채널 운영과 게시 조건은 T08/T09 및 별도 게시 지시를 따릅니다.
+최신 제품 코드의 바이너리·소스 ZIP 페어링과 공식 PHP PDB 대조는 [T09 Draft PR #13](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/13)에 있습니다. 다음 Work는 해당 브랜치의 최신 상태와 T08/T09 계약을 읽습니다. 공식 PHP의 실제 빌드/링크 입력과 고지 검토를 이어가며, 깨끗한 Windows 11에서는 `tests/t09/WINDOWS11_TEST.md`의 미실행 항목을 확인합니다.
