@@ -60,6 +60,7 @@ with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
         if relative.startswith('project/src/'):
             assert sz.read(relative) == (REPO / relative.removeprefix('project/')).read_bytes(), relative
     for relative in ('tests/t08-minimal/evidence/native-inputs.json',
+                     'tests/t08-minimal/evidence/snapshot-deps.json',
                      'tests/t08-minimal/evidence/official-debug-inputs.json',
                      'tools/license-audit/official-php-headers/main/config.w32.h',
                      'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',

@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [main, t08-licenses, t09-latest-windows-candidate]
     paths:
+      - 'tests/t08-minimal/evidence/snapshot-deps.json'
       - 'tools/license-audit/php-sdk.json'
       - 'tools/license-audit/Test-PhpRelink.ps1'
       - 'tools/license-audit/Test-LibiconvRebuild.ps1'
@@ -14,6 +15,10 @@ jobs:
   relink:
     runs-on: windows-2022
     timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [reduced, snapshot]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -34,14 +39,22 @@ jobs:
           Invoke-WebRequest -Uri 'https://downloads.php.net/~windows/releases/php-8.4.27-1-src.zip' -OutFile $sourceZip
           if ((Get-FileHash -Algorithm SHA256 $sourceZip).Hash.ToLowerInvariant() -ne '9b3078d9ea77ceb49becb0198540527b03840b8a13b020aa5a80215d6bab418d') { throw 'PHP source ZIP hash mismatch' }
           Expand-Archive -LiteralPath $sourceZip -DestinationPath artifacts/php-source
-          $inputs = Get-Content -Raw -Encoding utf8 tests/t08-minimal/evidence/native-inputs.json | ConvertFrom-Json
-          if ($inputs.files.Count -ne 5) { throw 'Unexpected dependency input count' }
+          $snapshot = '${{ matrix.profile }}' -eq 'snapshot'
+          $inputsPath = if ($snapshot) { 'tests/t08-minimal/evidence/snapshot-deps.json' } else { 'tests/t08-minimal/evidence/native-inputs.json' }
+          $inputs = Get-Content -Raw -Encoding utf8 $inputsPath | ConvertFrom-Json
+          $expectedCount = if ($snapshot) { 39 } else { 5 }
+          if ($inputs.files.Count -ne $expectedCount -or @($inputs.files.name | Sort-Object -Unique).Count -ne $expectedCount) { throw 'Unexpected dependency input count' }
           foreach ($row in $inputs.files) {
             if ($row.url -ne ('https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/' + $row.name)) { throw 'Unexpected dependency origin' }
             $file = Join-Path $pwd ('artifacts/php-downloads/' + $row.name)
             Invoke-WebRequest -Uri $row.url -OutFile $file
             if ((Get-FileHash -Algorithm SHA256 $file).Hash.ToLowerInvariant() -ne $row.sha256) { throw "Dependency hash mismatch: $($row.name)" }
             Expand-Archive -LiteralPath $file -DestinationPath artifacts/php-deps -Force
+          }
+          $opensslConfig = 'artifacts/php-deps/openssl.cnf'
+          if (Test-Path -LiteralPath $opensslConfig) {
+            New-Item -ItemType Directory -Path artifacts/php-deps/template/ssl -Force | Out-Null
+            Move-Item -LiteralPath $opensslConfig -Destination artifacts/php-deps/template/ssl/openssl.cnf -Force
           }
           $sdk = Get-Content -Raw -Encoding utf8 tools/license-audit/php-sdk.json | ConvertFrom-Json
           git init --quiet artifacts/php-sdk
@@ -67,6 +80,7 @@ jobs:
           pwsh -NoProfile -File "%GITHUB_WORKSPACE%\tools\license-audit\Test-PhpRelink.ps1" -PhpSource "%GITHUB_WORKSPACE%\artifacts\php-source" -LibiconvSource "%GITHUB_WORKSPACE%\artifacts\libiconv-source" -DepsDirectory "%GITHUB_WORKSPACE%\artifacts\php-deps" -OutputDirectory "%GITHUB_WORKSPACE%\artifacts\t08-php-relink"
           exit /b %errorlevel%
           '@
+          if ($snapshot) { $task = $task.Replace(' -OutputDirectory ', ' -Snapshot -OutputDirectory ') }
           [IO.File]::WriteAllText((Join-Path $pwd 'artifacts/php-relink-task.bat'), $task, [Text.Encoding]::ASCII)
       - name: Build independent original and marker PHP
         shell: cmd
@@ -80,13 +94,14 @@ jobs:
           $result = Get-Content -Raw -Encoding utf8 artifacts/t08-php-relink/php-relink.json | ConvertFrom-Json
           $original = @($result.results | Where-Object profile -eq 'original')[0].executable
           $marker = @($result.results | Where-Object profile -eq 'marker')[0].executable
-          python tests/t08-minimal/check_relinked_php.py --original-php $original --marker-php $marker --pack tools/runtime --build-audit artifacts/t08-php-relink --output artifacts/t08-php-relink-comparison
+          $snapshotArgs = if ('${{ matrix.profile }}' -eq 'snapshot') { @('--snapshot') } else { @() }
+          python tests/t08-minimal/check_relinked_php.py @snapshotArgs --original-php $original --marker-php $marker --pack tools/runtime --build-audit artifacts/t08-php-relink --output artifacts/t08-php-relink-comparison
           if ($LASTEXITCODE -ne 0) { throw 'Relinked PHP comparison failed' }
       - name: Preserve audit evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: t08-php-relink
+          name: t08-php-relink-${{ matrix.profile }}
           path: |
             artifacts/t08-php-relink/*.json
             artifacts/t08-php-relink/*-build-material.zip

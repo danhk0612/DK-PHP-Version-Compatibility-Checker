@@ -17,6 +17,7 @@ import zipfile
 REPO = Path(__file__).resolve().parents[2]
 REQUIRED = (
     'tests/t08-minimal/evidence/native-inputs.json',
+    'tests/t08-minimal/evidence/snapshot-deps.json',
     'tests/t08-minimal/evidence/official-debug-inputs.json',
     'tools/license-audit/official-php-headers/main/config.w32.h',
     'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
