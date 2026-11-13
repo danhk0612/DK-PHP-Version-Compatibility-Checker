@@ -405,6 +405,7 @@ internal static class Program
         {
             double width = Window!.Width, height = Window.Height;
             var expander = Descendants<Expander>(Window).Single(e => Equals(e.Header, "제외된 경로"));
+            var settings = Control<Expander>("ExclusionSettingsExpander");
             try
             {
                 var verifiedTarget = Pack.Targets[0];
@@ -415,7 +416,13 @@ internal static class Program
                 Model.ApplyResult(Result(ScanStatus.Failed, 10, 1, LongIssues(), failure) with
                     { ExcludedPaths = new[] { Path.Combine(Project, "제외된 링크"), Path.Combine(Project, "두번째 제외 경로") } });
                 expander.IsExpanded = true;
+                settings.IsExpanded = true;
                 Window.Width = Window.MinWidth; Window.Height = Window.MinHeight; Pump();
+                Check(Window.Icon is not null, "Window icon resource was not loaded");
+                Check(Control<DataGrid>("IssuesGrid").ActualHeight >= 60, "Diagnostics consumed the result grid");
+                foreach (var metric in new[] { "SelectedFileCountTextBlock", "ProcessedFileCountTextBlock",
+                    "ErrorCountTextBlock", "WarningCountTextBlock" })
+                    AssertReachable(metric);
                 Capture("minimum-long-diagnostics");
                 foreach (var name in new[] { "SourceFolderTextBox", "TargetVersionComboBox", "IssuesGrid", "FailureTextBlock", "ExcludedPathsList", "LimitationsTextBlock" })
                     AssertReachable(name);
@@ -423,7 +430,7 @@ internal static class Program
             }
             finally
             {
-                expander.IsExpanded = false; Model.SetPack(Pack);
+                settings.IsExpanded = false; expander.IsExpanded = false; Model.SetPack(Pack);
                 Window.Width = width; Window.Height = height; Pump();
             }
         });

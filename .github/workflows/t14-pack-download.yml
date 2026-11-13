@@ -1,11 +1,12 @@
 name: T14 verified engine pack installation
 on:
   pull_request:
-    branches: [main, t13-php85-target]
+    branches: [main, t13-php85-target, t09-latest-windows-candidate]
     paths:
       - 'tests/t14/**'
       - 'tests/t10/prepare_packs.py'
       - 'src/**'
+      - 'tests/t06/**'
       - 'tools/engine-pack/**'
       - '.github/workflows/t14-pack-download.yml'
 permissions:
