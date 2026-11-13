@@ -32,7 +32,7 @@ tools/runtime/
 
 `sources.json`은 승인된 초기 PHP ZIP·목표 목록·팩 ID의 입력입니다. PHP 배포판 `8.4.27-1`과 PHP_VERSION `8.4.27`은 각각 runtime.version/cliVersion으로 기록합니다. 제품 Composer 파일은 T01 lock의 동일 package version/source reference를 재사용하며 프로젝트 이름 변경에 따른 content-hash만 재계산했습니다. Windows Composer validate/install로 lock 유효성을 확인합니다. 실행 시 Composer가 필요하지 않으며 준비용 Composer 자체는 팩에 포함하지 않습니다.
 
-`manifest.json`은 **검증이 성공한 뒤에만** 생성합니다. `schemaVersion=1`, `reportProfile=phpcs4-json-v1`입니다. 목표는 major.minor 문자열 배열이며 코드 enum/XAML 목록을 만들지 않습니다. 초기 값 8.2/8.3/8.4도 실제 fixture가 있는 목표만 승인하며 버전 숫자 추가로 검증을 대체하지 않습니다.
+`manifest.json`은 **검증이 성공한 뒤에만** 생성합니다. `schemaVersion=1`, `reportProfile=phpcs4-json-v1`입니다. 목표는 major.minor 문자열 배열이며 코드 enum/XAML 목록을 만들지 않습니다. 현재 준비하는 팩의 목표는 8.2/8.3/8.4/8.5입니다. 실제 fixture가 있는 목표만 승인합니다. 8.5 정적 규칙 검증은 [T13 근거](../../tests/t13/evidence/summary.json)를 참고합니다.
 
 | 필드 | 실제 형식 / 의미 |
 | --- | --- |
