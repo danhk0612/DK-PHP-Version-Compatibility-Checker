@@ -25,6 +25,11 @@
           "expectation": "finding",
           "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
           "line": 2
+        },
+        "8.5": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
         }
       }
     },
@@ -38,6 +43,9 @@
           "expectation": "no_findings"
         },
         "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
           "expectation": "no_findings"
         }
       }
@@ -57,6 +65,11 @@
           "expectation": "finding",
           "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
           "line": 6
+        },
+        "8.5": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "line": 6
         }
       }
     },
@@ -70,6 +83,9 @@
           "expectation": "no_findings"
         },
         "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
           "expectation": "no_findings"
         }
       }
@@ -87,6 +103,11 @@
           "expectation": "finding",
           "source_prefix": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
           "line": 2
+        },
+        "8.5": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+          "line": 2
         }
       }
     },
@@ -100,6 +121,9 @@
           "expectation": "no_findings"
         },
         "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
           "expectation": "no_findings"
         }
       }
@@ -115,6 +139,9 @@
         },
         "8.4": {
           "expectation": "observe_only"
+        },
+        "8.5": {
+          "expectation": "observe_only"
         }
       }
     },
@@ -129,6 +156,70 @@
         },
         "8.4": {
           "expectation": "no_findings"
+        },
+        "8.5": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php85_long_cast.php",
+      "targets": {
+        "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.TypeCasts.RemovedTypeCasts.integerDeprecated",
+          "line": 2,
+          "type": "WARNING"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php85_short_cast.php",
+      "targets": {
+        "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php85_zlib_integer.php",
+      "targets": {
+        "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.ParameterValues.ChangedIntToBoolParamType.gzfile_use_include_pathNumericFound",
+          "line": 2,
+          "type": "ERROR"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php85_zlib_boolean.php",
+      "targets": {
+        "8.4": {
+          "expectation": "no_findings"
+        },
+        "8.5": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php85_pipe.php",
+      "targets": {
+        "8.4": {
+          "expectation": "observe_only"
+        },
+        "8.5": {
+          "expectation": "observe_only"
         }
       }
     }

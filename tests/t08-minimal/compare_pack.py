@@ -32,8 +32,15 @@ def verified_results(directory):
     require(REQUIRED_CHECKS <= result['checks'].keys(), 'Missing required preparation checks')
     require(all(result['checks'][key] is True for key in REQUIRED_CHECKS), 'Preparation check failed')
     require(result['sourceSnapshots']['before'] == result['sourceSnapshots']['after'], 'Inspected fixture changed')
-    require(len(result['cases']) == 24 and len(result['annotations']) == 9, 'Unexpected fixture/annotation coverage')
-    require(len(result['offlineComparisons']) == 24 and all(x is True for x in result['offlineComparisons']),
+    targets = set(read(REPO / 'tools/engine-pack/sources.json')['targets'])
+    definitions = read(REPO / 'tests/fixtures/cases.json')['cases']
+    expected_cases = sorted((case['file'], target) for case in definitions for target in case['targets'])
+    expected_annotations = sorted((file.name, target) for file in (REPO / 'tests/t04/annotations').iterdir()
+                                  for target in targets)
+    require(sorted((case['file'], case['target']) for case in result['cases']) == expected_cases
+            and sorted((case['file'], case['target']) for case in result['annotations']) == expected_annotations,
+            'Unexpected fixture/annotation coverage')
+    require(len(result['offlineComparisons']) == len(expected_cases) and all(x is True for x in result['offlineComparisons']),
             'Offline results differ or coverage is incomplete')
     return result
 

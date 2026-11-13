@@ -1,0 +1,87 @@
+name: T13 PHP 8.5 static compatibility verification
+on:
+  pull_request:
+    branches: [main, t12-result-export]
+    paths:
+      - 'tests/fixtures/**'
+      - 'tests/t04/**'
+      - 'tests/t05/**'
+      - 'tests/t06/**'
+      - 'tests/t07/**'
+      - 'tests/t08-minimal/compare_pack.py'
+      - 'tests/t10/**'
+      - 'tests/t12/**'
+      - 'src/**'
+      - 'tools/engine-pack/**'
+      - '.github/workflows/t13-php85.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare source and development packs
+        shell: pwsh
+        run: |
+          ./tools/engine-pack/Prepare-Pack.ps1
+          python tests/t04/test_pack_contract.py tools/runtime
+          if ($LASTEXITCODE -ne 0) { throw 'T04 pack validation failed' }
+          python tests/t10/prepare_packs.py tools/runtime artifacts/t10-packs
+          if ($LASTEXITCODE -ne 0) { throw 'Derived development pack preparation failed' }
+          dotnet restore tests/t10/T10.Verification.csproj
+          if ($LASTEXITCODE -ne 0) { throw 'T10 restore failed' }
+          dotnet build tests/t10/T10.Verification.csproj -c Release --no-restore
+          if ($LASTEXITCODE -ne 0) { throw 'T10 build failed' }
+      - name: Verify shown windows, actual scans, refusal and restoration
+        shell: pwsh
+        run: |
+          $rule = 'DK-T10-' + [guid]::NewGuid().ToString('N')
+          $program = Join-Path $pwd 'artifacts/t10/active-pack/php/php.exe'
+          New-NetFirewallRule -DisplayName $rule -Direction Outbound -Program $program -Action Block | Out-Null
+          try {
+            dotnet run --project tests/t10/T10.Verification.csproj -c Release --no-build -- "$pwd" "$pwd/artifacts/t10-packs"
+            if ($LASTEXITCODE -ne 0) { throw 'T10 exchange verification failed' }
+          } finally { Remove-NetFirewallRule -DisplayName $rule }
+      - name: Run service, WPF and export regressions on the extended pack
+        shell: pwsh
+        run: |
+          $failed = @()
+          foreach ($id in @('05','06','07','12')) {
+            dotnet build "tests/t$id/T$id.Verification.csproj" -c Release
+            if ($LASTEXITCODE -ne 0) { $failed += "T$id build"; continue }
+            $testArgs = @("$pwd")
+            if ($id -ne '12') { $testArgs += "$pwd/tools/runtime" }
+            dotnet run --project "tests/t$id/T$id.Verification.csproj" -c Release --no-build -- @testArgs
+            if ($LASTEXITCODE -ne 0) { $failed += "T$id verification" }
+          }
+          if ($failed.Count) { throw ($failed -join ", ") }
+      - name: Preserve development-only evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t13-php85-evidence
+          path: |
+            tools/runtime/manifest.json
+            tools/runtime/verification/results.json
+            artifacts/t04/
+            artifacts/t05/
+            artifacts/t06/
+            artifacts/t07/
+            artifacts/t12/
+            artifacts/t10/summary.json
+            artifacts/t10/child-*.json
+            artifacts/t10-packs/reduced/manifest.json
+            artifacts/t10-packs/full/manifest.json
+          retention-days: 7

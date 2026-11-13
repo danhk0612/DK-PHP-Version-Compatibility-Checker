@@ -98,7 +98,8 @@ def main():
     require(not output.exists(), 'Output already exists; preserve the prior audit')
     require(not output.is_relative_to(pack) and not pack.is_relative_to(output), 'Output and product pack must be separate')
     manifest = validate(pack)
-    require([t['version'] for t in manifest['targets']] == ['8.2', '8.3', '8.4'], 'Unexpected audit target set')
+    targets = read(REPO / 'tools/engine-pack/sources.json')['targets']
+    require([t['version'] for t in manifest['targets']] == targets, 'Unexpected audit target set')
     pack_before = snapshot(pack)
     original_info = validate_php(original, '1.19')
     marker_info = validate_php(marker, '1.20')
@@ -108,7 +109,8 @@ def main():
     fixture_root = REPO / 'tests/fixtures'
     fixture_before = snapshot(fixture_root)
     definitions = read(fixture_root / 'cases.json')['cases']
-    require(len(definitions) == 8, 'Unexpected fixture set')
+    expected_cases = sorted((case['file'], target) for case in definitions for target in case['targets'])
+    require({target for _, target in expected_cases} == set(targets), 'Unexpected fixture target coverage')
     phpcs = pack / 'engine/vendor/squizlabs/php_codesniffer/bin/phpcs'
     rules = pack / 'engine/ruleset.xml'
     results = []
@@ -123,7 +125,7 @@ def main():
             file = subject / case['file']
             require(file.is_file() and file.resolve().is_relative_to(subject.resolve()), 'Fixture path is invalid')
             for target, expected in case['targets'].items():
-                require(target in ('8.2', '8.3', '8.4'), 'Unexpected target')
+                require(target in targets, 'Unexpected target')
                 file_list = area / 'files.txt'
                 file_list.write_text(str(file) + '\n', encoding='utf-8')
                 args = [phpcs, '--standard=' + str(rules), '--runtime-set', 'testVersion', target,
@@ -141,6 +143,7 @@ def main():
                 messages = next(iter(outcomes[0]['report']['files'].values()))['messages']
                 if expected['expectation'] == 'finding':
                     require(any(m['source'].startswith(expected['source_prefix']) and m['line'] == expected['line']
+                                and m['type'] == expected.get('type', m['type'])
                                 for m in messages), 'Expected finding absent')
                 elif expected['expectation'] == 'no_findings':
                     require(outcomes[0]['exit'] == 0 and not messages, 'Unexpected control finding')
@@ -149,7 +152,8 @@ def main():
                 results.append({'file': case['file'], 'target': target, 'expectation': expected['expectation'],
                                 'exit': outcomes[0]['exit'], 'totals': outcomes[0]['report']['totals'],
                                 'messages': messages})
-        require(len(results) == 24 and subject_before == snapshot(subject), 'Fixture coverage or subject protection failed')
+        require(sorted((case['file'], case['target']) for case in results) == expected_cases
+                and subject_before == snapshot(subject), 'Fixture coverage or subject protection failed')
     require(fixture_before == snapshot(fixture_root), 'Repository fixtures changed')
     require(pack_before == snapshot(pack), 'Validated engine pack changed')
     output.mkdir(parents=True)

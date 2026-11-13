@@ -202,13 +202,25 @@ def prepare(pack, profile=None):
             for version, expected in case['targets'].items():
                 require(version in source['targets'], 'Unexpected target fixture')
                 result = scan(subject / case['file'], version)
-                if expected['expectation'] == 'finding':
-                    require(any(m['source'].startswith(expected['source_prefix']) and m['line'] == expected['line']
-                                for m in result['messages']), 'Missing expected finding')
-                elif expected['expectation'] == 'no_findings':
-                    require(result['exit'] == 0 and not result['messages'], 'Unexpected control finding')
+                expectation = expected['expectation']
+                case_label = f"{case['file']} (target PHP {version})"
+                if expectation == 'finding':
+                    expected_type = expected.get('type')
+                    require(expected_type in (None, 'ERROR', 'WARNING'), f'Invalid expected finding type: {case_label}')
+                    matched = any(
+                        message['source'].startswith(expected['source_prefix'])
+                        and message['line'] == expected['line']
+                        and (expected_type is None or message['type'] == expected_type)
+                        for message in result['messages']
+                    )
+                    require(matched, f"Missing expected finding: {case_label}, line {expected['line']}, "
+                            f"{expected_type or 'any type'} {expected['source_prefix']}")
+                elif expectation == 'no_findings':
+                    require(result['exit'] == 0 and not result['messages'], f'Unexpected control finding: {case_label}')
+                else:
+                    require(expectation == 'observe_only', f'Unknown fixture expectation: {case_label}')
                 baseline.append({'file': case['file'], 'target': version, 'result': result,
-                                 'expectation': expected['expectation']})
+                                 'expectation': expectation})
         annotation_results = []
         for f in sorted((subject / 'annotations').iterdir()):
             for version in source['targets']:
@@ -251,6 +263,11 @@ def prepare(pack, profile=None):
     limitations = ['PHPCompatibility 10.0.0-alpha2 is a pre-release; static checks do not guarantee runtime compatibility.',
                    'The dynamic-property fixture is not detected by this engine.']
     targets = {v: {'passed': True, 'limitations': limitations} for v in source['targets']}
+    if '8.5' in targets:
+        targets['8.5']['limitations'] = limitations + [
+            'PHP 8.5 compatibility rules run on PHP CLI 8.4. New PHP 8.5 syntax is not fully validated.',
+            'The PHP 8.5 pipe operator fixture is observational only. Its result does not establish syntax support.',
+        ]
     results = {
         'packId': pack_id, 'reportProfile': PROFILE, 'runtimeProfile': profile,
         'runtimeSelectionPath': 'verification/runtime-selection.json' if selection else None,

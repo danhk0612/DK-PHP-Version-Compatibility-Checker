@@ -51,7 +51,7 @@ internal static class Program
         var r=await service.ScanAsync(new ScanRequest(temp,target,true));
         Check(r.Status==ScanStatus.Completed&&r.ProcessedFileCount==1,"Actual fixture scan failed "+key);
         var kind=expectation.GetProperty("expectation").GetString();
-        if(kind=="finding")Check(r.Issues.Any(x=>x.Source.StartsWith(expectation.GetProperty("source_prefix").GetString()!,StringComparison.Ordinal)&&x.Line==expectation.GetProperty("line").GetInt32()),"Expected finding absent "+key);
+        if(kind=="finding")Check(r.Issues.Any(x=>x.Source.StartsWith(expectation.GetProperty("source_prefix").GetString()!,StringComparison.Ordinal)&&x.Line==expectation.GetProperty("line").GetInt32()&&(!expectation.TryGetProperty("type",out var type)||x.Type==type.GetString())),"Expected finding absent "+key);
         if(kind=="no_findings")Check(r.Issues.Count==0&&r.EngineExitCode==0,"Unexpected finding "+key);
         var normalized=JsonSerializer.Serialize(new{r.Status,r.ProcessedFileCount,r.ErrorCount,r.WarningCount,r.EngineExitCode,issues=r.Issues.Select(x=>new{file=Path.GetFileName(x.FilePath),x.Line,x.Column,x.Type,x.Severity,x.Source,x.Message,x.Fixable})});
         if(restore)Check(BaselineResults[key]==normalized,"Restored fixture result differs "+key);else if(BaselineResults.TryGetValue(key,out var previous))Check(previous==normalized,"Common-target result changed after exchange "+key);else BaselineResults[key]=normalized;
@@ -90,10 +90,13 @@ internal static class Program
         var subjectBefore=Snapshot(Subject);var packsBefore=Snapshot(Packs);string assembly=typeof(MainWindow).Assembly.Location, assemblyHash=Hash(assembly);
         var app=new Application{ShutdownMode=ShutdownMode.OnExplicitShutdown};SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
         try{
+            var fullTargets = Await(new EnginePackLoader().LoadAsync(Path.Combine(Packs, "full")))
+                .Targets.Select(t => t.Version).ToArray();
+            string expandedTarget = fullTargets[^1];
             Case("reduced pack restart displays only verified 8.2/8.3",()=>{Activate("reduced");ChildProbe("reduced","8.3","8.2","8.3");Targets("8.2","8.3");GuiScan("8.3");});
-            Case("reduced pack actual 16 fixture/target regressions",()=>Regression(false));
-            Case("closed-window full pack exchange adds existing verified 8.4",()=>{Activate("full");ChildProbe("full","8.4","8.2","8.3","8.4");Targets("8.2","8.3","8.4");GuiScan("8.4");});
-            Case("full pack actual 24 fixture/target regressions",()=>Regression(false));
+            Case("reduced pack actual fixture/target regressions",()=>Regression(false));
+            Case("closed-window full pack exchange adds verified " + expandedTarget,()=>{Activate("full");ChildProbe("full",expandedTarget,fullTargets);Targets(fullTargets);GuiScan(expandedTarget);});
+            Case("full pack actual fixture/target regressions",()=>Regression(false));
             Case("unverified target refused",()=>Bad("unverified target",m=>m["targets"]![0]!["version"]="99.0"));
             Case("runtime/engine file hash corruption refused",()=>Bad("hash corruption",_=>{},corrupt:true));
             Case("unsupported manifest schema refused",()=>Bad("schema",m=>m["schemaVersion"]=999));
