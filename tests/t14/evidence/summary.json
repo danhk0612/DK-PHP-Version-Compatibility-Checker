@@ -1,0 +1,52 @@
+{
+  "headSha": "c2c13610044b2bfbacd17a08ecf1b8ad7af561e6",
+  "mergeRefSha": "cf11b2550dbf834271d94262b08a6c2d8fa77a41",
+  "runId": 43341482516,
+  "jobId": 131610603808,
+  "artifactId": 13999408487,
+  "artifactSha256": "sha256:38968a1ae007a6506111e4ec0a4faa8df6e814152cb9c9ebebf603096737b7b5",
+  "scopePassed": true,
+  "suites": {
+    "T12": {
+      "passed": 19
+    },
+    "T14": {
+      "passed": 12
+    },
+    "T05": {
+      "passed": 95
+    },
+    "T06": {
+      "passed": 27
+    },
+    "T07": {
+      "passed": 57
+    }
+  },
+  "passed": [
+    "Initial download verifies and loads in a new process",
+    "Rejected wrong archive SHA-256 and preserved active pointer, pack and source",
+    "Rejected ZIP path traversal and preserved active pointer, pack and source",
+    "Rejected catalog targets differing from the verified manifest and preserved active pointer, pack and source",
+    "Rejected wrong manifest SHA-256 and preserved active pointer, pack and source",
+    "Managed folder inside the scan source is rejected before transfer or writes",
+    "Cancellation during transfer preserves active pointer, pack and source",
+    "Next startup loads the new target and the existing scanner retains its original pack",
+    "A corrupted current pack falls back to the previous verified pack on startup",
+    "An older offer cannot drop a verified installed target",
+    "Source and derived input packs remain byte-identical",
+    "WPF download confirmation and restart"
+  ],
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "43341482516",
+    "sourceSha": "cf11b2550dbf834271d94262b08a6c2d8fa77a41"
+  },
+  "scope": "Windows installer service, controlled HTTPS responses, derived verified packs, independent startup and actual scan",
+  "limits": [
+    "Controlled HTTPS responses; public catalog and actual GitHub download not activated or tested.",
+    "Windows Server 2022 runner, not clean Windows 11."
+  ]
+}

@@ -45,8 +45,33 @@ internal static class NativePicker
                 Input(new INPUT { type = 1, data = new InputUnion { keyboard = new KEYBDINPUT { scan = ch, flags = 4 } } });
                 Input(new INPUT { type = 1, data = new InputUnion { keyboard = new KEYBDINPUT { scan = ch, flags = 6 } } });
             }
-            if (!fileSelection) { Key(0x0D, false); Key(0x0D, true); }
-            Thread.Sleep(fileSelection ? 200 : 1200);
+            if (fileSelection)
+            {
+                // Wait for the native edit to consume all queued input before
+                // submitting. A dialog can otherwise close on stale text.
+                var expected = path;
+                var textDeadline = DateTime.UtcNow.AddSeconds(5);
+                bool entered = false;
+                while (!entered && DateTime.UtcNow < textDeadline)
+                {
+                    EnumChildWindows(dialog, (hwnd, context) =>
+                    {
+                        var cls = new StringBuilder(64); GetClassName(hwnd, cls, cls.Capacity);
+                        if (cls.ToString() != "Edit" || !IsWindowVisible(hwnd)) return true;
+                        var current = new StringBuilder(expected.Length + 64);
+                        SendMessageTimeout(hwnd, 0x000D, (IntPtr)current.Capacity, current, 2, 500, out _);
+                        entered = current.ToString().Equals(expected, StringComparison.Ordinal);
+                        return !entered;
+                    }, IntPtr.Zero);
+                    if (!entered) Thread.Sleep(25);
+                }
+                if (!entered) throw new InvalidOperationException("Native file picker did not receive the full filename");
+            }
+            else
+            {
+                Key(0x0D, false); Key(0x0D, true);
+                Thread.Sleep(1200);
+            }
             // IDOK=1 is the native dialog's Select Folder button, independent of
             // Windows display language. Navigation above selects the folder.
             IntPtr ok = IntPtr.Zero;
@@ -93,6 +118,8 @@ internal static class NativePicker
     [StructLayout(LayoutKind.Sequential)] private struct KEYBDINPUT { public ushort vk, scan; public uint flags, time; public UIntPtr extra; }
     [StructLayout(LayoutKind.Sequential)] private struct MOUSEINPUT { public int dx, dy; public uint mouseData, flags, time; public UIntPtr extra; }
     private delegate bool EnumProc(IntPtr hwnd, IntPtr extra);
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern IntPtr SendMessageTimeout(
+        IntPtr hwnd, uint message, IntPtr wParam, StringBuilder text, uint flags, uint timeout, out IntPtr result);
     [DllImport("user32.dll")] private static extern bool EnumWindows(EnumProc callback, IntPtr extra);
     [DllImport("user32.dll")] private static extern bool EnumChildWindows(IntPtr parent, EnumProc callback, IntPtr extra);
     [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint pid);
