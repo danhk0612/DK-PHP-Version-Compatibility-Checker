@@ -79,6 +79,8 @@ T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는
 | `DK-PHP-Compatibility-audit-only.zip` | `94a45fd4f0e7be53e16a99d8a213d4af75b7ba75cb0230ec149f0549b86e4c70` |
 | `DK-PHP-Compatibility-sources-and-notices.zip` | `a1df719ddb3b2a15f0bedd7b558f661511cef0c5d63e6c6964f437bbced24bbb` |
 
+[고지 보완 후 Windows 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43498360083)에서 시작·종료 전후 파일 846개가 일치했습니다. 실행 ZIP의 .NET 고지는 앱 호스트 3개이며, Boost.Context와 SHA-3 고지를 포함한 총 40개가 소스 ZIP과 일치했습니다. 실행 ZIP SHA-256은 `e3e7841d94ee2d840e78838cf99b390c0fe70567fc0c5dc6ff227fa90661da74`, 소스 ZIP SHA-256은 `f25f1a3b711c22b25beacd1e5554b181fd6d1349d80411af3945ca1d4a5a7b2d`입니다.
+
 ## 남은 작업과 시작점
 
 | 구분 | 다음 작업 | 상태·권장 환경 |
