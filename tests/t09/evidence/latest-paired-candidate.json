@@ -1,0 +1,58 @@
+{
+  "headSha": "92759aa84f68ac762dc5ce2646bdde60531f9a82",
+  "runId": 43341136203,
+  "jobId": 131609437786,
+  "artifactId": 14000680004,
+  "artifactSha256": "sha256:e1b042ec288bb0b4b6d618ba2e0d4d150089fe270c7dccf8478b2a899fe7eda3",
+  "packId": "dk-php84-alpha2-minimalcli-target85-20261113",
+  "packageFileCount": 1250,
+  "sourceMemberCount": 170,
+  "matchingNoticeFiles": 49,
+  "pairingRejectionCasesPassed": 13,
+  "packagedFilesUnchanged": true,
+  "launch": {
+    "scopePassed": true,
+    "platform": "Microsoft Windows NT 10.0.20348.0",
+    "sdk": "10.0.403",
+    "selfContained": true,
+    "localUserTestingPrepared": true,
+    "licenseElectionMade": true,
+    "windowShown": true,
+    "normalExit": true,
+    "archive": "DK-PHP-Compatibility-audit-only.zip",
+    "archiveSha256": "a180e672c7efb1aac07176aea14f45e9d0683d014891290a56a8b266093f4ecd",
+    "redistributionCleared": false,
+    "releaseGatePassed": false,
+    "limits": [
+      "Windows Server runner is not clean Windows 11",
+      "No CRT-missing machine tested",
+      "No scanner GUI interaction in this packaging test",
+      "T08/T10 and durable matching-source delivery remain gates"
+    ]
+  },
+  "pairing": {
+    "scopePassed": true,
+    "licenseElectionMade": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchive": "DK-PHP-Compatibility-audit-only.zip",
+    "binaryArchiveSha256": "a180e672c7efb1aac07176aea14f45e9d0683d014891290a56a8b266093f4ecd",
+    "sourceArchive": "DK-PHP-Compatibility-sources-and-notices.zip",
+    "sourceArchiveSha256": "6deb9eff7d2b80c05796eccce966a707469209a0dd19c3893bd29eb870062cbf",
+    "sourceManifestSha256": "36d853327dd100c0744286f03f76ec075fe94239b2f3ee65edcfc56c5371fd94",
+    "licenseElectionSha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1",
+    "engineRecipeBytesMatched": true,
+    "currentProjectSourceBytesMatched": true,
+    "reconstructionInputsBytesMatched": true,
+    "allSourceMembersVerified": true,
+    "fullBinarySourceCorrespondenceVerified": false,
+    "durablePairedPublicationVerified": false,
+    "redistributionCleared": false,
+    "limits": [
+      "Pairing identifies exact local audit archives, not legal clearance",
+      "Official PHP build correspondence remains reviewed separately",
+      "Clean Windows 11 and missing-CRT behavior require user testing",
+      "Keep both archives and this manifest together; CI retention is temporary"
+    ]
+  }
+}

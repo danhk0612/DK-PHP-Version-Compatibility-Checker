@@ -69,6 +69,8 @@ GUI는 별도 프로세스의 PHP/PHPCS에 인자를 전달하고 JSON을 해석
 
 builder/SDK의 고정 소스와 고지는 수집했습니다. 실제 제품의 전체 configure 명령도 [PHP 실행 정보](tests/t08/evidence/php-info-no-ini.txt)에 보존했습니다. snapshot/debug-pack·NTS·object-out-dir·shared COM·without-analyzer·PGO 설정을 미확인으로 취급하지 않습니다. 남은 검토는 실제 제품 구성에 대응하는 생성 Makefile/설정/링커 응답 자료와 의존성 입력·소스의 충분성입니다. PHP의 `win32/build/Makefile`은 코어 링크 명령에 `@`를 사용해 명령 자체를 출력하지 않으므로 로그만을 전체 링크 입력 목록으로 사용하지 않습니다.
 
+[공식 PDB·생성 헤더 대조](tests/t08-minimal/evidence/official-debug-inputs.json)에서 NTS x64 `php.exe`·`php8.dll`의 CodeView GUID/age와 동봉 PDB가 각각 일치했습니다. PHP DLL의 PDB 모듈 기록에서 `libiconv_a.lib`, `libxml2_a_dll.lib`, `zlib_a.lib`, `argon2_a.lib`, `edit_a.lib` 및 bundled BCMath 개체 이름을 확인했습니다. 같은 공식 artifact의 개발 ZIP에서 `main/config.w32.h`와 `Zend/zend_config.w32.h`를 확보하고 해시를 기록했습니다. PDB 기록만으로 해당 .obj/.lib의 실제 바이트, 전체 Makefile·링커 응답 파일과 최종 재배포 조건을 확인할 수는 없습니다.
+
 격리 감사 절차는 원본/마커 빌드의 생성 Makefile·config.nice.bat·main/config.w32.h·응답 파일·정의 파일을 별도 ZIP과 SHA inventory로 보존하고, 비교기가 실제 빌드 폴더와 바이트를 대조합니다. 이는 축소 감사 구성의 자료이며 제품 전체 구성과의 대응을 완료 처리하지 않습니다. 제품 바이너리·목표·엔진·스택은 바꾸지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. 소스 수집기 자체의 `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 뜻하며, 과거 수집 결과의 `nativeBuildOrRelinkVerified=false`를 후속 격리 실험의 성공과 혼동하지 않습니다. `redistributionCleared=false`는 유지합니다.
 
 [생성 자료 실측](tests/t08-minimal/evidence/php-relink/build-materials.json)에서 원본/마커 각 19개 파일·응답 파일 15개와 실제 빌드 바이트 일치, 24사례 회귀를 확인했습니다. 수집 도구는 PATH 우선순위의 MSVC 도구 하나를 선택하며 Git의 동명 link.exe와 경로를 합치지 않습니다. 이 결과의 fullProductProfileVerified=false와 일시 artifact 보관 한계는 유지합니다.
