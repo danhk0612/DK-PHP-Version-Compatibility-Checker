@@ -53,7 +53,7 @@
 | D07 | 향후 지원 확장 | 엔진 팩에 목표 목록·구성요소 버전·출처·해시·검증 근거·한계 보존. 앱 종료 상태에서 수동 팩 교체. GUI/실행 코드의 버전별 수정 없이 호환 팩 반영. 2026-11-09 검증된 팩 자동 다운로드 승인, T14에서 구현 | 자동 다운로드 추가 승인(T14), 구현·검증 전 |
 | D08 | 결과 | 엔진 원문·ERROR/WARNING·severity·규칙 코드·위치·fixable 보존, 같은 줄 다른 규칙 유지. 실패/미완료/0건 구별 | 확정 |
 | D09 | 탐색 | .php/.inc, 하위 포함 기본 켬·체크박스. 링크/junction/reparse point 제외, 루트가 링크면 안내. 일반 vendor 기본 포함, F08의 명시적 제외 지원. --ignore-annotations, 명시적 file-list | 확정; annotation 정책 T04 추가 검증 |
-| D10 | 내보내기 | CSV(엑셀)·HTML(독립 보고서) | 2026-11-09 승인, T12 구현 전 |
+| D10 | 내보내기 | CSV(엑셀)·HTML(독립 보고서) | 2026-11-09 승인, T12 구현·Windows 검증. Excel 앱 직접 열기는 미검증 |
 | D11 | Git | Task별 branch/검토용 PR. 병합·Release/tag는 사용자 명시 지시로만 수행 | 확정 |
 | D12 | UI·물리 구조 | 단일 WPF 앱 src/Dk.PhpCompatibilityChecker, Models/Services 최소 구분. 폴더·목표 PHP 버전·하위 포함·검사·상태·요약·목록 | 확정 |
 | D13 | 자체 라이선스 | 자체 프로그램 MIT. 외부 구성 요소는 별도 라이선스. T08에서 실제 LICENSE·고지·대응 소스/배포 적합성 검증 | 선택 확정, 배포 검토 대기 |
