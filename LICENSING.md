@@ -75,7 +75,7 @@ builder/SDK의 고정 소스와 고지는 수집했습니다. 실제 제품의 �
 
 PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구성입니다. 과거 빌드의 .obj/.lib 바이트와 전체 Makefile·링커 응답 파일은 미확인입니다.
 
-격리 감사 절차는 원본/마커 빌드의 생성 Makefile·config.nice.bat·main/config.w32.h·응답 파일·정의 파일을 별도 ZIP과 SHA inventory로 보존하고, 비교기가 실제 빌드 폴더와 바이트를 대조합니다. 이는 축소 감사 구성의 자료이며 제품 전체 구성과의 대응을 완료 처리하지 않습니다. 제품 바이너리·목표·엔진·스택은 바꾸지 않습니다. 특수 헤더 고지·선택한 LGPL 이행 경로·최종 소스 지속 제공도 남습니다. 소스 수집기 자체의 `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 뜻하며, 과거 수집 결과의 `nativeBuildOrRelinkVerified=false`를 후속 격리 실험의 성공과 혼동하지 않습니다. `redistributionCleared=false`는 유지합니다.
+격리 감사 절차는 원본/마커 빌드의 생성 Makefile·config.nice.bat·main/config.w32.h·응답 파일·정의 파일을 별도 ZIP과 SHA inventory로 보존하고, 비교기가 실제 빌드 폴더와 바이트를 대조합니다. 이는 축소 감사 구성의 자료이며 제품 전체 구성과의 대응을 완료 처리하지 않습니다. 제품 바이너리·목표·엔진·스택은 바꾸지 않습니다. 해당 축소 빌드의 결과와 후속 스냅샷 시험 및 최종 소스 지속 제공은 별도로 기록합니다. 소스 수집기 자체의 `sourceCollectionPassed=true`는 설정 포함 소스 해시 대조만 뜻하며, 과거 수집 결과의 `nativeBuildOrRelinkVerified=false`를 후속 격리 실험의 성공과 혼동하지 않습니다. `redistributionCleared=false`는 유지합니다.
 
 [생성 자료 실측](tests/t08-minimal/evidence/php-relink/build-materials.json)에서 원본/마커 각 19개 파일·응답 파일 15개와 실제 빌드 바이트 일치, 24사례 회귀를 확인했습니다. 수집 도구는 PATH 우선순위의 MSVC 도구 하나를 선택하며 Git의 동명 link.exe와 경로를 합치지 않습니다. 이 결과의 fullProductProfileVerified=false와 일시 artifact 보관 한계는 유지합니다.
 
@@ -143,6 +143,15 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 [Microsoft .NET Library License §3(a)(ii)](https://dotnet.microsoft.com/en-us/dotnet_library_license.htm)와 [Windows SDK License §2(a)(ii)](https://learn.microsoft.com/en-us/legal/windows-sdk/license)는 재배포 시 외부 사용자와 배포자의 보호 조건 동의를 요구하며 배포자에게 별도 방어·면책 의무를 둡니다. 사용자 승인으로 첫 릴리스는 프레임워크 종속 Windows x64 ZIP으로 전환했습니다. 사용자는 Microsoft의 .NET Desktop Runtime 10 x64를 별도로 설치합니다. 새 ZIP의 EXE/DLL 허용 목록은 앱 EXE·DLL과 공식 PHP 최소 CLI의 EXE·DLL 2개입니다. ZIP에는 앱 호스트의 MIT 원문·고지와 해당 PHP·엔진 고지를 동봉합니다.
 
+
+
+### 프레임워크 종속 후보의 고지·소스 대조
+
+런타임을 별도 설치하는 [Windows 후보](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43496962532)에서 앱 호스트와 PHP용 EXE·DLL 4개, 공식 PHP ZIP에서 선택한 7개 파일, 고지 49개, 소스 아카이브 10개의 기록을 확인했습니다. PHP·네이티브 소스 아카이브 6개와 엔진 LGPL 아카이브 2개가 들어갑니다. 엔진 아카이브는 배포 vendor 파일 244개와 58개를 각각 고정 Git 원본과 비교했습니다. 감사 자료에는 내장 소스 다이제스트 23개 대조가 포함됩니다.
+
+공식 Windows PHP 소스 ZIP의 SHA-256을 재확인하고 `Zend/asm/LICENSE`와 `ext/hash/sha3/generic64lc/brg_endian.h`의 첫 원문 주석을 실행 ZIP용 고지에 추가했습니다. 후자의 주석은 32비트 경로의 같은 헤더와 일치합니다. 실행 ZIP에서 과거 .NET 런타임 고지 11개를 제외하고 앱 호스트의 고지 3개를 유지합니다. 소스 ZIP은 기존 검토 기록을 포함합니다.
+
+공개 판정은 보류합니다. 현재 스냅샷 재링크는 고정된 SDK 및 의존성 다운로드와 libiconv 교체를 검증했습니다. 과거 공식 빌드 입력과 부합한다는 추가 근거가 없는 의존성 ZIP은 현재 입수 가능한 후보 해시로 표시합니다. 배포할 PHP의 대응 자료를 확정할 때 소스·고지 ZIP의 빌드 단계가 동봉 원문을 직접 사용하도록 검증하고, 배포 시 실행 ZIP과 소스 ZIP을 같은 위치에서 지속 제공해야 합니다.
 
 ## 재현과 공식 근거
 

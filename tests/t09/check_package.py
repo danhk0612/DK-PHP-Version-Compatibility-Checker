@@ -23,6 +23,9 @@ required = {'Dk.PhpCompatibilityChecker.exe', 'Dk.PhpCompatibilityChecker.dll',
             'Dk.PhpCompatibilityChecker.deps.json', 'Dk.PhpCompatibilityChecker.runtimeconfig.json',
             'licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/LICENSE.TXT',
             'licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT',
+            'licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/Microsoft.NETCore.App.Host.win-x64.nuspec',
+            'licenses/php/embedded/Boost.Context-LICENSE.txt',
+            'licenses/php/embedded/XKCP-Brian-Gladman-NOTICE.txt',
             'LICENSE', 'THIRD-PARTY-NOTICES.md', 'LICENSING.md',
             'tools/runtime/manifest.json', 'WINDOWS11_TEST.md', 'AUDIT-ONLY.txt'}
 assert required <= files.keys(), 'Framework-dependent package payload is incomplete'
@@ -36,7 +39,9 @@ allowed_binaries = {
 }
 actual_binaries = {path.casefold() for path in files if Path(path).suffix.casefold() in {'.exe', '.dll'}}
 assert actual_binaries == allowed_binaries, 'Unexpected package binaries: ' + str(actual_binaries - allowed_binaries)
-assert any(path.startswith('licenses/') for path in files), 'License texts absent'
+assert {path for path in files if path.startswith('licenses/dotnet/')} == {
+    path for path in required if path.startswith('licenses/dotnet/')
+}, 'Unexpected .NET license payload'
 manifest = validate(a.stage / 'tools/runtime')
 selection = json.loads((REPO / 'tests/t08-minimal/evidence/minimal-runtime-selection.json').read_text(encoding='utf-8-sig'))
 expected_php = {'tools/runtime/php/' + row['path']: row['sha256'] for row in selection['keptFiles']}

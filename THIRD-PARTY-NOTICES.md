@@ -30,11 +30,11 @@ The Zend Engine is freely available at http://www.zend.com
 
 이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 2026-11-06 사용자 승인으로 covered PHP code에는 PHP License v4, covered Zend Engine code에는 Zend Engine License v3.0 후속 조건을 선택합니다. 적용 조건은 BSD-3-Clause이며 [공식 공통 원문](licenses/php/selected/PHP-Zend-BSD-3-Clause.txt)과 [범위·출처·해시](tools/license-audit/license-election.json)를 동봉합니다. 원본 PHP 3.01/Zend 2.00 전문과 source headers는 출처 자료로 계속 보존합니다.
 
-PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩에도 BCMath/libiconv 등 정적 코드가 남으며, [현재 검토](LICENSING.md)의 코어 출처·원문 고지·대응 소스/재링크 조건을 배포 전 해소해야 합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩의 `php8.dll`에 포함된 libbcmath, libiconv 및 libcharset에는 각 원문의 LGPL 조건이 적용됩니다. [libbcmath 원문](licenses/php/embedded/libbcmath-LICENSE)과 [libiconv/libcharset 원문](licenses/php/core-source/libiconv/source/)을 제공합니다. 기본 팩을 변경하는 방법은 [재빌드 절차](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/blob/t15-window-design/tools/license-audit/README.md#windows-php-sdk-확보와-재링크)를 참고합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
 
 ## 최소 CLI의 코어 소스 원문
 
-소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 대조는 별도 Windows 설정 헤더를 포함해 해소했습니다. 원본·생성물의 구분과 실제 재링크·최종 재배포 관문은 유지합니다.
+소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. Boost.Context의 [Boost Software License](licenses/php/embedded/Boost.Context-LICENSE.txt)와 SHA-3 코드의 [Brian Gladman 고지](licenses/php/embedded/XKCP-Brian-Gladman-NOTICE.txt)를 동봉합니다. libcperciva의 SHA-NI·SSE2 고지는 위 내장 원문 폴더에 있고, PCRE2와 xxHash의 고지는 공식 ZIP의 추가 구성 고지에 있습니다. timelib의 SBOM 대조는 별도 Windows 설정 헤더를 포함해 해소했습니다. 원본·생성물의 구분과 실제 재링크·최종 재배포 관문은 유지합니다.
 
 ## Windows .NET 및 앱 호스트
 

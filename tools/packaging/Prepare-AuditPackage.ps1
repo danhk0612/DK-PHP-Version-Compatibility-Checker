@@ -31,7 +31,13 @@ foreach ($file in @('LICENSE','THIRD-PARTY-NOTICES.md','LICENSING.md')) { Copy-I
 Copy-Item -LiteralPath (Join-Path $repo 'tools/license-audit/license-election.json') -Destination (Join-Path $stage 'license-election.json')
 New-Item -ItemType Directory -Path (Join-Path $stage 'tools/license-audit') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $repo 'tools/license-audit/license-election.json') -Destination (Join-Path $stage 'tools/license-audit/license-election.json')
-Copy-Item -LiteralPath (Join-Path $repo 'licenses') -Destination (Join-Path $stage 'licenses') -Recurse
+$licenseStage = Join-Path $stage 'licenses'
+New-Item -ItemType Directory -Path $licenseStage | Out-Null
+Get-ChildItem -LiteralPath (Join-Path $repo 'licenses') | Where-Object Name -ne 'dotnet' |
+    Copy-Item -Destination $licenseStage -Recurse
+$dotnetLicenseStage = Join-Path $licenseStage 'dotnet'
+New-Item -ItemType Directory -Path $dotnetLicenseStage | Out-Null
+Copy-Item -LiteralPath (Join-Path $repo 'licenses/dotnet/Microsoft.NETCore.App.Host.win-x64') -Destination $dotnetLicenseStage -Recurse
 Copy-Item -LiteralPath (Join-Path $repo 'tests/t09/WINDOWS11_TEST.md') -Destination $stage
 [IO.File]::WriteAllText((Join-Path $stage 'AUDIT-ONLY.txt'), "Local self-test candidate. Install Microsoft .NET Desktop Runtime 10 x64 from https://dotnet.microsoft.com/en-us/download/dotnet/10.0 before running the app. PHP/Zend successor-license election is recorded in license-election.json. Keep the paired source archive and paired-candidate.json with this ZIP. Public distribution is not approved; remaining correspondence/notice and durable publication checks are recorded in LICENSING.md.`r`n", [Text.UTF8Encoding]::new($false))
 $zip=Join-Path $out 'DK-PHP-Compatibility-audit-only.zip'
