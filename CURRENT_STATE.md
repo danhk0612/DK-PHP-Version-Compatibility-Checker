@@ -4,9 +4,9 @@
 
 - 확인일: 2026-11-13 (한국 시간).
 - 저장소: https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker
-- 기본 브랜치: `main`. 최신 시험 후보는 `t09-latest-windows-candidate`, Draft [PR #13](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/13)입니다. 제품 변경은 기반 `t14-engine-pack-download` / PR #12에 있습니다.
-- 기능 검증 기준 커밋: `c2c13610044b2bfbacd17a08ecf1b8ad7af561e6`. 시험 후보 빌드 기준: `84515930a84eca398420029960d5aa5f7ab0f27b`.
-- 병합·tag·Release는 별도 명시 지시가 필요합니다. 공개 배포 승인 상태는 `false`입니다.
+- 기본 브랜치: `main`. 최신 디자인 후보는 `t15-window-design`, Draft [PR #14](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/14)입니다. 시험 후보 준비는 기반 PR #13에 있습니다.
+- 디자인 및 시험 후보 자동 검증 기준: `e8008e47bde4f8ddf198204626e4eb05e3a1cc9f`.
+- 첫 릴리스 목표는 정식 `v0.1.0`과 기본 오프라인 엔진 팩입니다. 공개 게시 상태는 대기입니다.
 
 ## 구현된 기능과 유효한 결정
 
@@ -30,9 +30,11 @@ T00~T07과 T11 제외 기능, T12 결과 내보내기를 구현하고 검증했�
 | 엔진·원본 보호 | 목표별 fixture, 설정 격리, 링크 제외, 입력 목록/해시 불변, 네트워크 차단 검사 | [T01](tools/ENGINE_PROBE.md), [T04](tests/t04/evidence/). 동적 속성 미탐지 등 엔진 한계를 포함한 검증입니다. |
 | 최신 서비스·GUI·내보내기 회귀 | T05 77건 / T06 27건 / T07 39건 / T12 19건 통과. 빌드 경고·오류 0 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43338975882), [T12 근거](tests/t12/evidence/summary.json). Windows Server 2022 CI입니다. |
 | 분할 검사 | 실제 PHPCS의 자체 생성 28,817파일, 205입력 100/100/5 새 프로세스, 실제 메모리 소진 재분할, 복수 단일 실패·결과 보존·중단 정리 통과 | 같은 batched-scans 근거. 생성 입력의 통과를 사용자 프로젝트 시험으로 대체하지 않습니다. |
+| 다른 Windows 11 PC 실제 검사 | 목표 8.5, 선택·처리 236개, 오류 1건·경고 15건, 폴더 3개 제외, CSV·HTML 내용 일치와 Excel 한글·열 구분 확인 | 2026-11-13 사용자 제공 화면·로그·보고서를 대조했습니다. 개발 도구 및 VC++ 런타임이 있는 환경입니다. |
 | 사용자 실제 프로젝트 | 목표 8.4·하위 포함, 선택/처리 28,817, ERROR 550 / WARNING 265, 완료 표시 | 2026-11-09 사용자 제공 화면. 실행 바이너리/ZIP의 정확한 SHA는 미수집입니다. 815건은 탐지 문제 수입니다. |
 | 로컬 후보 준비 | PHP/Composer 사전 설치 없이 고정 해시 임시 도구 사용, 중첩 긴 경로 수집·환경 복원·정리 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42147647503), [근거](tests/t09/evidence/bootstrap-preparation.json). |
 | T08 기준 후보 준비·페어링 | 필수 재구성 파일 6개 포함·바이트 대조와 전체 준비 통과. scopePassed=true, candidateForUserTesting=true, publicReleaseApproved=false | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208419), [기준 커밋·두 ZIP SHA](tests/t08-minimal/evidence/php-relink/build-materials.json). 누락/변조 거부 13건의 상세 근거는 [reconstruction-inputs](tests/t09/evidence/reconstruction-inputs.json)도 보존합니다. 외부 공개 ZIP은 게시하지 않았습니다. T11 제품 변경의 새 후보 페어링은 아직 수행하지 않았습니다. |
+| T15 화면 디자인 | 상태·집계 고정, 긴 텍스트와 제외 경로 스크롤, 창/EXE 아이콘 | [Windows 회귀 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43427066923) 및 [패키징 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43427066932). |
 | T09 최신 ZIP 자동시험 | 최신 self-contained ZIP의 시작·정상 종료·1,250파일 불변, 대응 소스 ZIP·공식 개발 헤더 2개·고지 49파일 대조 및 페어링 시험 19건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43393286157), [두 ZIP SHA와 범위](tests/t09/evidence/latest-paired-candidate.json). Windows Server 2022이며 바이너리는 로컬 시험용으로 생성했습니다. |
 | T10 팩 교체 | 같은 앱 assembly에서 reduced→full→reduced, 새 OS 프로세스의 실제 목록·검사·복원 및 잘못된 팩 거부 12건 통과 | [Windows 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646710), [근거](tests/t10/evidence/). 기존 목표의 부분집합을 이용한 개발 시험이며 미래 PHP 버전 지원 검증은 아닙니다. |
 
@@ -76,8 +78,8 @@ T08은 부분 검증입니다. 남은 관문은 실제 배포물에 대응하는
 | T08 기술·배포 검토 | 실제 제품 PHP에 필요한 소스/빌드/링크 자료와 고지의 잔여 대응을 LICENSING 기준으로 검토 | 부분 검증. 자료 대조는 저성능 Work, 해석 충돌은 고성능 Chat. 제품 PHP 교체·스택 변경은 임의 수행하지 않습니다. |
 | T09 직접 시험 | 다른 목표, 실제 원본 목록/해시 불변, 깨끗한 Windows 11의 CRT/.NET 전제·일반 사용자·읽기 전용 위치 등 미실행 항목 기록 | [Windows 11 절차](tests/t09/WINDOWS11_TEST.md). 8.4 대규모 완료 확인과 생략한 중복 오프라인 재검사를 다시 요구하지 않습니다. |
 | T10 최종 배포 대조 | 배포에 사용할 팩 구성을 T08 고지/대응 소스와 재대조 | 개발 자동시험 완료, T08 배포 조건 대기. 저성능 Work. |
-| 최종 후보·공개 운영 | 최종 checkout에서 후보와 소스 ZIP 재생성·페어링 후 결과 검토. 병합·tag·Release 및 지속 제공은 명시 지시 후 진행 | 현재 미승인. 기존 로컬 진단 재빌드는 새 후보 페어링을 대신하지 않습니다. |
+| 첫 정식 릴리스 | `v0.1.0`에 기본 오프라인 팩 포함. 배포 자료·Windows 11 조건을 확인한 뒤 최종 바이너리·소스 ZIP을 같은 기준으로 생성하고 GitHub Releases에 게시 | 배포 조건 검토 대기. 온라인 엔진 팩 채널은 후속 작업입니다. |
 
 T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
-최신 후보의 제품 코드는 T14 Windows 검증 제품 코드와 같습니다. 대응 소스 ZIP에 공식 개발 헤더 두 개를 포함했고, [PDB·SBOM·소스 매핑](tests/t08-minimal/evidence/official-native-source-map.json)에서 외부 정적 라이브러리 5개의 소스 커밋을 대조했습니다. 과거 빌드의 의존성 ZIP 바이트·전체 링크 입력은 미확인입니다. 다음 검증은 깨끗한 Windows 11에서 `tests/t09/WINDOWS11_TEST.md`의 미실행 항목을 확인하는 것입니다.
+최신 후보의 제품 코드는 T14 Windows 검증 제품 코드와 같습니다. 대응 소스 ZIP에 공식 개발 헤더 두 개를 포함했고, [PDB·SBOM·소스 매핑](tests/t08-minimal/evidence/official-native-source-map.json)에서 외부 정적 라이브러리 5개의 소스 커밋을 대조했습니다. 과거 빌드의 의존성 ZIP 바이트·전체 링크 입력은 미확인입니다. 다음 검증은 깨끗한 Windows 11의 미확인 항목은 후속으로 보류했으며, 배포에 필요한 PHP의 대응 소스·재링크 자료 검토가 남아 있습니다.

@@ -1,0 +1,76 @@
+{
+  "headSha": "e8008e47bde4f8ddf198204626e4eb05e3a1cc9f",
+  "uiRun": 43427066923,
+  "packageRun": 43427066932,
+  "suites": {
+    "12": {
+      "passed": 19,
+      "failures": [],
+      "environment": {
+        "os": "Microsoft Windows NT 10.0.20348.0",
+        "architecture": "X64",
+        "sdk": "10.0.403",
+        "runId": "43427066923",
+        "sourceSha": "845977bb350f010d4970ba9477481390c212c048"
+      }
+    },
+    "14": {
+      "passed": 12,
+      "failures": null,
+      "environment": null
+    },
+    "05": {
+      "passed": 95,
+      "failures": [],
+      "environment": {
+        "os": "Microsoft Windows NT 10.0.20348.0",
+        "architecture": "X64",
+        "sdk": "10.0.403",
+        "runId": "43427066923",
+        "sourceSha": "845977bb350f010d4970ba9477481390c212c048"
+      }
+    },
+    "06": {
+      "passed": 27,
+      "failures": [],
+      "environment": {
+        "os": "Microsoft Windows NT 10.0.20348.0",
+        "architecture": "X64",
+        "sdk": "10.0.403",
+        "runId": "43427066923",
+        "sourceSha": "845977bb350f010d4970ba9477481390c212c048"
+      }
+    },
+    "07": {
+      "passed": 57,
+      "failures": [],
+      "environment": {
+        "os": "Microsoft Windows NT 10.0.20348.0",
+        "architecture": "X64",
+        "sdk": "10.0.403",
+        "runId": "43427066923",
+        "sourceSha": "845977bb350f010d4970ba9477481390c212c048"
+      }
+    }
+  },
+  "uiArtifact": {
+    "artifactId": 14037028783,
+    "artifactDigest": "sha256:752cda3f73ef5009f831dc85d6a8d801f78fca630e34dbe8f78c0859a838c65f",
+    "t06/minimum-long-diagnostics.png": "2dc51b908418b6c23d59bfe5787ba385b1f0ea47ebb03d6f3ec238db095e6202",
+    "t07/result-export.png": "cc0b3ffe7b820a354d6ffdf3adbdfcea7ff19ec6ff9ed519183e99b98bd6eee3"
+  },
+  "package": {
+    "artifactId": 14037897608,
+    "artifactDigest": "sha256:567a5fb91f4301643312048fcf567c1087e91eff50bd6136584de6b938fef4c1",
+    "binarySha256": "08094d5bcdab0b18d5a4cd3e1f8c235def7fd6b0e9f6522a45a939d55e021675",
+    "sourceSha256": "678fb786f513e2ad50126cf80cafef1f4652296a14ea4e9fd9a7c052d5fc2842",
+    "fileCount": 1250,
+    "notices": 49,
+    "icon": {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Assets/App.ico",
+      "bytes": 36818,
+      "sha256": "ef6ac2cdc5553d9f6b0f3364907a363a4c6254b782ca4e3d8165eae85748d566"
+    }
+  },
+  "publicReleaseApproved": false
+}
