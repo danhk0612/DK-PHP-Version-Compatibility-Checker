@@ -105,13 +105,13 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 ### 대응 소스·고지 동시 제공 준비
 
-`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. 재링크 workflow가 참조하는 의존성 후보 URL/해시 목록과 결과 비교기도 명시적으로 포함하고 페어링에서 현재 파일과 바이트를 대조합니다. `Collect-BuildSources.py`로 수집한 고정 builder/SDK 소스 2개도 함께 전달할 수 있습니다. 출력 manifest는 모든 멤버의 SHA와 승인된 적용 라이선스 선택을 기록합니다. 전체 배포 적합성은 개별 배포 자료 대조로 판단하며 선택 승인만으로 일괄 완료하지 않습니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
+`Prepare-SourceSidecar.py`는 검증된 core 6개 및 LGPL engine 2개 소스 ZIP·inventory의 기록 SHA를 먼저 확인하고, 별도 Windows 생성 헤더 ZIP·입력 레시피, 현재 프로젝트 소스/검증 스크립트/워크플로 및 원문 라이선스·고지를 한 동반 ZIP으로 묶습니다. 재링크 workflow가 참조하는 의존성 후보 URL/해시 목록과 결과 비교기도 명시적으로 포함하고 페어링에서 현재 파일과 바이트를 대조합니다. `Collect-BuildSources.py`로 수집한 고정 builder 소스와 SDK 레시피·원문 고지도 함께 전달합니다. SDK 도구 EXE·DLL은 별도 확보합니다. 출력 manifest는 모든 멤버의 SHA와 승인된 적용 라이선스 선택을 기록합니다. 전체 배포 적합성은 개별 배포 자료 대조로 판단하며 선택 승인만으로 일괄 완료하지 않습니다. 이 ZIP은 검토 가능한 소스 제공 준비물입니다. 최종 바이너리와 정확히 짝지은 이름·SHA로 함께 지속 배포해야 하며 7일 Actions artifact만으로 영구 제공을 완료 처리하지 않습니다. 실제 수집·동반 ZIP 생성 결과는 전용 Windows workflow로 검증해야 합니다.
 
-### 동반 ZIP에 포함된 PHP SDK 바이너리
+### PHP SDK 레시피와 도구 확보
 
 2026-11-14에 [최신 후보 패키징 CI](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43427066932)의 artifact 14037897608을 내려받아 GitHub의 SHA-256과 대조했습니다. 동반 ZIP manifest는 `sources/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd.zip`을 포함합니다. 고정 커밋에서 `Collect-BuildSources.py`로 SDK ZIP을 재생성했고 CI와 같은 SHA-256 `2da08a1a9d1d6b95c55e66429d15bf0b7a22f922f89daaccee9d0d4680f7db40`을 확인했습니다. 아카이브의 328개 Git 파일 중 PE 바이너리는 EXE 38개·DLL 58개입니다. SDK가 사용하는 PHP, MSYS2 도구 및 DLL도 포함됩니다. [고정 SDK의 구성별 고지](https://github.com/php/php-sdk-binary-tools/blob/81b356186db123ce9cd65149cee4683211a59ebd/licenses/README.md)를 참조합니다.
 
-앱 ZIP의 `tools/runtime/php/php.exe`와 `php8.dll`은 [승인한 공식 PHP ZIP](tests/t08-minimal/evidence/official-artifact-identity.json)의 각 SHA-256과 일치했습니다. SDK 도구 바이너리는 소스·고지 ZIP 내부의 별도 배포 구성입니다. SDK에 적용되는 재배포 조건까지 포함해 검토하거나, 공개용 동반 ZIP에는 SDK의 고정 레시피·고지·가져오기 절차를 제공하고 실행 도구는 고정 커밋에서 별도로 확보하도록 한 뒤 Windows 재링크 절차를 검증해야 합니다. 현재 내부 시험 ZIP은 공개 후보로 승인되지 않았습니다.
+앱 ZIP의 `tools/runtime/php/php.exe`와 `php8.dll`은 [승인한 공식 PHP ZIP](tests/t08-minimal/evidence/official-artifact-identity.json)의 각 SHA-256과 일치했습니다. 사용자가 승인한 새 동반 ZIP 구성은 SDK 도구 EXE·DLL을 제외하고 고정 커밋의 레시피와 원문 고지를 보존합니다. [SDK 확보 및 재링크 절차](tools/license-audit/README.md#windows-php-sdk-확보와-재링크)에서 별도 checkout의 커밋을 확인합니다. 페어링 검증은 SDK 레시피 ZIP의 고지·시작 스크립트가 있고 EXE·DLL 또는 MZ 파일이 없음을 확인합니다. 실제 배포 PHP 전체 구성의 재링크 입력 대응은 별도 검토 항목입니다.
 
 ## 재현과 공식 근거
 

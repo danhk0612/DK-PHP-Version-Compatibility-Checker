@@ -17,6 +17,7 @@ RECONSTRUCTION_INPUTS = {
     'tools/license-audit/official-php-headers/main/config.w32.h',
     'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
     'tests/t08-minimal/check_relinked_php.py',
+    'tools/license-audit/php-sdk.json',
     'tests/t09/check_pair.py',
     'tests/t09/check_package.py',
     'tests/t09/WINDOWS11_TEST.md',
@@ -117,7 +118,9 @@ The project/ directory contains the current build, pack and audit recipes and no
 Official development ZIP headers and their hashes are recorded separately under
 project/tools/license-audit/official-php-headers and project/tests/t08-minimal/evidence.
 They do not replace PHP Git sources or the bundled Windows configure outputs.
-Build/audit steps: tools/engine-pack/README.md and tools/license-audit/README.md.
+Build/audit steps: project/tools/engine-pack/README.md and project/tools/license-audit/README.md.
+The PHP SDK recipe archive omits tool binaries. Use the pinned SDK commit listed in
+project/tools/license-audit/php-sdk.json to obtain the complete build toolset separately.
 The marker relink experiment is not an official PHP binary reproduction.
 Keep this companion and its SHA256 beside the exact reviewed binary distribution, on durable storage.
 Temporary CI artifacts or upstream links alone are not the final source-delivery mechanism.

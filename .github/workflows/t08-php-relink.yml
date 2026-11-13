@@ -1,8 +1,9 @@
 name: T08 isolated PHP relink
 on:
   pull_request:
-    branches: [main, t08-licenses]
+    branches: [main, t08-licenses, t09-latest-windows-candidate]
     paths:
+      - 'tools/license-audit/php-sdk.json'
       - 'tools/license-audit/Test-PhpRelink.ps1'
       - 'tools/license-audit/Test-LibiconvRebuild.ps1'
       - 'tests/t08-minimal/check_relinked_php.py'
@@ -42,12 +43,16 @@ jobs:
             if ((Get-FileHash -Algorithm SHA256 $file).Hash.ToLowerInvariant() -ne $row.sha256) { throw "Dependency hash mismatch: $($row.name)" }
             Expand-Archive -LiteralPath $file -DestinationPath artifacts/php-deps -Force
           }
+          $sdk = Get-Content -Raw -Encoding utf8 tools/license-audit/php-sdk.json | ConvertFrom-Json
           git init --quiet artifacts/php-sdk
-          git -C artifacts/php-sdk remote add origin https://github.com/php/php-sdk-binary-tools.git
-          git -C artifacts/php-sdk fetch --no-tags --depth 1 origin 81b356186db123ce9cd65149cee4683211a59ebd
+          git -C artifacts/php-sdk remote add origin $sdk.repository
+          git -C artifacts/php-sdk fetch --no-tags --depth 1 origin $sdk.commit
           if ($LASTEXITCODE -ne 0) { throw 'PHP SDK fetch failed' }
           git -C artifacts/php-sdk checkout --detach --quiet FETCH_HEAD
           if ($LASTEXITCODE -ne 0) { throw 'PHP SDK checkout failed' }
+          $sdkHead = git -C artifacts/php-sdk rev-parse HEAD
+          if ($LASTEXITCODE -ne 0 -or $sdkHead -cne $sdk.commit) { throw 'PHP SDK commit mismatch' }
+          Write-Output "External PHP SDK commit: $sdkHead"
           git init --quiet artifacts/libiconv-source
           git -C artifacts/libiconv-source config core.autocrlf false
           git -C artifacts/libiconv-source config core.symlinks false

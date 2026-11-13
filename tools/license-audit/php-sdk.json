@@ -1,0 +1,6 @@
+{
+  "name": "php-sdk-binary-tools",
+  "repository": "https://github.com/php/php-sdk-binary-tools.git",
+  "commit": "81b356186db123ce9cd65149cee4683211a59ebd",
+  "basis": "Pinned SDK 2.9.0 used in the Windows relink audit; historical official SDK commit identity remains unverified"
+}

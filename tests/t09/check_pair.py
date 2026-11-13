@@ -1,6 +1,7 @@
 """Bind local audit binary and source ZIPs without asserting release clearance."""
 import argparse
 import hashlib
+import io
 import json
 from pathlib import Path
 import zipfile
@@ -27,6 +28,21 @@ with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
     members = {row['path']: row for row in source['members']}
     for name, row in members.items():
         assert sha(sz.read(name)) == row['sha256'], name
+    sdk_pin = read(REPO / 'tools/license-audit/php-sdk.json')
+    sdk_archives = [name for name in sz.namelist()
+                    if name.startswith('sources/build/php-sdk-binary-tools-') and name.endswith('.zip')]
+    if source['buildRecipeSourcesIncluded'] or sdk_archives:
+        sdk_name = sdk_pin['name'] + '-' + sdk_pin['commit']
+        sdk_member = 'sources/build/' + sdk_name + '.zip'
+        assert sdk_archives == [sdk_member] and sdk_member in members, 'Expected the pinned PHP SDK recipe archive'
+        with zipfile.ZipFile(io.BytesIO(sz.read(sdk_member))) as sdk:
+            sdk_paths = [entry for entry in sdk.infolist() if not entry.is_dir()]
+            required = ('LICENSE', 'licenses/README.md', 'phpsdk-vs17-x64.bat')
+            assert all(sdk_name + '/' + name in sdk.namelist() for name in required), 'Missing PHP SDK recipes or notices'
+            for entry in sdk_paths:
+                with sdk.open(entry) as blob:
+                    assert Path(entry.filename).suffix.lower() not in ('.exe', '.dll') and blob.read(2) != b'MZ', (
+                        'PHP SDK binary in source archive: ' + entry.filename)
     notices = []
     for name in bz.namelist():
         if name in ('LICENSE', 'LICENSING.md', 'THIRD-PARTY-NOTICES.md', 'license-election.json', 'tools/license-audit/license-election.json') or name.startswith('licenses/'):
@@ -49,6 +65,7 @@ with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
                      'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
                      'tests/t08-minimal/check_relinked_php.py',
                      'tests/t09/check_pair.py', 'tests/t09/check_package.py',
+                     'tools/license-audit/php-sdk.json',
                      'tests/t09/WINDOWS11_TEST.md', 'tests/t09/check_source_sidecar.py'):
         member = 'project/' + relative
         assert member in members, 'Missing reconstruction input: ' + relative
@@ -61,6 +78,7 @@ report = {'scopePassed': True, 'licenseElectionMade': True,
           'licenseElectionSha256': sha(election_path.read_bytes()), 'matchedNotices': notices,
           'engineRecipeBytesMatched': True, 'currentProjectSourceBytesMatched': True,
           'reconstructionInputsBytesMatched': True,
+          'phpSdkRecipeArchiveVerified': bool(sdk_archives),
           'allSourceMembersVerified': True, 'fullBinarySourceCorrespondenceVerified': False,
           'durablePairedPublicationVerified': False, 'redistributionCleared': False,
           'limits': ['Pairing identifies exact local audit archives, not legal clearance',

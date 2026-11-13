@@ -21,6 +21,7 @@ REQUIRED = (
     'tools/license-audit/official-php-headers/main/config.w32.h',
     'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
     'tests/t08-minimal/check_relinked_php.py',
+    'tools/license-audit/php-sdk.json',
     'tests/t09/check_pair.py',
     'tests/t09/check_package.py',
     'tests/t09/WINDOWS11_TEST.md',
@@ -36,14 +37,17 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
 
 
-def fake_source(root, name):
+def fake_source(root, name, files=None):
     """Generate archive/inventory hashes accepted by the collector interface."""
     archive = root / (name + '.zip')
     payload = b'Owned synthetic source for packaging integrity regression.\n'
+    if files is None:
+        files = {'README.txt': payload}
     with zipfile.ZipFile(archive, 'w') as package:
-        package.writestr('README.txt', payload)
+        for path, data in files.items():
+            package.writestr(path, data)
     inventory = root / (name + '-files.json')
-    write_json(inventory, [{'path': 'README.txt', 'sha256': sha(payload)}])
+    write_json(inventory, [{'path': path, 'sha256': sha(data)} for path, data in files.items()])
     return {
         'name': name, 'commit': '0' * 40,
         'archive': archive.name, 'archiveSha256': sha(archive.read_bytes()),
@@ -166,6 +170,32 @@ def main():
                 assert expected in negative.stderr, negative.stderr
                 assert not (area / (name + '-report/paired-candidate.json')).exists(), name
                 checks += 1
+        sdk_pin = json.loads((REPO / 'tools/license-audit/php-sdk.json').read_text(encoding='utf-8'))
+        sdk_prefix = sdk_pin['name'] + '-' + sdk_pin['commit']
+        recipes = {sdk_prefix + '/' + name: b'Owned synthetic recipe or notice'
+                   for name in ('LICENSE', 'licenses/README.md', 'phpsdk-vs17-x64.bat')}
+        for name, injected in (('sdk-clean', {}), ('sdk-dll', {'test.DLL': b'dummy'}),
+                               ('sdk-renamed-exe', {'test.txt': b'MZdummy'})):
+            build_root = area / name
+            build_root.mkdir()
+            sdk_files = dict(recipes)
+            sdk_files.update({sdk_prefix + '/' + path: data for path, data in injected.items()})
+            sdk = fake_source(build_root, sdk_prefix, sdk_files)
+            sdk.update(name=sdk_pin['name'], commit=sdk_pin['commit'])
+            write_json(build_root / 'build-source.json', {
+                'sourceCollectionPassed': True,
+                'sources': [fake_source(build_root, 'builder'), sdk],
+            })
+            candidate = area / (name + '-sidecar')
+            collector.prepare(core, engine, candidate, build_root)
+            result = pair(package, candidate, area / (name + '-report'))
+            if injected:
+                assert result.returncode != 0 and 'PHP SDK binary in source archive' in result.stderr, result.stderr
+            else:
+                assert result.returncode == 0, result.stderr
+                report = json.loads((area / (name + '-report/paired-candidate.json')).read_text())
+                assert report['phpSdkRecipeArchiveVerified'] is True
+            checks += 1
         print(json.dumps({
             'scopePassed': True, 'pairingCasesPassed': checks,
             'scope': 'Synthetic source-sidecar preparation and reconstruction input integrity only',

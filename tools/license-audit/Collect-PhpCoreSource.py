@@ -103,7 +103,7 @@ def raw_blobs(checkout, entries):
             process.stdin.close()
 
 
-def collect_source(identity, output):
+def collect_source(identity, output, *, exclude_suffixes=()):
     name, commit = identity['name'], identity['commit']
     # Source filenames can exceed Windows MAX_PATH below a nested project path.
     # Keep only final archives/inventories under output; remove the short checkout
@@ -135,8 +135,14 @@ def collect_source(identity, output):
         archive = output / (name + '-' + commit + '.zip')
         prefix = name + '-' + commit + '/'
         rows, legal, build, checkout_differences = [], [], [], []
+        excluded = []
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as package:
             for filename, mode, blob, data in raw_blobs(checkout, entries):
+                if PurePosixPath(filename).suffix.lower() in exclude_suffixes:
+                    excluded.append(filename)
+                    continue
+                if exclude_suffixes:
+                    require(not data.startswith(b'MZ'), 'Unexpected executable in filtered archive: ' + filename)
                 # core.symlinks=false materializes link blobs as plain target text.
                 # Retain their Git mode in both the manifest and ZIP Unix attributes.
                 source = checkout.joinpath(*PurePosixPath(filename).parts)
@@ -196,6 +202,9 @@ def collect_source(identity, output):
                        inventorySha256=digest(manifest.read_bytes()), legalFiles=legal,
                        buildMaterialCount=len(build), buildMaterialPaths=build,
                        gitSymlinkCount=sum(mode == '120000' for _, mode, _ in entries))
+        if exclude_suffixes:
+            summary.update(archiveSource='Selected raw Git blobs; tool binaries excluded',
+                           excludedPaths=excluded, checkoutTrackedFileCount=len(entries))
         return summary, rows
 
 

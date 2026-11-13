@@ -46,8 +46,26 @@ python tools/license-audit/Collect-BuildSources.py --output artifacts/t08-build-
 python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
 ```
 
-[전용 Windows workflow](../../.github/workflows/t08-source-sidecar.yml)는 팩 준비→실제 publish/엔진 source 수집→core/build source 수집→동반 ZIP 순으로 실행합니다. source archive와 inventory의 기록 SHA, collector의 Git-byte 검증 및 vendor 대조 결과를 확인한 후 소스·원문 고지·현재 프로젝트 레시피를 묶습니다. core 원본6개·LGPL engine2개·builder/SDK2개와 별도 설정 생성 ZIP을 포함하며 `--build-audit`를 생략한 경우에는 buildRecipeSourcesIncluded=false로 기록합니다. 생성 결과가 법적 배포 승인이나 영구 소스 제공을 뜻하지 않습니다. PHP/Zend 후속 조건 선택은 사용자 승인으로 license-election.json에 반영했습니다. 최종 바이너리와 동반 ZIP을 같은 배포 위치에서 지속 제공하고 각각 SHA를 고정해야 합니다.
+[전용 Windows workflow](../../.github/workflows/t08-source-sidecar.yml)는 팩 준비→실제 publish/엔진 source 수집→core/build source 수집→동반 ZIP 순으로 실행합니다. source archive와 inventory의 기록 SHA, collector의 Git-byte 검증 및 vendor 대조 결과를 확인한 후 소스·원문 고지·현재 프로젝트 레시피를 묶습니다. core 원본6개·LGPL engine2개·builder와 SDK 레시피 각 1개 및 별도 설정 생성 ZIP을 포함하며 `--build-audit`를 생략한 경우에는 buildRecipeSourcesIncluded=false로 기록합니다. 생성 결과가 법적 배포 승인이나 영구 소스 제공을 뜻하지 않습니다. PHP/Zend 후속 조건 선택은 사용자 승인으로 license-election.json에 반영했습니다. 최종 바이너리와 동반 ZIP을 같은 배포 위치에서 지속 제공하고 각각 SHA를 고정해야 합니다.
 
-재링크 workflow가 사용하는 `tests/t08-minimal/evidence/native-inputs.json`(의존성 후보 URL·고정 SHA)과 `tests/t08-minimal/check_relinked_php.py`, 후보 준비에 필요한 `tests/t09/`의 `check_pair.py`·`check_package.py`·`WINDOWS11_TEST.md`·`check_source_sidecar.py`도 동반 ZIP에 포함합니다. 페어링 검증은 여섯 파일의 존재와 현재 checkout 바이트 일치를 확인합니다. 이 목록의 해시는 현재 서버에서 수집한 후보의 해시이며 과거 공식 빌드 입력과 동일하다는 증거로 승격하지 않습니다. 동반 ZIP은 모든 일반 GUI/서비스 CI 시험 코드를 포함하지 않으므로 전체 CI 재실행에는 해당 저장소 checkout을 사용합니다.
+재링크 workflow가 사용하는 `tests/t08-minimal/evidence/native-inputs.json`(의존성 후보 URL·고정 SHA)과 `tests/t08-minimal/check_relinked_php.py`, 후보 준비에 필요한 `tests/t09/`의 `check_pair.py`·`check_package.py`·`WINDOWS11_TEST.md`·`check_source_sidecar.py`도 동반 ZIP에 포함합니다. 페어링 검증은 필수 재구성 파일의 존재와 현재 checkout 바이트 일치를 확인합니다. 이 목록의 해시는 현재 서버에서 수집한 후보의 해시이며 과거 공식 빌드 입력과 동일하다는 증거로 승격하지 않습니다. 동반 ZIP은 모든 일반 GUI/서비스 CI 시험 코드를 포함하지 않으므로 전체 CI 재실행에는 해당 저장소 checkout을 사용합니다.
 
 공식 PHP 개발 ZIP의 `main/config.w32.h`와 `Zend/zend_config.w32.h`는 원본 Git 및 libmbfl/timelib 생성물과 별도 경로에 보존합니다. 동반 ZIP 생성 시 두 파일의 바이트 수·SHA-256을 [공식 산출물 근거](../../tests/t08-minimal/evidence/official-debug-inputs.json)와 대조합니다. 페어링에서도 헤더와 출처 기록을 현재 checkout과 대조합니다.
+
+### Windows PHP SDK 확보와 재링크
+
+동반 ZIP의 SDK 레시피 아카이브에는 원문 `LICENSE`, `licenses/` 고지와 스크립트가 들어 있습니다. SDK의 EXE·DLL은 별도 확보합니다. Windows x64에서 Git, Visual Studio 2022의 C++ x64 빌드 도구와 Windows SDK를 설치하고, 작업 폴더에서 PowerShell로 실행합니다.
+
+```powershell
+$sdk = Get-Content -Raw -Encoding utf8 tools/license-audit/php-sdk.json | ConvertFrom-Json
+git init --quiet artifacts/php-sdk
+git -C artifacts/php-sdk remote add origin $sdk.repository
+git -C artifacts/php-sdk fetch --no-tags --depth 1 origin $sdk.commit
+if ($LASTEXITCODE -ne 0) { throw 'PHP SDK fetch failed' }
+git -C artifacts/php-sdk checkout --detach --quiet FETCH_HEAD
+if ($LASTEXITCODE -ne 0) { throw 'PHP SDK checkout failed' }
+$sdkHead = git -C artifacts/php-sdk rev-parse HEAD
+if ($LASTEXITCODE -ne 0 -or $sdkHead -cne $sdk.commit) { throw 'PHP SDK commit mismatch' }
+```
+
+동반 ZIP을 펼친 경우 `project/`에서 위 명령을 실행합니다. [Windows 재링크 워크플로](../../.github/workflows/t08-php-relink.yml)의 PHP 소스·해시 검증, 의존성 준비, SDK 태스크 실행 순서로 격리 원본/마커 PHP를 빌드합니다. PHPCS 회귀 비교에는 바이너리 ZIP의 `tools/runtime`과 동반 ZIP의 `project/tests/fixtures`를 사용합니다. 이 워크플로는 축소 감사 구성의 재링크를 시험합니다. SDK는 이 재빌드 절차에서 사용되며 오프라인 검사는 제품 ZIP으로 실행합니다.
