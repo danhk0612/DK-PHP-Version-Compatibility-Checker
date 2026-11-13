@@ -109,9 +109,19 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 ### PHP SDK 레시피와 도구 확보
 
-2026-11-14에 [최신 후보 패키징 CI](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43427066932)의 artifact 14037897608을 내려받아 GitHub의 SHA-256과 대조했습니다. 동반 ZIP manifest는 `sources/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd.zip`을 포함합니다. 고정 커밋에서 `Collect-BuildSources.py`로 SDK ZIP을 재생성했고 CI와 같은 SHA-256 `2da08a1a9d1d6b95c55e66429d15bf0b7a22f922f89daaccee9d0d4680f7db40`을 확인했습니다. 아카이브의 328개 Git 파일 중 PE 바이너리는 EXE 38개·DLL 58개입니다. SDK가 사용하는 PHP, MSYS2 도구 및 DLL도 포함됩니다. [고정 SDK의 구성별 고지](https://github.com/php/php-sdk-binary-tools/blob/81b356186db123ce9cd65149cee4683211a59ebd/licenses/README.md)를 참조합니다.
+2026-11-14에 [최신 후보 패키징 CI](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43427066932)의 artifact 14037897608을 내려받아 GitHub의 SHA-256과 대조했습니다. 동반 ZIP manifest는 `sources/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd.zip`을 포함합니다. 고정 커밋에서 `Collect-BuildSources.py`로 SDK ZIP을 재생성했고 CI와 같은 SHA-256 `2da08a1a9d1d6b95c55e66429d15bf0b7a22f922f89daaccee9d0d4680f7db40`을 확인했습니다. 아카이브의 328개 Git 파일 중 PE 바이너리는 EXE 38개·DLL 58개입니다. 이전 내부 ZIP에는 SDK가 사용하는 PHP, MSYS2 도구 및 DLL도 포함됐습니다. [고정 SDK의 구성별 고지](https://github.com/php/php-sdk-binary-tools/blob/81b356186db123ce9cd65149cee4683211a59ebd/licenses/README.md)를 참조합니다.
 
 앱 ZIP의 `tools/runtime/php/php.exe`와 `php8.dll`은 [승인한 공식 PHP ZIP](tests/t08-minimal/evidence/official-artifact-identity.json)의 각 SHA-256과 일치했습니다. 사용자가 승인한 새 동반 ZIP 구성은 SDK 도구 EXE·DLL을 제외하고 고정 커밋의 레시피와 원문 고지를 보존합니다. [SDK 확보 및 재링크 절차](tools/license-audit/README.md#windows-php-sdk-확보와-재링크)에서 별도 checkout의 커밋을 확인합니다. 페어링 검증은 SDK 레시피 ZIP의 고지·시작 스크립트가 있고 EXE·DLL 또는 MZ 파일이 없음을 확인합니다. 실제 배포 PHP 전체 구성의 재링크 입력 대응은 별도 검토 항목입니다.
+
+
+[Windows 후보 재검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423443) 기준 커밋은 `768e3ccf2ad3e3d57cc2766b1db3fdcd33d7a841`입니다. SDK 레시피 ZIP의 232개 Git 파일과 제외된 EXE 38개·DLL 58개를 확인했습니다. 레시피 ZIP SHA-256은 Linux 수집 결과와 일치하는 `2bf9f4deb72c3c96588ad49f5b08b4599405c5648d1b15b78331682c4ff365fc`입니다. Windows에서 시작·종료 전후 1,250개 파일 불변과 고지 49개 일치를 확인했습니다. 검증한 내부 ZIP의 SHA-256은 아래와 같습니다.
+
+| ZIP | SHA-256 |
+| --- | --- |
+| `DK-PHP-Compatibility-audit-only.zip` | `b026af88069f8a678f7749f916f254e918cd345d6799fe0dbf78172365eb287e` |
+| `DK-PHP-Compatibility-sources-and-notices.zip` | `b512ffa5ceca09ab96e03c13902185331710b9c687a88439d6a365ad3c512c91` |
+
+[Windows 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423393)는 동일한 고정 SDK 커밋을 별도 checkout한 뒤 PHP 8.4.27을 원본·마커 libiconv로 각각 빌드했습니다. `ICONV_VERSION` 1.19/1.20 마커를 확인했고 PHPCS 42사례의 JSON·종료 결과가 일치했습니다. 대상·fixture·엔진 팩은 불변이었습니다. 생성 빌드 자료는 각 19개(응답 파일 15개)를 실제 빌드와 바이트 대조했습니다. 배포 PHP의 전체 구성 대응과 소스의 지속 제공은 남아 있습니다.
 
 ## 재현과 공식 근거
 
