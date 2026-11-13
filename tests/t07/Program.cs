@@ -185,7 +185,8 @@ internal static class Program
                 "Native excluded folder not reflected in inputs");
             worker = Task.Run(() => NativePicker.SelectFiles(owner, Path.Combine(p, "single.php"), Path.Combine(p, "second.inc")));
             C<Button>("ExcludeFileButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker); Pump();
-            Check(Model.ConfiguredExclusions.Count == 3, "Native multi-file exclusion selection failed");
+            Check(Model.ConfiguredExclusions.Count == 3, "Native multi-file exclusion selection failed: "
+                + string.Join(", ", Model.ConfiguredExclusions));
             RunScan("configured-exclusions", p, Pack.Targets[0].Version, true);
             Check(Model.Status == ScanStatus.Completed && Model.SelectedFileCountText == "2"
                 && Model.ProcessedFileCountText == "2" && Model.Issues.Count == 0, Model.FailureText);
