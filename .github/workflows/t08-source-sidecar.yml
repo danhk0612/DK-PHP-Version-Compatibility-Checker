@@ -1,7 +1,7 @@
 name: T08 source and notice companion preparation
 on:
   pull_request:
-    branches: [main, t08-licenses]
+    branches: [main, t08-licenses, t14-engine-pack-download]
     paths:
       - 'tools/license-audit/**'
       - 'tools/packaging/**'
