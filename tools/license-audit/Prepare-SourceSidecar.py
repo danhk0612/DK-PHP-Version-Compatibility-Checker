@@ -13,6 +13,9 @@ import zipfile
 REPO = Path(__file__).resolve().parents[2]
 RECONSTRUCTION_INPUTS = {
     'tests/t08-minimal/evidence/native-inputs.json',
+    'tests/t08-minimal/evidence/official-debug-inputs.json',
+    'tools/license-audit/official-php-headers/main/config.w32.h',
+    'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
     'tests/t08-minimal/check_relinked_php.py',
     'tests/t09/check_pair.py',
     'tests/t09/check_package.py',
@@ -87,6 +90,16 @@ def prepare(core_root, engine_root, output, build_root=None):
             add(inside(build_root, source['inventory']), 'inventories/build/' + source['inventory'], source['inventorySha256'])
         add(build_root / 'build-source.json', 'inventories/build-source.json')
 
+    official_headers = read(REPO / 'tests/t08-minimal/evidence/official-debug-inputs.json')['headers']
+    require({row['storedPath'] for row in official_headers} == {
+        'tools/license-audit/official-php-headers/main/config.w32.h',
+        'tools/license-audit/official-php-headers/Zend/zend_config.w32.h',
+    }, 'Unexpected official development header set')
+    for header in official_headers:
+        data = inside(REPO, header['storedPath']).read_bytes()
+        require(len(data) == header['bytes'] and sha(data) == header['sha256'],
+                'Official PHP header checksum mismatch: ' + header['storedPath'])
+
     # Include the exact current project source/recipes/notices, not export-ignore
     # archives or a link to a moving branch. Git metadata and build outputs stay out.
     tracked = subprocess.check_output(['git', '-C', str(REPO), 'ls-files', '-z']).split(b'\0')
@@ -101,6 +114,9 @@ def prepare(core_root, engine_root, output, build_root=None):
             add(inside(REPO, relative), 'project/' + relative)
     instructions = '''This companion preserves original core/engine source archives and separate Windows configured headers.
 The project/ directory contains the current build, pack and audit recipes and notices.
+Official development ZIP headers and their hashes are recorded separately under
+project/tools/license-audit/official-php-headers and project/tests/t08-minimal/evidence.
+They do not replace PHP Git sources or the bundled Windows configure outputs.
 Build/audit steps: tools/engine-pack/README.md and tools/license-audit/README.md.
 The marker relink experiment is not an official PHP binary reproduction.
 Keep this companion and its SHA256 beside the exact reviewed binary distribution, on durable storage.

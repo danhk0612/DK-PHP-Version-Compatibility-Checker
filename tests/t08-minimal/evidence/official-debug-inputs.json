@@ -18,7 +18,8 @@
     },
     {
       "name": "php-devel-pack-8.4.27-1-nts-Win32-vs17-x64.zip",
-      "sha256": "e5f610141b9686ee13f93add3c9e9dd7996bedde7e431f2a334dbfa106f14dad"
+      "sha256": "e5f610141b9686ee13f93add3c9e9dd7996bedde7e431f2a334dbfa106f14dad",
+      "archiveUrl": "https://downloads.php.net/~windows/releases/archives/php-devel-pack-8.4.27-1-nts-Win32-vs17-x64.zip"
     }
   ],
   "pairs": [
@@ -101,12 +102,14 @@
     {
       "path": "php-8.4.27-devel-vs17-x64/include/main/config.w32.h",
       "sha256": "154f84af2e5e09a101feb8cd3db1a42ab584e4197866dd2e644b2f16c21e429a",
-      "bytes": 12507
+      "bytes": 12507,
+      "storedPath": "tools/license-audit/official-php-headers/main/config.w32.h"
     },
     {
       "path": "php-8.4.27-devel-vs17-x64/include/Zend/zend_config.w32.h",
       "sha256": "1a3a17920d6f11527fcd62b2b89144e96cc98c244ce1a65321002135f0016d9d",
-      "bytes": 1949
+      "bytes": 1949,
+      "storedPath": "tools/license-audit/official-php-headers/Zend/zend_config.w32.h"
     }
   ],
   "limitations": [
