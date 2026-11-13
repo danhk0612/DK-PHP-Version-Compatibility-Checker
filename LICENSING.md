@@ -123,6 +123,17 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 [Windows 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423393)는 동일한 고정 SDK 커밋을 별도 checkout한 뒤 PHP 8.4.27을 원본·마커 libiconv로 각각 빌드했습니다. `ICONV_VERSION` 1.19/1.20 마커를 확인했고 PHPCS 42사례의 JSON·종료 결과가 일치했습니다. 대상·fixture·엔진 팩은 불변이었습니다. 생성 빌드 자료는 각 19개(응답 파일 15개)를 실제 빌드와 바이트 대조했습니다. 배포 PHP의 전체 구성 대응과 소스의 지속 제공은 남아 있습니다.
 
+
+### Windows x64 NTS 스냅샷 구성으로 재링크
+
+[공식 Windows 빌드 job](https://github.com/php/php-windows-builder/actions/runs/40301342976/job/121499713455)에서 처리한 의존성 ZIP 39개의 이름과 순서를 확인했습니다. 동일 URL에서 받은 ZIP 39개(138,467,385바이트)의 현재 SHA-256을 [스냅샷 입력 목록](tests/t08-minimal/evidence/snapshot-deps.json)에 기록했습니다. 기존 축소 빌드의 5개 ZIP과 겹치는 파일은 이전 해시와 일치했습니다. 공식 빌드 당시 ZIP의 바이트는 미확인입니다.
+
+[첫 스냅샷 시험](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43480287691/job/132074698356)에서 공식 x64 NTS 구성 옵션으로 CLI와 코어 DLL을 원본·수정 libiconv에 각각 링크했습니다. PGO를 생략하고 고정 의존성 경로를 명시했습니다. 생성된 Makefile에서 공식 PDB에 기록된 외부 정적 라이브러리 5개(`libiconv_a.lib`, `libxml2_a_dll.lib`, `zlib_a.lib`, `argon2_a.lib`, `edit_a.lib`)를 확인했습니다. 두 빌드의 `Zend/zend_config.w32.h`는 공식 개발 ZIP과 바이트가 일치했습니다. `main/config.w32.h`의 매크로 값은 configure 명령과 빌드 제공자 표시에서만 달랐습니다. 생성 자료는 빌드별 75개이며 응답 파일 70개를 포함합니다.
+
+[수정 후 Windows 재시험](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481996872)의 축소 구성과 스냅샷 구성 모두 통과했습니다. 스냅샷 PHP 두 개의 기본 로드 확장 27개가 제품에 쓰는 PHP와 일치했고, PHPCS 42사례의 JSON·종료 코드와 대상/fixture/엔진 팩 불변을 확인했습니다. 빌드별 자료 75개(응답 파일 70개)도 실제 빌드 경로와 바이트가 일치했습니다.
+
+[후보 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481997013)은 같은 검증 커밋 `00d62bc`에서 고지 49개와 새 의존성 목록을 대조했습니다. 내부 바이너리 ZIP SHA-256은 `bb4ba033a0cc16fad1a526fe9cc10c2d55980f5de3a6b49d2ef1b6a045268e7f`, 소스·고지 ZIP은 `afda2f82821b86f08cb7a12098c78a5b32f2f1add0288536205ed1a5e6a2d0cd`입니다. [릴리스와 대응 소스 동시 제공](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공) 절차를 정리했습니다. 실제 공개 게시와 다운로드 재검증은 남아 있습니다.
+
 ## 재현과 공식 근거
 
 공식 빌드와 승인 바이너리의 직접 연결은 [artifact 대조](tests/t08-minimal/evidence/official-artifact-identity.json)의 절차·해시로 재확인할 수 있습니다. 이 실측은 기존 빌드 조사 당시의 미확인 부분만 보완하며 과거 실행 기록을 소급 수정하지 않습니다.
