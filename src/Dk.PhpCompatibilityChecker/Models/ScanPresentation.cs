@@ -19,6 +19,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     private ScanStatus _status = ScanStatus.Idle;
     private ScanResult? _result;
     private bool _exporting;
+    private bool _downloadingPack;
     private IReadOnlyList<string> _configuredExclusions = Array.Empty<string>();
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -74,7 +75,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     public string ExclusionSummary => "검사 제외 폴더·파일 (" + Count(_configuredExclusions.Count) + ")";
     public bool CanEditExclusions => CanEditInputs && Directory.Exists(_sourceDirectory);
     public ScanStatus Status => _status;
-    public bool CanEditInputs => _status != ScanStatus.Running && !_exporting;
+    public bool CanEditInputs => _status != ScanStatus.Running && !_exporting && !_downloadingPack;
     public bool CanExport => CanEditInputs && _result is not null
         && _status is ScanStatus.Completed or ScanStatus.NoFiles or ScanStatus.Failed;
     public bool CanPrepareScan => CanEditInputs && _hasPack && _selectedTarget is not null
@@ -216,6 +217,12 @@ public sealed class ScanPresentation : INotifyPropertyChanged
         _configuredExclusions = Array.AsReadOnly(_configuredExclusions
             .Where(p => !p.Equals(path, StringComparison.OrdinalIgnoreCase)).ToArray());
         ResetResult();
+        NotifyAll();
+    }
+
+    internal void SetPackDownloadInProgress(bool inProgress)
+    {
+        _downloadingPack = inProgress;
         NotifyAll();
     }
 

@@ -1,0 +1,68 @@
+name: T14 verified engine pack installation
+on:
+  pull_request:
+    branches: [main, t13-php85-target]
+    paths:
+      - 'tests/t14/**'
+      - 'tests/t10/prepare_packs.py'
+      - 'src/**'
+      - 'tools/engine-pack/**'
+      - '.github/workflows/t14-pack-download.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare source and development packs
+        shell: pwsh
+        run: |
+          ./tools/engine-pack/Prepare-Pack.ps1
+          python tests/t10/prepare_packs.py tools/runtime artifacts/t10-packs
+          if ($LASTEXITCODE -ne 0) { throw 'Derived development pack preparation failed' }
+      - name: Verify installer against trusted fixture catalog and archive
+        shell: pwsh
+        run: |
+          dotnet build tests/t14/T14.Verification.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { throw 'T14 build failed' }
+          dotnet run --project tests/t14/T14.Verification.csproj -c Release --no-build -- "$pwd/artifacts/t10-packs" "$pwd/artifacts/t14"
+          if ($LASTEXITCODE -ne 0) { throw 'T14 verification failed' }
+      - name: Run service, WPF and export regressions
+        if: success() || failure()
+        shell: pwsh
+        run: |
+          if (!(Test-Path tools/runtime/manifest.json)) { throw "Verified runtime required" }
+          $failed = @()
+          foreach ($id in @('05','06','07','12')) {
+            dotnet build "tests/t$id/T$id.Verification.csproj" -c Release
+            if ($LASTEXITCODE -ne 0) { $failed += "T$id build"; continue }
+            $testArgs = @("$pwd")
+            if ($id -ne '12') { $testArgs += "$pwd/tools/runtime" }
+            dotnet run --project "tests/t$id/T$id.Verification.csproj" -c Release --no-build -- @testArgs
+            if ($LASTEXITCODE -ne 0) { $failed += "T$id verification" }
+          }
+          if ($failed.Count) { throw ($failed -join ", ") }
+      - name: Preserve development-only evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t14-pack-installation-evidence
+          path: |
+            artifacts/t14/summary.json
+            artifacts/t05/
+            artifacts/t06/
+            artifacts/t07/
+            artifacts/t12/
+          retention-days: 7
