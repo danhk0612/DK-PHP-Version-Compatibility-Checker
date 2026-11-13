@@ -16,6 +16,7 @@ import zipfile
 
 REPO = Path(__file__).resolve().parents[2]
 REQUIRED = (
+    'tests/t08-minimal/evidence/minimal-runtime-selection.json',
     'tests/t08-minimal/evidence/native-inputs.json',
     'tests/t08-minimal/evidence/snapshot-deps.json',
     'tests/t08-minimal/evidence/official-debug-inputs.json',

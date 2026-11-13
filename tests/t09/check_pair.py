@@ -26,8 +26,15 @@ package_summary = read(a.package / 'evidence/summary.json')
 assert package_summary['scopePassed'] and sha(package.read_bytes()) == package_summary['archiveSha256']
 with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
     members = {row['path']: row for row in source['members']}
+    manifest_name = 'source-sidecar-manifest.json'
+    assert len(members) == len(source['members']), 'Duplicate entries in source inventory'
+    assert sorted(sz.namelist()) == sorted([*members, manifest_name]), 'Source ZIP membership differs from inventory'
+    embedded = json.loads(sz.read(manifest_name))
+    assert embedded == {key: value for key, value in source.items()
+                        if key not in ('archive', 'archiveBytes', 'archiveSha256')}, 'Embedded source manifest differs'
     for name, row in members.items():
-        assert sha(sz.read(name)) == row['sha256'], name
+        data = sz.read(name)
+        assert len(data) == row['bytes'] and sha(data) == row['sha256'], name
     sdk_pin = read(REPO / 'tools/license-audit/php-sdk.json')
     sdk_archives = [name for name in sz.namelist()
                     if name.startswith('sources/build/php-sdk-binary-tools-') and name.endswith('.zip')]
@@ -59,7 +66,8 @@ with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:
     for relative in members:
         if relative.startswith('project/src/'):
             assert sz.read(relative) == (REPO / relative.removeprefix('project/')).read_bytes(), relative
-    for relative in ('tests/t08-minimal/evidence/native-inputs.json',
+    for relative in ('tests/t08-minimal/evidence/minimal-runtime-selection.json',
+                     'tests/t08-minimal/evidence/native-inputs.json',
                      'tests/t08-minimal/evidence/snapshot-deps.json',
                      'tests/t08-minimal/evidence/official-debug-inputs.json',
                      'tools/license-audit/official-php-headers/main/config.w32.h',
