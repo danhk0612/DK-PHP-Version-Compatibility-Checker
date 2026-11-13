@@ -14,6 +14,7 @@ public partial class MainWindow : Window
     private ScanService? _scanService;
     private Task? _packLoadTask;
     private Task? _scanTask;
+    private Task? _exportTask;
     private bool _loadingPack;
     private bool _closing;
     private bool _allowClose;
@@ -43,8 +44,9 @@ public partial class MainWindow : Window
         VerifyAccess();
         if (_closing || _allowClose)
             return Task.CompletedTask;
-        if (_loadingPack || _scanTask is { IsCompleted: false })
-            throw new InvalidOperationException("팩 준비 또는 검사가 진행 중입니다.");
+        if (_loadingPack || _scanTask is { IsCompleted: false } || _exportTask is { IsCompleted: false }
+            || !Presentation.CanEditInputs)
+            throw new InvalidOperationException("팩 준비·검사 또는 결과 저장이 진행 중입니다.");
         _loadingPack = true;
         UpdateScanButton();
         _packLoadTask = LoadPackCoreAsync(packDirectory);
@@ -87,8 +89,11 @@ public partial class MainWindow : Window
 
     private void OnPresentationChanged(object? sender, PropertyChangedEventArgs e) => UpdateScanButton();
 
-    private void UpdateScanButton() => ScanButton.IsEnabled = !_closing && !_loadingPack
-        && _scanService is not null && Presentation.CanPrepareScan;
+    private void UpdateScanButton()
+    {
+        ScanButton.IsEnabled = !_closing && !_loadingPack && _scanService is not null && Presentation.CanPrepareScan;
+        ExportCsvButton.IsEnabled = ExportHtmlButton.IsEnabled = !_closing && !_loadingPack && Presentation.CanExport;
+    }
 
     private async void OnScan(object sender, RoutedEventArgs e)
     {
@@ -144,6 +149,8 @@ public partial class MainWindow : Window
                 await _scanService.DisposeAsync();
             if (_scanTask is not null)
                 await _scanTask;
+            if (_exportTask is not null)
+                await _exportTask;
             _allowClose = true;
             Close();
         }
@@ -217,5 +224,47 @@ public partial class MainWindow : Window
     {
         if (!_closing && ConfiguredExclusionsList.SelectedItem is string path)
             Presentation.RemoveExclusion(path);
+    }
+
+    private async void OnExportCsv(object sender, RoutedEventArgs e) => await StartExportAsync(html: false);
+    private async void OnExportHtml(object sender, RoutedEventArgs e) => await StartExportAsync(html: true);
+
+    private async Task StartExportAsync(bool html)
+    {
+        if (_closing || _loadingPack || !Presentation.CanExport || _exportTask is { IsCompleted: false })
+            return;
+        _exportTask = ExportCoreAsync(html);
+        await _exportTask;
+    }
+
+    private async Task ExportCoreAsync(bool html)
+    {
+        var result = Presentation.BeginExport();
+        var limitations = Presentation.LimitationsText.Split(Environment.NewLine);
+        try
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = html ? "HTML 검사 보고서 저장" : "CSV 검사 결과 저장",
+                FileName = "php-compatibility-" + result.Request.TargetPhpVersion + (html ? ".html" : ".csv"),
+                DefaultExt = html ? ".html" : ".csv",
+                Filter = html ? "HTML 보고서 (*.html)|*.html" : "CSV 결과 (*.csv)|*.csv",
+                AddExtension = true, AddToRecent = false, OverwritePrompt = true,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+            if (dialog.ShowDialog(this) == true && !_closing)
+                await ScanResultExporter.SaveAsync(result, limitations, dialog.FileName, html, _windowLifetime.Token);
+        }
+        catch (OperationCanceledException) when (_closing) { }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or InvalidOperationException)
+        {
+            if (!_closing)
+                MessageBox.Show(this, ex.Message, "검사 결과 저장 실패", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        finally
+        {
+            Presentation.EndExport();
+            UpdateScanButton();
+        }
     }
 }

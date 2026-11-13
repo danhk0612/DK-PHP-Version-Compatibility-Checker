@@ -87,6 +87,8 @@
                         <DockPanel Margin="0,7,0,0" LastChildFill="True">
                             <Button x:Name="ScanButton" Content="검사 실행" IsEnabled="False" Width="108" Padding="12,5" Margin="0,0,12,0"
                                     Click="OnScan" ToolTip="선택한 폴더를 목표 PHP 버전으로 정적 검사합니다." />
+                            <Button x:Name="ExportCsvButton" Content="CSV 저장…" IsEnabled="False" Padding="8,5" Margin="0,0,6,0" Click="OnExportCsv" />
+                            <Button x:Name="ExportHtmlButton" Content="HTML 저장…" IsEnabled="False" Padding="8,5" Margin="0,0,10,0" Click="OnExportHtml" />
                             <TextBlock Text="검사 대상 소스는 변경하지 않습니다." VerticalAlignment="Center" TextWrapping="Wrap" />
                         </DockPanel>
                     </StackPanel>

@@ -58,6 +58,7 @@ internal static class Program
                 InputsAndDialog();
                 FixtureCases();
                 ActualProtectionCases();
+                ExportCases();
                 LargeFixture();
                 CloseDuringActualScan();
                 CloseDuringPackLoad();
@@ -249,6 +250,46 @@ internal static class Program
             }
             finally { RunTool("icacls.exe", [f, "/remove:d", user]); }
             Unchanged(before, p);
+        });
+    }
+    private static void ExportCases()
+    {
+        Case("native CSV and HTML save dialogs export the actual current scan outside source", () =>
+        {
+            string project = Project("보고서 & 원본"); Subject(project, "removed.php", "<?php mysql_query('bad');\n");
+            RunScan("export-real-findings", project, Pack.Targets[0].Version, true);
+            Check(Model.CanExport && C<Button>("ExportCsvButton").IsEnabled && C<Button>("ExportHtmlButton").IsEnabled,
+                "Completed scan export not available");
+            var before = Snapshot(project);
+            string folder = Project("reports-outside-source");
+            string csv = Path.Combine(folder, "검사 결과.csv"), html = Path.Combine(folder, "검사 결과.html");
+            var owner = new WindowInteropHelper(Window).Handle;
+            var worker = Task.Run(() => NativePicker.Save(owner, csv));
+            C<Button>("ExportCsvButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker);
+            Until(() => Model.CanExport && File.Exists(csv));
+            var bytes = File.ReadAllBytes(csv);
+            Check(bytes.Length > 3 && bytes.Take(3).SequenceEqual(new byte[] { 239, 187, 191 })
+                && File.ReadAllText(csv).Contains("mysql_query", StringComparison.Ordinal), "CSV file/encoding/findings missing");
+            worker = Task.Run(() => NativePicker.Save(owner, html));
+            C<Button>("ExportHtmlButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker);
+            Until(() => Model.CanExport && File.Exists(html));
+            var text = File.ReadAllText(html);
+            Check(text.Contains("mysql_query", StringComparison.Ordinal) && text.Contains("&amp;", StringComparison.Ordinal)
+                && text.Contains("보장하지", StringComparison.Ordinal), "HTML findings/escaping/limits missing");
+            Unchanged(before, project);
+            Capture("result-export", "T12 실제 검사 결과 · CSV/HTML 저장 검증");
+        });
+        Case("native save cancellation preserves current result and edits disable stale exports", () =>
+        {
+            var before = Model.Issues.ToArray(); string source = Model.SourceDirectory;
+            var owner = new WindowInteropHelper(Window).Handle;
+            var worker = Task.Run(() => NativePicker.Cancel(owner));
+            C<Button>("ExportCsvButton").RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); Await(worker);
+            Until(() => Model.CanExport);
+            Check(Model.SourceDirectory == source && Model.Issues.SequenceEqual(before), "Cancel changed scan result");
+            C<CheckBox>("IncludeSubdirectoriesCheckBox").IsChecked = !Model.IncludeSubdirectories; Pump();
+            Check(!Model.CanExport && !C<Button>("ExportCsvButton").IsEnabled && !C<Button>("ExportHtmlButton").IsEnabled,
+                "Input edit retained stale export");
         });
     }
     private static void LargeFixture()
