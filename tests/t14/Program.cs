@@ -155,7 +155,8 @@ internal static class Program
         {
             await File.AppendAllTextAsync(installedManifest, "\n");
             await VerifyStartupAsync(managed, reduced.Pack);
-            Check(updatedPointer.SequenceEqual(await File.ReadAllBytesAsync(pointer)),
+            var pointerAfterFallback = await File.ReadAllBytesAsync(pointer);
+            Check(updatedPointer.SequenceEqual(pointerAfterFallback),
                 "Falling back changed the activation pointer");
             passed.Add("A corrupted current pack falls back to the previous verified pack on startup");
         }
@@ -170,7 +171,8 @@ internal static class Program
             var offer = (await installer.ReadCatalogAsync()).Single();
             await ExpectAsync<InvalidDataException>(() => installer.InstallAsync(offer, subject), "target downgrade");
         }
-        Check(expandedPointer.SequenceEqual(await File.ReadAllBytesAsync(pointer)), "Downgrade changed the pointer");
+        var pointerAfterDowngrade = await File.ReadAllBytesAsync(pointer);
+        Check(expandedPointer.SequenceEqual(pointerAfterDowngrade), "Downgrade changed the pointer");
         passed.Add("An older offer cannot drop a verified installed target");
 
         Check(subjectBefore.SequenceEqual(Snapshot(subject)), "Scan source changed");
