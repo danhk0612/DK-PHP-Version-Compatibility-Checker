@@ -212,6 +212,28 @@ internal static class Program
 
     private static void ResultCases()
     {
+        Case("export availability follows terminal current result and locks a stable snapshot", () =>
+        {
+            Model.ShowRunning(); Pump();
+            Check(!Model.CanExport && !Control<Button>("ExportCsvButton").IsEnabled, "Running result export available");
+            Model.ApplyResult(Result(ScanStatus.Failed, 4, null, failure: "부분 실패")); Pump();
+            Check(Model.CanExport && Control<Button>("ExportCsvButton").IsEnabled, "Failed result cannot be exported");
+            var snapshot = Model.BeginExport(); Pump();
+            Check(snapshot.Status == ScanStatus.Failed && snapshot.ProcessedFileCount is null
+                && !Model.CanEditInputs && !Model.CanExport && !Control<Button>("ScanButton").IsEnabled,
+                "Export snapshot or input locking failed");
+            var source = Model.SourceDirectory; Model.SourceDirectory = "changed while saving";
+            Check(Model.SourceDirectory == source, "Save allowed source input mutation");
+            Model.EndExport(); Pump();
+            Check(Model.CanExport && Model.CanEditInputs, "Export cancellation did not restore current result");
+            Model.ApplyResult(Result(ScanStatus.NoFiles, 0, 0)); Pump();
+            Check(Model.CanExport, "NoFiles result cannot be exported");
+            Model.IncludeSubdirectories = !Model.IncludeSubdirectories; Pump();
+            Check(!Model.CanExport && !Control<Button>("ExportCsvButton").IsEnabled, "Edited stale report remains exportable");
+            bool rejected = false;
+            try { Model.BeginExport(); } catch (InvalidOperationException) { rejected = true; }
+            Check(rejected, "Empty/edited result exported");
+        });
         Case("completed zero findings has limited static-analysis meaning", () =>
         {
             Model.ApplyResult(Result(ScanStatus.Completed, 2, 2)); Pump();

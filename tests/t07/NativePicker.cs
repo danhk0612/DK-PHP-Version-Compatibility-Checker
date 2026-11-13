@@ -13,6 +13,7 @@ internal static class NativePicker
     public static long SelectFiles(IntPtr owner, params string[] paths) =>
         Drive(owner, string.Join(" ", paths.Select(path => "\"" + path + "\"")), fileSelection: true);
     public static long Cancel(IntPtr owner) => Drive(owner, null);
+    public static long Save(IntPtr owner, string path) => Drive(owner, path, fileSelection: true);
 
     private static long Drive(IntPtr owner, string? path, bool fileSelection = false)
     {

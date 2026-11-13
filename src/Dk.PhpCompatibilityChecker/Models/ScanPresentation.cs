@@ -18,6 +18,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     private string _packFailure = "";
     private ScanStatus _status = ScanStatus.Idle;
     private ScanResult? _result;
+    private bool _exporting;
     private IReadOnlyList<string> _configuredExclusions = Array.Empty<string>();
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -73,7 +74,9 @@ public sealed class ScanPresentation : INotifyPropertyChanged
     public string ExclusionSummary => "검사 제외 폴더·파일 (" + Count(_configuredExclusions.Count) + ")";
     public bool CanEditExclusions => CanEditInputs && Directory.Exists(_sourceDirectory);
     public ScanStatus Status => _status;
-    public bool CanEditInputs => _status != ScanStatus.Running;
+    public bool CanEditInputs => _status != ScanStatus.Running && !_exporting;
+    public bool CanExport => CanEditInputs && _result is not null
+        && _status is ScanStatus.Completed or ScanStatus.NoFiles or ScanStatus.Failed;
     public bool CanPrepareScan => CanEditInputs && _hasPack && _selectedTarget is not null
         && _targets.Any(t => ReferenceEquals(t, _selectedTarget)) && Directory.Exists(_sourceDirectory);
 
@@ -216,6 +219,27 @@ public sealed class ScanPresentation : INotifyPropertyChanged
         NotifyAll();
     }
 
+    public ScanResult BeginExport()
+    {
+        if (!CanExport || _result is null)
+            throw new InvalidOperationException("내보낼 검사 결과가 없습니다.");
+        var snapshot = _result with
+        {
+            Request = _result.Request with { ExcludedPaths = Array.AsReadOnly((_result.Request.ExcludedPaths ?? Array.Empty<string>()).ToArray()) },
+            Issues = Array.AsReadOnly(_result.Issues.ToArray()),
+            ExcludedPaths = Array.AsReadOnly(_result.ExcludedPaths.ToArray())
+        };
+        _exporting = true;
+        NotifyAll();
+        return snapshot;
+    }
+
+    public void EndExport()
+    {
+        _exporting = false;
+        NotifyAll();
+    }
+
     public void ApplyResult(ScanResult result)
     {
         ArgumentNullException.ThrowIfNull(result);
@@ -227,6 +251,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
         _packFailure = "";
         _result = result with
         {
+            Request = result.Request with { ExcludedPaths = Array.AsReadOnly((result.Request.ExcludedPaths ?? Array.Empty<string>()).ToArray()) },
             Issues = Array.AsReadOnly(result.Issues.ToArray()),
             ExcludedPaths = Array.AsReadOnly(result.ExcludedPaths.ToArray())
         };
@@ -262,7 +287,7 @@ public sealed class ScanPresentation : INotifyPropertyChanged
             nameof(FailureText), nameof(SelectedFileCountText), nameof(ProcessedFileCountText),
             nameof(ErrorCountText), nameof(WarningCountText), nameof(LimitationsText), nameof(InputMessage),
             nameof(CanEditInputs), nameof(CanPrepareScan), nameof(ConfiguredExclusions),
-            nameof(ExclusionSummary), nameof(CanEditExclusions)
+            nameof(ExclusionSummary), nameof(CanEditExclusions), nameof(CanExport)
         })
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
