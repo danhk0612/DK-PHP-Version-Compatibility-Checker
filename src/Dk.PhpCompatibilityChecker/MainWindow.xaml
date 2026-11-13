@@ -114,9 +114,9 @@
                 <TextBlock Text="PHP 소스 호환성 검사" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" />
             </StackPanel>
             <Border Grid.Column="1" Background="{StaticResource TintBrush}" CornerRadius="12" Padding="12,5"
-                    VerticalAlignment="Center">
+                    MinWidth="132" VerticalAlignment="Center">
                 <TextBlock x:Name="StatusTextBlock" Text="{Binding StatusText}" FontSize="14" FontWeight="SemiBold"
-                           Foreground="{StaticResource AccentBrush}" />
+                           Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center" />
             </Border>
         </Grid>
 
