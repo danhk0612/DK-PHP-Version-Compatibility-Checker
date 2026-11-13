@@ -135,16 +135,14 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 [후보 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481997013)은 같은 검증 커밋 `00d62bc`에서 고지 49개와 새 의존성 목록을 대조했습니다. 내부 바이너리 ZIP SHA-256은 `bb4ba033a0cc16fad1a526fe9cc10c2d55980f5de3a6b49d2ef1b6a045268e7f`, 소스·고지 ZIP은 `afda2f82821b86f08cb7a12098c78a5b32f2f1add0288536205ed1a5e6a2d0cd`입니다. [릴리스와 대응 소스 동시 제공](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공) 절차를 정리했습니다. 실제 공개 게시와 다운로드 재검증은 남아 있습니다.
 
 
-### 최신 후보의 PHP 파일과 Microsoft 재배포 조건
+### PHP 파일 확인과 .NET 배포 전환
 
 [Windows 후보](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481997013)의 시작 전후 파일 인벤토리를 대조했습니다. PHP 하위 경로의 7개 파일은 공식 다운로드 ZIP의 동일 경로와 모두 SHA-256이 일치했습니다. 루트 고지에 복사한 PHP 라이선스와 추가 구성 고지도 공식 ZIP 원문과 바이트가 일치했습니다. 소스 ZIP은 고정 PHP 및 외부 정적 라이브러리 5개의 아카이브와 해당 고지, 구성 포함 SBOM 소스 다이제스트 23개 대조 기록을 보존합니다. 스냅샷 재링크는 현재 해시로 고정한 입력과 PGO를 생략한 구성에서 검증했습니다.
 
-같은 후보에는 Windows .NET 파일 정책이 별도로 열거하는 DLL 6개가 있고, 각 SHA-256이 기존 [파일별 라이선스 매핑](tests/t08/evidence/publish-license-map.json)과 일치했습니다. `.NET Library License` 대상 5개와 `Windows SDK License` 대상 1개의 범위는 [서드파티 고지](THIRD-PARTY-NOTICES.md#windows-net-self-contained-구성)에 기록합니다.
+이전 self-contained 후보의 Microsoft DLL 6개는 [파일별 라이선스 매핑](tests/t08/evidence/publish-license-map.json)의 SHA-256과 일치했습니다. .NET Library License 대상 5개와 Windows SDK License 대상 1개를 확인했습니다.
 
-[Microsoft .NET Library License §3(a)(ii)](https://dotnet.microsoft.com/en-us/dotnet_library_license.htm)와 [Windows SDK License §2(a)(ii)](https://learn.microsoft.com/en-us/legal/windows-sdk/license)는 재배포 시 외부 사용자와 배포자의 보호 조건 동의를 요구하며 배포자에게 별도 방어·면책 의무를 둡니다. 현재 압축 파일과 공개 GitHub Releases 다운로드 계획에는 그 조건에 대한 사용자 동의 절차가 확인되지 않았습니다. 전문 동봉은 확인했습니다. 현재 self-contained ZIP의 공개 후보 판정은 배포 방식 결정까지 보류합니다.
+[Microsoft .NET Library License §3(a)(ii)](https://dotnet.microsoft.com/en-us/dotnet_library_license.htm)와 [Windows SDK License §2(a)(ii)](https://learn.microsoft.com/en-us/legal/windows-sdk/license)는 재배포 시 외부 사용자와 배포자의 보호 조건 동의를 요구하며 배포자에게 별도 방어·면책 의무를 둡니다. 사용자 승인으로 첫 릴리스는 프레임워크 종속 Windows x64 ZIP으로 전환했습니다. 사용자는 Microsoft의 .NET Desktop Runtime 10 x64를 별도로 설치합니다. 새 ZIP의 EXE/DLL 허용 목록은 앱 EXE·DLL과 공식 PHP 최소 CLI의 EXE·DLL 2개입니다. ZIP에는 앱 호스트의 MIT 원문·고지와 해당 PHP·엔진 고지를 동봉합니다.
 
-- self-contained 유지 시 Microsoft 파일에 한정한 조건 동의 방식과 배포자 의무를 확인합니다.
-- 프레임워크 종속 ZIP을 검토할 경우 사용자가 Microsoft의 .NET Desktop Runtime 10 x64를 별도로 설치합니다. 새 후보 인벤토리에서 6개 DLL 제외 여부를 확인하고 패키지 실행을 재시험합니다. PHP는 승인된 최소 CLI 구성으로 동봉하는 안입니다.
 
 ## 재현과 공식 근거
 

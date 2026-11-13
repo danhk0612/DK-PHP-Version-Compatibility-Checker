@@ -9,7 +9,7 @@
 | 구성 | 확인 사실 | 제안과 남은 검증 |
 | --- | --- | --- |
 | GUI | WPF는 Windows 전용 .NET UI [S7] | C#/WPF/.NET 10, SDK 10.0.403, Windows 11 x64로 확정 |
-| .NET 배포 | self-contained는 .NET 런타임 포함; framework-dependent는 런타임 필요 [S8] | self-contained x64 ZIP 확정. 런타임 포함 크기·패치 유지 부담을 수용 |
+| .NET 배포 | 프레임워크 종속 배포는 설치된 .NET 런타임을 사용 [S8] | Windows x64 ZIP과 .NET Desktop Runtime 10 x64 별도 설치 |
 | PHPCompatibility | 공개 릴리스 최신은 10.0.0-alpha2, 안정판은 9.3.5 [S1] | 초기 alpha2 채택 확정. 사전 공개판·탐지 누락 한계 표시 |
 | 고정판 의존성 | alpha2는 PHP >=5.4, PHPCS ^3.13.3 또는 ^4.0, PHPCSUtils ^1.1.2 요구 [S2] | 실행 PHP 최저 요구와 검사 대상 PHP 버전을 혼동하지 않음 |
 | PHPCS | 4.0.4 composer는 PHP >=7.2.0 및 libxml/simplexml/tokenizer/xmlwriter 요구 [S3] | alpha2 + 4.0.4 + Utils 1.2.3을 초기 조합으로 확정. 기존 1.1.2는 보안 공지로 제외. Windows 기본·추가 기술 검증 완료. 탐지·탐색 한계와 제품 결정은 보고서/T02 참조 |
@@ -71,7 +71,7 @@ Windows x64 포터블 ZIP에 GUI 산출물과 분리된 tools/php/, tools/engine
 
 도구 버전과 원본 URL·해시·의존성 lock을 기록하여 재현 가능하게 구성합니다. 기본 검사 도구를 미리 준비하여 네트워크 없이 검사하는 방향입니다. Composer는 빌드 과정에만 필요하도록 검증합니다. 사용자 측 Composer 설치를 전제하지 않습니다.
 
-self-contained를 선택해도 PHP의 CRT 등 네이티브 의존성이 없어지는 것은 아닙니다. .NET 없는 PC와 VC++ 런타임 없는 PC를 구별하여 확인해야 합니다. 모든 PC에서 설치 없이 실행된다는 보장은 T09 검증 전 하지 않습니다. 검증된 팩 다운로드·설치는 T14에서 구현했습니다. 앱이 신뢰하는 카탈로그에서만 받아 다음 실행에 적용하며 공개 카탈로그 주소는 미설정입니다. [카탈로그·설치 계약](tools/engine-pack/DOWNLOAD-CATALOG.md)을 따릅니다. 앱 자체 자동 업데이트는 이번 범위가 아닙니다.
+실행에는 .NET Desktop Runtime 10 x64가 필요합니다. PHP에 필요한 VC++ x64 런타임 전제는 별도로 확인합니다. 검증된 팩 다운로드·설치는 T14에서 구현했습니다. 앱이 신뢰하는 카탈로그에서만 받아 다음 실행에 적용하며 공개 카탈로그 주소는 미설정입니다. [카탈로그·설치 계약](tools/engine-pack/DOWNLOAD-CATALOG.md)을 따릅니다. 앱 자체 자동 업데이트는 이번 범위가 아닙니다.
 
 ## 라이선스 검토와 배포 관문
 
@@ -104,7 +104,7 @@ T08에서 실제 self-contained 400파일과 전체 팩 865파일, 엔진 LGPL �
 | D02 엔진 | PHPCompatibility 10.0.0-alpha2 + PHPCS 4.0.4 + PHPCSUtils 1.2.3. 실험 lock의 installer 1.1.0 포함 | 사전 공개판 채택 승인 완료. 안정판 9.3.5만으로 8.x 범위를 지원한다고 오해시키지 않음. 현재 동적 속성 예제 미탐지를 안내 |
 | D03 실행 PHP | 공식 PHP 8.4.27-1 x64 NTS VS17 ZIP을 초기 고정 기준으로 채택. URL·SHA-256은 ENGINE_PROBE.md 값 사용 | 검사 대상 8.2/8.3/8.4 실행 파일을 각각 내장하지 않음. T04 준비·T09 배포 전에 보안 상태 재확인. 교체 필요 시 새 버전·해시·재검증 근거를 기록하고 임의 변경하지 않음 |
 | D04 GUI·SDK | C# / WPF / .NET 10 LTS, net10.0-windows. SDK 10.0.403을 global.json에 고정하고 사전 공개 SDK는 사용하지 않음. 언어 버전은 해당 SDK의 .NET 10 기본값 | 초기 제품 검증 대상은 Windows 11 x64. Windows Server 2022 CI는 엔진/빌드 검증 근거이며 데스크톱 제품 실행 검증을 대신하지 않음. OS 범위 확대는 별도 검증 후 판단 |
-| D05 배포 | Windows x64 ZIP 한 종류, self-contained로 .NET Desktop Runtime 포함. PHP/기본 엔진도 준비해 기본 검사는 오프라인 | 압축 크기·런타임 패치 유지 부담 수용. PHP의 Visual C++ Runtime 전제는 별개이며 미충족 시 필수 조건을 안내하고 사용자가 설치. CRT 설치 자동화는 범위에 넣지 않음 |
+| D05 배포 | Windows x64 프레임워크 종속 ZIP 한 종류. PHP·기본 검사 엔진을 동봉해 기본 검사는 오프라인 | .NET Desktop Runtime 10 x64를 별도 설치. PHP의 Visual C++ Runtime 전제는 별개이며 미충족 시 안내에 따라 설치 |
 | D07 지원 확장 | 아래 엔진 팩/목표 목록 계약으로 수동 교체 가능한 구조 확정 | 새 목표는 검증 후 활성화. 검증된 팩 자동 다운로드는 T14에서 구현·검증 |
 | D08 결과 | ERROR/WARNING, 규칙 코드·원문 메시지·숫자 severity·위치·fixable 원값 보존. GUI 항목명은 한국어. 다른 규칙의 같은 줄 결과는 모두 표시 | 번역·추가 장애 등급·임의 중복 제거는 초기 구현 범위에 넣지 않음. fixable 값이 있어도 소스 수정 동작 없음 |
 | D09 탐색 | .php/.inc 파일, 하위 폴더 포함 기본 켬·체크박스로 변경. 링크/junction/reparse point 제외, 링크인 선택 루트는 안내 후 검사하지 않음. 승인된 파일 목록을 대상 밖에 생성해 --file-list로 전달 | native junction exit255와 symlink 경계 이탈에 대응하는 안. vendor 등 일반 하위 폴더는 기본 포함하며 T11의 사용자 지정 정확 경로 제외를 적용. 폴더별 자동 제외는 추가하지 않음. 클라우드 placeholder도 reparse point일 수 있어 제외 사실을 안내하고 지원 범위에 명시 |

@@ -8,7 +8,7 @@ dotnet build src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c
 dotnet run --project src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release --no-build
 ```
 
-T06 기본 창은 입력·결과 화면을 제공하고 T05가 공유 데이터 계약과 실제 검사 서비스를 제공합니다. 제품 목표 OS는 Windows 11 x64입니다. CI의 Windows Server 2022 빌드·창 기동 확인은 깨끗한 Windows 11 배포 검증을 대체하지 않습니다. self-contained publish/ZIP은 T09에서 준비합니다.
+T06 기본 창은 입력·결과 화면을 제공하고 T05가 공유 데이터 계약과 실제 검사 서비스를 제공합니다. 제품 목표 OS는 Windows 11 x64입니다. CI의 Windows Server 2022 빌드·창 기동 확인은 깨끗한 Windows 11 배포 검증을 대체하지 않습니다. 프레임워크 종속 Windows x64 ZIP은 [T09 절차](../tests/t09/README.md)로 준비합니다.
 
 `Models/`는 T05 실행 연동과 T06 화면이 공유합니다. `ScanRequest.TargetPhpVersion`은 문자열이며 특정 버전 enum/목록은 없습니다. 목표 목록의 manifest 생성은 T04, 소비는 T05/T06입니다. `ScanIssue`는 엔진 type/severity/source/message/fixable을 보존하고 `ScanResult`는 선택 파일 수와 nullable 처리 파일 수, 실패 이유와 엔진 버전을 구분합니다. T05의 Services/가 팩 로딩·검사 실행·JSON 변환을 담당합니다. 공유 모델·프로젝트 설정 변경은 T05/T06 담당 간 조정해야 합니다.
 

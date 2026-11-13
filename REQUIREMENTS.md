@@ -48,7 +48,7 @@
 | D02 | 기본 엔진 | PHPCompatibility 10.0.0-alpha2 / PHPCS 4.0.4 / PHPCSUtils 1.2.3 / installer 1.1.0. 사전 공개판·미탐지 한계 표시 | 확정 |
 | D03 | 초기 PHP CLI | 공식 PHP 8.4.27-1 x64 NTS VS17 ZIP, T01의 URL·해시 사용. 배포 준비 시 보안 재확인 및 변경 시 팩 재검증 | 확정 |
 | D04 | GUI·개발 기준 | C#/WPF/.NET 10 LTS, SDK 10.0.403 고정, net10.0-windows, Windows 11 x64를 초기 제품 검증 대상으로 사용 | 확정 |
-| D05 | 배포 | .NET Desktop Runtime 및 기본 도구 포함 self-contained x64 ZIP. PHP CRT 전제 별도 안내·검증 | 확정 |
+| D05 | 배포 | Windows x64 프레임워크 종속 ZIP에 PHP·기본 검사 엔진을 포함. .NET Desktop Runtime 10 x64는 별도 설치. PHP CRT 전제 별도 안내·검증 | 확정 |
 | D06 | PHPStan | 최초 릴리스 포함 여부·범위 미정 | 보류 |
 | D07 | 향후 지원 확장 | 엔진 팩에 목표 목록·구성요소 버전·출처·해시·검증 근거·한계 보존. 앱 종료 상태에서 수동 팩 교체. GUI/실행 코드의 버전별 수정 없이 호환 팩 반영. 2026-11-09 검증된 팩 자동 다운로드 승인, T14에서 구현 | T14 구현·검증용 카탈로그 Windows 시험 완료, 공개 채널 대기 |
 | D08 | 결과 | 엔진 원문·ERROR/WARNING·severity·규칙 코드·위치·fixable 보존, 같은 줄 다른 규칙 유지. 실패/미완료/0건 구별 | 확정 |

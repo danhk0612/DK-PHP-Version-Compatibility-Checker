@@ -1,6 +1,6 @@
 # T09 패키징 리허설
 
-`tools/packaging/Prepare-AuditPackage.ps1`은 Windows x64/SDK 10.0.403/검증된 tools/runtime에서 self-contained publish, 현행 고지·원문 동봉, ZIP roundtrip·엔진 manifest/해시 검증, 한글·공백 경로의 실제 apphost 창 표시/응답·정상 종료와 패키지 파일 불변을 확인합니다. 사용자 프로젝트에서 실행하지 않습니다. 기존 artifacts/t09는 덮어쓰지 않습니다.
+`tools/packaging/Prepare-AuditPackage.ps1`은 Windows x64/SDK 10.0.403/검증된 tools/runtime에서 프레임워크 종속 publish, .NET Desktop Runtime 10 의존성·EXE/DLL 허용 목록 확인, 현행 고지·원문 동봉, ZIP roundtrip·엔진 manifest/해시 검증, 한글·공백 경로의 실제 apphost 창 표시/응답·정상 종료와 패키지 파일 불변을 확인합니다. 사용자 프로젝트에서 실행하지 않습니다. 기존 artifacts/t09는 덮어쓰지 않습니다.
 
 ```powershell
 ./tools/engine-pack/Prepare-Pack.ps1

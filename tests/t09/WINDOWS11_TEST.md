@@ -20,9 +20,9 @@ pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1
 
 ```powershell
 $diagnostic = Join-Path $PWD ('artifacts/diagnostic-' + [guid]::NewGuid().ToString('N'))
-Copy-Item -LiteralPath './artifacts/t09/stage' -Destination $diagnostic -Recurse
-if (-not $?) { throw '기존 준비 폴더 복사 실패' }
-dotnet publish ./src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release -r win-x64 --self-contained true '-p:PublishSingleFile=false' '-p:PublishTrimmed=false' -o $diagnostic
+New-Item -ItemType Directory -Path $diagnostic | Out-Null
+Copy-Item -LiteralPath './artifacts/t09/stage/tools' -Destination $diagnostic -Recurse -ErrorAction Stop
+dotnet publish ./src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj -c Release -r win-x64 --self-contained false '-p:PublishSingleFile=false' '-p:PublishTrimmed=false' -o $diagnostic
 if ($LASTEXITCODE -ne 0) { throw '진단용 빌드 실패' }
 & (Join-Path $diagnostic 'Dk.PhpCompatibilityChecker.exe')
 ```
@@ -31,9 +31,9 @@ if ($LASTEXITCODE -ne 0) { throw '진단용 빌드 실패' }
 
 ## 준비
 
-1. Windows 11 x64의 버전·빌드, VC++ x64 런타임 설치 여부, 일반 사용자 계정 여부를 기록합니다. 가능하면 개발 도구/.NET SDK가 없는 VM 또는 PC를 사용합니다. .NET Desktop Runtime의 별도 설치 없이 후보가 실행되는지 확인합니다.
+1. Windows 11 x64의 버전·빌드, VC++ x64 런타임 설치 여부, 일반 사용자 계정 여부를 기록합니다. 가능하면 개발 도구/.NET SDK가 없는 VM 또는 PC를 사용합니다. 설치된 .NET Desktop Runtime의 버전을 기록합니다. 없는 환경에서는 앱 실행 시 Microsoft 런타임 설치 안내를 확인한 뒤 [Microsoft .NET Desktop Runtime 10 x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)를 설치합니다.
 2. 제공된 ZIP SHA-256을 `Get-FileHash -Algorithm SHA256 <ZIP>`으로 확인합니다. 문서/고지/대응 소스 묶음과 버전이 같은지 확인합니다.
-3. ZIP을 `다운로드\PHP 검사 한글 & 공백` 같은 새 폴더에 풀고 앱 EXE를 직접 실행합니다. 명령어 입력이나 관리자 권한이 기본 검사에 필요하면 실패로 기록합니다. .NET 런타임을 추가 설치해야 실행되면 실패입니다. CRT 전제가 충족되지 않은 경우의 실제 메시지를 기록합니다.
+3. ZIP을 `다운로드\PHP 검사 한글 & 공백` 같은 새 폴더에 풀고 앱 EXE를 직접 실행합니다. 명령어 입력이나 관리자 권한이 기본 검사에 필요하면 실패로 기록합니다. .NET Desktop Runtime 10 x64가 설치된 상태에서 앱이 창을 표시하는지 확인합니다. CRT 전제가 충족되지 않은 경우의 실제 메시지를 기록합니다.
 
 ## 실행
 

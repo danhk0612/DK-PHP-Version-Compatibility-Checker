@@ -36,19 +36,9 @@ PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 �
 
 소스 수집에서 확보한 libiconv/libcharset, libxml2, zlib, wineditline, Argon2 및 timelib의 [원문 파일](licenses/php/core-source/)을 보존했습니다. 정확한 [경로·커밋·Git blob·해시](tests/t08-minimal/evidence/core-legal-files.json)를 함께 봅니다. libiconv 소스의 COPYING은 함께 수집한 도구 소스에 관한 원문이며, 해당 도구 실행 파일이 최소 팩에 포함된다는 뜻이 아닙니다. Argon2 등 원문에 있는 대안 조건을 보존하고 임의로 전체 배포의 라이선스를 선택하지 않았습니다. 헤더에만 있는 특수 고지 및 실제 링크·바이너리 대응의 최종 검토는 남습니다. timelib의 SBOM 대조는 별도 Windows 설정 헤더를 포함해 해소했습니다. 원본·생성물의 구분과 실제 재링크·최종 재배포 관문은 유지합니다.
 
-## Windows .NET self-contained 구성
+## Windows .NET 및 앱 호스트
 
-실측 publish는 .NETCore runtime, WindowsDesktop runtime, apphost의 **10.0.14** NuGet 패키지를 사용했습니다. 각 패키지의 MIT 원문과 서드파티 고지·nuspec을 [licenses/dotnet](licenses/dotnet/)에 보존했습니다. WindowsDesktop 패키지에 누락된 WPF·WinForms 고지는 그 패키지 nuspec의 정확한 `dotnet/dotnet` source commit에서 보충했으며 원본 패키지 파일과 구분합니다.
-
-Microsoft의 [Windows별 파일 정책](licenses/dotnet/UPSTREAM-WINDOWS-LICENSE-INFORMATION.md)에 따라 다음 예외를 구분합니다.
-
-| 실제 포함 파일 | 별도 적용 조건 |
-| --- | --- |
-| coreclr.dll, Microsoft.DiaSymReader.Native.amd64.dll, PresentationNative_cor3.dll, vcruntime140_cor3.dll, wpfgfx_cor3.dll | [Microsoft .NET Library License](licenses/dotnet/Microsoft.NET-Library-License.txt) |
-| D3DCompiler_47_cor3.dll | [Microsoft Windows SDK License](licenses/dotnet/Windows-SDK-License.txt) |
-| 나머지 .NET 파일 | 해당 MIT 및 별도 서드파티 고지; [파일별 대조](tests/t08/evidence/publish-license-map.json) |
-
-해당 Microsoft 바이너리를 수정하거나 자체 MIT로 재허가하지 않습니다. Microsoft 조건의 배포 형태·고지 보존·외부 배포자/사용자에게 적용할 보호 조건은 최종 배포에서 이행해야 하며, 자체 코드나 LGPL 라이브러리의 권리를 제한하는 일반 금지 조항으로 확대하지 않습니다. 원본 라이선스와 [출처·변환 근거](tools/license-audit/review-sources.json)를 함께 확인합니다.
+Windows ZIP은 Microsoft의 [.NET Desktop Runtime 10 x64](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)가 설치된 PC에서 실행합니다. 앱 실행 파일에 사용한 .NET x64 앱 호스트의 [MIT 원문과 서드파티 고지](licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/)를 동봉합니다. Microsoft가 별도로 제공하는 Desktop Runtime에는 해당 배포의 라이선스가 적용됩니다.
 
 ## 대응 소스와 수정·재링크 자료
 
