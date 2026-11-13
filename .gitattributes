@@ -6,3 +6,4 @@ tests/t07/evidence/*.json -text whitespace=cr-at-eol
 licenses/** -text -whitespace
 tests/t08/evidence/** -text -whitespace
 tests/t08-minimal/evidence/** -text -whitespace
+tools/license-audit/official-php-headers/** -text -whitespace

@@ -27,7 +27,14 @@ try {
             throw "Preparation command did not resolve to the private tool: $name"
         }
     }
-    if (-not (Test-Path tools/runtime)) { ./tools/engine-pack/Prepare-Pack.ps1 }
+    $runtime = Join-Path $repo 'tools/runtime'
+    if ((Test-Path -LiteralPath $runtime -PathType Container) -and
+        -not (Test-Path -LiteralPath (Join-Path $runtime 'manifest.json') -PathType Leaf)) {
+        $backup = Join-Path $repo ('artifacts/incomplete-runtime-' + [guid]::NewGuid().ToString('N'))
+        [IO.Directory]::Move($runtime, $backup)
+        Write-Output "Preserved incomplete engine pack: $backup"
+    }
+    if (-not (Test-Path -LiteralPath $runtime)) { ./tools/engine-pack/Prepare-Pack.ps1 }
     python tools/engine-pack/verify_pack.py tools/runtime
     if ($LASTEXITCODE -ne 0) { throw 'Engine pack validation failed' }
     ./tools/license-audit/Collect-Windows.ps1

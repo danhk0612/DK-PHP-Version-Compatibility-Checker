@@ -1,0 +1,100 @@
+{
+  "approvedRuntimeZipSha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7",
+  "inZipSbomSha256": "72a6a342cc529514f053a9b86dabd5a39979f67f62444e0c1592cf0011e0ac49",
+  "php8DllSha256": "d3ab8a382818c1d937e8d88464bda8c031aa73179ae092ba8a660f1c8ff87661",
+  "rows": [
+    {
+      "component": "libiconv",
+      "pdbLibrary": "libiconv_a.lib",
+      "pdbModuleRecords": 3,
+      "sourceCommit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+      "sourceRepository": "https://github.com/winlibs/libiconv",
+      "sourceArchiveSha256": "61655fc761ecbc87ce1be97b621e6164be5b105ecc3c0b947b8b548988089b04",
+      "dependencyZip": "libiconv-1.19-vs17-x64.zip",
+      "candidateZipSha256": "4fd0048d0985c6f32ff933187c360571b0380cb20690ae501ce233fb376360d1",
+      "officialSbomDeclaresDependencyArchiveHash": false,
+      "officialSpdxDeclaresDependencyArchiveHash": false
+    },
+    {
+      "component": "libxml2",
+      "pdbLibrary": "libxml2_a_dll.lib",
+      "pdbModuleRecords": 41,
+      "sourceCommit": "c8797dc3b7964fabdb94d0b3176afb461afbd40b",
+      "sourceRepository": "https://github.com/winlibs/libxml2",
+      "sourceArchiveSha256": "bb704d40074f17a31d853d95e9c892078ed78fcbcbe2d50ccd87455c7211a5e5",
+      "dependencyZip": "libxml2-2.11.9-8-vs17-x64.zip",
+      "candidateZipSha256": "be1f55cb950b19400caa33b95fb8463fde4d5da4602d2eb53c6bae4c4530a1e2",
+      "officialSbomDeclaresDependencyArchiveHash": false,
+      "officialSpdxDeclaresDependencyArchiveHash": false
+    },
+    {
+      "component": "zlib",
+      "pdbLibrary": "zlib_a.lib",
+      "pdbModuleRecords": 15,
+      "sourceCommit": "838fe0e338adb28f5662e5ac332b0f0eb96ba93a",
+      "sourceRepository": "https://github.com/winlibs/zlib",
+      "sourceArchiveSha256": "e08a659886bfc4fc2613936890f57dd2032afec64c4e22a5390dbb24c6c2dc4f",
+      "dependencyZip": "zlib-1.3.2-1-vs17-x64.zip",
+      "candidateZipSha256": "2d47f60a56fd435137aae6aa874eab5eddacb5611e82ea0eaf21687382f312da",
+      "officialSbomDeclaresDependencyArchiveHash": false,
+      "officialSpdxDeclaresDependencyArchiveHash": false
+    },
+    {
+      "component": "wineditline",
+      "pdbLibrary": "edit_a.lib",
+      "pdbModuleRecords": 3,
+      "sourceCommit": "39ae4ff02a06c97f804833844b767777d6625fb8",
+      "sourceRepository": "https://github.com/winlibs/wineditline",
+      "sourceArchiveSha256": "4150a2c4cf3f91f85562a921b633feae4481c8d58b7835ee44946d3f67e2632d",
+      "dependencyZip": "wineditline-2.208-vs17-x64.zip",
+      "candidateZipSha256": "c61ce5ca5e98b914ce982243883ad190f524bc18adc1d2f10021957c58317af5",
+      "officialSbomDeclaresDependencyArchiveHash": false,
+      "officialSpdxDeclaresDependencyArchiveHash": false
+    },
+    {
+      "component": "libargon2",
+      "pdbLibrary": "argon2_a.lib",
+      "pdbModuleRecords": 6,
+      "sourceCommit": "fb53ef37be212380d51877b70f514f3bf2c1ee40",
+      "sourceRepository": "https://github.com/winlibs/argon2",
+      "sourceArchiveSha256": "62a0d87cc2f6a547a02347556d11231a885c936a3427d61c5c2e8680ba69770d",
+      "dependencyZip": "libargon2-20190702-vs17-x64.zip",
+      "candidateZipSha256": "d1b00cc1f08bbb85b8aec066e773614c1589744a9a364ff3a3093bf4ce02f5b8",
+      "officialSbomDeclaresDependencyArchiveHash": false,
+      "officialSpdxDeclaresDependencyArchiveHash": false
+    }
+  ],
+  "bundledBcmath": {
+    "moduleRecords": [
+      "add.obj",
+      "bcmath.obj",
+      "compare.obj",
+      "convert.obj",
+      "div.obj",
+      "divmod.obj",
+      "doaddsub.obj",
+      "floor_or_ceil.obj",
+      "init.obj",
+      "int2num.obj",
+      "long2num.obj",
+      "nearzero.obj",
+      "neg.obj",
+      "num2long.obj",
+      "num2str.obj",
+      "raise.obj",
+      "raisemod.obj",
+      "recmul.obj",
+      "rmzero.obj",
+      "round.obj",
+      "sqrt.obj",
+      "str2num.obj",
+      "sub.obj",
+      "zero.obj"
+    ],
+    "bundledSourceDigest": "606f11cff8cfed448f244feb8e098e935ceee38a61f5a45a75c98d5b0a51d65e"
+  },
+  "historicalDependencyZipBytesVerified": false,
+  "fullNativeRelinkVerified": false,
+  "redistributionCleared": false,
+  "inZipSpdxSha256": "675b1632a0f09308ff695f514e1b250e28c77086a7b0904b547017c363186c87"
+}
