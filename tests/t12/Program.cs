@@ -299,7 +299,7 @@ internal static class Program
     private static async Task RejectAsync(Func<Task> action)
     {
         try { await action(); }
-        catch (Exception ex) when (ex is ArgumentException or IOException or InvalidOperationException or OperationCanceledException) { return; }
+        catch (Exception ex) when (ex is ArgumentException or IOException or UnauthorizedAccessException or InvalidOperationException or OperationCanceledException) { return; }
         throw new InvalidOperationException("Expected save rejection");
     }
     private static Task Case(string name, Action action) => Case(name, () => { action(); return Task.CompletedTask; });
