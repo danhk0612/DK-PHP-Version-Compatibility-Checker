@@ -13,8 +13,9 @@ a = p.parse_args()
 require(not a.output.exists(), 'Preserve existing T10 packs; use fresh output')
 before = inventory(a.pack)
 base = validate(a.pack)
-require([t['version'] for t in base['targets']] == ['8.2', '8.3', '8.4'], 'Unexpected verified baseline')
-for label, versions in [('reduced', ['8.2', '8.3']), ('full', ['8.2', '8.3', '8.4'])]:
+verified = [t['version'] for t in base['targets']]
+require(verified[:2] == ['8.2', '8.3'] and len(verified) > 2, 'Missing baseline and expansion targets')
+for label, versions in [('reduced', verified[:2]), ('full', verified)]:
     root = a.output / label
     shutil.copytree(a.pack, root)
     m = read(root / 'manifest.json')
@@ -24,7 +25,10 @@ for label, versions in [('reduced', ['8.2', '8.3']), ('full', ['8.2', '8.3', '8.
     e['packId'] = m['packId']
     m['targets'] = [t for t in m['targets'] if t['version'] in versions]
     e['targets'] = {v: t for v, t in e['targets'].items() if v in versions}
+    e['offlineComparisons'] = [equal for case, equal in zip(e['cases'], e['offlineComparisons'], strict=True)
+                               if case['target'] in versions]
     e['cases'] = [c for c in e['cases'] if c['target'] in versions]
+    e['annotations'] = [c for c in e['annotations'] if c['target'] in versions]
     e['derivation'] = {'scope': 'Development-only restriction/reintroduction of previously verified targets; no new engine or future PHP claim', 'basePackId': base['packId'], 'baseManifestSha256': sha(a.pack / 'manifest.json')}
     write(root / report, e)
     m['verification']['files'][report] = sha(root / report)

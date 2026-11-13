@@ -226,7 +226,8 @@ internal static class Program
             string relative = definition.GetProperty("file").GetString()!;
             foreach (var target in Pack.Targets)
             {
-                var expectation = definition.GetProperty("targets").GetProperty(target.Version);
+                if (!definition.GetProperty("targets").TryGetProperty(target.Version, out var expectation))
+                    continue;
                 await Case("actual fixture " + Path.GetFileName(relative) + " @ " + target.Version, async () =>
                 {
                     var project = NewProject("fixture-" + Guid.NewGuid().ToString("N"));
@@ -239,7 +240,8 @@ internal static class Program
                     if (kind == "finding")
                     {
                         string source = expectation.GetProperty("source_prefix").GetString()!; int line = expectation.GetProperty("line").GetInt32();
-                        Check(result.Issues.Any(m => m.Source.StartsWith(source, StringComparison.Ordinal) && m.Line == line), "Expected finding absent");
+                        Check(result.Issues.Any(m => m.Source.StartsWith(source, StringComparison.Ordinal) && m.Line == line
+                            && (!expectation.TryGetProperty("type", out var type) || m.Type == type.GetString())), "Expected finding absent");
                     }
                     else if (kind == "no_findings") Check(result.Issues.Count == 0 && result.ErrorCount == 0 && result.WarningCount == 0, "Unexpected control finding");
                     Unchanged(before, project);

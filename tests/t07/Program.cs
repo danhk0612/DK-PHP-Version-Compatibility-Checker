@@ -146,7 +146,8 @@ internal static class Program
             string relative = definition.GetProperty("file").GetString()!;
             foreach (var target in Pack.Targets)
             {
-                var expectation = definition.GetProperty("targets").GetProperty(target.Version);
+                if (!definition.GetProperty("targets").TryGetProperty(target.Version, out var expectation))
+                    continue;
                 Case("real GUI fixture " + Path.GetFileName(relative) + " @ " + target.Version, () =>
                 {
                     string project = Project("fixture-" + Guid.NewGuid().ToString("N"));
@@ -157,7 +158,8 @@ internal static class Program
                     if (kind == "finding")
                     {
                         string prefix = expectation.GetProperty("source_prefix").GetString()!; int line = expectation.GetProperty("line").GetInt32();
-                        Check(Model.Issues.Any(i => i.Source.StartsWith(prefix, StringComparison.Ordinal) && i.Line == line), "Expected actual engine finding absent");
+                        Check(Model.Issues.Any(i => i.Source.StartsWith(prefix, StringComparison.Ordinal) && i.Line == line
+                            && (!expectation.TryGetProperty("type", out var type) || i.Type == type.GetString())), "Expected actual engine finding absent");
                     }
                     else if (kind == "no_findings") Check(Model.Issues.Count == 0 && Model.ErrorCountText == "0" && Model.WarningCountText == "0", "Unexpected findings");
                     if (relative.EndsWith("mysql_removed.php", StringComparison.Ordinal) && target == Pack.Targets[0]) Capture("real-engine-findings", "T07 실제 PHPCompatibility 엔진 · 자체 fixture");

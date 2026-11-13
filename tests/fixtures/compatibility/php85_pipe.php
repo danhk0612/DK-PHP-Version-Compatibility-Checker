@@ -1,0 +1,2 @@
+<?php
+$length = 'fixture' |> strlen(...);

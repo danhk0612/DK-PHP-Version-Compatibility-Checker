@@ -9,11 +9,12 @@
   "targets": [
     "8.2",
     "8.3",
-    "8.4"
+    "8.4",
+    "8.5"
   ],
-  "packId": "dk-php84-alpha2-20261029",
+  "packId": "dk-php84-alpha2-target85-20261113",
   "minimalCli": {
-    "packId": "dk-php84-alpha2-minimalcli-20261105",
+    "packId": "dk-php84-alpha2-minimalcli-target85-20261113",
     "selectionFile": "minimal-cli.json"
   }
 }
