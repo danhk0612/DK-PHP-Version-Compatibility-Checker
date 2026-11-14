@@ -84,4 +84,4 @@ python ./Rebuild-FromSourceSidecar.py --source ./DK-PHP-Compatibility-sources-an
 
 ### 릴리스와 대응 소스 동시 제공
 
-게시 시에는 동일한 checkout에서 만든 실행 ZIP, 소스·고지 ZIP, 두 파일의 SHA-256을 같은 GitHub Release에 첨부합니다. 다운로드 안내와 고지에는 해당 버전의 소스 ZIP 링크를 넣습니다. 이미 배포한 실행 ZIP과 짝이 되는 소스 ZIP은 해당 버전의 Release에서 계속 제공합니다. 검증 기록의 파일명·해시와 실제 첨부 파일을 대조하고, 로그인하지 않은 상태에서 두 파일을 내려받아 SHA-256을 확인합니다.
+게시 시에는 릴리스 기준 커밋에서 만든 실행 ZIP, 소스·고지 ZIP과 두 SHA-256이 들어 있는 `paired-candidate.json`을 같은 GitHub Release에 첨부합니다. 이 JSON은 동봉 원문 재링크의 입력으로도 사용합니다. 다운로드 안내와 고지에는 해당 버전의 소스 ZIP 링크를 넣습니다. 이미 배포한 실행 ZIP과 짝이 되는 소스 ZIP은 해당 버전의 Release에서 계속 제공합니다. 검증 기록의 파일명·해시와 실제 첨부 파일을 대조하고, 로그인하지 않은 상태에서 두 파일을 내려받아 SHA-256을 확인합니다.

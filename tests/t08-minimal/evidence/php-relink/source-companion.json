@@ -1,0 +1,127 @@
+{
+  "testedHead": "3cd8c415294c801b2b654caef4ce6dbb9a3719d0",
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43500455190",
+  "artifacts": [
+    {
+      "name": "t08-source-sidecar",
+      "id": 14074336716,
+      "sha256": "84086428fb5002138d93b24a4bd972bd3e3fa9747b185d96feaa85e62d222d89"
+    },
+    {
+      "name": "t08-companion-relink",
+      "id": 14074336713,
+      "sha256": "aa6ab02c056817bbe71a4b7c2154b95ae9b24521af46fe247e8bd62801f6e25a"
+    }
+  ],
+  "relink": {
+    "sourceArchiveSha256": "f0ba552c6c892b3e71ad6d6da690dee4667cd9571ed82053a49a9c03c58e5e84",
+    "binaryArchiveSha256": "0bce42a5221195089d5de8739fc84abc18c73d844174e7665ed92854c6883222",
+    "sourceInputs": [
+      {
+        "component": "php",
+        "archiveSha256": "3690f4ccbb774cb223ca8a788561b45cd7dbf4aac35b4c3c8144fde5a04f7c9f",
+        "commit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+        "files": 25836
+      },
+      {
+        "component": "libiconv",
+        "archiveSha256": "61655fc761ecbc87ce1be97b621e6164be5b105ecc3c0b947b8b548988089b04",
+        "commit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+        "files": 1148
+      }
+    ],
+    "sdkCommit": "81b356186db123ce9cd65149cee4683211a59ebd",
+    "dependencyArchives": 39,
+    "comparedCases": 42,
+    "staticExtensionsMatchingApprovedPhp": [
+      "Core",
+      "PDO",
+      "Phar",
+      "Reflection",
+      "SPL",
+      "SimpleXML",
+      "bcmath",
+      "calendar",
+      "ctype",
+      "date",
+      "dom",
+      "filter",
+      "hash",
+      "iconv",
+      "json",
+      "libxml",
+      "mysqlnd",
+      "pcre",
+      "random",
+      "readline",
+      "session",
+      "standard",
+      "tokenizer",
+      "xml",
+      "xmlreader",
+      "xmlwriter",
+      "zlib"
+    ],
+    "scopePassed": true
+  },
+  "original": {
+    "phpVersion": "8.4.27",
+    "iconvVersion": "1.19",
+    "phpExeSha256": "62405040e965c000a00bce8fe9896eacdf8a66ee6c72d0f2826731df21823ac3",
+    "phpDllSha256": "909d9fe9be721d5b6bac23106e04fd749ab1cf9642b95145db33baba791d7b6a"
+  },
+  "marker": {
+    "phpVersion": "8.4.27",
+    "iconvVersion": "1.20",
+    "phpExeSha256": "a1d188411776b3651fca8929bf5576d9475c9041642c9576180e2db8c324fdb9",
+    "phpDllSha256": "102ddebdc90f9be0535135c298e15c4e908abc047419079443daaf60a31a8a96"
+  },
+  "buildMaterials": [
+    {
+      "profile": "original",
+      "archive": "original-build-material.zip",
+      "archiveSha256": "1a0422dc26d736758422cd0ed895fe62805512afca1342355493fa2b5b4706fe",
+      "verifiedFileCount": 75,
+      "responseFileCount": 70,
+      "actualBuildBytesMatched": true,
+      "snapshotConfiguration": true,
+      "fullProductProfileVerified": false
+    },
+    {
+      "profile": "marker",
+      "archive": "marker-build-material.zip",
+      "archiveSha256": "5bdcff41adebad44ab2b7178c6ae9354b7b8ec487f61155735110d7d971c110c",
+      "verifiedFileCount": 75,
+      "responseFileCount": 70,
+      "actualBuildBytesMatched": true,
+      "snapshotConfiguration": true,
+      "fullProductProfileVerified": false
+    }
+  ],
+  "unchanged": {
+    "subjectUnchanged": true,
+    "repositoryFixturesUnchanged": true,
+    "enginePackUnchanged": true
+  },
+  "package": {
+    "platform": "Microsoft Windows NT 10.0.20348.0",
+    "sdk": "10.0.403",
+    "desktopRuntimeRequired": "Microsoft.WindowsDesktop.App 10.0 (x64)",
+    "windowShown": true,
+    "normalExit": true
+  },
+  "packageFileCount": 846,
+  "matchedNotices": 40,
+  "durablePairedPublicationVerified": false,
+  "publicReleaseApproved": false,
+  "limits": [
+    "No proof of original official binary reproducibility",
+    "No network blocking test",
+    "No legal/redistribution clearance",
+    "No product pack replacement",
+    "Windows Server runner is not clean Windows 11",
+    "No CRT-missing machine tested",
+    "No scanner GUI interaction in this packaging test",
+    "T08/T10 and durable matching-source delivery remain gates"
+  ]
+}

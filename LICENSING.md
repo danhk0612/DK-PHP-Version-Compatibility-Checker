@@ -151,7 +151,9 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 공식 Windows PHP 소스 ZIP의 SHA-256을 재확인하고 `Zend/asm/LICENSE`와 `ext/hash/sha3/generic64lc/brg_endian.h`의 첫 원문 주석을 실행 ZIP용 고지에 추가했습니다. 후자의 주석은 32비트 경로의 같은 헤더와 일치합니다. 실행 ZIP에서 과거 .NET 런타임 고지 11개를 제외하고 앱 호스트의 고지 3개를 유지합니다. 소스 ZIP은 기존 검토 기록을 포함합니다.
 
-공개 판정은 보류합니다. 현재 스냅샷 재링크는 고정된 SDK 및 의존성 다운로드와 libiconv 교체를 검증했습니다. 과거 공식 빌드 입력과 부합한다는 추가 근거가 없는 의존성 ZIP은 현재 입수 가능한 후보 해시로 표시합니다. 배포할 PHP의 대응 자료를 확정할 때 소스·고지 ZIP의 빌드 단계가 동봉 원문을 직접 사용하도록 검증하고, 배포 시 실행 ZIP과 소스 ZIP을 같은 위치에서 지속 제공해야 합니다.
+[동봉 원문 재링크 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43500455190)에서 같은 Windows 작업이 만든 실행 ZIP과 소스 ZIP의 SHA-256을 먼저 확인했습니다. 소스 ZIP의 PHP 25,836개와 libiconv 1,148개 파일을 인벤토리와 대조한 뒤 그 파일들로 원본·마커 빌드를 수행했습니다. 고정 SDK와 해시로 검증한 의존성 ZIP 39개를 외부에서 확보했습니다. 정적 확장 27개가 승인 PHP와 일치했고, PHPCS 42사례의 JSON·종료 코드 및 검사 대상·fixture·엔진 팩 불변 검증을 통과했습니다. 동일 실행의 Windows 후보는 창 표시·정상 종료, 파일 846개 불변, 고지 40개 대조도 통과했습니다. [두 ZIP과 로그의 SHA-256 및 결과](tests/t08-minimal/evidence/php-relink/source-companion.json)를 보존했습니다.
+
+이 검증으로 배포할 소스 ZIP에서 수정 libiconv를 사용한 PHP 재링크가 가능한 것을 확인했습니다. 공식 빌드의 PGO 입력과 과거 의존성 ZIP 바이트의 동일성은 미확인입니다. 현재 후보는 공개 승인 전입니다. 릴리스 기준 커밋에서 실행 ZIP·소스 ZIP·페어링 JSON을 생성해 [동시 제공 절차](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공)에 따라 게시하고 공개 다운로드를 확인해야 합니다.
 
 ## 재현과 공식 근거
 
