@@ -13,7 +13,9 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--package', type=Path, required=True)
 parser.add_argument('--sidecar', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--binary-name', default='DK-PHP-Compatibility-audit-only.zip')
 a = parser.parse_args()
+assert Path(a.binary_name).name == a.binary_name, 'Expected binary ZIP filename'
 election_path = REPO / 'tools/license-audit/license-election.json'
 election = read(election_path)
 assert election['electionMade'] and election['phpVersion'] == '4' and election['zendVersion'] == '3.0'
@@ -21,7 +23,7 @@ source = read(a.sidecar / 'source-sidecar.json')
 assert source['licenseElectionMade'] and source['licenseElectionSha256'] == sha(election_path.read_bytes())
 source_zip = a.sidecar / source['archive']
 assert sha(source_zip.read_bytes()) == source['archiveSha256']
-package = a.package / 'DK-PHP-Compatibility-audit-only.zip'
+package = a.package / a.binary_name
 package_summary = read(a.package / 'evidence/summary.json')
 assert package_summary['scopePassed'] and sha(package.read_bytes()) == package_summary['archiveSha256']
 with zipfile.ZipFile(source_zip) as sz, zipfile.ZipFile(package) as bz:

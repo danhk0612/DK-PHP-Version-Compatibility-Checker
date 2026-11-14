@@ -1,6 +1,9 @@
 <# Prepare a paired local self-test candidate. No public upload or release occurs. #>
 [CmdletBinding()]
-param([string]$RepoRoot=(Join-Path $PSScriptRoot '../..'))
+param(
+    [string]$RepoRoot=(Join-Path $PSScriptRoot '../..'),
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+$')] [string]$ReleaseVersion
+)
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Windows x64 PowerShell 7 required.' }
@@ -47,14 +50,17 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Build recipe source collection failed' }
     python tools/license-audit/Prepare-SourceSidecar.py --core-audit artifacts/t08-core-source --engine-audit artifacts/t08 --build-audit artifacts/t08-build-source --output artifacts/t08-source-sidecar
     if ($LASTEXITCODE -ne 0) { throw 'Source companion preparation failed' }
-    ./tools/packaging/Prepare-AuditPackage.ps1 -RepoRoot $repo
-    python tests/t09/check_pair.py --package artifacts/t09 --sidecar artifacts/t08-source-sidecar --output artifacts/t09/evidence
+    $packageArgs = @{}
+    if ($ReleaseVersion) { $packageArgs.ReleaseVersion = $ReleaseVersion }
+    ./tools/packaging/Prepare-AuditPackage.ps1 -RepoRoot $repo @packageArgs
+    $packageSummary = Get-Content -Raw -LiteralPath artifacts/t09/evidence/summary.json | ConvertFrom-Json
+    python tests/t09/check_pair.py --package artifacts/t09 --sidecar artifacts/t08-source-sidecar --output artifacts/t09/evidence --binary-name $packageSummary.archive
     if ($LASTEXITCODE -ne 0) { throw 'Candidate/source pairing failed' }
     Write-Output 'Local test files are ready. Keep all three files together:'
-    Write-Output "$repo/artifacts/t09/DK-PHP-Compatibility-audit-only.zip"
+    Write-Output "$repo/artifacts/t09/$($packageSummary.archive)"
     Write-Output "$repo/artifacts/t08-source-sidecar/DK-PHP-Compatibility-sources-and-notices.zip"
     Write-Output "$repo/artifacts/t09/evidence/paired-candidate.json"
-    Write-Output 'Follow tests/t09/WINDOWS11_TEST.md. Public redistribution is not approved.'
+    if (-not $ReleaseVersion) { Write-Output 'Follow tests/t09/WINDOWS11_TEST.md.' }
 } finally {
     $env:PATH=$oldPath
     $env:PHPRC=$oldPhprc

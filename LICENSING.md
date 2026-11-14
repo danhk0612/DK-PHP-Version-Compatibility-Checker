@@ -2,9 +2,7 @@
 
 ## 현재 판정
 
-**부분 검증 — 승인된 최소 CLI 구성도 공개 배포 승인 상태가 아닙니다.** 자체 코드의 MIT, 엔진 원본, Windows publish 구성·출처와 엔진 LGPL 소스 대조를 준비했습니다. PHP 네이티브 코드의 정확한 포함·라이선스·대응 소스/재링크 자료와 최종 배포 시의 소스 동시 제공은 남아 있습니다. 사용자가 승인한 B안으로 팩의 PHP 파일 구성을 축소했습니다. 제품 C# 코드·엔진 버전·목표·이름·스택은 변경하지 않았습니다.
-
-확인 기준일은 2026-11-05이며 [고지 초안](THIRD-PARTY-NOTICES.md), [실측](tests/t08/evidence/summary.json), [실행·해시 근거](tests/t08/evidence/provenance.json)를 함께 봅니다. 자료 수집 성공을 전체 라이선스 적합성의 합격으로 승격하지 않습니다.
+**v0.1.0 공개 승인.** 실행 ZIP과 대응 소스·고지 ZIP을 같은 릴리스에서 제공하는 방식입니다. Windows 후보의 고지 대조와 동봉 소스 재링크 검증은 [실측 결과](tests/t08-minimal/evidence/php-relink/source-companion.json)에 기록했습니다. 공식 PHP 빌드의 과거 의존성 바이트와 PGO 입력은 미확인입니다. 사용자 PC의 .NET Desktop Runtime 10 x64 별도 설치를 기준으로 합니다.
 
 ## 실제 대조한 구성
 
@@ -153,7 +151,7 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 [동봉 원문 재링크 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43500455190)에서 같은 Windows 작업이 만든 실행 ZIP과 소스 ZIP의 SHA-256을 먼저 확인했습니다. 소스 ZIP의 PHP 25,836개와 libiconv 1,148개 파일을 인벤토리와 대조한 뒤 그 파일들로 원본·마커 빌드를 수행했습니다. 고정 SDK와 해시로 검증한 의존성 ZIP 39개를 외부에서 확보했습니다. 정적 확장 27개가 승인 PHP와 일치했고, PHPCS 42사례의 JSON·종료 코드 및 검사 대상·fixture·엔진 팩 불변 검증을 통과했습니다. 동일 실행의 Windows 후보는 창 표시·정상 종료, 파일 846개 불변, 고지 40개 대조도 통과했습니다. [두 ZIP과 로그의 SHA-256 및 결과](tests/t08-minimal/evidence/php-relink/source-companion.json)를 보존했습니다.
 
-이 검증으로 배포할 소스 ZIP에서 수정 libiconv를 사용한 PHP 재링크가 가능한 것을 확인했습니다. 공식 빌드의 PGO 입력과 과거 의존성 ZIP 바이트의 동일성은 미확인입니다. 현재 후보는 공개 승인 전입니다. 릴리스 기준 커밋에서 실행 ZIP·소스 ZIP·페어링 JSON을 생성해 [동시 제공 절차](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공)에 따라 게시하고 공개 다운로드를 확인해야 합니다.
+이 검증으로 배포할 소스 ZIP에서 수정 libiconv를 사용한 PHP 재링크가 가능한 것을 확인했습니다. 공식 빌드의 PGO 입력과 과거 의존성 ZIP 바이트의 동일성은 미확인입니다. 이 실행은 공개 승인 전 후보를 대상으로 했습니다. 릴리스 기준 커밋에서 실행 ZIP·소스 ZIP·페어링 JSON을 생성해 [동시 제공 절차](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공)에 따라 게시하고 공개 다운로드를 확인해야 합니다.
 
 ## 재현과 공식 근거
 

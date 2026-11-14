@@ -1,6 +1,9 @@
 <# Maintainer-only local package rehearsal. No release or redistribution clearance. #>
 [CmdletBinding()]
-param([string]$RepoRoot=(Join-Path $PSScriptRoot '../..'))
+param(
+    [string]$RepoRoot=(Join-Path $PSScriptRoot '../..'),
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+$')] [string]$ReleaseVersion
+)
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Windows x64 PowerShell is required.' }
@@ -23,7 +26,9 @@ New-Item -ItemType Directory -Path $out | Out-Null
 $stage=Join-Path $out 'stage'
 $evidence=Join-Path $out 'evidence'
 New-Item -ItemType Directory -Path $evidence | Out-Null
-& dotnet publish (Join-Path $repo 'src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj') -c Release -r win-x64 --self-contained false '-p:PublishSingleFile=false' '-p:PublishTrimmed=false' -o $stage '--verbosity' 'minimal' *> (Join-Path $evidence 'publish.log')
+$versionArgs = @()
+if ($ReleaseVersion) { $versionArgs = @('-p:Version=' + $ReleaseVersion.Substring(1)) }
+& dotnet publish (Join-Path $repo 'src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj') -c Release -r win-x64 --self-contained false '-p:PublishSingleFile=false' '-p:PublishTrimmed=false' @versionArgs -o $stage '--verbosity' 'minimal' *> (Join-Path $evidence 'publish.log')
 if ($LASTEXITCODE -ne 0) { throw 'Audit publish failed; inspect publish.log.' }
 New-Item -ItemType Directory -Path (Join-Path $stage 'tools') | Out-Null
 Copy-Item -LiteralPath $pack -Destination (Join-Path $stage 'tools/runtime') -Recurse
@@ -38,9 +43,28 @@ Get-ChildItem -LiteralPath (Join-Path $repo 'licenses') | Where-Object Name -ne 
 $dotnetLicenseStage = Join-Path $licenseStage 'dotnet'
 New-Item -ItemType Directory -Path $dotnetLicenseStage | Out-Null
 Copy-Item -LiteralPath (Join-Path $repo 'licenses/dotnet/Microsoft.NETCore.App.Host.win-x64') -Destination $dotnetLicenseStage -Recurse
-Copy-Item -LiteralPath (Join-Path $repo 'tests/t09/WINDOWS11_TEST.md') -Destination $stage
-[IO.File]::WriteAllText((Join-Path $stage 'AUDIT-ONLY.txt'), "Local self-test candidate. Install Microsoft .NET Desktop Runtime 10 x64 from https://dotnet.microsoft.com/en-us/download/dotnet/10.0 before running the app. PHP/Zend successor-license election is recorded in license-election.json. Keep the paired source archive and paired-candidate.json with this ZIP. Public distribution is not approved; remaining correspondence/notice and durable publication checks are recorded in LICENSING.md.`r`n", [Text.UTF8Encoding]::new($false))
-$zip=Join-Path $out 'DK-PHP-Compatibility-audit-only.zip'
+if ($ReleaseVersion) {
+    $archiveName = "DK-PHP-Compatibility-$ReleaseVersion-win-x64.zip"
+    $readme = @"
+DK-PHP-Version-Compatibility-Checker $ReleaseVersion
+
+1. Install .NET Desktop Runtime 10 x64 from https://dotnet.microsoft.com/en-us/download/dotnet/10.0.
+2. Extract the ZIP and run Dk.PhpCompatibilityChecker.exe.
+3. Select the PHP source folder and target version, then run the check.
+
+The bundled engine supports offline checks after setup. PHP may require the
+x64 Visual C++ Redistributable from https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist.
+
+Corresponding source, notices, and SHA-256:
+https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/releases/tag/$ReleaseVersion
+"@
+    [IO.File]::WriteAllText((Join-Path $stage 'READ-ME.txt'), $readme, [Text.UTF8Encoding]::new($false))
+} else {
+    Copy-Item -LiteralPath (Join-Path $repo 'tests/t09/WINDOWS11_TEST.md') -Destination $stage
+    [IO.File]::WriteAllText((Join-Path $stage 'AUDIT-ONLY.txt'), "Local self-test candidate. Install Microsoft .NET Desktop Runtime 10 x64 from https://dotnet.microsoft.com/en-us/download/dotnet/10.0 before running the app. PHP/Zend successor-license election is recorded in license-election.json. Keep the paired source archive and paired-candidate.json with this ZIP. Public distribution is not approved; remaining correspondence/notice and durable publication checks are recorded in LICENSING.md.`r`n", [Text.UTF8Encoding]::new($false))
+    $archiveName = 'DK-PHP-Compatibility-audit-only.zip'
+}
+$zip = Join-Path $out $archiveName
 [IO.Compression.ZipFile]::CreateFromDirectory($stage,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
 & python (Join-Path $repo 'tests/t09/check_package.py') --stage $stage --zip $zip --output $evidence
 if ($LASTEXITCODE -ne 0) { throw 'Package byte verification failed.' }

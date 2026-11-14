@@ -1,6 +1,6 @@
-# 서드파티 고지 — 배포 전 검토 중
+# 서드파티 고지
 
-이 문서는 현재 개발 구성의 고지 초안입니다. **PHP 네이티브 구성의 고지·대응 소스 검토가 남아 있어 공개 배포용 최종 고지가 아닙니다.** 판정과 남은 조건은 [LICENSING.md](LICENSING.md)를 따릅니다.
+이 문서는 Windows x64 배포에 포함된 외부 구성 요소의 고지입니다. [v0.1.0 배포 페이지](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/releases/tag/v0.1.0)에서 대응 소스·고지 ZIP과 재링크 안내를 제공합니다.
 
 자체 제작 코드에는 루트 [MIT LICENSE](LICENSE)를 적용합니다. 아래 외부 코드·바이너리의 저작권과 별도 조건을 유지합니다. 루트 MIT가 전체 배포물의 외부 구성 요소를 재허가하지 않습니다.
 
@@ -30,7 +30,7 @@ The Zend Engine is freely available at http://www.zend.com
 
 이는 구성 요소 포함 고지이며 PHP Group 또는 Zend의 보증·공식 인증을 뜻하지 않습니다. 2026-11-06 사용자 승인으로 covered PHP code에는 PHP License v4, covered Zend Engine code에는 Zend Engine License v3.0 후속 조건을 선택합니다. 적용 조건은 BSD-3-Clause이며 [공식 공통 원문](licenses/php/selected/PHP-Zend-BSD-3-Clause.txt)과 [범위·출처·해시](tools/license-audit/license-election.json)를 동봉합니다. 원본 PHP 3.01/Zend 2.00 전문과 source headers는 출처 자료로 계속 보존합니다.
 
-PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩의 `php8.dll`에 포함된 libbcmath, libiconv 및 libcharset에는 각 원문의 LGPL 조건이 적용됩니다. [libbcmath 원문](licenses/php/embedded/libbcmath-LICENSE)과 [libiconv/libcharset 원문](licenses/php/core-source/libiconv/source/)을 제공합니다. 기본 팩을 변경하는 방법은 [재빌드 절차](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/blob/t15-window-design/tools/license-audit/README.md#windows-php-sdk-확보와-재링크)를 참고합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
+PHP 내부 libmagic, libmbfl, libbcmath, libavifinfo, Lexbor와 libcperciva의 별도 [원문 고지](licenses/php/embedded/)도 보존합니다. 기존 Full 기준의 [후보 목록](tests/t08/evidence/php-native-pending.json)은 축소 팩의 실제 포함 목록이 아닙니다. 최소 팩의 `php8.dll`에 포함된 libbcmath, libiconv 및 libcharset에는 각 원문의 LGPL 조건이 적용됩니다. [libbcmath 원문](licenses/php/embedded/libbcmath-LICENSE)과 [libiconv/libcharset 원문](licenses/php/core-source/libiconv/source/)을 제공합니다. 기본 팩을 변경하는 방법은 [재빌드 절차](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/blob/v0.1.0/tools/license-audit/README.md#동봉-소스로-windows-재링크)를 참고합니다. SPDX 후보 목록 자체가 라이선스 전문이나 대응 소스를 대체하지 않습니다.
 
 ## 최소 CLI의 코어 소스 원문
 

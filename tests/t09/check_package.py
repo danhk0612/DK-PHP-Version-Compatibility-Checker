@@ -27,7 +27,12 @@ required = {'Dk.PhpCompatibilityChecker.exe', 'Dk.PhpCompatibilityChecker.dll',
             'licenses/php/embedded/Boost.Context-LICENSE.txt',
             'licenses/php/embedded/XKCP-Brian-Gladman-NOTICE.txt',
             'LICENSE', 'THIRD-PARTY-NOTICES.md', 'LICENSING.md',
-            'tools/runtime/manifest.json', 'WINDOWS11_TEST.md', 'AUDIT-ONLY.txt'}
+            'tools/runtime/manifest.json'}
+if a.zip.name == 'DK-PHP-Compatibility-audit-only.zip':
+    required.update(('WINDOWS11_TEST.md', 'AUDIT-ONLY.txt'))
+else:
+    required.add('READ-ME.txt')
+    assert 'AUDIT-ONLY.txt' not in files, 'Audit marker in release ZIP'
 assert required <= files.keys(), 'Framework-dependent package payload is incomplete'
 runtime_config = json.loads((a.stage / 'Dk.PhpCompatibilityChecker.runtimeconfig.json').read_text(encoding='utf-8-sig'))['runtimeOptions']
 assert 'includedFrameworks' not in runtime_config, 'Bundled .NET runtimes declared'

@@ -6,7 +6,7 @@
 - 저장소: https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker
 - 기본 브랜치: `main`. 최신 디자인 후보는 `t15-window-design`, Draft [PR #14](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/14)입니다. 시험 후보 준비는 기반 PR #13에 있습니다.
 - 디자인 및 시험 후보 자동 검증 기준: `e8008e47bde4f8ddf198204626e4eb05e3a1cc9f`.
-- 첫 릴리스 목표는 정식 `v0.1.0`과 기본 오프라인 엔진 팩입니다. 공개 게시 상태는 대기입니다.
+- 첫 릴리스 목표는 정식 `v0.1.0`과 기본 오프라인 엔진 팩입니다. 사용자가 main 반영과 공개 게시를 승인했습니다. 게시 및 공개 다운로드 검증 결과는 GitHub 릴리스에서 확인합니다.
 
 ## 구현된 기능과 유효한 결정
 
@@ -68,7 +68,7 @@ GUI의 ‘검사 제외 폴더·파일’에서 하위 폴더와 여러 파일�
 
 [최신 재링크 실행](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42568208420)에서는 원본/마커 각각 생성 자료 19개(응답 파일 각 15개)를 ZIP·inventory로 보존하고 실제 빌드 파일과 바이트를 대조했습니다. 24사례와 입력/엔진 불변 및 관련 Windows 검증 7개가 통과했습니다. [자료·도구 버전·해시](tests/t08-minimal/evidence/php-relink/build-materials.json)의 fullProductProfileVerified=false를 유지합니다. 제품의 전체 configure 옵션은 기존 PHP 실행 정보에 이미 있고, 이번 생성 자료는 --disable-all 감사 구성입니다. 제품 전체 구성의 생성 자료·소스 대응 검토와 혼동하지 않습니다.
 
-T08의 동봉 소스 재링크 및 ZIP 페어링 기술 검증은 통과했습니다. [Windows CI](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43500455190)는 후보 소스 ZIP에서 PHP와 libiconv를 추출해 빌드했고, 기본 로드 확장 27개와 PHPCS 42사례를 대조했습니다. [실측·두 ZIP의 SHA-256](tests/t08-minimal/evidence/php-relink/source-companion.json)을 보존했습니다. 공개 승인, 최종 산출물의 게시·다운로드 검증과 대응 소스 지속 제공은 대기입니다.
+T08의 동봉 소스 재링크 및 ZIP 페어링 기술 검증은 통과했습니다. [Windows CI](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43500455190)는 후보 소스 ZIP에서 PHP와 libiconv를 추출해 빌드했고, 기본 로드 확장 27개와 PHPCS 42사례를 대조했습니다. [실측·두 ZIP의 SHA-256](tests/t08-minimal/evidence/php-relink/source-companion.json)을 보존했습니다. 최종 산출물의 게시·다운로드 검증과 대응 소스 지속 제공은 릴리스에서 확인합니다.
 
 ## .NET 런타임 별도 설치 후보
 
@@ -86,10 +86,10 @@ T08의 동봉 소스 재링크 및 ZIP 페어링 기술 검증은 통과했습�
 | 구분 | 다음 작업 | 상태·권장 환경 |
 | --- | --- | --- |
 | T14 공개 다운로드 연결 | 검증 팩·대응 소스·고지의 공개 채널 및 실서버 검증 | 제품 배포 조건과 게시 승인 대기. 설치 기능은 Windows 검증용 카탈로그로 시험했습니다. |
-| T08 기술·배포 검토 | 실제 제품 PHP에 필요한 소스/빌드/링크 자료와 고지의 잔여 대응을 LICENSING 기준으로 검토 | 동봉 원문 재링크·고지 대조 통과. 공개 승인과 최종 릴리스의 대응 소스 제공 확인 대기. |
+| T08 기술·배포 검토 | 실제 제품 PHP에 필요한 소스/빌드/링크 자료와 고지의 잔여 대응을 LICENSING 기준으로 검토 | 동봉 원문 재링크·고지 대조 통과. 최종 릴리스의 대응 소스 제공 확인 대기. |
 | T09 직접 시험 | 다른 목표, 실제 원본 목록/해시 불변, 깨끗한 Windows 11의 CRT/.NET 전제·일반 사용자·읽기 전용 위치 등 미실행 항목 기록 | 깨끗한 Windows 11 시험은 후속으로 보류했습니다. [Windows 11 절차](tests/t09/WINDOWS11_TEST.md). |
 | T10 최종 배포 대조 | 배포에 사용할 팩 구성을 T08 고지/대응 소스와 재대조 | 개발 자동시험 완료, T08 배포 조건 대기. 저성능 Work. |
-| 첫 정식 릴리스 | `v0.1.0`에 기본 오프라인 팩 포함. 배포 자료 검토 후 최종 바이너리·소스 ZIP을 같은 기준으로 생성하고 GitHub Releases에 게시 | 프레임워크 종속 Windows 후보의 실행·소스/고지 페어링·동봉 원문 재링크 통과. 릴리스 기준 커밋 확정 및 게시 승인 대기. 온라인 엔진 팩 채널은 후속 작업입니다. |
+| 첫 정식 릴리스 | `v0.1.0`에 기본 오프라인 팩 포함. 배포 자료 검토 후 최종 바이너리·소스 ZIP을 같은 기준으로 생성하고 GitHub Releases에 게시 | 프레임워크 종속 Windows 후보의 실행·소스/고지 페어링·동봉 원문 재링크 통과. 게시 승인 완료. 릴리스 기준 커밋의 산출물 검증 및 게시 대상. 온라인 엔진 팩 채널은 후속 작업입니다. |
 
 T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
