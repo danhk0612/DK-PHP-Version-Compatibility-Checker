@@ -1,0 +1,317 @@
+{
+  "headSha": "4fbcdfdb884742f44076676ef00d1033bdaa9231",
+  "mergeRefSha": "f7e17ba2ae864d55cadd01abb9a881032f372047",
+  "runId": 43339538493,
+  "jobId": 131604095479,
+  "artifact": {
+    "id": 13998378928,
+    "sha256": "sha256:57336dc470aab3856afee62428aae52e999f6c83c8002163649f29f8b6d5be82"
+  },
+  "scopePassed": true,
+  "pack": {
+    "packId": "dk-php84-alpha2-minimalcli-target85-20261113",
+    "runtimeProfile": "MinimalCli",
+    "runtimeFileCount": 7,
+    "runtimeBytes": 13043511,
+    "omittedRuntimeFileCount": 72,
+    "runtimeSelectionPath": "verification/runtime-selection.json",
+    "environment": {
+      "windows": "Windows-2022Server-10.0.20348-SP0",
+      "python": "3.12.10",
+      "runId": "43339538493",
+      "sourceSha": "f7e17ba2ae864d55cadd01abb9a881032f372047"
+    },
+    "checks": {
+      "fixtureRegression": true,
+      "annotations": true,
+      "sourceUnchanged": true,
+      "offline": true,
+      "configIsolation": true,
+      "jsonContract": true,
+      "withoutComposer": true
+    },
+    "cases": 42,
+    "annotationComparisons": 12,
+    "offlineComparisons": 42,
+    "versions": {
+      "dealerdirect/phpcodesniffer-composer-installer": "v1.1.0",
+      "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+      "phpcsstandards/phpcsutils": "1.2.3",
+      "squizlabs/php_codesniffer": "4.0.4"
+    },
+    "runtimeVersion": "8.4.27-1",
+    "cliVersion": "8.4.27",
+    "manifestSha256": "dfeea2ab003a4d267923c2452bfb2cc6674dac45c938e82e028682488ffd4bd4",
+    "fileCount": 799,
+    "licenseFileCount": 6,
+    "targets": [
+      "8.2",
+      "8.3",
+      "8.4",
+      "8.5"
+    ]
+  },
+  "suites": {
+    "T05": {
+      "passed": 95,
+      "failures": 0
+    },
+    "T06": {
+      "passed": 27,
+      "failures": 0
+    },
+    "T07": {
+      "passed": 57,
+      "failures": 0
+    },
+    "T10": {
+      "passed": 12,
+      "failures": 0
+    },
+    "T12": {
+      "passed": 19,
+      "failures": 0
+    }
+  },
+  "buildWarnings": [
+    "CS8602 in T10 verification helper at Program.cs:62"
+  ],
+  "buildErrors": 0,
+  "observations": [
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.2",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.3",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    },
+    {
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.5",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    },
+    {
+      "file": "compatibility/php85_long_cast.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_long_cast.php",
+      "target": "8.5",
+      "result": {
+        "exit": 2,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 1,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "The integer cast is deprecated since PHP 8.5; Use (int) instead",
+            "source": "PHPCompatibility.TypeCasts.RemovedTypeCasts.integerDeprecated",
+            "severity": 5,
+            "fixable": false,
+            "type": "WARNING",
+            "line": 2,
+            "column": 10
+          }
+        ]
+      },
+      "expectation": "finding"
+    },
+    {
+      "file": "compatibility/php85_short_cast.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_short_cast.php",
+      "target": "8.5",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_zlib_integer.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_zlib_integer.php",
+      "target": "8.5",
+      "result": {
+        "exit": 2,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 1,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": [
+          {
+            "message": "The $use_include_path parameter of gzfile() expects a boolean value instead of an integer since PHP 8.5. Found: 1",
+            "source": "PHPCompatibility.ParameterValues.ChangedIntToBoolParamType.gzfile_use_include_pathNumericFound",
+            "severity": 5,
+            "fixable": false,
+            "type": "ERROR",
+            "line": 2,
+            "column": 21
+          }
+        ]
+      },
+      "expectation": "finding"
+    },
+    {
+      "file": "compatibility/php85_zlib_boolean.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_zlib_boolean.php",
+      "target": "8.5",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "no_findings"
+    },
+    {
+      "file": "compatibility/php85_pipe.php",
+      "target": "8.4",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    },
+    {
+      "file": "compatibility/php85_pipe.php",
+      "target": "8.5",
+      "result": {
+        "exit": 0,
+        "processedFiles": 1,
+        "totals": {
+          "errors": 0,
+          "warnings": 0,
+          "fixable": 0
+        },
+        "messages": []
+      },
+      "expectation": "observe_only"
+    }
+  ],
+  "limits": [
+    "Static rule coverage only",
+    "PHP 8.5 pipe operator generated zero findings for both 8.4 and 8.5 targets",
+    "No clean Windows 11 deployment or release verification"
+  ]
+}

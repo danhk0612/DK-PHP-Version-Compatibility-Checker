@@ -1,0 +1,53 @@
+name: T05 scan service
+on:
+  pull_request:
+    branches: [main, t04-engine-pack]
+    paths:
+      - 'src/**'
+      - 'tests/t05/**'
+      - 'global.json'
+      - '.github/workflows/t05-scan-service.yml'
+permissions:
+  contents: read
+jobs:
+  build-and-verify:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare independently verified T04 runtime
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Restore and build product and verification harness
+        shell: pwsh
+        run: |
+          New-Item artifacts/t05 -ItemType Directory -Force | Out-Null
+          if ((dotnet --version) -ne '10.0.403') { throw 'Unexpected SDK' }
+          dotnet --info | Out-File artifacts/t05/dotnet-info.txt
+          dotnet restore tests/t05/T05.Verification.csproj
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build tests/t05/T05.Verification.csproj -c Release --no-restore -bl:artifacts/t05/build.binlog
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item tools/runtime/manifest.json artifacts/t05/pack-manifest.json
+      - name: Run C# engine service and regression checks
+        shell: pwsh
+        run: |
+          dotnet run --project tests/t05/T05.Verification.csproj -c Release --no-build -- "$pwd" "$pwd/tools/runtime"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t05-scan-service-evidence
+          path: artifacts/t05/
+          retention-days: 7

@@ -1,0 +1,30 @@
+[
+  {
+    "package": "phpcompatibility/php-compatibility",
+    "version": "10.0.0-alpha2",
+    "sourceUrl": "https://github.com/PHPCompatibility/PHPCompatibility.git",
+    "sourceCommit": "e0f0e5a3dc819a4a0f8d679a0f2453d941976e18",
+    "archivePath": "corresponding-source/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.zip",
+    "archiveSha256": "17712d3e93f6b835957d50a7a5de54e530dd3861f44c3917d18c6575f2968763",
+    "archiveBytes": 1304441,
+    "inventoryPath": "corresponding-source/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.json",
+    "inventorySha256": "56ef8f3db1d5df096b07c69191fd468107807702bdc4f057a442451b3def6594",
+    "trackedFileCount": 783,
+    "vendorFileCount": 244,
+    "vendorFilesMatchCheckout": true
+  },
+  {
+    "package": "phpcsstandards/phpcsutils",
+    "version": "1.2.3",
+    "sourceUrl": "https://github.com/PHPCSStandards/PHPCSUtils.git",
+    "sourceCommit": "5f35d9408c54d7b529501f3c688b6eae562aea1f",
+    "archivePath": "corresponding-source/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.zip",
+    "archiveSha256": "cbe2ab1dbaea6c57662bc6cbbf01c13a6f05e9f0d702ced5dc26fb0987dcac56",
+    "archiveBytes": 738767,
+    "inventoryPath": "corresponding-source/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.json",
+    "inventorySha256": "dc77d678b6b7a081f225347d3e564abab529d93a09f7028c3fa04c4ed8558c81",
+    "trackedFileCount": 516,
+    "vendorFileCount": 58,
+    "vendorFilesMatchCheckout": true
+  }
+]

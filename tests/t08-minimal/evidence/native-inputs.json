@@ -1,0 +1,47 @@
+{
+  "observedUtc": "2026-11-05T10:13:23.6854475Z",
+  "buildReference": "https://github.com/php/php-windows-builder/actions/runs/40301342976",
+  "buildCommit": "68dc945d9509c41b72332c74c8b99731bb75bc25",
+  "source": "Current bytes downloaded from the official PHP Windows dependency directory",
+  "scope": "Candidate download inventory only; historical build byte identity, source correspondence, native rebuild, relink and redistribution clearance are not established.",
+  "historicalBuildByteIdentityVerified": false,
+  "nativeBuildOrRelinkVerified": false,
+  "redistributionCleared": false,
+  "files": [
+    {
+      "name": "libargon2-20190702-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libargon2-20190702-vs17-x64.zip",
+      "bytes": 226275,
+      "sha256": "d1b00cc1f08bbb85b8aec066e773614c1589744a9a364ff3a3093bf4ce02f5b8",
+      "zipEntries": 8
+    },
+    {
+      "name": "libiconv-1.19-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libiconv-1.19-vs17-x64.zip",
+      "bytes": 1881623,
+      "sha256": "4fd0048d0985c6f32ff933187c360571b0380cb20690ae501ce233fb376360d1",
+      "zipEntries": 11
+    },
+    {
+      "name": "libxml2-2.11.9-8-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libxml2-2.11.9-8-vs17-x64.zip",
+      "bytes": 7430777,
+      "sha256": "be1f55cb950b19400caa33b95fb8463fde4d5da4602d2eb53c6bae4c4530a1e2",
+      "zipEntries": 57
+    },
+    {
+      "name": "wineditline-2.208-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/wineditline-2.208-vs17-x64.zip",
+      "bytes": 296876,
+      "sha256": "c61ce5ca5e98b914ce982243883ad190f524bc18adc1d2f10021957c58317af5",
+      "zipEntries": 10
+    },
+    {
+      "name": "zlib-1.3.2-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/zlib-1.3.2-1-vs17-x64.zip",
+      "bytes": 212035,
+      "sha256": "2d47f60a56fd435137aae6aa874eab5eddacb5611e82ea0eaf21687382f312da",
+      "zipEntries": 9
+    }
+  ]
+}

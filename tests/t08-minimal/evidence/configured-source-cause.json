@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+  "sourceDigestGenerator": "https://github.com/php/php-sdk-binary-tools/blob/73f9b80a55bf82cb4d3218c1e985a426ce289367/bin/phpsdk_sbom.php",
+  "sourceInventorySha256": "510fe8a31f289a66d442cef9d83d255285225b1212845aaf04039288e6ae7bb3",
+  "inputSbomSha256": "72a6a342cc529514f053a9b86dabd5a39979f67f62444e0c1592cf0011e0ac49",
+  "scope": "Independent read-only reconstruction of two configure-generated header inputs",
+  "allConfiguredAssertionsMatch": true,
+  "nativeBuildOrRelinkVerified": false,
+  "redistributionCleared": false,
+  "components": [
+    {
+      "name": "libmbfl",
+      "sourcePath": "ext/mbstring/libmbfl",
+      "recipe": "CopyFile config.h.w32 to config.h without changing any byte",
+      "configurationInputs": [
+        {
+          "path": "ext/mbstring/config.w32",
+          "gitBlob": "070d3d73137ac598d62e323a0e083a9b2980bee0",
+          "sha256": "9d17f9be4068ce1961400250444d9477d62320833ae2c6a3929862e5577e03e9",
+          "bytes": 2883
+        },
+        {
+          "path": "ext/mbstring/libmbfl/config.h.w32",
+          "gitBlob": "6d05bfc67c363dcdd3a9c09963fa8294e7e90bca",
+          "sha256": "5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535",
+          "bytes": 23
+        }
+      ],
+      "rawAggregateSha256": "962053faf5eb699443cb07445a86f1bf08dfac5b26b764428ac2860ee251ed0e",
+      "generatedFile": "ext/mbstring/libmbfl/config.h",
+      "generatedBytes": 23,
+      "generatedSha256": "5554a29351d0aca23bde2bf26790ee7b4ff43578e6101ee5fefc1c1134287535",
+      "generatedContent": "#define HAVE_STRICMP 1\n",
+      "configuredFileCount": 99,
+      "configuredAggregateSha256": "a5749c5494d917626423e3ae3ce119e6eb9e678d24e4a0af563007a462f7984d",
+      "officialExpectedSha256": "a5749c5494d917626423e3ae3ce119e6eb9e678d24e4a0af563007a462f7984d",
+      "officialAggregateMatch": true
+    },
+    {
+      "name": "timelib",
+      "sourcePath": "ext/date/lib",
+      "recipe": "Decode the ten literal WriteLine arguments, append CRLF per line; ASCII output",
+      "configurationInputs": [
+        {
+          "path": "ext/date/config.w32",
+          "gitBlob": "b053e27aae354e338082668fc954e700840f8bc5",
+          "sha256": "6c7603af630544ef0805ef35c579a94dc7d380b9ee1b97d5fd8132b8e153a3a7",
+          "bytes": 1160
+        }
+      ],
+      "rawAggregateSha256": "039db492a04d3a42930cc73e2476f36dfd338940f8947a52a9319fb7ec7f6e1c",
+      "generatedFile": "ext/date/lib/timelib_config.h",
+      "generatedBytes": 286,
+      "generatedSha256": "4851e9b846d1af42859d4abb3b63c59824751730233beeff0e33be07a6ccca2d",
+      "generatedContent": "#include \"config.w32.h\"\r\n#include <inttypes.h>\r\n#include <stdint.h>\r\n#include \"zend.h\"\r\n#define timelib_malloc  emalloc\r\n#define timelib_realloc erealloc\r\n#define timelib_calloc  ecalloc\r\n#define timelib_strdup  estrdup\r\n#define timelib_strndup estrndup\r\n#define timelib_free    efree\r\n",
+      "configuredFileCount": 21,
+      "configuredAggregateSha256": "a74b6ec98951b856a6a53721e43d946dd6590864bfbb429f49860f7b2a46cbef",
+      "officialExpectedSha256": "a74b6ec98951b856a6a53721e43d946dd6590864bfbb429f49860f7b2a46cbef",
+      "officialAggregateMatch": true
+    }
+  ]
+}

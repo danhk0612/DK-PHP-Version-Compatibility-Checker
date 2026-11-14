@@ -1,0 +1,608 @@
+{
+  "environment": {
+    "windows": "Windows-2022Server-10.0.20348-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "php": "PHP 8.4.27 (cli) (built: Oct 26 2026 05:11:55) (NTS Visual C++ 2022 x64)\nCopyright (c) The PHP Group\nBuilt by The PHP Group\nZend Engine v4.4.27, Copyright (c) Zend Technologies\n",
+    "php_modules": "[PHP Modules]\nbcmath\ncalendar\nCore\nctype\ndate\ndom\nfilter\nhash\niconv\njson\nlibxml\nmysqlnd\npcre\nPDO\nPhar\nrandom\nreadline\nReflection\nsession\nSimpleXML\nSPL\nstandard\ntokenizer\nxml\nxmlreader\nxmlwriter\nzlib\n\n[Zend Modules]\n\n",
+    "php_executable_sha256": "e40fb5aa840778d9c058cb5e5dafde5d87790edc1dc764cb409a11599049c7d3",
+    "runner_image": "20261026.347.1",
+    "run_id": "40757585741",
+    "commit": "21dbb91d614f43abff88a8767094a0ac89854d83",
+    "composer_lock_sha256": "8e096e4d39ccfbacd6251e428ec329124b776ebfb0da7f59836e887093ef5272"
+  },
+  "cases": [
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_removed.php"
+      ],
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ],
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+        "line": 2
+      },
+      "passed": true
+    },
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_removed.php"
+      ],
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ],
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+        "line": 2
+      },
+      "passed": true
+    },
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_removed.php"
+      ],
+      "totals": {
+        "errors": 2,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Extension 'mysql_' is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+          "source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        },
+        {
+          "message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+          "source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+          "severity": 5,
+          "fixable": false,
+          "type": "ERROR",
+          "line": 2,
+          "column": 1
+        }
+      ],
+      "file": "compatibility/mysql_removed.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+        "line": 2
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/mysql_control.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/mysql_control.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\mysql_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/mysql_control.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_no_args.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_no_args.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+          "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 6,
+          "column": 16
+        }
+      ],
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+        "line": 6
+      },
+      "passed": true
+    },
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_no_args.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+          "source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 6,
+          "column": 16
+        }
+      ],
+      "file": "compatibility/get_class_no_args.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+        "line": 6
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/get_class_control.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/get_class_control.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\get_class_control.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/get_class_control.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\implicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\implicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 2,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\implicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 1,
+        "fixable": 0
+      },
+      "messages": [
+        {
+          "message": "Implicitly marking a parameter as nullable is deprecated since PHP 8.4. Update the type to be explicitly nullable instead. Found implicitly nullable parameter: $value.",
+          "source": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+          "severity": 5,
+          "fixable": false,
+          "type": "WARNING",
+          "line": 2,
+          "column": 39
+        }
+      ],
+      "file": "compatibility/implicit_nullable.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "finding",
+        "source_prefix": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+        "line": 2
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\explicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\explicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\explicit_nullable.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/explicit_nullable.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\dynamic_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "observe_only"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\dynamic_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "observe_only"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\dynamic_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/dynamic_property.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "observe_only"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\declared_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/declared_property.php",
+      "target": "8.2",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\declared_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/declared_property.php",
+      "target": "8.3",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    },
+    {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\compatibility\\declared_property.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "file": "compatibility/declared_property.php",
+      "target": "8.4",
+      "expected": {
+        "expectation": "no_findings"
+      },
+      "passed": true
+    }
+  ],
+  "probes": {
+    "fixture_tree_unchanged": true,
+    "empty": {
+      "exit": 16,
+      "json_valid": false,
+      "messages": []
+    },
+    "invalid_standard": {
+      "exit": 16,
+      "json_valid": false,
+      "messages": []
+    },
+    "failed_scan_tree_unchanged": true,
+    "guarded_path_and_config": {
+      "exit": 0,
+      "json_valid": true,
+      "files": [
+        "D:\\a\\DK-PHP-Version-Compatibility-Checker\\DK-PHP-Version-Compatibility-Checker\\artifacts\\t01\\inputs\\한글 space & meta\\subject.php"
+      ],
+      "totals": {
+        "errors": 0,
+        "warnings": 0,
+        "fixable": 0
+      },
+      "messages": [],
+      "tree_unchanged": true,
+      "passed": true
+    }
+  },
+  "unverified": [
+    "PHP ZIP source URL/hash and clean-PC CRT prerequisites",
+    "real network isolation",
+    "read-denied input",
+    "junction/symlink policies",
+    "stdout contamination handling"
+  ],
+  "failures": [],
+  "scope_passed": true
+}

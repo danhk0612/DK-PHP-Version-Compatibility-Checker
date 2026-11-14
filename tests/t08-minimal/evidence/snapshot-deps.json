@@ -1,0 +1,241 @@
+{
+  "observedAt": "2026-11-14",
+  "officialJobId": 121499713455,
+  "source": "Official x64 NTS job package order; hashes describe current downloads, historical ZIP bytes are unverified",
+  "files": [
+    {
+      "name": "ICU-77.1-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/ICU-77.1-1-vs17-x64.zip",
+      "bytes": 30532796,
+      "sha256": "1d9fbe44a9a505f4e20c75549f8e48c5b9841171d9538a1b6375b201afdb76a2"
+    },
+    {
+      "name": "apache-2.4.69-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/apache-2.4.69-vs17-x64.zip",
+      "bytes": 7716443,
+      "sha256": "70b2887f8dcd40e95d1197fd9d2636a60632776f180342c4b93a925ae679c3a6"
+    },
+    {
+      "name": "brotli-1.2.1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/brotli-1.2.1-vs17-x64.zip",
+      "bytes": 1381061,
+      "sha256": "f82e5af774bd7e0810bdaef2571107aff9621f5da998c56fc64a53982505d5b3"
+    },
+    {
+      "name": "fbclient-4.0.7-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/fbclient-4.0.7-vs17-x64.zip",
+      "bytes": 312248,
+      "sha256": "b67b12480b3276f5692c930eb6f8a7f79d46c549d83c0b664f7a9df3c714e1b1"
+    },
+    {
+      "name": "freetype-2.15.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/freetype-2.15.0-vs17-x64.zip",
+      "bytes": 2171231,
+      "sha256": "8803eee694478d265096a2f397878256ed9bd52f666d8b1761ff33c4ab97c0a3"
+    },
+    {
+      "name": "glib-2.90.1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/glib-2.90.1-vs17-x64.zip",
+      "bytes": 13451730,
+      "sha256": "303b5ce9832e422a879ec62b10f8f02e71d951fdc9a7477dcba81204e984f141"
+    },
+    {
+      "name": "libargon2-20190702-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libargon2-20190702-vs17-x64.zip",
+      "bytes": 226275,
+      "sha256": "d1b00cc1f08bbb85b8aec066e773614c1589744a9a364ff3a3093bf4ce02f5b8"
+    },
+    {
+      "name": "libavif-1.4.2-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libavif-1.4.2-vs17-x64.zip",
+      "bytes": 13081447,
+      "sha256": "4122603ca3c200afb6ea7645d340539e9198aaacaa7784d07438a19bf558e0da"
+    },
+    {
+      "name": "libbzip2-1.0.8-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libbzip2-1.0.8-1-vs17-x64.zip",
+      "bytes": 123426,
+      "sha256": "f7f331cde4b587e9f236d66aa2c84483ce256da81b805e8e97d473e7377e5079"
+    },
+    {
+      "name": "libcurl-8.23.0-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libcurl-8.23.0-1-vs17-x64.zip",
+      "bytes": 8943635,
+      "sha256": "3130446a1d84834f69bc05953b509cf6796334958829cd09f6cf71e4b87fa24a"
+    },
+    {
+      "name": "libenchant2-2.8.21-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libenchant2-2.8.21-1-vs17-x64.zip",
+      "bytes": 1747390,
+      "sha256": "ae50677480f35e19219aa9e1740bc2c3074d28276a0367b44decb6af23811f16"
+    },
+    {
+      "name": "libffi-3.8.0-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libffi-3.8.0-1-vs17-x64.zip",
+      "bytes": 119818,
+      "sha256": "96deba84631713ff001d4f8388f94b3feccb88b1a17655e167f87e5f16ddb2bd"
+    },
+    {
+      "name": "libiconv-1.19-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libiconv-1.19-vs17-x64.zip",
+      "bytes": 1881623,
+      "sha256": "4fd0048d0985c6f32ff933187c360571b0380cb20690ae501ce233fb376360d1"
+    },
+    {
+      "name": "libintl-1.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libintl-1.0-vs17-x64.zip",
+      "bytes": 1215554,
+      "sha256": "9c38513c2667685670995e70f89fe2cc4461203c20b7694087e29ae133165c73"
+    },
+    {
+      "name": "libjpeg-turbo-3.2.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libjpeg-turbo-3.2.0-vs17-x64.zip",
+      "bytes": 1018988,
+      "sha256": "f53933e8b6ecd64940093665ac7c03f5d87996212f630570fa691f4cfc3c1636"
+    },
+    {
+      "name": "liblmdb-0.9.35-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/liblmdb-0.9.35-vs17-x64.zip",
+      "bytes": 443197,
+      "sha256": "31ab50db456cf6cd6c32735e459ff59c26bdc8a8629d06098fbb6ccf36710d8b"
+    },
+    {
+      "name": "liblzma-5.8.4-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/liblzma-5.8.4-vs17-x64.zip",
+      "bytes": 766984,
+      "sha256": "bc8c91b619219a13a34e88e2ec522d46f8d5877e4e26652ab067a1d9a6532b8e"
+    },
+    {
+      "name": "libonig-6.9.10-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libonig-6.9.10-vs17-x64.zip",
+      "bytes": 661832,
+      "sha256": "a2c85df53bd6977f4ec5ba62094695d2b419c6b9d37db8f43d91e14d7ef968b9"
+    },
+    {
+      "name": "libpng-1.6.59-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libpng-1.6.59-vs17-x64.zip",
+      "bytes": 1372977,
+      "sha256": "fd4108cc2c9fa63bc80ca94bed6305aebb24f11dc6dd0b64cfb8514019b80233"
+    },
+    {
+      "name": "libpq-16.15-3-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libpq-16.15-3-vs17-x64.zip",
+      "bytes": 1401138,
+      "sha256": "61f4a9517846992b74cbcd7f63dc1eb9be8f7dd74e703595d099025ee64f19d6"
+    },
+    {
+      "name": "libqdbm-1.8.78-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libqdbm-1.8.78-vs17-x64.zip",
+      "bytes": 1509959,
+      "sha256": "0f9bd0d2988bf441cc6265449e96126f1031f95dd5e707792d72f7bf56becf8f"
+    },
+    {
+      "name": "libsasl-2.1.28-4-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libsasl-2.1.28-4-vs17-x64.zip",
+      "bytes": 727618,
+      "sha256": "cd084ef85a8f0de45d9fd719f88018cb5a29e4824d742bfea43cbf4163568553"
+    },
+    {
+      "name": "libsodium-1.0.22-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libsodium-1.0.22-vs17-x64.zip",
+      "bytes": 1735704,
+      "sha256": "33a2b29fdc9e2dc6771839d0e4ca4f8a9cf0f578e6aaee0b1c0e85b5977d4bb8"
+    },
+    {
+      "name": "libssh2-1.11.1-9-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libssh2-1.11.1-9-vs17-x64.zip",
+      "bytes": 698987,
+      "sha256": "ffee174ffde5707cc5ca2fac8436e13ba22f0155db4bc69792cfb3088601ca07"
+    },
+    {
+      "name": "libtidy-5.8.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libtidy-5.8.0-vs17-x64.zip",
+      "bytes": 2547918,
+      "sha256": "c4f3340a887688954f2398a44d0d4ca41f26f30846e63d0397aa3c8b52aaf91a"
+    },
+    {
+      "name": "libwebp-1.6.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libwebp-1.6.0-vs17-x64.zip",
+      "bytes": 2236530,
+      "sha256": "a509a9ce2ed7d4221285734a5ac43a111ba319ac582c1dbf7374fe7eb7428009"
+    },
+    {
+      "name": "libxml2-2.11.9-8-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libxml2-2.11.9-8-vs17-x64.zip",
+      "bytes": 7430777,
+      "sha256": "be1f55cb950b19400caa33b95fb8463fde4d5da4602d2eb53c6bae4c4530a1e2"
+    },
+    {
+      "name": "libxpm-3.5.19-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libxpm-3.5.19-1-vs17-x64.zip",
+      "bytes": 1167366,
+      "sha256": "d0764115d751b3eed70977a3a832cc8f44bf4690e272bddbf03f7e81a9f890fb"
+    },
+    {
+      "name": "libxslt-1.1.43-2-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libxslt-1.1.43-2-vs17-x64.zip",
+      "bytes": 626545,
+      "sha256": "f1f26ef0b2a18fd74d7b49db7ab3913a08b33a81b89f369f524d95b6d11a48a3"
+    },
+    {
+      "name": "libzip-1.12.1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libzip-1.12.1-vs17-x64.zip",
+      "bytes": 2134274,
+      "sha256": "a3ddff859603dc1ebfda9cbce12e38253a6dc7c2a375daa3ec8f6476c3b0b799"
+    },
+    {
+      "name": "libzstd-1.5.7-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/libzstd-1.5.7-vs17-x64.zip",
+      "bytes": 1756499,
+      "sha256": "59dbce5548104788ccfc5040bb7140916454fd0138d306705bd9b3d67741dc4a"
+    },
+    {
+      "name": "mpir-3.0.0-3-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/mpir-3.0.0-3-vs17-x64.zip",
+      "bytes": 1138929,
+      "sha256": "f80d1f35938e15eefdcfef1b3603be9eba67a2e741b6c20f4bb1e3a1894c900d"
+    },
+    {
+      "name": "net-snmp-5.9.4-3-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/net-snmp-5.9.4-3-vs17-x64.zip",
+      "bytes": 3812075,
+      "sha256": "c67292a458a3025458ac6e52f89d3d175840ced791a6bd1b8bcf2d5d1bea9529"
+    },
+    {
+      "name": "nghttp2-1.70.0-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/nghttp2-1.70.0-vs17-x64.zip",
+      "bytes": 481238,
+      "sha256": "51e21698b80f4e1a151508656f6ca7caf13adfef65dfefbc160645cf9c1129f1"
+    },
+    {
+      "name": "openldap-2.7.0-3-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/openldap-2.7.0-3-vs17-x64.zip",
+      "bytes": 3724973,
+      "sha256": "780774930839540cf24f6d5bab6acf24c965f266be4c85c1c236718acdcb659c"
+    },
+    {
+      "name": "openssl-3.0.22.pl2-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/openssl-3.0.22.pl2-vs17-x64.zip",
+      "bytes": 10895577,
+      "sha256": "3bc1b788fa192ec455d6502e6067a581c64f6f9ba1db538e5d2aebc2c3a55977"
+    },
+    {
+      "name": "sqlite3-3.53.4-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/sqlite3-3.53.4-vs17-x64.zip",
+      "bytes": 6763712,
+      "sha256": "abb5e36fc76803b4df9a63ab56b931f37058d62c9e6303172015ff4f101ef4cd"
+    },
+    {
+      "name": "wineditline-2.208-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/wineditline-2.208-vs17-x64.zip",
+      "bytes": 296876,
+      "sha256": "c61ce5ca5e98b914ce982243883ad190f524bc18adc1d2f10021957c58317af5"
+    },
+    {
+      "name": "zlib-1.3.2-1-vs17-x64.zip",
+      "url": "https://downloads.php.net/~windows/php-sdk/deps/vs17/x64/zlib-1.3.2-1-vs17-x64.zip",
+      "bytes": 212035,
+      "sha256": "2d47f60a56fd435137aae6aa874eab5eddacb5611e82ea0eaf21687382f312da"
+    }
+  ]
+}

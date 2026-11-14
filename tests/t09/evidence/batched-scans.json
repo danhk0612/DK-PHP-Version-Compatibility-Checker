@@ -1,0 +1,76 @@
+{
+  "testedCommit": "2a2db7a5413fa463a258bafd62d8c94ca47e77ce",
+  "regressionRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858379",
+  "regressionJobId": 128105708584,
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "42279858379",
+    "sourceSha": "1bfcd2304747000feb7df9bfd8ddfe8443807920"
+  },
+  "regressions": {
+    "T05": {
+      "passed": 71,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T06": {
+      "passed": 25,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T07": {
+      "passed": 36,
+      "failures": 0,
+      "scopePassed": true
+    }
+  },
+  "regressionArtifact": {
+    "id": 13535830448,
+    "sha256": "sha256:6854f5882b8f9d112a6fa71a41db2e98545005ca6dc622628b52976d6246c420",
+    "bytes": 46247309
+  },
+  "batching": {
+    "maximumInitialFiles": 100,
+    "sequential": true,
+    "phpMemoryLimit": "512M",
+    "retry": "Confirmed exit255 PHP/PHPCS memory exhaustion only; halve until one input.",
+    "failedParentResultsDiscarded": true,
+    "unknownLeafProcessedCountPropagates": true,
+    "multipleSuccessfulProcessesHaveNoSingleOsExitCode": true
+  },
+  "batchCases": [
+    "actual engine completes 28817 generated files without changing inputs",
+    "batch service uses fresh processes of at most 100 and aggregates exact findings",
+    "memory retry discards failed-parent partial findings and fully recovers",
+    "singleton memory failures name all inputs and preserve siblings and later batches",
+    "non-memory exit 255 is not retried and later batches are retained",
+    "invalid UTF8 keeps the observed exit and does not discard later batches",
+    "memory words in JSON findings do not trigger memory retries",
+    "Dispose during a later batch preserves earlier results and starts no following batch"
+  ],
+  "pairingRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42279858759",
+  "pairingJobId": 128105710104,
+  "pairingArtifact": {
+    "id": 13534972278,
+    "sha256": "c14777bfeb84f5d15ba5c12d6e10b117ea34646775a03da25f00ffdfdfd84aed",
+    "bytes": 146678
+  },
+  "pairing": {
+    "scopePassed": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchiveSha256": "47596400a5cf4cbb780217ed10f3fadc5cedc3cf6f81481fa73a699e9c50725e",
+    "sourceArchiveSha256": "0538ca3b1d0de1502cebdb2b685de7f8d2dd797e25afaa2a9c0a5c3daa47cc31",
+    "engineRecipeBytesMatched": true,
+    "currentProjectSourceBytesMatched": true
+  },
+  "limits": [
+    "The user's project exhausted both 128M and 512M in the previous single-process flow; it has not yet been retested with batching.",
+    "The 28817-file actual-engine case uses generated simple inputs, not the user's project.",
+    "The batch helper is test-owned engine code and does not execute inspected PHP source. Memory split mode triggers a real PHP allocation failure; other modes separately verify protocol and cancellation cases.",
+    "A single file may still exceed 512M; it is reported as incomplete with its path, not silently skipped or declared compatible.",
+    "Windows Server CI does not replace remaining Windows 11 direct tests. No merge, tag or Release."
+  ]
+}

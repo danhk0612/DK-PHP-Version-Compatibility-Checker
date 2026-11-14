@@ -1,0 +1,107 @@
+name: Publish v0.1.0
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/release-v0.1.0.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: release-v0.1.0
+  cancel-in-progress: false
+env:
+  RELEASE_TAG: v0.1.0
+jobs:
+  package:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - name: Build and validate matching release ZIPs
+        shell: pwsh
+        run: ./tools/packaging/Prepare-LocalTest.ps1 -ReleaseVersion $env:RELEASE_TAG
+      - name: Relink PHP from the release source ZIP
+        shell: pwsh
+        run: |
+          $work = Join-Path $env:RUNNER_TEMP "dk-release-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          python tools/license-audit/Rebuild-FromSourceSidecar.py --source artifacts/t08-source-sidecar/DK-PHP-Compatibility-sources-and-notices.zip --binary "artifacts/t09/DK-PHP-Compatibility-$env:RELEASE_TAG-win-x64.zip" --pair artifacts/t09/evidence/paired-candidate.json --work $work
+          if ($LASTEXITCODE -ne 0) { throw 'Release source relink failed.' }
+      - name: Stage verified release assets
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory release-assets | Out-Null
+          Copy-Item -LiteralPath @(
+              "artifacts/t09/DK-PHP-Compatibility-$env:RELEASE_TAG-win-x64.zip",
+              'artifacts/t08-source-sidecar/DK-PHP-Compatibility-sources-and-notices.zip',
+              'artifacts/t09/evidence/paired-candidate.json'
+          ) -Destination release-assets
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verified-release-assets
+          path: release-assets/
+          if-no-files-found: error
+  publish:
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: verified-release-assets
+          path: release-assets
+      - name: Publish the release with its corresponding source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        working-directory: release-assets
+        run: |
+          set -euo pipefail
+          binary="DK-PHP-Compatibility-$RELEASE_TAG-win-x64.zip"
+          source="DK-PHP-Compatibility-sources-and-notices.zip"
+          jq -e --arg binary "$binary" --arg source "$source" '
+            .scopePassed and .allSourceMembersVerified and
+            .binaryArchive == $binary and .sourceArchive == $source
+          ' paired-candidate.json >/dev/null
+          jq -r '
+            "\(.binaryArchiveSha256)  \(.binaryArchive)",
+            "\(.sourceArchiveSha256)  \(.sourceArchive)"
+          ' paired-candidate.json > SHA256SUMS.txt
+          sha256sum -c SHA256SUMS.txt
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo 'A release already exists for this tag. Review its assets before retrying.' >&2
+            exit 1
+          fi
+          cat > notes.md <<'NOTES'
+          ## Windows x64
+
+          .NET Desktop Runtime 10 x64를 설치하고 실행 ZIP을 압축 해제한 뒤 `Dk.PhpCompatibilityChecker.exe`를 실행합니다.
+
+          - [Microsoft .NET Desktop Runtime 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+          - [Microsoft Visual C++ 재배포 패키지 x64](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) (PHP 실행 시 필요할 수 있음)
+
+          PHP 8.2~8.5를 대상으로 정적 호환성을 검사합니다. PHP 실행 환경과 기본 검사 엔진을 포함하므로 설치 준비 후 오프라인에서 검사할 수 있습니다. 검사 결과를 CSV·HTML로 내보낼 수 있습니다. 정적 검사 결과는 실제 서비스 실행을 보장하지 않습니다.
+
+          대응 소스·라이선스 고지 및 재링크 안내는 sources-and-notices ZIP에 있습니다. SHA256SUMS.txt에서 두 ZIP의 해시를 확인할 수 있습니다. paired-candidate.json은 ZIP 대조와 재링크 검증에 사용한 기록입니다.
+          NOTES
+          gh release create "$RELEASE_TAG" "$binary" "$source" paired-candidate.json SHA256SUMS.txt \
+            --target "$GITHUB_SHA" --title "$RELEASE_TAG" --notes-file notes.md --draft
+          gh release edit "$RELEASE_TAG" --draft=false --latest
+      - name: Verify anonymous downloads
+        working-directory: release-assets
+        run: |
+          set -euo pipefail
+          mkdir downloaded
+          base="https://github.com/$GITHUB_REPOSITORY/releases/download/$RELEASE_TAG"
+          for asset in "DK-PHP-Compatibility-$RELEASE_TAG-win-x64.zip" DK-PHP-Compatibility-sources-and-notices.zip paired-candidate.json SHA256SUMS.txt; do
+            curl -fsSL --retry 5 --retry-all-errors --max-time 180 "$base/$asset" -o "downloaded/$asset"
+            cmp -- "$asset" "downloaded/$asset"
+          done
+          cd downloaded
+          sha256sum -c SHA256SUMS.txt

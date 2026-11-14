@@ -1,0 +1,11 @@
+{
+  "testedHead": "a582fc7fbad9aa136c21fb0aae63f7776559d5c0",
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42055646466",
+  "artifactId": 13429821436,
+  "artifactSha256": "218c71b83f8033629781d0c1c156ecc10a579db603d800bedfe9c5647f209f9e",
+  "artifactRetentionDays": 7,
+  "releaseApproved": false,
+  "files": {
+    "summary.json": "0384bc9a25cc51a0d559b544fa2f46856c4aef7039895dda4643b0fdd37db456"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "scopePassed": true,
+  "artifactId": 12641062548,
+  "artifactSha256": "5292fcc1d336b34dc75a2c37d48aac29619d3a78b5958b4332192ce7c64f83e1",
+  "method": "Read release PE CodeView RSDS GUID/age and compare with stream 1 of each PDB; enumerate DBI module info records and hash two generated headers from the matching devel ZIP. No execution.",
+  "formatReferences": [
+    "https://llvm.org/docs/PDB/PdbStream.html",
+    "https://llvm.org/docs/PDB/DbiStream.html"
+  ],
+  "inputs": [
+    {
+      "name": "php-debug-pack-8.4.27-1-nts-Win32-vs17-x64.zip",
+      "sha256": "1f96fc34db1c92df82f5ef57381109e1b9b6316594daf2572119a15f206d4e19"
+    },
+    {
+      "name": "php-8.4.27-1-nts-Win32-vs17-x64.zip",
+      "sha256": "dbae154a0a89791f36c3d48e68bae797878333e7d6cb5721e74617de59b63ab7"
+    },
+    {
+      "name": "php-devel-pack-8.4.27-1-nts-Win32-vs17-x64.zip",
+      "sha256": "e5f610141b9686ee13f93add3c9e9dd7996bedde7e431f2a334dbfa106f14dad",
+      "archiveUrl": "https://downloads.php.net/~windows/releases/archives/php-devel-pack-8.4.27-1-nts-Win32-vs17-x64.zip"
+    }
+  ],
+  "pairs": [
+    {
+      "binary": "php.exe",
+      "binarySha256": "69f59f1e561c24c5204800ad8ecc1585d79dfa03d07a644d66f4241c86b5991e",
+      "pdb": "php.pdb",
+      "pdbSha256": "d1f7097b714278246662c27cfd3e01058020a69739e7b0aef8abe7a188a06c5f",
+      "guid": "2c296fa2-b62d-474a-bb28-0e4b0579aea4",
+      "age": 2,
+      "moduleRecords": 76,
+      "libraryModuleCounts": {
+        "MSVCRT.lib": 33,
+        "OLDNAMES.lib": 3,
+        "kernel32.lib": 2,
+        "php8.lib": 2,
+        "shell32.lib": 2,
+        "ucrt.lib": 20,
+        "vcruntime.lib": 3,
+        "ws2_32.lib": 2
+      },
+      "bcmathModuleNames": []
+    },
+    {
+      "binary": "php8.dll",
+      "binarySha256": "d3ab8a382818c1d937e8d88464bda8c031aa73179ae092ba8a660f1c8ff87661",
+      "pdb": "php8.pdb",
+      "pdbSha256": "aeb2acf7595de985d7e66f033d4a11ccbba23cebf0f848da638babd5365fa0dc",
+      "guid": "7c698c9b-78d4-4511-ac45-92445bca46c7",
+      "age": 1,
+      "moduleRecords": 757,
+      "libraryModuleCounts": {
+        "Crypt32.Lib": 2,
+        "Dnsapi.lib": 2,
+        "MSVCRT.lib": 24,
+        "OLDNAMES.lib": 19,
+        "WS2_32.Lib": 2,
+        "advapi32.lib": 2,
+        "argon2_a.lib": 6,
+        "bcrypt.lib": 2,
+        "edit_a.lib": 3,
+        "iphlpapi.lib": 2,
+        "kernel32.lib": 2,
+        "libiconv_a.lib": 3,
+        "libxml2_a_dll.lib": 41,
+        "ole32.lib": 2,
+        "ucrt.lib": 22,
+        "vcruntime.lib": 3,
+        "zlib_a.lib": 15
+      },
+      "bcmathModuleNames": [
+        "add.obj",
+        "bcmath.obj",
+        "compare.obj",
+        "convert.obj",
+        "div.obj",
+        "divmod.obj",
+        "doaddsub.obj",
+        "floor_or_ceil.obj",
+        "init.obj",
+        "int2num.obj",
+        "long2num.obj",
+        "nearzero.obj",
+        "neg.obj",
+        "num2long.obj",
+        "num2str.obj",
+        "raise.obj",
+        "raisemod.obj",
+        "recmul.obj",
+        "rmzero.obj",
+        "round.obj",
+        "sqrt.obj",
+        "str2num.obj",
+        "sub.obj",
+        "zero.obj"
+      ]
+    }
+  ],
+  "headers": [
+    {
+      "path": "php-8.4.27-devel-vs17-x64/include/main/config.w32.h",
+      "sha256": "154f84af2e5e09a101feb8cd3db1a42ab584e4197866dd2e644b2f16c21e429a",
+      "bytes": 12507,
+      "storedPath": "tools/license-audit/official-php-headers/main/config.w32.h"
+    },
+    {
+      "path": "php-8.4.27-devel-vs17-x64/include/Zend/zend_config.w32.h",
+      "sha256": "1a3a17920d6f11527fcd62b2b89144e96cc98c244ce1a65321002135f0016d9d",
+      "bytes": 1949,
+      "storedPath": "tools/license-audit/official-php-headers/Zend/zend_config.w32.h"
+    }
+  ],
+  "limitations": [
+    "PDB module records identify objects/libraries and do not preserve link inputs or object bytes.",
+    "Generated header bytes in the matching development package do not establish the full product build recipe.",
+    "No final redistribution or matching-source clearance."
+  ]
+}

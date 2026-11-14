@@ -1,0 +1,821 @@
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Dk.PhpCompatibilityChecker.Models;
+using Dk.PhpCompatibilityChecker.Services;
+
+internal static class Program
+{
+    private static readonly List<string> Passed = [];
+    private static readonly List<object> Failed = [];
+    private static string Repo = "";
+    private static string PackPath = "";
+    private static string Area = "";
+    private static EnginePack Pack = null!;
+    private static readonly JsonSerializerOptions Pretty = new() { WriteIndented = true };
+
+    private static async Task<int> Main(string[] args)
+    {
+        if (args.Length != 2 || !OperatingSystem.IsWindows())
+        {
+            Console.Error.WriteLine("Usage on actual Windows x64: <repoRoot> <runtimePack>");
+            return 2;
+        }
+        Repo = Path.GetFullPath(args[0]);
+        PackPath = Path.GetFullPath(args[1]);
+        Area = Path.Combine(Path.GetTempPath(), "dk-t05-verification-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(Area);
+        try
+        {
+            await Case("load prepared pack", async () =>
+            {
+                Pack = await new EnginePackLoader().LoadAsync(PackPath);
+                Check(Pack.Targets.Count > 0 && Pack.Targets.Select(t => t.Version).Distinct().Count() == Pack.Targets.Count, "Verified target list missing/duplicate");
+            });
+            if (Pack is not null)
+            {
+                ParserCases();
+                await FixtureCases();
+                await ServiceCases();
+                await MemoryCases();
+                await BatchCases();
+                await PackCases();
+                await SyntheticProcessCases();
+            }
+        }
+        finally
+        {
+            try { Directory.Delete(Area, true); }
+            catch (Exception ex) { Failed.Add(new { name = "managed test area cleanup", error = ex.ToString() }); }
+        }
+        var summary = new
+        {
+            environment = new { os = Environment.OSVersion.VersionString, architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString(), sdk = SdkVersion(), runId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID"), sourceSha = Environment.GetEnvironmentVariable("GITHUB_SHA") },
+            packId = Pack?.PackId,
+            targets = Pack?.Targets.Select(t => t.Version),
+            passed = Passed,
+            failures = Failed,
+            scopePassed = Failed.Count == 0,
+            scope = "C# T05 pack/scan/parser regression on Windows; no GUI, Release, Windows 11 deployment or future PHP support claim."
+        };
+        var output = Path.Combine(Repo, "artifacts/t05");
+        Directory.CreateDirectory(output);
+        await File.WriteAllTextAsync(Path.Combine(output, "summary.json"), JsonSerializer.Serialize(summary, Pretty), new UTF8Encoding(false));
+        Console.WriteLine("T05_SUMMARY_JSON=" + JsonSerializer.Serialize(summary));
+        return Failed.Count == 0 ? 0 : 1;
+    }
+
+    private static async Task Case(string name, Func<Task> body)
+    {
+        try { await body(); Passed.Add(name); Console.WriteLine("PASS " + name); }
+        catch (Exception ex) { Failed.Add(new { name, error = ex.ToString() }); Console.WriteLine("FAIL " + name + ": " + ex.Message); }
+    }
+    private static void Pure(string name, Action body) => Case(name, () => { body(); return Task.CompletedTask; }).GetAwaiter().GetResult();
+    private static void Check(bool value, string message) { if (!value) throw new InvalidOperationException(message); }
+    private static string SdkVersion()
+    {
+        using var p = Process.Start(new ProcessStartInfo("dotnet", "--version") { RedirectStandardOutput = true, UseShellExecute = false, WorkingDirectory = Repo });
+        if (p is null) return "unavailable";
+        var text = p.StandardOutput.ReadToEnd().Trim(); p.WaitForExit(); return text;
+    }
+    private static string NewProject(string name)
+    {
+        var p = Path.Combine(Area, name); Directory.CreateDirectory(p); return p;
+    }
+    private static string Subject(string project, string name, string text = "<?php echo 'safe';\n")
+    {
+        var p = Path.Combine(project, name); Directory.CreateDirectory(Path.GetDirectoryName(p)!); File.WriteAllText(p, text, new UTF8Encoding(false)); return p;
+    }
+    private static SortedDictionary<string, string> Snapshot(string root)
+    {
+        var result = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        var pending = new Stack<string>(); pending.Push(root);
+        while (pending.Count > 0)
+        {
+            foreach (var p in Directory.EnumerateFileSystemEntries(pending.Pop()))
+            {
+                var relative = Path.GetRelativePath(root, p);
+                var attr = File.GetAttributes(p);
+                if ((attr & FileAttributes.ReparsePoint) != 0) { result[relative] = "reparse:" + new FileInfo(p).LinkTarget; continue; }
+                if ((attr & FileAttributes.Directory) != 0) { result[relative] = "directory"; pending.Push(p); }
+                else result[relative] = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(p)));
+            }
+        }
+        return result;
+    }
+    private static void Unchanged(SortedDictionary<string, string> before, string root) =>
+        Check(before.SequenceEqual(Snapshot(root)), "Source file/directory list or SHA-256 changed");
+    private static async Task<ScanResult> Scan(string project, string? version = null, bool recursive = true, string? pack = null,
+        IReadOnlyList<string>? excludedPaths = null)
+    {
+        await using var service = new ScanService(pack ?? PackPath);
+        return await service.ScanAsync(new ScanRequest(project, version ?? Pack.Targets[0].Version, recursive, excludedPaths));
+    }
+
+    private static JsonObject Message(string type = "ERROR", string source = "Rule.One", bool fixable = false) => new()
+    {
+        ["message"] = "Original 한국어 message", ["source"] = source, ["severity"] = 5,
+        ["fixable"] = fixable, ["type"] = type, ["line"] = 2, ["column"] = 3
+    };
+    private static JsonObject Report(params (string Path, JsonObject[] Messages)[] entries)
+    {
+        var files = new JsonObject(); int errors = 0, warnings = 0, fixable = 0;
+        foreach (var entry in entries)
+        {
+            int fe = entry.Messages.Count(m => m["type"]!.GetValue<string>() == "ERROR");
+            int fw = entry.Messages.Count(m => m["type"]!.GetValue<string>() == "WARNING");
+            fixable += entry.Messages.Count(m => m["fixable"]!.GetValue<bool>());
+            errors += fe; warnings += fw;
+            files[entry.Path] = new JsonObject { ["errors"] = fe, ["warnings"] = fw, ["messages"] = new JsonArray(entry.Messages.Select(m => (JsonNode)m.DeepClone()).ToArray()) };
+        }
+        return new JsonObject { ["totals"] = new JsonObject { ["errors"] = errors, ["warnings"] = warnings, ["fixable"] = fixable }, ["files"] = files };
+    }
+    private static void ParserCases()
+    {
+        var project = NewProject("parser"); var file = Subject(project, "sample.php"); var other = Subject(project, "other.inc");
+        var request = new ScanRequest(project, Pack.Targets[0].Version, true);
+        var parser = new PhpcsReportParser();
+        ScanResult Parse(string json, int exit = 0, string stderr = "", params string[] selected) =>
+            parser.Parse(request, selected.Length == 0 ? new[] { file } : selected, Pack.EngineInfo, exit, json, stderr);
+        Pure("parser valid zero findings", () =>
+        {
+            var r = Parse(Report((file, [])).ToJsonString());
+            Check(r.Status == ScanStatus.Completed && r.ProcessedFileCount == 1 && r.ErrorCount == 0 && r.WarningCount == 0, "Zero finding report incorrect");
+        });
+        Pure("parser preserves same-line independent findings and raw fields", () =>
+        {
+            var r = Parse(Report((file, [Message(), Message("WARNING", "Rule.Two")])).ToJsonString(), 2);
+            Check(r.Status == ScanStatus.Completed && r.Issues.Count == 2 && r.ErrorCount == 1 && r.WarningCount == 1, "Findings collapsed or counts wrong");
+            Check(r.Issues[0].Line == 2 && r.Issues[0].Column == 3 && r.Issues[0].Severity == 5 && r.Issues[0].Source == "Rule.One" && r.Issues[0].Message == "Original 한국어 message" && !r.Issues[0].Fixable, "Raw fields changed");
+        });
+        Pure("parser accepts fixable exit 1 and mixed exit 3", () =>
+        {
+            Check(Parse(Report((file, [Message(fixable: true)])).ToJsonString(), 1).Status == ScanStatus.Completed, "Fixable exit 1 rejected");
+            Check(Parse(Report((file, [Message(fixable: true), Message("WARNING", "Rule.Two")])).ToJsonString(), 3).Status == ScanStatus.Completed, "Mixed exit 3 rejected");
+        });
+        Pure("parser rejects polluted and malformed JSON with unknown processed count", () =>
+        {
+            foreach (var text in new[] { "pollution\n" + Report((file, [])).ToJsonString(), "{", "null", "[]" })
+            { var r = Parse(text); Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null, "Malformed JSON looked successful"); }
+        });
+        Pure("parser preserves bounded fatal stdout diagnostics and actual exit", () =>
+        {
+            const string fatal = "Fatal error: Allowed memory size of 134217728 bytes exhausted";
+            var r = Parse(fatal, 255, "PHP Fatal error: memory exhausted");
+            Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null && r.EngineExitCode == 255,
+                "Fatal output changed failure or exit semantics");
+            Check(r.EngineStandardOutputPreview == fatal && r.EngineStandardError == "PHP Fatal error: memory exhausted",
+                "Fatal stdout/stderr was hidden");
+            r = Parse("BEGIN" + new string('x', 10000) + fatal, 255);
+            Check(r.EngineStandardOutputPreview is { Length: < 2200 } preview
+                && preview.StartsWith("BEGIN", StringComparison.Ordinal) && preview.EndsWith(fatal, StringComparison.Ordinal),
+                "Large malformed output lost bounded head/tail diagnostics");
+            Check(Parse(Report((file, [])).ToJsonString()).EngineStandardOutputPreview is null,
+                "Valid reports unnecessarily retained a stdout preview");
+            Check(Parse("", 255).EngineStandardOutputPreview is null, "Empty output invented engine text");
+        });
+        Pure("parser rejects duplicate JSON keys", () =>
+        {
+            var text = Report((file, [])).ToJsonString().Replace("\"totals\":", "\"totals\":{},\"totals\":", StringComparison.Ordinal);
+            Check(Parse(text).Status == ScanStatus.Failed, "Duplicate fields accepted");
+        });
+        Pure("parser rejects type and negative-location corruption", () =>
+        {
+            foreach (var change in new Action<JsonObject>[] { m => m["line"] = -1, m => m["severity"] = "5", m => m["type"] = "NOTICE", m => m["fixable"] = "false" })
+            {
+                // Build valid totals first; corrupt only the serialized row under test.
+                // The report builder must not reject a malformed fixture before the parser sees it.
+                var report = Report((file, [Message()]));
+                change(report["files"]![file]!["messages"]![0]!.AsObject());
+                Check(Parse(report.ToJsonString(), 2).Status == ScanStatus.Failed, "Corrupt row accepted");
+            }
+        });
+        Pure("parser rejects file and overall totals mismatch", () =>
+        {
+            var r = Report((file, [Message()])); r["totals"]!["errors"] = 0;
+            Check(Parse(r.ToJsonString(), 2).Status == ScanStatus.Failed, "Overall count mismatch accepted");
+            r = Report((file, [Message()])); r["files"]![file]!["errors"] = 0;
+            Check(Parse(r.ToJsonString(), 2).Status == ScanStatus.Failed, "File count mismatch accepted");
+        });
+        Pure("parser rejects contradictory exits and stderr diagnostics", () =>
+        {
+            Check(Parse(Report((file, [Message()])).ToJsonString(), 0).Status == ScanStatus.Failed, "Exit 0 with findings accepted");
+            Check(Parse(Report((file, [])).ToJsonString(), 2).Status == ScanStatus.Failed, "Exit 2 without findings accepted");
+            Check(Parse(Report((file, [])).ToJsonString(), 0, "PHP diagnostic").Status == ScanStatus.Failed, "stderr suppressed");
+        });
+        Pure("parser keeps valid partial findings as failure", () =>
+        {
+            var r = Parse(Report((file, [Message()])).ToJsonString(), 2, "", file, other);
+            Check(r.Status == ScanStatus.Failed && r.Issues.Count == 1 && r.ProcessedFileCount == 1, "Partial findings/count not retained");
+            r = Parse(Report((file, [Message()])).ToJsonString(), 255);
+            Check(r.Status == ScanStatus.Failed && r.Issues.Count == 1, "Execution failure lost valid findings");
+        });
+        Pure("parser rejects unexpected reported files", () =>
+        {
+            Check(Parse(Report((other, [])).ToJsonString()).Status == ScanStatus.Failed, "Unselected file accepted");
+        });
+    }
+
+    private static async Task FixtureCases()
+    {
+        using var definitions = JsonDocument.Parse(File.ReadAllText(Path.Combine(Repo, "tests/fixtures/cases.json")));
+        foreach (var definition in definitions.RootElement.GetProperty("cases").EnumerateArray())
+        {
+            string relative = definition.GetProperty("file").GetString()!;
+            foreach (var target in Pack.Targets)
+            {
+                if (!definition.GetProperty("targets").TryGetProperty(target.Version, out var expectation))
+                    continue;
+                await Case("actual fixture " + Path.GetFileName(relative) + " @ " + target.Version, async () =>
+                {
+                    var project = NewProject("fixture-" + Guid.NewGuid().ToString("N"));
+                    var destination = Path.Combine(project, Path.GetFileName(relative));
+                    File.Copy(Path.Combine(Repo, "tests/fixtures", relative.Replace('/', Path.DirectorySeparatorChar)), destination);
+                    var before = Snapshot(project);
+                    var result = await Scan(project, target.Version);
+                    Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 1 && result.ProcessedFileCount == 1, result.FailureMessage ?? "Actual fixture did not complete");
+                    string kind = expectation.GetProperty("expectation").GetString()!;
+                    if (kind == "finding")
+                    {
+                        string source = expectation.GetProperty("source_prefix").GetString()!; int line = expectation.GetProperty("line").GetInt32();
+                        Check(result.Issues.Any(m => m.Source.StartsWith(source, StringComparison.Ordinal) && m.Line == line
+                            && (!expectation.TryGetProperty("type", out var type) || m.Type == type.GetString())), "Expected finding absent");
+                    }
+                    else if (kind == "no_findings") Check(result.Issues.Count == 0 && result.ErrorCount == 0 && result.WarningCount == 0, "Unexpected control finding");
+                    Unchanged(before, project);
+                });
+            }
+        }
+    }
+
+    private static async Task ServiceCases()
+    {
+        await Case("actual empty folder is NoFiles", async () =>
+        {
+            var p = NewProject("empty"); var before = Snapshot(p); var r = await Scan(p);
+            Check(r.Status == ScanStatus.NoFiles && r.SelectedFileCount == 0 && r.Issues.Count == 0, "Empty folder looked compatible/completed"); Unchanged(before, p);
+        });
+        await Case("unsupported target rejected without modifying source", async () =>
+        {
+            var p = NewProject("unsupported"); Subject(p, "a.php"); var before = Snapshot(p);
+            Check((await Scan(p, "99.0")).Status == ScanStatus.Failed, "Unverified target accepted"); Unchanged(before, p);
+        });
+        await Case("extension and recursive selection are explicit", async () =>
+        {
+            var p = NewProject("recursive"); Subject(p, "a.PHP"); Subject(p, "b.InC"); Subject(p, "ignore.txt", "not PHP"); Subject(p, "nested/c.php");
+            Directory.CreateDirectory(Path.Combine(p, "empty-dir")); var before = Snapshot(p);
+            var local = await Scan(p, recursive: false); var all = await Scan(p);
+            Check(local.Status == ScanStatus.Completed && local.SelectedFileCount == 2 && local.ProcessedFileCount == 2, "Local extension selection incorrect: status=" + local.Status + ", selected=" + local.SelectedFileCount + ", processed=" + local.ProcessedFileCount + ", failure=" + local.FailureMessage);
+            Check(all.Status == ScanStatus.Completed && all.SelectedFileCount == 3 && all.ProcessedFileCount == 3, "Recursive selection incorrect: status=" + all.Status + ", selected=" + all.SelectedFileCount + ", processed=" + all.ProcessedFileCount + ", failure=" + all.FailureMessage); Unchanged(before, p);
+        });
+        await Case("configured folder and exact file exclusions preserve sibling boundaries and findings", async () =>
+        {
+            var p = NewProject("제외 한글 paths");
+            Subject(p, "keep.php");
+            Subject(p, "vendor/a.php", "<?php mysql_query('excluded');\n");
+            Subject(p, "vendor/nested/b.inc", "<?php mysql_query('excluded');\n");
+            var sibling = Subject(p, "vendor2/visible.php", "<?php mysql_query('visible');\n");
+            var omitted = Subject(p, "omit.php", "<?php mysql_query('excluded');\n");
+            var fileSibling = Subject(p, "omit.php.more.php", "<?php mysql_query('visible');\n");
+            var before = Snapshot(p);
+            var baseline = await Scan(p);
+            Check(baseline.Status == ScanStatus.Completed && baseline.SelectedFileCount == 6,
+                baseline.FailureMessage ?? "Exclusion positive-control baseline did not complete");
+            var r = await Scan(p, excludedPaths: ["VENDOR/", "./omit.php", Path.Combine(p, "vendor")]);
+            Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3,
+                r.FailureMessage ?? "Configured exclusions did not select exactly three files");
+            var expectedVisible = new[] { Path.GetFullPath(sibling), Path.GetFullPath(fileSibling) };
+            var expectedIssues = baseline.Issues.Where(i => expectedVisible.Contains(i.FilePath, StringComparer.OrdinalIgnoreCase)).ToArray();
+            Check(expectedIssues.Select(i => i.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 2
+                && expectedIssues.Length < baseline.Issues.Count, "Exclusion positive controls did not produce findings");
+            Check(r.Issues.Select(i => JsonSerializer.Serialize(i)).OrderBy(s => s, StringComparer.Ordinal)
+                .SequenceEqual(expectedIssues.Select(i => JsonSerializer.Serialize(i)).OrderBy(s => s, StringComparer.Ordinal)),
+                "Excluded paths reached engine or sibling-prefix matches were excluded: "
+                + string.Join("; ", r.Issues.Select(i => i.FilePath)));
+            Check(r.ExcludedPaths.Count == 2 && r.ExcludedPaths.Contains(omitted)
+                && r.ExcludedPaths.Contains(Path.Combine(p, "vendor")), "Configured exclusions were hidden or duplicated");
+            Unchanged(before, p);
+        });
+        await Case("all selected paths excluded is NoFiles and missing exclusion paths are inert", async () =>
+        {
+            var p = NewProject("exclude-all"); Subject(p, "a.php"); Subject(p, "nested/b.php");
+            var before = Snapshot(p);
+            var r = await Scan(p, excludedPaths: ["a.php", "nested", "not-created.php"]);
+            Check(r.Status == ScanStatus.NoFiles && r.SelectedFileCount == 0 && r.ProcessedFileCount == 0
+                && r.ExcludedPaths.Count == 2 && r.Issues.Count == 0, "Excluded inputs looked like a completed compatible scan");
+            Unchanged(before, p);
+        });
+        await Case("root and outside exclusion paths fail without changing source", async () =>
+        {
+            var p = NewProject("exclude-invalid"); Subject(p, "a.php"); var before = Snapshot(p);
+            foreach (var path in new[] { p, ".", "nested/..", "../escape", p + "-sibling", "*.php", "" })
+            {
+                var r = await Scan(p, excludedPaths: [path]);
+                Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null,
+                    "Invalid exclusion was accepted: " + path);
+            }
+            Unchanged(before, p);
+        });
+        await Case("explicit denied directory exclusion is applied before traversal", async () =>
+        {
+            var p = NewProject("exclude-denied-directory"); Subject(p, "keep.php"); Subject(p, "denied/hidden.php");
+            var before = Snapshot(p); var directory = Path.Combine(p, "denied");
+            var user = Environment.UserDomainName + "\\" + Environment.UserName;
+            var denied = await Run("icacls.exe", [directory, "/deny", user + ":(OI)(CI)(RX)"], Area);
+            Check(denied.Exit == 0, "Could not deny folder enumeration");
+            try
+            {
+                bool actuallyDenied = false;
+                try { _ = Directory.GetFileSystemEntries(directory); } catch (UnauthorizedAccessException) { actuallyDenied = true; }
+                Check(actuallyDenied, "Denied directory positive control was readable");
+                var baseline = await Scan(p);
+                Check(baseline.Status == ScanStatus.Failed, "Unexcluded denied folder looked complete");
+                var excluded = await Scan(p, excludedPaths: [directory]);
+                Check(excluded.Status == ScanStatus.Completed && excluded.SelectedFileCount == 1
+                    && excluded.ProcessedFileCount == 1 && excluded.ExcludedPaths.Contains(directory),
+                    excluded.FailureMessage ?? "Excluded denied folder was visited");
+            }
+            finally
+            {
+                var restored = await Run("icacls.exe", [directory, "/remove:d", user], Area);
+                Check(restored.Exit == 0, "Excluded folder ACL restore failed");
+            }
+            Unchanged(before, p);
+        });
+        await Case("configured link exclusions do not follow targets or allow a linked source root", async () =>
+        {
+            var p = NewProject("exclude-configured-link"); Subject(p, "keep.php");
+            var outside = NewProject("exclude-configured-link-target"); Subject(outside, "bad.php", "<?php mysql_query('outside');\n");
+            var link = Path.Combine(p, "linked");
+            var mk = await Run("cmd.exe", ["/d", "/c", "mklink", "/J", link, outside], Area);
+            Check(mk.Exit == 0, "Configured junction setup failed");
+            try
+            {
+                var before = Snapshot(p); var outsideBefore = Snapshot(outside);
+                var r = await Scan(p, excludedPaths: [link]);
+                Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 1 && r.Issues.Count == 0
+                    && r.ExcludedPaths.SequenceEqual(new[] { link }), "Configured junction was followed");
+                Check((await Scan(link, excludedPaths: ["bad.php"])).Status == ScanStatus.Failed,
+                    "Exclusions bypassed linked-root protection");
+                Unchanged(before, p); Unchanged(outsideBefore, outside);
+            }
+            finally { Directory.Delete(link); }
+        });
+        await Case("scan snapshots mutable configured exclusion lists before asynchronous work", async () =>
+        {
+            var p = NewProject("exclude-snapshot"); Subject(p, "keep.php"); Subject(p, "omit.php", "<?php mysql_query('excluded');\n");
+            var before = Snapshot(p); var configured = new List<string> { "omit.php" };
+            await using var service = new ScanService(PackPath);
+            var task = service.ScanAsync(new ScanRequest(p, Pack.Targets[0].Version, true, configured));
+            configured.Clear(); configured.Add("keep.php");
+            var r = await task;
+            Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 1 && r.Issues.Count == 0
+                && r.Request.ExcludedPaths!.SequenceEqual(new[] { "omit.php" }), "Caller mutation changed the in-flight exclusion request");
+            Unchanged(before, p);
+        });
+        await Case("source annotations cannot suppress selected findings", async () =>
+        {
+            var p = NewProject("annotations");
+            foreach (var f in Directory.GetFiles(Path.Combine(Repo, "tests/t04/annotations"))) File.Copy(f, Path.Combine(p, Path.GetFileName(f)));
+            var before = Snapshot(p); var r = await Scan(p);
+            Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3, r.FailureMessage ?? "Annotation scan incomplete");
+            Check(r.Issues.Select(x => Path.GetFileName(x.FilePath)).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 3, "Annotation hid a finding"); Unchanged(before, p);
+        });
+        await Case("Korean spaces metacharacters and hostile project settings remain inert", async () =>
+        {
+            var p = NewProject("한글 space & project");
+            Subject(p, "subject.php"); Subject(p, "bootstrap.php", "<?php throw new Exception('TARGET_EXECUTED');\n");
+            Subject(p, "vendor/autoload.php", "<?php throw new Exception('AUTOLOAD_EXECUTED');\n");
+            File.WriteAllText(Path.Combine(p, "phpcs.xml"), "<ruleset name=\"poison\"><bootstrap>bootstrap.php</bootstrap><rule ref=\"DoesNotExist\"/></ruleset>");
+            File.WriteAllText(Path.Combine(p, "composer.json"), "{\"scripts\":{\"pre-install-cmd\":\"@php bootstrap.php\"}}");
+            File.WriteAllText(Path.Combine(p, "php.ini"), "auto_prepend_file=bootstrap.php\n");
+            var outside = NewProject("external-ini"); string poison = Subject(outside, "poison.php", "<?php throw new Exception('INI_EXECUTED');\n");
+            string ini = Path.Combine(outside, "php.ini"); File.WriteAllText(ini, "auto_prepend_file=\"" + poison.Replace('\\', '/') + "\"\n", new UTF8Encoding(false));
+            var oldPhprc = Environment.GetEnvironmentVariable("PHPRC"); var oldScan = Environment.GetEnvironmentVariable("PHP_INI_SCAN_DIR");
+            var before = Snapshot(p);
+            try
+            {
+                var control = await Run(Pack.PhpExecutable, ["-c", ini, Subject(outside, "control.php")], outside);
+                Check(control.Exit != 0 && (control.Out + control.Error).Contains("INI_EXECUTED", StringComparison.Ordinal), "External ini positive control failed");
+                Environment.SetEnvironmentVariable("PHPRC", ini); Environment.SetEnvironmentVariable("PHP_INI_SCAN_DIR", outside);
+                var r = await Scan(p);
+                Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 3 && r.ProcessedFileCount == 3, r.FailureMessage ?? "Ambient/project settings affected scan"); Unchanged(before, p);
+            }
+            finally { Environment.SetEnvironmentVariable("PHPRC", oldPhprc); Environment.SetEnvironmentVariable("PHP_INI_SCAN_DIR", oldScan); }
+        });
+        await Case("junction and file symlink excluded; linked root and ancestor rejected", async () =>
+        {
+            var p = NewProject("links"); Subject(p, "inside.php"); var outside = NewProject("link-outside"); Subject(outside, "outside.php", "<?php mysql_query('bad');\n");
+            string junction = Path.Combine(p, "junction"); string linkedFile = Path.Combine(p, "linked.php");
+            var mk = await Run("cmd.exe", ["/d", "/c", "mklink", "/J", junction, outside], Area); Check(mk.Exit == 0, "Junction creation failed: " + mk.Error);
+            File.CreateSymbolicLink(linkedFile, Path.Combine(outside, "outside.php"));
+            try
+            {
+                var before = Snapshot(p); var r = await Scan(p);
+                Check(r.Status == ScanStatus.Completed && r.SelectedFileCount == 1 && r.ProcessedFileCount == 1 && r.Issues.Count == 0 && r.ExcludedPaths.Count >= 2, "Links were followed or exclusions hidden");
+                Check((await Scan(junction)).Status == ScanStatus.Failed, "Linked root accepted");
+                var child = Path.Combine(outside, "nested"); Directory.CreateDirectory(child); Subject(child, "a.php");
+                Check((await Scan(Path.Combine(junction, "nested"))).Status == ScanStatus.Failed, "Linked ancestor accepted"); Unchanged(before, p);
+            }
+            finally { File.Delete(linkedFile); Directory.Delete(junction); }
+        });
+        await Case("read-denied source is Failed and ACL restored", async () =>
+        {
+            var p = NewProject("read-denied"); string f = Subject(p, "denied.php"); var before = Snapshot(p);
+            string user = Environment.UserDomainName + "\\" + Environment.UserName;
+            var denied = await Run("icacls.exe", [f, "/deny", user + ":(R)"], Area); Check(denied.Exit == 0, "Could not deny input read");
+            try
+            {
+                bool actuallyDenied = false; try { _ = File.ReadAllBytes(f); } catch (UnauthorizedAccessException) { actuallyDenied = true; }
+                Check(actuallyDenied, "ACL positive control did not deny read");
+                var r = await Scan(p); Check(r.Status == ScanStatus.Failed && r.ProcessedFileCount is null, "Unreadable source looked complete");
+            }
+            finally { var restored = await Run("icacls.exe", [f, "/remove:d", user], Area); Check(restored.Exit == 0, "ACL restore failed"); }
+            Unchanged(before, p);
+        });
+        await Case("SUBST alias of managed temp fixture is rejected before creating scan work", async () =>
+        {
+            var used = DriveInfo.GetDrives().Select(d => d.Name[..2]).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            string drive = Enumerable.Range('C', 'Z' - 'C' + 1).Reverse()
+                .Select(c => ((char)c).ToString() + ":").First(d => !used.Contains(d));
+            string physical = NewProject("subst-physical");
+            Subject(physical, "subject.php", "<?php echo 'T05_SUBST_WITNESS';\n");
+            string aliasRoot = drive + "\\";
+            var created = await Run("subst.exe", [drive, physical], Area);
+            Check(created.Exit == 0, "SUBST creation failed: " + created.Error);
+            string? oldTmp = Environment.GetEnvironmentVariable("TMP");
+            string? oldTemp = Environment.GetEnvironmentVariable("TEMP");
+            try
+            {
+                Check(Directory.Exists(aliasRoot) && File.ReadAllText(Path.Combine(aliasRoot, "subject.php")) == File.ReadAllText(Path.Combine(physical, "subject.php")), "SUBST positive control did not reach managed fixture data");
+                Environment.SetEnvironmentVariable("TMP", physical);
+                Environment.SetEnvironmentVariable("TEMP", physical);
+                Check(Path.TrimEndingDirectorySeparator(Path.GetFullPath(Path.GetTempPath())).Equals(physical, StringComparison.OrdinalIgnoreCase), "Managed TMP/TEMP override did not affect GetTempPath");
+                var before = Snapshot(physical);
+                var r = await Scan(aliasRoot);
+                Check(r.Status == ScanStatus.Failed && r.FailureMessage?.Contains("겹", StringComparison.Ordinal) == true, "SUBST source/temp physical overlap was not rejected before enumeration");
+                Unchanged(before, physical);
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("TMP", oldTmp);
+                Environment.SetEnvironmentVariable("TEMP", oldTemp);
+                var removed = await Run("subst.exe", [drive, "/D"], Area);
+                Check(removed.Exit == 0 && !Directory.Exists(aliasRoot), "SUBST cleanup failed: " + removed.Error);
+            }
+        });
+        await Case("missing source and temp/source overlap rejected", async () =>
+        {
+            Check((await Scan(Path.Combine(Area, "does-not-exist"))).Status == ScanStatus.Failed, "Missing source accepted");
+            // A scan of the temp root would contain the service work area and must not write there.
+            var r = await Scan(Path.GetTempPath());
+            Check(r.Status == ScanStatus.Failed && r.FailureMessage?.Contains("겹", StringComparison.Ordinal) == true, "Temp/source overlap was not rejected before enumeration");
+            r = await Scan(Path.GetPathRoot(PackPath)!);
+            Check(r.Status == ScanStatus.Failed && r.FailureMessage?.Contains("겹", StringComparison.Ordinal) == true, "Drive containing pack was not rejected before enumeration");
+        });
+    }
+
+    private static async Task PackCases()
+    {
+        var copy = CopyPack("invalid-pack");
+        var manifestPath = Path.Combine(copy, "manifest.json"); var original = File.ReadAllBytes(manifestPath);
+        async Task RejectManifest(string name, Action<JsonObject> change)
+        {
+            await Case(name, async () =>
+            {
+                var data = JsonNode.Parse(original)!.AsObject(); change(data); File.WriteAllText(manifestPath, data.ToJsonString());
+                try { await RejectedPack(copy); } finally { File.WriteAllBytes(manifestPath, original); }
+            });
+        }
+        await RejectManifest("loader rejects unknown schema", m => m["schemaVersion"] = 2);
+        await RejectManifest("loader rejects unknown report profile", m => m["reportProfile"] = "future-profile");
+        await RejectManifest("loader rejects unverified target", m => m["targets"]!.AsArray().Add(new JsonObject { ["version"] = "99.0", ["verificationRef"] = "verification/results.json#targets/99.0", ["limitations"] = new JsonArray() }));
+        await RejectManifest("loader rejects duplicate target", m => m["targets"]!.AsArray().Add(m["targets"]![0]!.DeepClone()));
+        await RejectManifest("loader rejects traversal path", m => m["engine"]!["files"]!["../outside"] = new string('0', 64));
+        await RejectManifest("loader rejects wrong lock metadata", m => m["engine"]!["lockSha256"] = new string('0', 64));
+        await Case("loader rejects duplicate JSON keys", async () =>
+        {
+            string text = Encoding.UTF8.GetString(original).Replace("\"schemaVersion\":", "\"schemaVersion\":2,\"schemaVersion\":", StringComparison.Ordinal);
+            File.WriteAllText(manifestPath, text); try { await RejectedPack(copy); } finally { File.WriteAllBytes(manifestPath, original); }
+        });
+        foreach (var name in new[] { "php/php.exe", "engine/ruleset.xml", "engine/composer.lock", "verification/results.json" })
+        {
+            await Case("loader rejects changed " + name, async () =>
+            {
+                string file = Path.Combine(copy, name.Replace('/', Path.DirectorySeparatorChar)); var bytes = File.ReadAllBytes(file);
+                File.WriteAllBytes(file, bytes.Concat(new byte[] { 0 }).ToArray());
+                try { await RejectedPack(copy); } finally { File.WriteAllBytes(file, bytes); }
+            });
+        }
+        await Case("loader rejects added unlisted file", async () =>
+        {
+            string f = Subject(copy, "engine/unlisted.php"); try { await RejectedPack(copy); } finally { File.Delete(f); }
+        });
+        await Case("loader rejects missing file", async () =>
+        {
+            string f = Path.Combine(copy, "engine/ruleset.xml"); var bytes = File.ReadAllBytes(f); File.Delete(f);
+            try { await RejectedPack(copy); } finally { File.WriteAllBytes(f, bytes); }
+        });
+        await Case("loader rejects reparse point in pack", async () =>
+        {
+            string link = Path.Combine(copy, "engine/link.php"); File.CreateSymbolicLink(link, Path.Combine(copy, "php/php.exe"));
+            try { await RejectedPack(copy); } finally { File.Delete(link); }
+        });
+        await Case("loader accepts restored test pack", async () => { _ = await new EnginePackLoader().LoadAsync(copy); });
+    }
+    private static async Task RejectedPack(string path)
+    {
+        try { _ = await new EnginePackLoader().LoadAsync(path); }
+        catch (InvalidDataException) { return; }
+        catch (IOException) { return; }
+        throw new InvalidOperationException("Invalid pack accepted");
+    }
+    private static string CopyPack(string name)
+    {
+        var copy = NewProject(name);
+        foreach (var directory in Directory.EnumerateDirectories(PackPath, "*", SearchOption.AllDirectories)) Directory.CreateDirectory(Path.Combine(copy, Path.GetRelativePath(PackPath, directory)));
+        foreach (var file in Directory.EnumerateFiles(PackPath, "*", SearchOption.AllDirectories)) File.Copy(file, Path.Combine(copy, Path.GetRelativePath(PackPath, file)));
+        return copy;
+    }
+    private static void PatchEntry(string pack, string helper)
+    {
+        var manifestPath = Path.Combine(pack, "manifest.json"); var manifest = JsonNode.Parse(File.ReadAllText(manifestPath))!.AsObject();
+        string entry = manifest["engine"]!["entryPoint"]!.GetValue<string>(); string full = Path.Combine(pack, entry.Replace('/', Path.DirectorySeparatorChar));
+        File.WriteAllText(full, helper, new UTF8Encoding(false));
+        string digest = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(full))).ToLowerInvariant();
+        manifest["engine"]!["files"]![entry] = digest;
+        string report = manifest["verification"]!["reportPath"]!.GetValue<string>(); string evidencePath = Path.Combine(pack, report.Replace('/', Path.DirectorySeparatorChar));
+        var evidence = JsonNode.Parse(File.ReadAllText(evidencePath))!;
+        evidence["engineFiles"]![entry] = digest; File.WriteAllText(evidencePath, evidence.ToJsonString(), new UTF8Encoding(false));
+        manifest["verification"]!["files"]![report] = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(evidencePath))).ToLowerInvariant();
+        File.WriteAllText(manifestPath, manifest.ToJsonString(), new UTF8Encoding(false));
+    }
+    private static async Task SyntheticProcessCases()
+    {
+        var copy = CopyPack("synthetic-process-pack"); var project = NewProject("synthetic-subject"); Subject(project, "subject.php");
+        await Case("synthetic helper drains large stdout and stderr without deadlock", async () =>
+        {
+            // The helper is test-owned tool code, never inspected project code or a support claim.
+            PatchEntry(copy, "<?php fwrite(STDOUT,str_repeat('o',1048576)); fwrite(STDERR,str_repeat('e',1048576)); exit(255);\n");
+            var before = Snapshot(project);
+            await using var service = new ScanService(copy);
+            var result = await service.ScanAsync(new ScanRequest(project, Pack.Targets[0].Version, true)).WaitAsync(TimeSpan.FromSeconds(25));
+            Check(result.Status == ScanStatus.Failed && result.ProcessedFileCount is null, "Large invalid engine output looked successful"); Unchanged(before, project);
+        });
+        await Case("synthetic helper rejects concurrent scan and Dispose kills owned process", async () =>
+        {
+            PatchEntry(copy, "<?php file_put_contents(getenv('DK_T05_PID'),(string)getmypid()); sleep(120);\n");
+            string pidFile = Path.Combine(Area, "helper.pid"); string? old = Environment.GetEnvironmentVariable("DK_T05_PID");
+            var tempParent = Path.Combine(Path.GetTempPath(), "DK-PHP-Compatibility-Checker");
+            var beforeTemp = Directory.Exists(tempParent) ? Directory.GetDirectories(tempParent).ToHashSet(StringComparer.OrdinalIgnoreCase) : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            int? ownedPid = null; var before = Snapshot(project); var service = new ScanService(copy);
+            try
+            {
+                Environment.SetEnvironmentVariable("DK_T05_PID", pidFile);
+                var scan = service.ScanAsync(new ScanRequest(project, Pack.Targets[0].Version, true));
+                var deadline = DateTime.UtcNow.AddSeconds(25);
+                while (!File.Exists(pidFile) && DateTime.UtcNow < deadline && !scan.IsCompleted) await Task.Delay(50);
+                Check(File.Exists(pidFile), "Synthetic helper did not start");
+                ownedPid = int.Parse(File.ReadAllText(pidFile));
+                bool rejected = false;
+                try { var second = await service.ScanAsync(new ScanRequest(project, Pack.Targets[0].Version, true)); rejected = second.Status == ScanStatus.Failed; }
+                catch (InvalidOperationException) { rejected = true; }
+                Check(rejected, "Concurrent scan accepted");
+                await service.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(15));
+                var result = await scan.WaitAsync(TimeSpan.FromSeconds(5));
+                Check(result.Status == ScanStatus.Failed, "Interrupted process became completed");
+                bool exited;
+                try { using var child = Process.GetProcessById(ownedPid.Value); exited = child.HasExited; }
+                catch (ArgumentException) { exited = true; }
+                Check(exited, "Owned process survived disposal");
+                var afterTemp = Directory.Exists(tempParent) ? Directory.GetDirectories(tempParent).ToHashSet(StringComparer.OrdinalIgnoreCase) : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                Check(afterTemp.SetEquals(beforeTemp), "Service temporary scan folder survived disposal"); Unchanged(before, project);
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("DK_T05_PID", old);
+                if (ownedPid.HasValue)
+                {
+                    try { using var child = Process.GetProcessById(ownedPid.Value); if (!child.HasExited) { child.Kill(true); await child.WaitForExitAsync(); } }
+                    catch (ArgumentException) { }
+                }
+                await service.DisposeAsync();
+            }
+        });
+    }
+    private static async Task MemoryCases()
+    {
+        await Case("synthetic engine allocation fails at 128M and service permits 512M", async () =>
+        {
+            var copy = CopyPack("memory-capacity-pack");
+            var project = NewProject("memory-capacity-subject");
+            var file = Subject(project, "subject.php");
+            var before = Snapshot(project);
+            var payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(Report((file, [])).ToJsonString()));
+            PatchEntry(copy, "<?php $buffer = str_repeat('x', 160 * 1024 * 1024); "
+                + "if (ini_get('memory_limit') !== '512M') { fwrite(STDERR, 'Unexpected memory limit'); exit(255); } "
+                + "echo base64_decode('" + payload + "');\n");
+            var baseline = await Run(Path.Combine(copy, "php/php.exe"),
+                new[] { "-n", "-d", "memory_limit=128M", Path.Combine(copy, "engine/vendor/squizlabs/php_codesniffer/bin/phpcs") }, copy);
+            Check(baseline.Exit == 255 && (baseline.Out + baseline.Error).Contains("Allowed memory size", StringComparison.Ordinal),
+                "128M capacity control did not reproduce a PHP allocation failure");
+            await using var service = new ScanService(copy);
+            var result = await service.ScanAsync(new ScanRequest(project, Pack.Targets[^1].Version, true));
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 1 && result.Issues.Count == 0,
+                "Service did not supply the bounded 512M engine limit: " + result.FailureMessage);
+            Unchanged(before, project);
+        });
+        await Case("actual engine completes 28817 generated files without changing inputs", async () =>
+        {
+            var project = NewProject("large-file-count");
+            for (var index = 0; index < 28817; index++)
+                Subject(project, index.ToString("D5") + ".php", "<?php echo 1;\n");
+            var before = Snapshot(project);
+            var result = await Scan(project, Pack.Targets[^1].Version);
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 28817
+                && result.ProcessedFileCount == 28817 && result.Issues.Count == 0,
+                "Large actual PHPCS scan failed: " + result.FailureMessage + " " + result.EngineStandardError);
+            Unchanged(before, project);
+        });
+    }
+
+    private static (string Pack, string Project, string Log) BatchFixture(string name, int count,
+        string mode = "normal", int threshold = 0, string poison = "00105.php")
+    {
+        var pack = CopyPack("batch-pack-" + name);
+        var project = NewProject("batch-subject-" + name);
+        for (var index = 0; index < count; index++)
+            Subject(project, index.ToString("D5") + ".php");
+        var log = Path.Combine(Area, "batch-" + name + ".jsonl");
+        var config = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new { mode, threshold, poison, log })));
+        // This is trusted, test-owned engine code. It never executes inspected source.
+        PatchEntry(pack, "<?php $cfg=json_decode(base64_decode('" + config + "'),true);\n" + """
+            $list=null;
+            foreach ($argv as $arg) {
+                if (str_starts_with($arg, '--file-list=')) { $list=substr($arg,12); }
+            }
+            $inputs=file($list, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            file_put_contents($cfg['log'], json_encode(['pid'=>getmypid(),'files'=>$inputs,'memory'=>ini_get('memory_limit')])."\n", FILE_APPEND);
+            $poison=count(array_intersect(explode('|',$cfg['poison']), array_map('basename',$inputs)))>0;
+            if ($cfg['mode']==='cancel' && $poison) { sleep(120); }
+            if ($cfg['mode']==='unrelated' && $poison) {
+                fwrite(STDOUT,'{broken'); fwrite(STDERR,'Unrelated engine failure'); exit(255);
+            }
+            if ($cfg['mode']==='utf8' && $poison) {
+                fwrite(STDOUT,"\xFF"); fwrite(STDERR,'Invalid stdout encoding'); exit(255);
+            }
+            $memory=($cfg['mode']==='split' && count($inputs)>$cfg['threshold'])
+                || ($cfg['mode']==='poison' && $poison);
+            if ($memory && count($inputs)===1) {
+                echo 'Fatal error: Allowed memory size of 536870912 bytes exhausted'; exit(255);
+            }
+            $files=[];
+            foreach ($inputs as $input) {
+                $message=$cfg['mode']==='message' ? 'Fatal error: Allowed memory size of 536870912 bytes exhausted' : 'Test-owned batch finding';
+                $files[$input]=['errors'=>1,'warnings'=>0,'messages'=>[['message'=>$message,'source'=>'T05.Batch','severity'=>5,'type'=>'ERROR','line'=>1,'column'=>1,'fixable'=>false]]];
+            }
+            echo json_encode(['totals'=>['errors'=>count($inputs),'warnings'=>0,'fixable'=>0],'files'=>$files], JSON_THROW_ON_ERROR);
+            if ($memory) {
+                if ($cfg['mode']==='split') { echo "\n"; $allocation=str_repeat('x',600*1024*1024); }
+                fwrite(STDERR,'The PHP_CodeSniffer "phpcs" command ran out of memory.'); exit(255);
+            }
+            exit($cfg['mode']==='message' ? 255 : 2);
+            """);
+        return (pack, project, log);
+    }
+
+    private static HashSet<string> TempChildren()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "DK-PHP-Compatibility-Checker");
+        return Directory.Exists(root) ? Directory.GetDirectories(root).ToHashSet(StringComparer.OrdinalIgnoreCase)
+            : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static bool ProcessExists(int pid)
+    {
+        try { using var process = Process.GetProcessById(pid); return !process.HasExited; }
+        catch (ArgumentException) { return false; }
+    }
+
+    private static JsonElement[] BatchAttempts(string log)
+    {
+        if (!File.Exists(log)) return [];
+        using var stream = new FileStream(log, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+        using var reader = new StreamReader(stream);
+        // The helper appends one newline-terminated record per invocation. A
+        // concurrently observed incomplete final record is not an entered batch.
+        return reader.ReadToEnd().Split('\n').SkipLast(1).Where(line => !string.IsNullOrWhiteSpace(line)).Select(line =>
+        {
+            using var document = JsonDocument.Parse(line);
+            return document.RootElement.Clone();
+        }).ToArray();
+    }
+
+    private static async Task BatchCases()
+    {
+        await Case("batch service uses fresh processes of at most 100 and aggregates exact findings", async () =>
+        {
+            var f = BatchFixture("normal", 205); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var attempts = BatchAttempts(f.Log);
+            Check(attempts.Select(x => x.GetProperty("files").GetArrayLength()).SequenceEqual(new[] { 100, 100, 5 }), "Initial batches differ from 100/100/5");
+            Check(attempts.All(x => x.GetProperty("memory").GetString() == "512M"), "A batch changed memory policy");
+            Check(attempts.Select(x => x.GetProperty("pid").GetInt32()).Distinct().Count() == 3, "Batches reused the same PHP process");
+            Check(result.Status == ScanStatus.Completed && result.SelectedFileCount == 205 && result.ProcessedFileCount == 205
+                && result.ErrorCount == 205 && result.Issues.Select(x => x.FilePath).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 205,
+                "Batch findings/counts were lost or duplicated");
+            Check(result.EngineExitCode is null, "Multiple processes fabricated one OS exit code"); Unchanged(before, f.Project);
+        });
+        await Case("memory retry discards failed-parent partial findings and fully recovers", async () =>
+        {
+            var f = BatchFixture("split", 27, "split", 10); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 7, "Memory retry did not halve to bounded leaves");
+            Check(result.Status == ScanStatus.Completed && result.ProcessedFileCount == 27 && result.Issues.Count == 27
+                && result.ErrorCount == 27 && result.Issues.Select(x => x.FilePath).Distinct().Count() == 27,
+                "Recovered memory parents leaked duplicate findings or failure status");
+            Check(string.IsNullOrEmpty(result.FailureMessage) && string.IsNullOrEmpty(result.EngineStandardError), "Recovered parents leaked terminal diagnostics");
+            Unchanged(before, f.Project);
+        });
+        await Case("singleton memory failures name all inputs and preserve siblings and later batches", async () =>
+        {
+            var f = BatchFixture("poison", 205, "poison", poison: "00105.php|00106.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            var poison = Path.Combine(f.Project, "00105.php");
+            var secondPoison = Path.Combine(f.Project, "00106.php");
+            Check(result.Status == ScanStatus.Failed && result.SelectedFileCount == 205 && result.ProcessedFileCount is null
+                && result.EngineExitCode == 255 && result.Issues.Count == 203 && result.ErrorCount == 203,
+                "Singleton failure hid good results or became a completed scan");
+            Check(result.FailureMessage?.Contains(poison, StringComparison.Ordinal) == true
+                && result.FailureMessage.Contains(secondPoison, StringComparison.Ordinal), "Failed singleton inputs were not all identified");
+            Check(result.Issues.All(x => !x.FilePath.Equals(poison, StringComparison.OrdinalIgnoreCase)
+                && !x.FilePath.Equals(secondPoison, StringComparison.OrdinalIgnoreCase)), "Failed input invented findings");
+            Check(BatchAttempts(f.Log).Any(x => x.GetProperty("files").GetArrayLength() == 1
+                && x.GetProperty("files")[0].GetString() == poison), "Poison batch never narrowed to one file");
+            Unchanged(before, f.Project);
+        });
+        await Case("non-memory exit 255 is not retried and later batches are retained", async () =>
+        {
+            var f = BatchFixture("unrelated", 205, "unrelated", poison: "00000.php"); var before = Snapshot(f.Project);
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255,
+                "Unrelated failure triggered memory retries or discarded later successes");
+            Unchanged(before, f.Project);
+        });
+        await Case("invalid UTF8 keeps the observed exit and does not discard later batches", async () =>
+        {
+            var f = BatchFixture("utf8", 205, "utf8", poison: "00000.php");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 3 && result.Status == ScanStatus.Failed
+                && result.ProcessedFileCount is null && result.Issues.Count == 105 && result.EngineExitCode == 255
+                && result.EngineStandardError == "Invalid stdout encoding", "Invalid UTF8 lost actual metadata or later results");
+        });
+        await Case("memory words in JSON findings do not trigger memory retries", async () =>
+        {
+            var f = BatchFixture("message", 27, "message");
+            await using var service = new ScanService(f.Pack);
+            var result = await service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+            Check(BatchAttempts(f.Log).Length == 1 && result.Status == ScanStatus.Failed && result.Issues.Count == 27,
+                "Quoted finding text was misclassified as a PHP allocation fatal");
+        });
+        await Case("Dispose during a later batch preserves earlier results and starts no following batch", async () =>
+        {
+            var f = BatchFixture("cancel", 205, "cancel", poison: "00100.php");
+            var before = Snapshot(f.Project); var beforeTemp = TempChildren();
+            var service = new ScanService(f.Pack); int? pid = null;
+            try
+            {
+                var scan = service.ScanAsync(new ScanRequest(f.Project, Pack.Targets[0].Version, true));
+                var deadline = DateTime.UtcNow.AddSeconds(30);
+                while (BatchAttempts(f.Log).Length < 2 && DateTime.UtcNow < deadline && !scan.IsCompleted)
+                    await Task.Delay(50);
+                var attempts = BatchAttempts(f.Log); Check(attempts.Length == 2, "Second batch did not enter the controlled wait");
+                pid = attempts[^1].GetProperty("pid").GetInt32();
+                await service.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(15));
+                var result = await scan.WaitAsync(TimeSpan.FromSeconds(5));
+                Check(result.Status == ScanStatus.Failed && result.Issues.Count == 100 && result.SelectedFileCount == 205
+                    && result.ProcessedFileCount is null, "Cancellation lost earlier findings or claimed all files complete");
+                Check(BatchAttempts(f.Log).Length == 2 && !ProcessExists(pid.Value), "Dispose started another batch or left a child alive");
+                Check(TempChildren().SetEquals(beforeTemp), "Batch work folder survived disposal"); Unchanged(before, f.Project);
+            }
+            finally { await service.DisposeAsync(); }
+        });
+    }
+
+    private static async Task<(int Exit, string Out, string Error)> Run(string executable, string[] args, string cwd)
+    {
+        var start = new ProcessStartInfo(executable) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = cwd, CreateNoWindow = true };
+        foreach (var arg in args) start.ArgumentList.Add(arg);
+        using var process = Process.Start(start) ?? throw new InvalidOperationException("Could not start test helper");
+        var stdout = process.StandardOutput.ReadToEndAsync(); var stderr = process.StandardError.ReadToEndAsync();
+        await process.WaitForExitAsync(); return (process.ExitCode, await stdout, await stderr);
+    }
+}

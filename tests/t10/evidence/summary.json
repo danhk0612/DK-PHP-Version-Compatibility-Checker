@@ -1,0 +1,1058 @@
+{
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "runId": "42055646710",
+    "sourceSha": "aaafbd00313851e270941a1fff0f3b375eb0520d"
+  },
+  "passed": [
+    "reduced pack restart displays only verified 8.2/8.3",
+    "reduced pack actual 16 fixture/target regressions",
+    "closed-window full pack exchange adds existing verified 8.4",
+    "full pack actual 24 fixture/target regressions",
+    "unverified target refused",
+    "runtime/engine file hash corruption refused",
+    "unsupported manifest schema refused",
+    "unsupported report profile refused",
+    "mixed subset/full partial composition refused",
+    "closed-window previous pack restore reproduces targets and GUI",
+    "restored pack actual regressions match prior results",
+    "same application assembly and source/derived-pack bytes unchanged"
+  ],
+  "failures": [],
+  "runs": [
+    {
+      "origin": "independent verification OS process and actual WPF product assembly",
+      "label": "reduced",
+      "pid": 568,
+      "output": "child-reduced.json",
+      "result": {
+        "scopePassed": true,
+        "pid": 568,
+        "targets": [
+          "8.2",
+          "8.3"
+        ],
+        "productAssemblySha256": "beab5b0bdaa318d6cf036430cb8ca539017df28c5d481eaac53a7f23f16b923e",
+        "runs": [
+          {
+            "origin": "actual WPF button and PHPCompatibility",
+            "target": "8.3",
+            "status": "Completed",
+            "errors": "2",
+            "warnings": "1"
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual WPF button and PHPCompatibility",
+      "target": "8.3",
+      "status": "Completed",
+      "errors": "2",
+      "warnings": "1"
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 1,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "get_class_no_args.php",
+            "Line": 6,
+            "Column": 16,
+            "Type": "WARNING",
+            "Severity": 5,
+            "Source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "Message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "independent verification OS process and actual WPF product assembly",
+      "label": "full",
+      "pid": 6312,
+      "output": "child-full.json",
+      "result": {
+        "scopePassed": true,
+        "pid": 6312,
+        "targets": [
+          "8.2",
+          "8.3",
+          "8.4"
+        ],
+        "productAssemblySha256": "beab5b0bdaa318d6cf036430cb8ca539017df28c5d481eaac53a7f23f16b923e",
+        "runs": [
+          {
+            "origin": "actual WPF button and PHPCompatibility",
+            "target": "8.4",
+            "status": "Completed",
+            "errors": "2",
+            "warnings": "2"
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual WPF button and PHPCompatibility",
+      "target": "8.4",
+      "status": "Completed",
+      "errors": "2",
+      "warnings": "2"
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 1,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "get_class_no_args.php",
+            "Line": 6,
+            "Column": 16,
+            "Type": "WARNING",
+            "Severity": 5,
+            "Source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "Message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 1,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "get_class_no_args.php",
+            "Line": 6,
+            "Column": 16,
+            "Type": "WARNING",
+            "Severity": 5,
+            "Source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "Message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 1,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "implicit_nullable.php",
+            "Line": 2,
+            "Column": 39,
+            "Type": "WARNING",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionDeclarations.RemovedImplicitlyNullableParam.Deprecated",
+            "Message": "Implicitly marking a parameter as nullable is deprecated since PHP 8.4. Update the type to be explicitly nullable instead. Found implicitly nullable parameter: $value.",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.2",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.3",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.4",
+      "restore": false,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "independent verification OS process and actual WPF product assembly",
+      "label": "restored",
+      "pid": 6236,
+      "output": "child-restored.json",
+      "result": {
+        "scopePassed": true,
+        "pid": 6236,
+        "targets": [
+          "8.2",
+          "8.3"
+        ],
+        "productAssemblySha256": "beab5b0bdaa318d6cf036430cb8ca539017df28c5d481eaac53a7f23f16b923e",
+        "runs": [
+          {
+            "origin": "actual WPF button and PHPCompatibility",
+            "target": "8.3",
+            "status": "Completed",
+            "errors": "2",
+            "warnings": "1"
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual WPF button and PHPCompatibility",
+      "target": "8.3",
+      "status": "Completed",
+      "errors": "2",
+      "warnings": "1"
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_removed.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 2,
+        "WarningCount": 0,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.Extensions.RemovedExtensions.mysql_DeprecatedRemoved",
+            "Message": "Extension \u0027mysql_\u0027 is deprecated since PHP 5.5 and removed since PHP 7.0; Use mysqli instead",
+            "Fixable": false
+          },
+          {
+            "file": "mysql_removed.php",
+            "Line": 2,
+            "Column": 1,
+            "Type": "ERROR",
+            "Severity": 5,
+            "Source": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_queryDeprecatedRemoved",
+            "Message": "Function mysql_query() is deprecated since PHP 5.5 and removed since PHP 7.0",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/mysql_control.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_no_args.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 1,
+        "EngineExitCode": 2,
+        "issues": [
+          {
+            "file": "get_class_no_args.php",
+            "Line": 6,
+            "Column": 16,
+            "Type": "WARNING",
+            "Severity": 5,
+            "Source": "PHPCompatibility.ParameterValues.RemovedGetClassNoArgs.ArgMissing",
+            "Message": "Calling get_class() without the $object argument is deprecated since PHP 8.3.",
+            "Fixable": false
+          }
+        ]
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/get_class_control.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/implicit_nullable.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/explicit_nullable.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/dynamic_property.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.2",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    },
+    {
+      "origin": "actual fixed engine fixture",
+      "key": "compatibility/declared_property.php@8.3",
+      "restore": true,
+      "result": {
+        "Status": 2,
+        "ProcessedFileCount": 1,
+        "ErrorCount": 0,
+        "WarningCount": 0,
+        "EngineExitCode": 0,
+        "issues": []
+      }
+    }
+  ],
+  "applicationAssemblySha256": "beab5b0bdaa318d6cf036430cb8ca539017df28c5d481eaac53a7f23f16b923e",
+  "scopePassed": true,
+  "scope": "Development-only derived verified targets, actual WPF restart/manual directory exchange and restore, same assembly; not license or release approval",
+  "limitations": [
+    "T08 redistribution gate remains open",
+    "Independent verification OS processes load the unchanged product assembly; default packaged product EXE startup belongs to deployment validation",
+    "No future/unverified PHP version introduced",
+    "Windows Server 2022, not clean Windows 11",
+    "Firewall rule installed by workflow; connectivity positive-control is from base pack preparation"
+  ]
+}

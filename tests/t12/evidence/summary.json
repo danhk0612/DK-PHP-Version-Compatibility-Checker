@@ -1,0 +1,68 @@
+{
+  "headSha": "3687fe8b9b9957154771d5510812d359202ea94a",
+  "mergeRefSha": "f239642b05343f884cd66fd2f60cd662634f1328",
+  "runId": 43338975882,
+  "jobId": 131602232987,
+  "artifact": {
+    "id": 13999075688,
+    "sha256": "sha256:3875a5cd4c65fbfcccf8757489beb4197e417cd65e26d143e8a22b93e9ede42d"
+  },
+  "windows": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "43338975882",
+    "sourceSha": "f239642b05343f884cd66fd2f60cd662634f1328"
+  },
+  "buildWarnings": 0,
+  "buildErrors": 0,
+  "suites": {
+    "T05": {
+      "passed": 77,
+      "failures": 0
+    },
+    "T06": {
+      "passed": 27,
+      "failures": 0
+    },
+    "T07": {
+      "passed": 39,
+      "failures": 0
+    },
+    "T12": {
+      "passed": 19,
+      "failures": 0
+    }
+  },
+  "scopePassed": true,
+  "exportCases": [
+    "CSV RFC roundtrip preserves all issue fields including quotes commas Korean and embedded newline",
+    "CSV metadata distinguishes configured actual exclusions and includes engine diagnostics and limits",
+    "CSV neutralizes formula prefixes in every dynamic text category while retaining the original suffix",
+    "standalone HTML encodes hostile dynamic text and contains all raw issue and summary data",
+    "terminal status Completed keeps zero findings and unknown processing distinct",
+    "terminal status NoFiles keeps zero findings and unknown processing distinct",
+    "terminal status Failed keeps zero findings and unknown processing distinct",
+    "failed partial result retains known issues and incomplete meaning",
+    "Idle and Running have no exportable terminal report",
+    "actual CSV save is UTF8 BOM and outside-source report preserves all original files and empty directories",
+    "actual HTML save matches standalone rendering and allows a sibling-prefix output folder",
+    "source-root and source-subtree destinations are rejected without creating or overwriting files",
+    "junction output alias into source is rejected and original remains unchanged",
+    "SUBST output alias into source is rejected by physical directory identity",
+    "atomic overwrite of an external hardlink never truncates its inspected source target",
+    "pre-cancelled save preserves existing output and leaves no temporary files",
+    "invalid status or extension preserves existing output and creates no temporary files",
+    "failed overwrite of a locked report preserves old output and cleans owned temporary files",
+    "SaveAsync snapshots mutable issue exclusion and limitation collections before returning"
+  ],
+  "guiExportCases": [
+    "native CSV and HTML save dialogs export the actual current scan outside source",
+    "native save cancellation preserves current result and edits disable stale exports"
+  ],
+  "limitations": [
+    "Native SaveFileDialog and current GUI result availability are verified separately",
+    "CSV UTF8 BOM and RFC parsing tested; the desktop Excel application was not executed",
+    "No PHP engine or supported target changes"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "testedCommit": "bc851a10e180752607a79a44977bf54385e962f1",
+  "regressionRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42172402619",
+  "regressionJobId": 127743027262,
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "42172402619",
+    "sourceSha": "9b1837ba86ff33d26857c612c69ab2e226fce157"
+  },
+  "regressions": {
+    "T05": {
+      "passed": 62,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T06": {
+      "passed": 24,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T07": {
+      "passed": 36,
+      "failures": 0,
+      "scopePassed": true
+    }
+  },
+  "regressionArtifacts": [
+    {
+      "id": 13480923834,
+      "sha256": "sha256:c15aecf29398d3f360001e5fb9d00d8e8ef5e47b4f113c073ad666effa0d3714",
+      "bytes": 46240663
+    }
+  ],
+  "diagnosticCases": [
+    "parser preserves bounded fatal stdout diagnostics and actual exit",
+    "parser rejects contradictory exits and stderr diagnostics",
+    "synthetic helper drains large stdout and stderr without deadlock",
+    "failed scan exposes engine exit and both diagnostic streams in the existing view",
+    "oversized stderr keeps first and last diagnostics within a bounded view",
+    "completed and empty scans do not expose stale engine diagnostic metadata",
+    "input edits clear stale findings, exclusions and failure diagnostics"
+  ],
+  "pairingRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42172402516",
+  "pairingJobId": 127743026491,
+  "pairingArtifact": {
+    "id": 13481807909,
+    "sha256": "970e2a093cdca21b6cafb3d7e0087d3f6d836d6b5fad94eb1d5688545695d005",
+    "bytes": 146683
+  },
+  "pairing": {
+    "scopePassed": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchiveSha256": "ed375aaa0da329091ef2fe18db63ca047ddbf536f0b2a42e517a05728f084a00",
+    "sourceArchiveSha256": "eb9f9ce850f75003e200685af3794e722922fb60aadd4843b15b08b5e6a980be",
+    "engineRecipeBytesMatched": true,
+    "currentProjectSourceBytesMatched": true
+  },
+  "limits": [
+    "Memory/fatal diagnostics in regression cases are synthetic; the cause of the user's 28817-file failure is unconfirmed.",
+    "PHP memory limit, engine versions, supported targets and scan success/failure rules were not changed.",
+    "The documented quick rebuild is local diagnostic use; previous paired ZIP metadata does not certify that new local binary.",
+    "No merge, tag or Release."
+  ]
+}

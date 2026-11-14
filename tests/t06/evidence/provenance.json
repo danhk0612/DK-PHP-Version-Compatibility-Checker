@@ -1,0 +1,16 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40966862548",
+  "testedHead": "5cf36d114ea3347999d1568d8d03bc1ecb848bc3",
+  "checkoutMergeRef": "f70e6448e7d7a214286eca8db76609e0e5ed7ab0",
+  "artifactId": 12938462105,
+  "artifactSha256": "4065668f84ac012d727af9a625691799cf3c32ff609f251ad26128ee3e7e9a34",
+  "summarySha256": "f1fbbe065a457b7e3ecc32171cc411b057d55da79c7219186292e8f4bed6919d",
+  "buildWarnings": 0,
+  "buildErrors": 0,
+  "visualReview": [
+    "completed-findings.png",
+    "failed-partial.png",
+    "minimum-long-diagnostics.png"
+  ],
+  "scope": "Actual shown WPF HWND/client visual with labelled synthetic presentation data; no real scan button/engine integration. Native OS frame is not included in PNG."
+}

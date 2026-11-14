@@ -1,0 +1,51 @@
+{
+  "functionalScopePassed": true,
+  "fullBaselineUnchanged": true,
+  "phpFiles": {
+    "full": 79,
+    "minimal": 7
+  },
+  "phpBytes": {
+    "full": 96050460,
+    "minimal": 13043511,
+    "saved": 83006949,
+    "reductionPercent": 86.42014728508327
+  },
+  "caseComparisons": 24,
+  "annotationComparisons": 9,
+  "offlineComparisonsPerProfile": 24,
+  "regressions": {
+    "t05": {
+      "scopePassed": true,
+      "passed": 61
+    },
+    "t06": {
+      "scopePassed": true,
+      "passed": 21
+    },
+    "t07": {
+      "scopePassed": true,
+      "passed": 36
+    }
+  },
+  "generatedSourceTests": 9,
+  "sourceArchives": 6,
+  "trackedSourceFiles": 31375,
+  "generatedSourceFiles": 2,
+  "generatedArchiveSha256": "8943c574eba5f311de4608eb05f969b4df4c7e00974e48e7bdc66de52828208c",
+  "rawBundledMatches": 21,
+  "bundledSourceAssertions": 23,
+  "configuredBundledMatches": 23,
+  "sourceCollectionPassed": true,
+  "nativeBuildOrRelinkVerified": false,
+  "redistributionCleared": false,
+  "workflowConclusion": "success",
+  "taskStatus": "T08 partial; actual rebuild/relink, final notices and durable source co-delivery remain",
+  "limits": [
+    "Windows Server 2022 CI, not clean Windows 11 ZIP deployment",
+    "Source matching is raw source plus separately pinned configure-generated headers",
+    "No native compile or modified-library relink performed",
+    "Official builder run not directly hash-linked to distributed ZIP",
+    "Source ZIPs in temporary artifact are not durable release source delivery"
+  ]
+}

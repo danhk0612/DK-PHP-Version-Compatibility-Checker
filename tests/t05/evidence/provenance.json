@@ -1,0 +1,12 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/40830447517",
+  "testedHead": "f08de1dae5d91474ca1672d0cd128bcc0b69c784",
+  "checkoutMergeRef": "522cc635c214f4ab5ddff7dc3c068111125773eb",
+  "artifactId": 12877939899,
+  "artifactSha256": "ec736323e8ea1265ee178316a6e3a360874d27f7a22e43ff612e12c77007e460",
+  "summarySha256": "eba93b857b35d981f3432ca311336120100cfc9f79335ffd96af9eb9eab16147",
+  "packManifestSha256": "0967508f83e377de8907e73620a5cb432938f46bc19a34cbd93fb2c5be8c088b",
+  "buildWarnings": 0,
+  "buildErrors": 0,
+  "scope": "Windows Server 2022 x64 C# T05 service/pack/parser tests. No GUI/Release/Windows 11 deployment claim."
+}

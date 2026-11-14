@@ -1,0 +1,22 @@
+{
+  "name": "dk/php-compatibility-engine",
+  "description": "Isolated fixed dependencies for the approved compatibility engine pack.",
+  "type": "project",
+  "require": {
+    "php": ">=7.2",
+    "ext-libxml": "*",
+    "ext-simplexml": "*",
+    "ext-tokenizer": "*",
+    "ext-xmlwriter": "*",
+    "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+    "squizlabs/php_codesniffer": "4.0.4",
+    "phpcsstandards/phpcsutils": "1.2.3",
+    "dealerdirect/phpcodesniffer-composer-installer": "1.1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "prefer-stable": true
+}

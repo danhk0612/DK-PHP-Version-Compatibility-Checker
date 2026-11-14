@@ -1,0 +1,18 @@
+{
+  "scopePassed": true,
+  "pid": 6236,
+  "targets": [
+    "8.2",
+    "8.3"
+  ],
+  "productAssemblySha256": "beab5b0bdaa318d6cf036430cb8ca539017df28c5d481eaac53a7f23f16b923e",
+  "runs": [
+    {
+      "origin": "actual WPF button and PHPCompatibility",
+      "target": "8.3",
+      "status": "Completed",
+      "errors": "2",
+      "warnings": "1"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "testedCommit": "23965310e94f4f0ad80fd5498d588aae7340ba89",
+  "regressionRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42174958344",
+  "regressionJobId": 127751180827,
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.20348.0",
+    "architecture": "X64",
+    "sdk": "10.0.403",
+    "runId": "42174958344",
+    "sourceSha": "e9214f96a6d39205bdac21ab93131dcfaa89c6cf"
+  },
+  "regressions": {
+    "T05": {
+      "passed": 64,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T06": {
+      "passed": 25,
+      "failures": 0,
+      "scopePassed": true
+    },
+    "T07": {
+      "passed": 36,
+      "failures": 0,
+      "scopePassed": true
+    }
+  },
+  "regressionArtifact": {
+    "id": 13482537634,
+    "sha256": "sha256:d3f8f4a63536b4780d75c93c732cbdd94bf7fb85228806c98864dfc2ea7eb9cb",
+    "bytes": 46236235
+  },
+  "memory": {
+    "engineLimit": "512M",
+    "userIniRead": false,
+    "capacityControl": "Test-owned synthetic PHP engine allocates 160 MiB: explicit 128M fails with exit 255, ScanService 512M completes a valid one-file report.",
+    "realEngineFixture": "28817 generated PHP files; exact selected/processed counts, zero findings, input snapshot unchanged.",
+    "passedCases": [
+      "synthetic engine allocation fails at 128M and service permits 512M",
+      "actual engine completes 28817 generated files without changing inputs"
+    ]
+  },
+  "copy": {
+    "passedCases": [
+      "failure detail supports actual clipboard copy while remaining read-only"
+    ],
+    "readOnly": true
+  },
+  "pairingRun": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/42174958368",
+  "pairingJobId": 127751180685,
+  "pairingArtifact": {
+    "id": 13482298869,
+    "sha256": "d0a2381f7ec00ff3ec9a91a18208725d2f6fa2e311cc47e36068073ee9642475",
+    "bytes": 146687
+  },
+  "pairing": {
+    "scopePassed": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchiveSha256": "da9b34aceca3a991f82996c3003796457e447e0748d1a6312615208bdc2d8535",
+    "sourceArchiveSha256": "f80aedcdb7287dcfb594e0bcc37c690c9df05ed5224b0430396c28b61b8f4085",
+    "currentProjectSourceBytesMatched": true
+  },
+  "limits": [
+    "The user's diagnostic screenshot confirms 128 MiB exhaustion. The user's project has not yet been retested at 512M.",
+    "Generated file count and synthetic capacity tests do not guarantee every project fits in 512M.",
+    "Windows Server CI does not replace remaining Windows 11 direct tests.",
+    "No merge, tag or Release."
+  ]
+}

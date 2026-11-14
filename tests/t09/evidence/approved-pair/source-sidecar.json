@@ -1,0 +1,886 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "component": "php",
+      "commit": "00d8bae801541db0d95a698e108bb4b1b273fe6e",
+      "member": "sources/core/php-00d8bae801541db0d95a698e108bb4b1b273fe6e.zip",
+      "sha256": "3690f4ccbb774cb223ca8a788561b45cd7dbf4aac35b4c3c8144fde5a04f7c9f",
+      "bytes": 33796820
+    },
+    {
+      "component": "libiconv",
+      "commit": "8f55a0aa6532f30f947261d90e72b200f350a5df",
+      "member": "sources/core/libiconv-8f55a0aa6532f30f947261d90e72b200f350a5df.zip",
+      "sha256": "61655fc761ecbc87ce1be97b621e6164be5b105ecc3c0b947b8b548988089b04",
+      "bytes": 6658200
+    },
+    {
+      "component": "libxml2",
+      "commit": "c8797dc3b7964fabdb94d0b3176afb461afbd40b",
+      "member": "sources/core/libxml2-c8797dc3b7964fabdb94d0b3176afb461afbd40b.zip",
+      "sha256": "bb704d40074f17a31d853d95e9c892078ed78fcbcbe2d50ccd87455c7211a5e5",
+      "bytes": 5549428
+    },
+    {
+      "component": "zlib",
+      "commit": "838fe0e338adb28f5662e5ac332b0f0eb96ba93a",
+      "member": "sources/core/zlib-838fe0e338adb28f5662e5ac332b0f0eb96ba93a.zip",
+      "sha256": "e08a659886bfc4fc2613936890f57dd2032afec64c4e22a5390dbb24c6c2dc4f",
+      "bytes": 1668969
+    },
+    {
+      "component": "wineditline",
+      "commit": "39ae4ff02a06c97f804833844b767777d6625fb8",
+      "member": "sources/core/wineditline-39ae4ff02a06c97f804833844b767777d6625fb8.zip",
+      "sha256": "4150a2c4cf3f91f85562a921b633feae4481c8d58b7835ee44946d3f67e2632d",
+      "bytes": 38289
+    },
+    {
+      "component": "libargon2",
+      "commit": "fb53ef37be212380d51877b70f514f3bf2c1ee40",
+      "member": "sources/core/libargon2-fb53ef37be212380d51877b70f514f3bf2c1ee40.zip",
+      "sha256": "62a0d87cc2f6a547a02347556d11231a885c936a3427d61c5c2e8680ba69770d",
+      "bytes": 1541537
+    },
+    {
+      "component": "phpcompatibility/php-compatibility",
+      "commit": "e0f0e5a3dc819a4a0f8d679a0f2453d941976e18",
+      "member": "sources/engine/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.zip",
+      "sha256": "998408974627c3c7f0793b6fbae8460e720b4618227ea7bb6b256dc3ab9f7f59",
+      "bytes": 1304441
+    },
+    {
+      "component": "phpcsstandards/phpcsutils",
+      "commit": "5f35d9408c54d7b529501f3c688b6eae562aea1f",
+      "member": "sources/engine/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.zip",
+      "sha256": "cb3db8cd4d0d6b2254a54d8140ed683fd38a372c32b2de44d8c07ff230fc4b4b",
+      "bytes": 738767
+    },
+    {
+      "component": "php-windows-builder",
+      "commit": "68dc945d9509c41b72332c74c8b99731bb75bc25",
+      "member": "sources/build/php-windows-builder-68dc945d9509c41b72332c74c8b99731bb75bc25.zip",
+      "sha256": "87208b23920b40629f32cbfdbaa2bbba8cbb659601b60f7a8c0ac78075d2c1d2",
+      "bytes": 286523
+    },
+    {
+      "component": "php-sdk-binary-tools",
+      "commit": "81b356186db123ce9cd65149cee4683211a59ebd",
+      "member": "sources/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd.zip",
+      "sha256": "2da08a1a9d1d6b95c55e66429d15bf0b7a22f922f89daaccee9d0d4680f7db40",
+      "bytes": 36220186
+    }
+  ],
+  "buildRecipeSourcesIncluded": true,
+  "members": [
+    {
+      "path": "READ-ME.txt",
+      "bytes": 800,
+      "sha256": "8459e7b982570dc918d495b51b095224277d8f2e1609b343db77b26936f448d4"
+    },
+    {
+      "path": "inventories/build-source.json",
+      "bytes": 4376,
+      "sha256": "9193ecfd37a7d0cf2e655b4db87f7ca9581bb93741c12fd6930430436a731a3d"
+    },
+    {
+      "path": "inventories/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd-files.json",
+      "bytes": 87430,
+      "sha256": "da2f67455db38639fe94cc42641f85123bb3f3bb315f9aeb2d05d09c5391130f"
+    },
+    {
+      "path": "inventories/build/php-windows-builder-68dc945d9509c41b72332c74c8b99731bb75bc25-files.json",
+      "bytes": 58198,
+      "sha256": "0e38fb080928238c0c58fc25c1fe89aa02d850f46372481358c8b9e60da163c4"
+    },
+    {
+      "path": "inventories/core-source.json",
+      "bytes": 62306,
+      "sha256": "0252bb2611f26047a9f0691884a889d7d06393d3d7c5314f987d05c0ecd80886"
+    },
+    {
+      "path": "inventories/core/libargon2-fb53ef37be212380d51877b70f514f3bf2c1ee40-files.json",
+      "bytes": 17641,
+      "sha256": "4fe6b93ecd3af2a6b968a39cf5a1d1a73d0454ab4b1274ceb0c5fb1c35b1190b"
+    },
+    {
+      "path": "inventories/core/libiconv-8f55a0aa6532f30f947261d90e72b200f350a5df-files.json",
+      "bytes": 295464,
+      "sha256": "8f52287af57c8139f9e1d4877ce47d30537551d208bf42b8775324cad081061f"
+    },
+    {
+      "path": "inventories/core/libxml2-c8797dc3b7964fabdb94d0b3176afb461afbd40b-files.json",
+      "bytes": 1032389,
+      "sha256": "c142ac238e38c0790b1e8706167511c4a1d192cd666258cb67fb613a2b1c5304"
+    },
+    {
+      "path": "inventories/core/php-00d8bae801541db0d95a698e108bb4b1b273fe6e-files.json",
+      "bytes": 6973040,
+      "sha256": "76b84c6623790326f4cc04e01f2393d665fdd88d0b38ae68933b7f672835117c"
+    },
+    {
+      "path": "inventories/core/wineditline-39ae4ff02a06c97f804833844b767777d6625fb8-files.json",
+      "bytes": 5235,
+      "sha256": "f0f3acb251202db5c40e7122cc7d808c0f9cf916ae29837eba765e934b81fec9"
+    },
+    {
+      "path": "inventories/core/zlib-838fe0e338adb28f5662e5ac332b0f0eb96ba93a-files.json",
+      "bytes": 67260,
+      "sha256": "d06db318357ccc3171ee3e89d1b6c8b9cab92161ddba321d73ab9717af73e7ad"
+    },
+    {
+      "path": "inventories/corresponding-source.json",
+      "bytes": 1560,
+      "sha256": "bddec07bc3c266f133790551cac32cf41fd66eacd3d6095611d443fc7fbae417"
+    },
+    {
+      "path": "inventories/engine/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.json",
+      "bytes": 310744,
+      "sha256": "6b61146966e33b261826fcbcbf6fb25d83ca0a4a83cdf00ce6f945ce3e67b90f"
+    },
+    {
+      "path": "inventories/engine/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.json",
+      "bytes": 160443,
+      "sha256": "9fd2ae503df9b89c3113b7f69b874c18a49bba7fee3f0de5c2282a254faf8916"
+    },
+    {
+      "path": "inventories/generated-windows-config.json",
+      "bytes": 2525,
+      "sha256": "b22bdfd7b113dfb8185db4b763d1c0f06e5f7bb1eade260877d538cd5d022693"
+    },
+    {
+      "path": "project/.github/workflows/t01-windows-probe.yml",
+      "bytes": 3438,
+      "sha256": "aed4978df25b0ec7656bd475bfb29d0aaeacb7f804a8e83682107fcd7ee52d96"
+    },
+    {
+      "path": "project/.github/workflows/t03-wpf-skeleton.yml",
+      "bytes": 1567,
+      "sha256": "4d3676193898a122c66b30fc67d87a614082561dbaf120281fbbb53a9f2a01f5"
+    },
+    {
+      "path": "project/.github/workflows/t04-engine-pack.yml",
+      "bytes": 1268,
+      "sha256": "dfad43510afaf02093a3ae3dc7d49555cc30f258f65509bf8227815c72704b38"
+    },
+    {
+      "path": "project/.github/workflows/t05-scan-service.yml",
+      "bytes": 2137,
+      "sha256": "74e365947a798ba94a29a62e68b785c3ae8dbe385af8afb0eb6092e5167b368d"
+    },
+    {
+      "path": "project/.github/workflows/t06-gui.yml",
+      "bytes": 2058,
+      "sha256": "6518e0f7a6e7858c4a5830f8f5d657429abd0f85443294808a5160321f0d60e2"
+    },
+    {
+      "path": "project/.github/workflows/t07-gui-integration.yml",
+      "bytes": 2079,
+      "sha256": "65a4c4a6039eb087f28739243d5063140bb786bf8b8dfbe1a7ea1f10102af126"
+    },
+    {
+      "path": "project/.github/workflows/t08-libiconv-rebuild.yml",
+      "bytes": 2313,
+      "sha256": "39cff473a9afc3440e32fdfd63b0f801b086f1ece22d40df3a36d7e483ac7da9"
+    },
+    {
+      "path": "project/.github/workflows/t08-licenses.yml",
+      "bytes": 1627,
+      "sha256": "95dade361c35aa0fb5cb5f334d21b1c61bcda34b12e876d64c3d134722c434f9"
+    },
+    {
+      "path": "project/.github/workflows/t08-minimal-cli.yml",
+      "bytes": 4799,
+      "sha256": "c535fe5675c7096725d57f77be1a2de8c8dc2e49d0d437539c909dccc54fc75b"
+    },
+    {
+      "path": "project/.github/workflows/t08-native-inputs.yml",
+      "bytes": 926,
+      "sha256": "a6c0859a23c5ccdc21d925717568e1d66e0f44b8318659299123ff7d9a922f20"
+    },
+    {
+      "path": "project/.github/workflows/t08-php-relink.yml",
+      "bytes": 5536,
+      "sha256": "8fa81a7df82279e8aa90fe653e238fc42e5e9d63ef1dfd939a4f574b5ce40274"
+    },
+    {
+      "path": "project/.github/workflows/t08-source-sidecar.yml",
+      "bytes": 3389,
+      "sha256": "fe1f32b6fcaec18ea40e14242b6793f54225f2df6eab9fda14d9d2836b5fc4fb"
+    },
+    {
+      "path": "project/.github/workflows/t09-package.yml",
+      "bytes": 1466,
+      "sha256": "8f24e031408b4d151b2d6681e20d0f05fc062cca8807e0beb3c1c6c682475278"
+    },
+    {
+      "path": "project/.github/workflows/t10-pack-exchange.yml",
+      "bytes": 2465,
+      "sha256": "49d186aa7dda386b61953f52de5837fe9b0933afc3ceb4c132b2e225ac874530"
+    },
+    {
+      "path": "project/ARCHITECTURE.md",
+      "bytes": 27259,
+      "sha256": "f9d65956855b5ecb1d8174a05dc8f2093d515a658e47e6fb25b0294a544c5404"
+    },
+    {
+      "path": "project/LICENSE",
+      "bytes": 1104,
+      "sha256": "5a13982c96f5944565b18a3831965647c19f68ff65347c14cb6bb2edfd7ab43c"
+    },
+    {
+      "path": "project/LICENSING.md",
+      "bytes": 19900,
+      "sha256": "5706e168d338bebade78a6d1c1e0a7f47ddc233b0a3684848d5ba125e9cf165f"
+    },
+    {
+      "path": "project/REQUIREMENTS.md",
+      "bytes": 7819,
+      "sha256": "0d03b1fb966656b4979bf4e0442448d7806e4d1c276af673003b2e0a5a1da14e"
+    },
+    {
+      "path": "project/THIRD-PARTY-NOTICES.md",
+      "bytes": 8060,
+      "sha256": "9954f2b1cc5b087f9c203f268808bb50b9a74d3569a56ff48321a4c4877bd121"
+    },
+    {
+      "path": "project/global.json",
+      "bytes": 112,
+      "sha256": "6250798383e58093ef1dd256c1ef2e9aba19474e2cd6c195fbee617decb92682"
+    },
+    {
+      "path": "project/licenses/common/GPL-3.0.txt",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NET-Library-License.txt",
+      "bytes": 8879,
+      "sha256": "543874f493cff185162e0dace87eb81b705257f09c89418ed64a9a47b2a211a6"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/LICENSE.TXT",
+      "bytes": 1139,
+      "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/Microsoft.NETCore.App.Host.win-x64.nuspec",
+      "bytes": 1019,
+      "sha256": "50bf648cd76c1fd8e4b7728d9e8f316930d6997852181d1afae95a2cc764463c"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+      "bytes": 78041,
+      "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/LICENSE.TXT",
+      "bytes": 1139,
+      "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/Microsoft.NETCore.App.Runtime.win-x64.nuspec",
+      "bytes": 1022,
+      "sha256": "8c99e7284e82388e25102c91372872d7138d031f2261f8cdbab63b650ddbc78c"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+      "bytes": 78041,
+      "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/LICENSE",
+      "bytes": 1137,
+      "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/Microsoft.WindowsDesktop.App.Runtime.win-x64.nuspec",
+      "bytes": 916,
+      "sha256": "896132be4b59c2d631b6337c97f032293a7bcf4d51fac8b1589c0bbc39de3a3c"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-winforms-THIRD-PARTY-NOTICES.TXT",
+      "bytes": 1966,
+      "sha256": "5a412b38efae0b162dc0893b319023f4cd14a8985a0f9f9ae01ac052b37a36eb"
+    },
+    {
+      "path": "project/licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-wpf-THIRD-PARTY-NOTICES.TXT",
+      "bytes": 2703,
+      "sha256": "d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9"
+    },
+    {
+      "path": "project/licenses/dotnet/UPSTREAM-LICENSE-INFORMATION.md",
+      "bytes": 2256,
+      "sha256": "87f9974735fa705f5ed13367de111b94d09573205c4b90e07cf6d8301081dc10"
+    },
+    {
+      "path": "project/licenses/dotnet/UPSTREAM-WINDOWS-LICENSE-INFORMATION.md",
+      "bytes": 1500,
+      "sha256": "3bdf7142d570f11780d1a5fcb6cbe47f5cf4a15bc634acf8db93fe3be8837119"
+    },
+    {
+      "path": "project/licenses/dotnet/Windows-SDK-License.txt",
+      "bytes": 27300,
+      "sha256": "b71e309726559116012f5cf674391086a90dfe8349f93467096676862f57abe8"
+    },
+    {
+      "path": "project/licenses/engine/Composer-generated-autoloader-LICENSE",
+      "bytes": 1070,
+      "sha256": "c8cce4b6b9729f264ffdf9296d505d63432497feeed1f586d1902b942197e024"
+    },
+    {
+      "path": "project/licenses/engine/PHPCSUtils-1.2.3-LICENSE",
+      "bytes": 7652,
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+    },
+    {
+      "path": "project/licenses/engine/PHPCompatibility-10.0.0-alpha2-LICENSE",
+      "bytes": 7651,
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+    },
+    {
+      "path": "project/licenses/engine/PHP_CodeSniffer-4.0.4-licence.txt",
+      "bytes": 1592,
+      "sha256": "ad489e425c9a48b9fe97b8c11dd5f422606aa72e7726a438cd01ebee22d8ba80"
+    },
+    {
+      "path": "project/licenses/engine/composer-installer-1.1.0-LICENSE.md",
+      "bytes": 1147,
+      "sha256": "ff8952f52de516acd28e4ed2b8da83742fad13678515782d502a4086dd0d8045"
+    },
+    {
+      "path": "project/licenses/php/PHP-8.4.27-LICENSE",
+      "bytes": 3204,
+      "sha256": "b42e4df5e50e6ecda1047d503d6d91d71032d09ed1027ba1ef29eed26f890c5a"
+    },
+    {
+      "path": "project/licenses/php/ZIP-license.txt",
+      "bytes": 3272,
+      "sha256": "098bdc5b9808fc16bef4b7154e876ac08ca249549727cde3b3f3f3b431e27cca"
+    },
+    {
+      "path": "project/licenses/php/ZIP-readme-redist-bins.txt",
+      "bytes": 760774,
+      "sha256": "c24722e9e3c627e3c7e8a5efd50c5c0aa1d9f689c3e03dc28a632f1f6218ca5e"
+    },
+    {
+      "path": "project/licenses/php/Zend-8.4.27-LICENSE",
+      "bytes": 2803,
+      "sha256": "509aeb3be64e428d7e0004ce224620ab01bf94adaacefbb449611939df56bc5b"
+    },
+    {
+      "path": "project/licenses/php/core-source/libargon2/LICENSE",
+      "bytes": 17879,
+      "sha256": "220f8736a89ff51c92ef3d497f413b48e6cf1df3d6278bc909c6308c78e1718e"
+    },
+    {
+      "path": "project/licenses/php/core-source/libiconv/source/COPYING",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "project/licenses/php/core-source/libiconv/source/COPYING.LIB",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "path": "project/licenses/php/core-source/libiconv/source/libcharset/COPYING.LIB",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "path": "project/licenses/php/core-source/libxml2/Copyright",
+      "bytes": 1289,
+      "sha256": "c5c63674f8a83c4d2e385d96d1c670a03cb871ba2927755467017317878574bd"
+    },
+    {
+      "path": "project/licenses/php/core-source/php/ext/date/lib/LICENSE.rst",
+      "bytes": 1129,
+      "sha256": "2120d029e7c67b9d08c1f665f1c3ed581206f00970b664cccdebe1419bf566e9"
+    },
+    {
+      "path": "project/licenses/php/core-source/wineditline/COPYING",
+      "bytes": 1588,
+      "sha256": "e1a9520a9b3143ad64adb356c5d2fca6bb09a3ad3950cf1f7213946543582440"
+    },
+    {
+      "path": "project/licenses/php/core-source/zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "project/licenses/php/core-source/zlib/contrib/dotzlib/LICENSE_1_0.txt",
+      "bytes": 1359,
+      "sha256": "36266a8fd073568394cb81cdb2b124f7fdae2c64c1a7ed09db34b4d22efa2951"
+    },
+    {
+      "path": "project/licenses/php/core-source/zlib/contrib/minizip/LICENSE.Info-Zip",
+      "bytes": 3509,
+      "sha256": "fc686023047ce5ce3a18a9b8a777156f0e475929d3de06bac279f3c025d2b2ca"
+    },
+    {
+      "path": "project/licenses/php/embedded/lexbor-LICENSE",
+      "bytes": 10174,
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "path": "project/licenses/php/embedded/libavifinfo-LICENSE",
+      "bytes": 1315,
+      "sha256": "5d40dcb72f934c3d08e10ddb8ba4844de17bf6f9aabc1a382aacf8a8bf4567f8"
+    },
+    {
+      "path": "project/licenses/php/embedded/libbcmath-LICENSE",
+      "bytes": 26512,
+      "sha256": "7586d794d062a2a4a16513d95358aecaee4450e2062f7e64ce5ce63ac7212fd6"
+    },
+    {
+      "path": "project/licenses/php/embedded/libcperciva-license-header.txt",
+      "bytes": 1357,
+      "sha256": "2fb38b20f64cda46d0539ffbdbcce3e35ac37e181b2452556d4bd1347518b94d"
+    },
+    {
+      "path": "project/licenses/php/embedded/libcperciva-sse2-license-header.txt",
+      "bytes": 1357,
+      "sha256": "52c8a6828d2339e651800498f858e1feab26217bf498fd5d576b745099a36690"
+    },
+    {
+      "path": "project/licenses/php/embedded/libmagic-LICENSE",
+      "bytes": 1649,
+      "sha256": "0bfa856a9930bddadbef95d1be1cf4e163c0be618e76ea3275caaf255283e274"
+    },
+    {
+      "path": "project/licenses/php/embedded/libmbfl-LICENSE",
+      "bytes": 27776,
+      "sha256": "31d9cadcc63c15b79fc59c70f043956104a34c75f23f0ac0ada53c1edfeb88ca"
+    },
+    {
+      "path": "project/licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+      "bytes": 1574,
+      "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789"
+    },
+    {
+      "path": "project/licenses/php/selected/README.md",
+      "bytes": 1204,
+      "sha256": "5217c7be1d40b429207183d84150f2d3c1862b86c024ed999c688f8252e0dc4e"
+    },
+    {
+      "path": "project/licenses/php/selected/php-licensing.html",
+      "bytes": 37810,
+      "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/App.xaml",
+      "bytes": 295,
+      "sha256": "fb748da166fdb7319d860e7442321fbbd8e791bcc6ac4047cd32a25b67071430"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/App.xaml.cs",
+      "bytes": 112,
+      "sha256": "66c7d33b38340e85142d53e9c3e54b162dab4f18e11eeaa4575f3a8665fb354a"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj",
+      "bytes": 326,
+      "sha256": "092d3d0424f856011aac8a6876d29df38415213a9805bbc4277b7cf18cdc9fed"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/MainWindow.xaml",
+      "bytes": 10263,
+      "sha256": "3f982b68a12b48c7d64d5c2f8c9ee0f83cd34cf28de6571f432b8ccdbbd9f810"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/MainWindow.xaml.cs",
+      "bytes": 6969,
+      "sha256": "d426cf784723863a281ccf85eb22e6e8d55a2873cc436fb39cfbc631995b779d"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/EnginePack.cs",
+      "bytes": 338,
+      "sha256": "2271b002c217277af372fe06627205264b3b21ab8dd3b1336ae8f6d7eaca70ca"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/PhpTarget.cs",
+      "bytes": 172,
+      "sha256": "447d65f98778d275fd083394d703127266869955c0c3a8181547c045e1e75e8e"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanEngineInfo.cs",
+      "bytes": 241,
+      "sha256": "7ea33b9097266a8c6b80130396eea063a04e451afdf35b9314991f04a6066ac7"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanIssue.cs",
+      "bytes": 233,
+      "sha256": "148f991514fe92f7c6b293bfc7e93a4079464340c72ad64e4f26f2e88a88ac9e"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanPresentation.cs",
+      "bytes": 8252,
+      "sha256": "fb07f882614cc29974cb6a03cd38366d5431f97e406e26d6e91955126bcbe6b3"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanRequest.cs",
+      "bytes": 176,
+      "sha256": "1ae279327bd86663982bad8edd35ec0000de80dc3a04ae1a2e0ccaffc18e44e0"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanResult.cs",
+      "bytes": 530,
+      "sha256": "59abdce1e5eb9a614aee3dbcac1df249054798902b4a29465008aa81a79beffe"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Models/ScanStatus.cs",
+      "bytes": 145,
+      "sha256": "4c4ded9315fc2966b048d4b7d2f54cf4240c7761d33cf90df7c86adaff96afd4"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Services/EnginePackLoader.cs",
+      "bytes": 18245,
+      "sha256": "67d8a8591c2a47b205bd9e28da5cb1e1741e3c2e1f30cb3f64cf4bd937fc4479"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Services/PhpcsReportParser.cs",
+      "bytes": 7280,
+      "sha256": "1ffa6d1cddcb37f8e2f404145868ad309fcdba590f1a5f12c595ce3e2aa416ad"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Services/ScanService.cs",
+      "bytes": 11259,
+      "sha256": "61aad8709cc14573430d4bce0dcf657bb785386a5a763a95755a1db73dc6d4f5"
+    },
+    {
+      "path": "project/src/Dk.PhpCompatibilityChecker/Services/SourceFileEnumerator.cs",
+      "bytes": 7071,
+      "sha256": "6d092471636f2da652f6f5ac2c2a27f35f7c4adb19d01e2ce277c5efbe1d1631"
+    },
+    {
+      "path": "project/src/README.md",
+      "bytes": 11155,
+      "sha256": "9d6cf487a9a7912be01e70201a55142f1ca446158efe358a7cc64b4f6c7d698a"
+    },
+    {
+      "path": "project/tests/fixtures/README.md",
+      "bytes": 3320,
+      "sha256": "06975bea3c8b091fd5edca2b808e71c3e710eb5219c0a28e9438bbfb3a522bbb"
+    },
+    {
+      "path": "project/tests/fixtures/cases.json",
+      "bytes": 3622,
+      "sha256": "6f9db6064c03b5f6e787c3935e788b7490fd1e370c256ea977d71cc4c431aa3a"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/declared_property.php",
+      "bytes": 119,
+      "sha256": "4874e106b184e7418e2b5f1c6232a3c8b12430ca4516f4465ea99891759344f0"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/dynamic_property.php",
+      "bytes": 97,
+      "sha256": "64265ddb1b959628c048a5255c7b7b6576ff65aac5060ba5f2b6dd0cd8f649f9"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/explicit_nullable.php",
+      "bytes": 88,
+      "sha256": "09e459a1cde5673524ba8dc48f3b52f036f31d3274cce999e8b1f8e4cdbc158a"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/get_class_control.php",
+      "bytes": 119,
+      "sha256": "181aacd3bdcf132d73b21d49ccf074de6892d007c5362ea6870cc63acb50a926"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/get_class_no_args.php",
+      "bytes": 106,
+      "sha256": "9a51cec73f4236c72823d1269c382853f583be6d0c3d88ea96adefd1b40b9ef6"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/implicit_nullable.php",
+      "bytes": 87,
+      "sha256": "dcd35dc78b90a73c71702c32063cdc062971d3b9ab1bf7671adfbd23f8d1f675"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/mysql_control.php",
+      "bytes": 47,
+      "sha256": "dd216b7902c51826939242d2f4dad082dd6dac539c528b19f844b1168fec8f53"
+    },
+    {
+      "path": "project/tests/fixtures/compatibility/mysql_removed.php",
+      "bytes": 33,
+      "sha256": "2d7386e8ed58b477f2aaf00a487751aa44a0e425c62d6a7b9761031a4b78dbda"
+    },
+    {
+      "path": "project/tools/ENGINE_PROBE.md",
+      "bytes": 17378,
+      "sha256": "b47b0a18ca3e22279d10575b25b332933d0b7229d321d6f2a977b5b69dd3d862"
+    },
+    {
+      "path": "project/tools/README.md",
+      "bytes": 970,
+      "sha256": "0f09206407f9505a417771144f58f2a5389d9fb48640a08f0342e6343e2289b7"
+    },
+    {
+      "path": "project/tools/T01_WINDOWS_RESULTS.json",
+      "bytes": 86935,
+      "sha256": "9b79e1835bd245251bc71cfb14e6fc89e53c3cf5f994d16dc1ee88846633651d"
+    },
+    {
+      "path": "project/tools/engine-pack/Prepare-Pack.ps1",
+      "bytes": 3510,
+      "sha256": "91bfc37e475cae92ed4a9584cb54a194c68ede2aed176f76f9ffc910c986644b"
+    },
+    {
+      "path": "project/tools/engine-pack/README.md",
+      "bytes": 11434,
+      "sha256": "ea726ed402de7e885f6d456f43b2030b887c2fc4fb3de45f0ce61ec5d77cff95"
+    },
+    {
+      "path": "project/tools/engine-pack/composer.json",
+      "bytes": 659,
+      "sha256": "447dd59410ca21eccee86ce0544f724639ad592dc67aac56715b4ab76541c43f"
+    },
+    {
+      "path": "project/tools/engine-pack/composer.lock",
+      "bytes": 15746,
+      "sha256": "e56352b11dc451c9fcdaad1dce8c676d6f6aaddf1222d4d6866225fd1b730ea6"
+    },
+    {
+      "path": "project/tools/engine-pack/minimal-cli.json",
+      "bytes": 462,
+      "sha256": "dc6d17b55175a734ecc7bb2c6828d4635808177abcba7b01063ed3c2f2e49d9e"
+    },
+    {
+      "path": "project/tools/engine-pack/pack_contract.py",
+      "bytes": 6361,
+      "sha256": "58af117c2c4c6bf004707e09078e39b888b06243d792d5fd0f956ede9fd06549"
+    },
+    {
+      "path": "project/tools/engine-pack/ruleset.xml",
+      "bytes": 276,
+      "sha256": "2781a8ca1e9b01dd7db5a628f600f1e4f1ba90fa0c990455fa6465005fdf9574"
+    },
+    {
+      "path": "project/tools/engine-pack/sources.json",
+      "bytes": 556,
+      "sha256": "063e007cecc1c278cf0d33b8514c0df22cce0aa9e765f5cf1312517671e55f82"
+    },
+    {
+      "path": "project/tools/engine-pack/verify_pack.py",
+      "bytes": 21440,
+      "sha256": "568b188ad9bdeb875a397c303b58ef5ddd36a929f7af6f0292bb6b09fc7d2d41"
+    },
+    {
+      "path": "project/tools/license-audit/Collect-BuildSources.py",
+      "bytes": 1621,
+      "sha256": "cdb3824c4fb0063776b0cb904d9ab3078fd8d4a8a76b46110314ba71c440c8f1"
+    },
+    {
+      "path": "project/tools/license-audit/Collect-NativeInputs.ps1",
+      "bytes": 2485,
+      "sha256": "2daa05079b713718dd0c120f96912088b16a145f672514b24c511434529fbdb8"
+    },
+    {
+      "path": "project/tools/license-audit/Collect-PhpCoreSource.py",
+      "bytes": 27662,
+      "sha256": "e9c9f2cbe2c9ba10ef1e2748bca4397750f808b5d7845a13fde5149483b732bc"
+    },
+    {
+      "path": "project/tools/license-audit/Collect-Windows.ps1",
+      "bytes": 21395,
+      "sha256": "9eab183eba88b2ad0dbe0221721addc91423b020f4f913a818614e7d76b4716a"
+    },
+    {
+      "path": "project/tools/license-audit/Prepare-SourceSidecar.py",
+      "bytes": 8718,
+      "sha256": "906803647423fe07407779961658a74950df5a624d23e1f6c51afb3d7a211665"
+    },
+    {
+      "path": "project/tools/license-audit/README.md",
+      "bytes": 8318,
+      "sha256": "01a51b2227b00cacb5691d9efc20e76c675dec2ff502b00bca68e6787f388c1c"
+    },
+    {
+      "path": "project/tools/license-audit/Test-LibiconvRebuild.ps1",
+      "bytes": 7584,
+      "sha256": "9c2c84d73f77be1f1014cd9bff0c09af8e4dcbd547cba06f19d95d3fa71a1cf8"
+    },
+    {
+      "path": "project/tools/license-audit/Test-PhpRelink.ps1",
+      "bytes": 5396,
+      "sha256": "41a456e8d56f106f9bb2f44283066035cfd4a33f00c7bb68a306719231548b39"
+    },
+    {
+      "path": "project/tools/license-audit/engine-sources.json",
+      "bytes": 9665,
+      "sha256": "c14f6cbd4db7e5b1cd697414a234a663a5674962166a29ec2df1fd72c550db00"
+    },
+    {
+      "path": "project/tools/license-audit/license-election.json",
+      "bytes": 1977,
+      "sha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1"
+    },
+    {
+      "path": "project/tools/license-audit/review-sources.json",
+      "bytes": 4583,
+      "sha256": "ad7eed9e6f7b11135b39e8da6549101d7a32bb644ebff08b755e2c821441d845"
+    },
+    {
+      "path": "project/tools/packaging/Prepare-AuditPackage.ps1",
+      "bytes": 5785,
+      "sha256": "d9de5cdc4d4045d895aa59edf2602f7eb94d4ff908184dc2978ac317c81b42cf"
+    },
+    {
+      "path": "project/tools/packaging/Prepare-LocalTest.ps1",
+      "bytes": 3016,
+      "sha256": "0996b58b4dd6c54510d5a058977521e74c0d6c9b43006daa6fc3e6fe643264e0"
+    },
+    {
+      "path": "project/tools/probe/README.md",
+      "bytes": 11094,
+      "sha256": "b6ea1532f87784778f08f526fe8645dbd4e822dfedf42919748368b96b4f41ee"
+    },
+    {
+      "path": "project/tools/probe/composer.json",
+      "bytes": 658,
+      "sha256": "875db51dcbc02556c038e6ec726b1d7d24e85f55f1bcfb892180e8907ff30e49"
+    },
+    {
+      "path": "project/tools/probe/composer.lock",
+      "bytes": 15481,
+      "sha256": "1b7c997436fc8878e9cd09a637f6e4c62f86439f32251f804d6ca36e8c6e3486"
+    },
+    {
+      "path": "project/tools/probe/evidence/windows-2022-summary.json",
+      "bytes": 18693,
+      "sha256": "4581ec45382ac9699771ecff0cd19dadef1eb26aa00d377884105fceb7c476bf"
+    },
+    {
+      "path": "project/tools/probe/ruleset.xml",
+      "bytes": 293,
+      "sha256": "48f4a215bf6fe4c8e27f000fa9a86a27d144ac7c100596e2e5dae10412345d36"
+    },
+    {
+      "path": "project/tools/probe/run_extended_probe.py",
+      "bytes": 12556,
+      "sha256": "53862b8adfdc6e7b370c993ca484ea9755916bc85b9257b27533ccc77c33d0e9"
+    },
+    {
+      "path": "project/tools/probe/run_probe.py",
+      "bytes": 8191,
+      "sha256": "c4033c7abfd0008a346ba555b77093a9fc857722b98b498bbd9873ec143be5d1"
+    },
+    {
+      "path": "sources/build/php-sdk-binary-tools-81b356186db123ce9cd65149cee4683211a59ebd.zip",
+      "bytes": 36220186,
+      "sha256": "2da08a1a9d1d6b95c55e66429d15bf0b7a22f922f89daaccee9d0d4680f7db40"
+    },
+    {
+      "path": "sources/build/php-windows-builder-68dc945d9509c41b72332c74c8b99731bb75bc25.zip",
+      "bytes": 286523,
+      "sha256": "87208b23920b40629f32cbfdbaa2bbba8cbb659601b60f7a8c0ac78075d2c1d2"
+    },
+    {
+      "path": "sources/configured/generated-windows-config.zip",
+      "bytes": 441,
+      "sha256": "8943c574eba5f311de4608eb05f969b4df4c7e00974e48e7bdc66de52828208c"
+    },
+    {
+      "path": "sources/core/libargon2-fb53ef37be212380d51877b70f514f3bf2c1ee40.zip",
+      "bytes": 1541537,
+      "sha256": "62a0d87cc2f6a547a02347556d11231a885c936a3427d61c5c2e8680ba69770d"
+    },
+    {
+      "path": "sources/core/libiconv-8f55a0aa6532f30f947261d90e72b200f350a5df.zip",
+      "bytes": 6658200,
+      "sha256": "61655fc761ecbc87ce1be97b621e6164be5b105ecc3c0b947b8b548988089b04"
+    },
+    {
+      "path": "sources/core/libxml2-c8797dc3b7964fabdb94d0b3176afb461afbd40b.zip",
+      "bytes": 5549428,
+      "sha256": "bb704d40074f17a31d853d95e9c892078ed78fcbcbe2d50ccd87455c7211a5e5"
+    },
+    {
+      "path": "sources/core/php-00d8bae801541db0d95a698e108bb4b1b273fe6e.zip",
+      "bytes": 33796820,
+      "sha256": "3690f4ccbb774cb223ca8a788561b45cd7dbf4aac35b4c3c8144fde5a04f7c9f"
+    },
+    {
+      "path": "sources/core/wineditline-39ae4ff02a06c97f804833844b767777d6625fb8.zip",
+      "bytes": 38289,
+      "sha256": "4150a2c4cf3f91f85562a921b633feae4481c8d58b7835ee44946d3f67e2632d"
+    },
+    {
+      "path": "sources/core/zlib-838fe0e338adb28f5662e5ac332b0f0eb96ba93a.zip",
+      "bytes": 1668969,
+      "sha256": "e08a659886bfc4fc2613936890f57dd2032afec64c4e22a5390dbb24c6c2dc4f"
+    },
+    {
+      "path": "sources/engine/phpcompatibility-php-compatibility-e0f0e5a3dc819a4a0f8d679a0f2453d941976e18.zip",
+      "bytes": 1304441,
+      "sha256": "998408974627c3c7f0793b6fbae8460e720b4618227ea7bb6b256dc3ab9f7f59"
+    },
+    {
+      "path": "sources/engine/phpcsstandards-phpcsutils-5f35d9408c54d7b529501f3c688b6eae562aea1f.zip",
+      "bytes": 738767,
+      "sha256": "cb3db8cd4d0d6b2254a54d8140ed683fd38a372c32b2de44d8c07ff230fc4b4b"
+    }
+  ],
+  "licenseElectionMade": true,
+  "licenseElection": {
+    "schemaVersion": 1,
+    "electionMade": true,
+    "approvedDate": "2026-11-06",
+    "approvalBasis": "User approved the recommended PHP v4 / Zend v3 subsequent-license election in this project conversation.",
+    "phpVersion": "4",
+    "zendVersion": "3.0",
+    "spdx": "BSD-3-Clause",
+    "scope": "Covered PHP/Zend code only; independent licenses unchanged",
+    "selectedLicenseFiles": [
+      {
+        "path": "licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+        "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789"
+      }
+    ],
+    "provenanceFiles": [
+      {
+        "path": "licenses/php/selected/php-licensing.html",
+        "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5"
+      }
+    ],
+    "records": [
+      {
+        "path": "licenses/php/selected/PHP-Zend-BSD-3-Clause.txt",
+        "url": "https://www.php.net/license/4_0.txt",
+        "bytes": 1574,
+        "sha256": "e66a38e0a83f49b6ad6ec72f6c0d7600cfa35ba95ee1a67eeeae676cd4416789",
+        "transformation": "none"
+      },
+      {
+        "path": "licenses/php/selected/php-licensing.html",
+        "url": "https://www.php.net/license/",
+        "bytes": 37810,
+        "sha256": "54bdf1d1cb87a3eab658eb771ad3ecde7a4428a695485fec6b3a5ac5349843d5",
+        "transformation": "none"
+      }
+    ],
+    "legacyProvenanceFiles": [
+      "licenses/php/PHP-8.4.27-LICENSE",
+      "licenses/php/Zend-8.4.27-LICENSE",
+      "licenses/php/ZIP-license.txt"
+    ],
+    "redistributionCleared": false,
+    "publicReleaseApproved": false,
+    "notes": [
+      "The common official PHP License v4 text names both PHP Group and Zend copyright holders.",
+      "The official license page states PHP historical-version election and Zend Engine v3 terms.",
+      "Original source headers and legacy license texts are retained as provenance; no upstream file was relicensed or edited.",
+      "MIT own code, LGPL components, other embedded copyrights and Microsoft binary terms remain separate."
+    ]
+  },
+  "licenseElectionSha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1",
+  "redistributionCleared": false,
+  "scope": "Reviewed-input source and notice companion preparation; actual binary pairing and durable publication not established",
+  "archive": "DK-PHP-Compatibility-sources-and-notices.zip",
+  "archiveBytes": 81907444,
+  "archiveSha256": "05edec0d43fd5a15ad1cfa9d29c58b85c2a5474e9f06e9a76451cebe52122d26"
+}

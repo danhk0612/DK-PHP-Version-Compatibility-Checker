@@ -1,0 +1,71 @@
+{
+  "headSha": "84515930a84eca398420029960d5aa5f7ab0f27b",
+  "mergeRefSha": "b950d77dd2b541efa63e4f501cc9dac536c9e927",
+  "runId": 43393286157,
+  "jobId": 131778083803,
+  "artifactId": 14020863979,
+  "artifactSha256": "sha256:194c27c0e6a467fbdbf2583b9a503c10ccfe6ff4d703de76edc17b4f412e16d6",
+  "packId": "dk-php84-alpha2-minimalcli-target85-20261113",
+  "packageFileCount": 1250,
+  "sourceMemberCount": 174,
+  "matchingNoticeFiles": 49,
+  "pairingRejectionCasesPassed": 19,
+  "packagedFilesUnchanged": true,
+  "officialHeaders": [
+    {
+      "path": "project/tools/license-audit/official-php-headers/main/config.w32.h",
+      "bytes": 12507,
+      "sha256": "154f84af2e5e09a101feb8cd3db1a42ab584e4197866dd2e644b2f16c21e429a"
+    },
+    {
+      "path": "project/tools/license-audit/official-php-headers/Zend/zend_config.w32.h",
+      "bytes": 1949,
+      "sha256": "1a3a17920d6f11527fcd62b2b89144e96cc98c244ce1a65321002135f0016d9d"
+    }
+  ],
+  "launch": {
+    "scopePassed": true,
+    "platform": "Microsoft Windows NT 10.0.20348.0",
+    "sdk": "10.0.403",
+    "selfContained": true,
+    "localUserTestingPrepared": true,
+    "licenseElectionMade": true,
+    "windowShown": true,
+    "normalExit": true,
+    "archive": "DK-PHP-Compatibility-audit-only.zip",
+    "archiveSha256": "18697eb3b61a993c174b1ae3a077a9e58b9637a3f62be7ca93436f57e0dbcdf3",
+    "redistributionCleared": false,
+    "releaseGatePassed": false,
+    "limits": [
+      "Windows Server runner is not clean Windows 11",
+      "No CRT-missing machine tested",
+      "No scanner GUI interaction in this packaging test",
+      "T08/T10 and durable matching-source delivery remain gates"
+    ]
+  },
+  "pairing": {
+    "scopePassed": true,
+    "licenseElectionMade": true,
+    "candidateForUserTesting": true,
+    "publicReleaseApproved": false,
+    "binaryArchive": "DK-PHP-Compatibility-audit-only.zip",
+    "binaryArchiveSha256": "18697eb3b61a993c174b1ae3a077a9e58b9637a3f62be7ca93436f57e0dbcdf3",
+    "sourceArchive": "DK-PHP-Compatibility-sources-and-notices.zip",
+    "sourceArchiveSha256": "91997ee6eee3c59c75f53d4ce504fabfb6238e09c68d5f4e74aca27a0d4bf8d7",
+    "sourceManifestSha256": "40f41b4416917c53a3b6e36234d6bbd89d96de3df4655bd6afb0218f7f1edc96",
+    "licenseElectionSha256": "0b143acb33177744cd7aa756d13391135ed148c93ead0938522d19d2dc90b3f1",
+    "engineRecipeBytesMatched": true,
+    "currentProjectSourceBytesMatched": true,
+    "reconstructionInputsBytesMatched": true,
+    "allSourceMembersVerified": true,
+    "fullBinarySourceCorrespondenceVerified": false,
+    "durablePairedPublicationVerified": false,
+    "redistributionCleared": false,
+    "limits": [
+      "Pairing identifies exact local audit archives, not legal clearance",
+      "Official PHP build correspondence remains reviewed separately",
+      "Clean Windows 11 and missing-CRT behavior require user testing",
+      "Keep both archives and this manifest together; CI retention is temporary"
+    ]
+  }
+}

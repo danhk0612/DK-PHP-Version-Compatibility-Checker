@@ -19,3 +19,7 @@ tools/php/
 !.env.example
 *.log
 *.tmp
+
+# Prepared engine pack and Python tooling cache
+tools/runtime/
+**/__pycache__/

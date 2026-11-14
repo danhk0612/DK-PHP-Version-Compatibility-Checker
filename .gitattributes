@@ -1,0 +1,9 @@
+# Preserve raw Windows evidence bytes and recorded SHA-256 values.
+tests/t04/evidence/*.json -text whitespace=cr-at-eol
+tests/t05/evidence/*.json -text whitespace=cr-at-eol
+tests/t06/evidence/*.json -text whitespace=cr-at-eol
+tests/t07/evidence/*.json -text whitespace=cr-at-eol
+licenses/** -text -whitespace
+tests/t08/evidence/** -text -whitespace
+tests/t08-minimal/evidence/** -text -whitespace
+tools/license-audit/official-php-headers/** -text -whitespace

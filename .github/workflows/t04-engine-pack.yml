@@ -1,0 +1,38 @@
+name: T04 engine pack
+on:
+  pull_request:
+    branches: [main, t03-wpf-skeleton]
+    paths:
+      - 'tools/engine-pack/**'
+      - 'tests/t04/**'
+      - '.github/workflows/t04-engine-pack.yml'
+permissions:
+  contents: read
+jobs:
+  prepare-and-verify:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Prepare pinned pack and run actual Windows verification
+        shell: pwsh
+        run: ./tools/engine-pack/Prepare-Pack.ps1
+      - name: Reject damaged and unverified packs
+        shell: pwsh
+        run: |
+          python tests/t04/test_pack_contract.py tools/runtime
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Preserve text evidence (no bundled binaries)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t04-engine-pack-evidence
+          path: artifacts/t04/
+          retention-days: 7

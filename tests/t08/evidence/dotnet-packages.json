@@ -1,0 +1,94 @@
+[
+  {
+    "id": "Microsoft.NETCore.App.Runtime.win-x64",
+    "version": "10.0.14",
+    "originUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.win-x64/10.0.14/microsoft.netcore.app.runtime.win-x64.10.0.14.nupkg",
+    "obtainedFrom": "restored NuGet package cache",
+    "archiveSha256": "a3ea61b4a2da6d28e562dd1cdacf80eb4dd6b9727b0a2b47f9d6aba90dbbcb1f",
+    "archiveBytes": 39979900,
+    "payloadFileCount": 202,
+    "legalFiles": [
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/Microsoft.NETCore.App.Runtime.win-x64.nuspec",
+        "sha256": "8c99e7284e82388e25102c91372872d7138d031f2261f8cdbab63b650ddbc78c",
+        "bytes": 1022
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/LICENSE.TXT",
+        "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b",
+        "bytes": 1139
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Runtime.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+        "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21",
+        "bytes": 78041
+      }
+    ],
+    "nuspec": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<package xmlns=\"http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd\">\r\n  <metadata>\r\n    <id>Microsoft.NETCore.App.Runtime.win-x64</id>\r\n    <version>10.0.14</version>\r\n    <authors>Microsoft</authors>\r\n    <license type=\"expression\">MIT</license>\r\n    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>\r\n    <icon>Icon.png</icon>\r\n    <readme>PACKAGE.md</readme>\r\n    <projectUrl>https://dot.net/</projectUrl>\r\n    <description>Internal implementation package not meant for direct consumption. Please do not reference directly.</description>\r\n    <releaseNotes>https://go.microsoft.com/fwlink/?LinkID=799421</releaseNotes>\r\n    <copyright>© Microsoft Corporation. All rights reserved.</copyright>\r\n    <serviceable>true</serviceable>\r\n    <packageTypes>\r\n      <packageType name=\"DotnetPlatform\" />\r\n    </packageTypes>\r\n    <repository type=\"git\" url=\"https://github.com/dotnet/dotnet\" commit=\"0427b9abbead3fa64c6655eb4290c537397131fa\" />\r\n  </metadata>\r\n</package>"
+  },
+  {
+    "id": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+    "version": "10.0.14",
+    "originUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.windowsdesktop.app.runtime.win-x64/10.0.14/microsoft.windowsdesktop.app.runtime.win-x64.10.0.14.nupkg",
+    "obtainedFrom": "restored NuGet package cache",
+    "archiveSha256": "a6dba3ca8b8b5b7945399545d881e0ac294746a7571f2209981934d49ecfe8cc",
+    "archiveBytes": 39195036,
+    "payloadFileCount": 295,
+    "legalFiles": [
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/Microsoft.WindowsDesktop.App.Runtime.win-x64.nuspec",
+        "sha256": "896132be4b59c2d631b6337c97f032293a7bcf4d51fac8b1589c0bbc39de3a3c",
+        "bytes": 916
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/LICENSE",
+        "sha256": "a89886665765362eb77e0f8e26602c924520041d1711b2eedc136434fe4d01ab",
+        "bytes": 1137
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-wpf-THIRD-PARTY-NOTICES.TXT",
+        "sha256": "d23dba2fee20c6b59d8f7088ee9ed372459c952a319b7ca90f3eec370cc76eb9",
+        "bytes": 2703,
+        "originUrl": "https://raw.githubusercontent.com/dotnet/dotnet/0427b9abbead3fa64c6655eb4290c537397131fa/src/wpf/THIRD-PARTY-NOTICES.TXT",
+        "sourceCommit": "0427b9abbead3fa64c6655eb4290c537397131fa",
+        "origin": "supplemental pinned source notice; absent from original nupkg"
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.WindowsDesktop.App.Runtime.win-x64/10.0.14/upstream-winforms-THIRD-PARTY-NOTICES.TXT",
+        "sha256": "5a412b38efae0b162dc0893b319023f4cd14a8985a0f9f9ae01ac052b37a36eb",
+        "bytes": 1966,
+        "originUrl": "https://raw.githubusercontent.com/dotnet/dotnet/0427b9abbead3fa64c6655eb4290c537397131fa/src/winforms/THIRD-PARTY-NOTICES.TXT",
+        "sourceCommit": "0427b9abbead3fa64c6655eb4290c537397131fa",
+        "origin": "supplemental pinned source notice; absent from original nupkg"
+      }
+    ],
+    "nuspec": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<package xmlns=\"http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd\">\r\n  <metadata>\r\n    <id>Microsoft.WindowsDesktop.App.Runtime.win-x64</id>\r\n    <version>10.0.14</version>\r\n    <authors>Microsoft</authors>\r\n    <license type=\"expression\">MIT</license>\r\n    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>\r\n    <icon>Icon.png</icon>\r\n    <projectUrl>https://dot.net/</projectUrl>\r\n    <description>Package Description</description>\r\n    <releaseNotes>https://go.microsoft.com/fwlink/?LinkID=799421</releaseNotes>\r\n    <copyright>© Microsoft Corporation. All rights reserved.</copyright>\r\n    <serviceable>true</serviceable>\r\n    <packageTypes>\r\n      <packageType name=\"DotnetPlatform\" />\r\n    </packageTypes>\r\n    <repository type=\"git\" url=\"https://github.com/dotnet/dotnet\" commit=\"0427b9abbead3fa64c6655eb4290c537397131fa\" />\r\n  </metadata>\r\n</package>"
+  },
+  {
+    "id": "Microsoft.NETCore.App.Host.win-x64",
+    "version": "10.0.14",
+    "originUrl": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.host.win-x64/10.0.14/microsoft.netcore.app.host.win-x64.10.0.14.nupkg",
+    "obtainedFrom": "exact-version official NuGet flat-container download (cache did not retain nupkg)",
+    "archiveSha256": "2a4547b0e6cf0dd15e723531daa5450d99d4e151105aec0d31f2b0c7cfb286db",
+    "archiveBytes": 5791948,
+    "payloadFileCount": 23,
+    "legalFiles": [
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/Microsoft.NETCore.App.Host.win-x64.nuspec",
+        "sha256": "50bf648cd76c1fd8e4b7728d9e8f316930d6997852181d1afae95a2cc764463c",
+        "bytes": 1019
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/LICENSE.TXT",
+        "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b",
+        "bytes": 1139
+      },
+      {
+        "path": "licenses/dotnet/Microsoft.NETCore.App.Host.win-x64/10.0.14/THIRD-PARTY-NOTICES.TXT",
+        "sha256": "6d15e10a101c6bfff2ab4429ed061bf76c456fc4b23ad6b03e0d0f8377148a21",
+        "bytes": 78041
+      }
+    ],
+    "nuspec": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<package xmlns=\"http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd\">\r\n  <metadata>\r\n    <id>Microsoft.NETCore.App.Host.win-x64</id>\r\n    <version>10.0.14</version>\r\n    <authors>Microsoft</authors>\r\n    <license type=\"expression\">MIT</license>\r\n    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>\r\n    <icon>Icon.png</icon>\r\n    <readme>PACKAGE.md</readme>\r\n    <projectUrl>https://dot.net/</projectUrl>\r\n    <description>Internal implementation package not meant for direct consumption. Please do not reference directly.</description>\r\n    <releaseNotes>https://go.microsoft.com/fwlink/?LinkID=799421</releaseNotes>\r\n    <copyright>© Microsoft Corporation. All rights reserved.</copyright>\r\n    <serviceable>true</serviceable>\r\n    <packageTypes>\r\n      <packageType name=\"DotnetPlatform\" />\r\n    </packageTypes>\r\n    <repository type=\"git\" url=\"https://github.com/dotnet/dotnet\" commit=\"0427b9abbead3fa64c6655eb4290c537397131fa\" />\r\n  </metadata>\r\n</package>"
+  }
+]

@@ -1,0 +1,221 @@
+{
+  "toolSource": "https://github.com/php/php-src/blob/php-8.4.27/win32/build/deplister.c",
+  "isolation": "temporary tool copy; minimal cwd and Windows-only PATH",
+  "images": [
+    {
+      "image": "php.exe",
+      "exitCode": 1,
+      "imports": [
+        {
+          "module": "php8.dll",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "SHELL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        }
+      ]
+    },
+    {
+      "image": "php8.dll",
+      "exitCode": 1,
+      "imports": [
+        {
+          "module": "IPHLPAPI.DLL",
+          "result": "OK"
+        },
+        {
+          "module": "WS2_32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "CRYPT32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "KERNEL32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ole32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "ADVAPI32.dll",
+          "result": "OK"
+        },
+        {
+          "module": "DNSAPI.dll",
+          "result": "OK"
+        },
+        {
+          "module": "bcrypt.dll",
+          "result": "OK"
+        },
+        {
+          "module": "VCRUNTIME140.dll",
+          "result": "OK"
+        },
+        {
+          "module": "api-ms-win-crt-runtime-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-stdio-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-heap-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-convert-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-string-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-environment-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-locale-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-time-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-utility-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        },
+        {
+          "module": "api-ms-win-crt-math-l1-1-0.dll",
+          "result": "NOTFOUND",
+          "windowsLoaderResolved": true,
+          "backingModule": "C:\\Windows\\System32\\ucrtbase.dll",
+          "backingSha256": "d06d0a421398fb663c6c49586e09774143460fdb1dce489aa9844846b9398555"
+        }
+      ]
+    }
+  ]
+}

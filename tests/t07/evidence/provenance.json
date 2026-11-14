@@ -1,0 +1,26 @@
+{
+  "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038802788",
+  "testedHead": "ac175da08b2f66d19fd18ca63bde7fc585790a2e",
+  "checkoutMergeRef": "b33b14f8e21784d9483908328166fc3a34474577",
+  "artifactId": 12969262114,
+  "artifactSha256": "1f13132abb24191affb7b751d3a667dd8526e84e37bb3a7877871c40ba8ceb5e",
+  "summarySha256": "d0d021c2f9d60a7c5160e1b5765a4db3607ee9275b7ada4b4c8d088b6c3a1be3",
+  "buildWarnings": 0,
+  "buildErrors": 0,
+  "checksPassed": 36,
+  "regression": {
+    "runUrl": "https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/41038803221",
+    "artifactId": 12969152353,
+    "artifactSha256": "f453a4e443bb312b1f6061aebb0c090fd21fba98deaac47d1b0551920d07b711",
+    "summarySha256": "b5d23b227ec6cfb9d0207f4cb99e4a62a55c7010db81ec37cee0f2e0b1a5935c",
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "checksPassed": 21
+  },
+  "visualReview": [
+    "real-engine-findings.png",
+    "real-engine-large-1000.png",
+    "synthetic-partial-failure.png"
+  ],
+  "scope": "Shown Windows Server 2022 x64 WPF controls and actual engine scans; synthetic partial-output helper is separately labelled. Raw JSON and selected PNG bytes are preserved. Not a Windows 11 deployment or complete runtime compatibility guarantee."
+}
