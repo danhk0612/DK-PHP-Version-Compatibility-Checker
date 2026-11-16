@@ -11,6 +11,8 @@ using Dk.PhpCompatibilityChecker.Services;
 
 internal static class GuiCases
 {
+    private static string _stage = "not started";
+    private static void Stage(string value) { Volatile.Write(ref _stage, value); Console.WriteLine("T14_GUI_STAGE=" + value); }
     internal static async Task Verify(string packs, string output)
     {
         var fixtureArea = Path.Combine(output, "gui-fixture");
@@ -27,7 +29,8 @@ internal static class GuiCases
         }) { IsBackground = true };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
-        await completion.Task.WaitAsync(TimeSpan.FromMinutes(2));
+        try { await completion.Task.WaitAsync(TimeSpan.FromMinutes(2)); }
+        catch (TimeoutException ex) { throw new TimeoutException("T14 WPF stage timed out: " + Volatile.Read(ref _stage), ex); }
     }
 
     private static void Run(PackFixture fixture, string bundled, EnginePack activePack, string managed)
@@ -37,9 +40,11 @@ internal static class GuiCases
         MainWindow? window = null;
         try
         {
+            Stage("main-window-start");
             window = new MainWindow(new ScanPresentation(), bundled, managed, fixture.CreateInstaller(managed));
             window.Show();
             Until(() => window.Presentation.Targets.Count > 0);
+            Stage("main-window-loaded");
             var before = window.Presentation.Targets.Select(target => target.Version).ToArray();
             var button = (Button)window.FindName("ManageEngineButton");
             if (!button.IsEnabled || before.Length >= fixture.Pack.Targets.Count)
@@ -55,16 +60,20 @@ internal static class GuiCases
             {
                 var manager = new EngineManagementWindow(activePack, installer, "", bundled) { Owner = window };
                 manager.Show();
+                Stage("manager-visible");
                 Until(() => manager.IsVisible);
                 if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(activePack.EngineInfo.PhpCompatibilityVersion)
                     || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
                     throw new InvalidOperationException("Current engine/version information is not visible.");
 
                 var confirmation = Task.Run(() => ConfirmDownload(new WindowInteropHelper(manager).Handle));
-                ((Button)manager.FindName("CheckEngineUpdateButton"))
-                    .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Stage("manager-update-click-and-confirm");
+                Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                    ((Button)manager.FindName("CheckEngineUpdateButton"))
+                        .RaiseEvent(new RoutedEventArgs(Button.ClickEvent))));
                 Until(() => confirmation.IsCompleted);
                 confirmation.GetAwaiter().GetResult();
+                Stage("manager-confirmed");
 
                 var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
                 Until(() => (manager.RestartRequired || status.Text.Contains("못했습니다", StringComparison.Ordinal))
@@ -72,11 +81,14 @@ internal static class GuiCases
                 if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
                     || !before.SequenceEqual(window.Presentation.Targets.Select(target => target.Version)))
                     throw new InvalidOperationException("Engine management download failed: " + status.Text);
+                Stage("manager-update-applied");
                 manager.Close();
                 Until(() => !manager.IsVisible);
+                Stage("manager-closed");
             }
             window.Close();
             Until(() => !window.IsVisible);
+            Stage("first-main-closed");
 
             // Omit the installer (no catalog transport exists) to verify offline startup.
             window = new MainWindow(new ScanPresentation(), bundled, managed, null);
@@ -85,6 +97,7 @@ internal static class GuiCases
             if (!window.Presentation.Targets.Select(target => target.Version)
                 .SequenceEqual(fixture.Pack.Targets.Select(target => target.Version)))
                 throw new InvalidOperationException("A new window did not activate the installed verified targets.");
+            Stage("restart-targets-confirmed");
         }
         finally
         {
@@ -116,7 +129,8 @@ internal static class GuiCases
             {
                 var name = new StringBuilder(32);
                 GetClassName(window, name, name.Capacity);
-                if (IsWindowVisible(window) && GetWindow(window, 4) == owner && name.ToString() == "#32770")
+                GetWindowThreadProcessId(window, out var processId);
+                if (IsWindowVisible(window) && processId == (uint)Environment.ProcessId && name.ToString() == "#32770")
                 { dialog = window; return false; }
                 return true;
             }, IntPtr.Zero);
@@ -136,6 +150,7 @@ internal static class GuiCases
     [DllImport("user32.dll")] private static extern bool EnumWindows(EnumWindow callback, IntPtr state);
     [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr hwnd);
     [DllImport("user32.dll")] private static extern IntPtr GetWindow(IntPtr hwnd, uint command);
+    [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
     [DllImport("user32.dll")] private static extern IntPtr GetDlgItem(IntPtr hwnd, int id);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hwnd, StringBuilder name, int size);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern bool PostMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
