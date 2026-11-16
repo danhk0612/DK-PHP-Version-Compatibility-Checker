@@ -1,0 +1,71 @@
+{
+  "observedAt": "2026-11-16",
+  "baseCommit": "18468c9d7d3dec17d33696c5fd360fa6cf57e702",
+  "testPullRequest": 16,
+  "sourceCommitInWindowsWorkflow": "7324df35b21806322355c338934613d574cbaf88",
+  "environment": {
+    "os": "Windows Server 2022 x64",
+    "python": "3.12.10",
+    "sdk": "10.0.403",
+    "phpRuntime": "8.4.27",
+    "runtimeProfile": "MinimalCli"
+  },
+  "engine": {
+    "phpCompatibility": "10.0.0-alpha2",
+    "phpCodeSniffer": "4.0.4",
+    "phpcsUtils": "1.2.3",
+    "composerInstaller": "1.1.0",
+    "lockVersionsChanged": false
+  },
+  "candidatePackId": "dk-php84-alpha2-minimalcli-target74-85-20261116",
+  "targets": [
+    "7.4",
+    "8.0",
+    "8.1",
+    "8.2",
+    "8.3",
+    "8.4",
+    "8.5"
+  ],
+  "ci": {
+    "enginePack": {
+      "runId": 43813113965,
+      "status": "success",
+      "fixtureCases": 54,
+      "annotationComparisons": 21,
+      "offlineComparisons": 54,
+      "sourceUnchanged": true,
+      "configIsolation": true,
+      "jsonContract": true,
+      "withoutComposer": true,
+      "packContractRejectionTests": 17
+    },
+    "packExchange": {
+      "runId": 43813113682,
+      "status": "success",
+      "passed": 12,
+      "failures": 0
+    },
+    "guiAndRegression": {
+      "runId": 43813113714,
+      "status": "success",
+      "servicePassed": 107,
+      "wpfPresentationPassed": 27,
+      "realGuiPassed": 69,
+      "exportPassed": 19,
+      "failures": 0
+    },
+    "installerRegression": {
+      "runId": 43813113690,
+      "status": "success"
+    }
+  },
+  "scope": "Test-only candidate; checked-in manifests, fixture outcomes, unchanged bundled PHP and engine lock. No target-project dependencies executed.",
+  "limits": [
+    "Windows Server 2022 CI, not a clean Windows 11 user deployment.",
+    "Static analysis coverage is incomplete, known dynamic-property gap remains.",
+    "Redistribution/license/source sidecar approval for newly released candidate is a separate T08/T20 gate.",
+    "No public engine-pack catalog, Release asset, tag, or application update published.",
+    "v0.1.0 and main remain unchanged until separately merged."
+  ]
+}
