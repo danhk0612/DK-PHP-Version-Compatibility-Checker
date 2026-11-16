@@ -244,7 +244,7 @@ T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 
 - 범위: 기본 검사 화면의 간략한 상태/관리 진입점, 별도 창에서 현재 팩·지원 PHP 목표·한계·업데이트 비교·수동 다운로드/검증/설치·재시작·복원/오류 안내.
 - 완료: 최신/업데이트/오프라인/실패/복원 상태 및 제어 검증, 검사 중 충돌 조작 금지, 한글·긴 정보·키보드·기본1120x800/최소760x560/배율별 가림 없음. 기존 검사·결과·내보내기 회귀.
 - 금지: 기본 화면 전면 개편, 추가 설정 기능, 엔진·검사 결과 형식 변경.
-- 상태: **T19 관리 GUI 핵심 Windows Server 2022 x64 검증 통과** ([T14 #43824938469](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43824938469): T14 15건, 서비스·WPF·내보내기 회귀 성공). 관리 창의 업데이트 거절·승인·설치·재시작 목표 반영 완료. 후속 메인 버튼→모달 창 직접 검사 및 최소 창 하단 배치 수정은 별도 CI 결과 대기. [근거](tests/t19/evidence/summary.json). 깨끗한 Windows 11 수동/화면 배율 검증은 미완료.
+- 상태: **Windows Server 2022 x64 T14 15건 및 기존 검사·WPF·내보내기 회귀 통과**. [실제 메인 엔진 관리 버튼→모달 진입·승인/거절·설치·재실행 목표 변경 검증 #43826807010](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43826807010). 최소 `520×440` 창 닫기 버튼 위치 검증은 후속 최신 CI 대기이며, Windows 11 실제 DPI별 화면 확인·공개 GitHub 실다운로드는 T20에서 별도 검증. [근거](tests/t19/evidence/summary.json).
 
 ### T20 — GitHub 실채널 연결·Windows 통합 시험 및 배포 후보
 - 선행: T17~T19 실제 Windows 검증, T08/T09 고지·대응 소스·배포 관문.

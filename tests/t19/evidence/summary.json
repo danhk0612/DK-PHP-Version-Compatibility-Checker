@@ -1,7 +1,7 @@
 {
   "task": "T19",
   "date": "2026-11-16",
-  "status": "Windows x64 T14 manager approval, install and restart passed; added modal entry and footer layout recheck pending",
+  "status": "Core WPF management + actual MainWindow modal-entry verification passed; min-size and Windows 11 still pending",
   "observed": {
     "failingRun": 43822264796,
     "failedStage": "manager-update-click-and-confirm",
@@ -27,7 +27,6 @@
     ]
   },
   "notVerified": [
-    "New direct MainWindow engine-management modal entry test (CI pending).",
     "Clean Windows 11 visual review for minimum-size footer, text overflow, and 100–150% scaling.",
     "Native production MessageBox interaction in a clean Windows 11 manual session.",
     "Real published GitHub pack download and activation."
@@ -53,15 +52,14 @@
     "Reworked narrow-window footer Grid to reserve close-button width"
   ],
   "pending": [
-    "Windows T14 re-run on follow-up modal entry test and footer layout",
-    "Native production MessageBox interaction on a clean Windows 11 user desktop",
-    "Visual Windows 11 100/125/150% scaling and min size",
-    "Actual published GitHub engine release download"
+    "New 520x440 close button bounds assertion in Windows CI",
+    "Visual Windows 11 100/125/150% DPI and actual native Yes/No click",
+    "Published GitHub pack download / source companion verification"
   ],
   "nextVerification": {
     "requiredWorkflow": "T14 verified engine pack installation",
-    "requiredResult": "scopePassed=true, including main-engine-management-entry and restart-targets-confirmed",
-    "ciEvidence": "Previous verified 43824938469 (before entry/layout changes)"
+    "requiredResult": "scopePassed=true and manager-minimum-layout stage after new 520x440 button bounds test",
+    "lastSuccessfulBeforeLatest": 43826807010
   },
   "additionalPassedRun": {
     "id": 43825153686,
@@ -70,5 +68,19 @@
     "scopePassed": true,
     "passedCases": 15,
     "remarks": "T19 manager consent/download/restart and T18 installation regressions succeeded with narrow-window footer Grid layout present; visual 100–150% Windows 11 scaling is not covered."
+  },
+  "modalEntryPassedRun": {
+    "runId": 43826807010,
+    "platform": "Windows Server 2022 x64",
+    "passed": 15,
+    "scopePassed": true,
+    "steps": [
+      "main-engine-management-entry",
+      "manager-visible",
+      "manager-approval-declined",
+      "manager-approved-and-installing",
+      "manager-update-applied",
+      "restart-targets-confirmed"
+    ]
   }
 }
