@@ -72,7 +72,7 @@ public sealed class EnginePackInstaller : IDisposable
         return snapshot;
     }
 
-    public async Task<EnginePack> InstallAsync(EnginePackOffer offer, string sourceDirectory, CancellationToken ct = default)
+    public async Task<EnginePack> InstallAsync(EnginePackOffer offer, string sourceDirectory, CancellationToken ct = default, IProgress<long>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(offer);
         Require(Volatile.Read(ref _offers).Any(row => ReferenceEquals(row, offer)), "현재 목록에서 확인한 엔진 팩을 선택하세요.");
@@ -118,7 +118,7 @@ public sealed class EnginePackInstaller : IDisposable
         try
         {
             var archivePath = Path.Combine(staging, "pack.zip");
-            await DownloadAsync(offer, archivePath, token).ConfigureAwait(false);
+            await DownloadAsync(offer, archivePath, token, progress).ConfigureAwait(false);
             var payload = Path.Combine(staging, "payload");
             Directory.CreateDirectory(payload);
             await ExtractAsync(archivePath, payload, token).ConfigureAwait(false);
@@ -262,14 +262,14 @@ public sealed class EnginePackInstaller : IDisposable
             runtimeVersion, new ReadOnlyDictionary<string, string>(versions), Array.AsReadOnly(targets));
     }
 
-    private async Task DownloadAsync(EnginePackOffer offer, string path, CancellationToken token)
+    private async Task DownloadAsync(EnginePackOffer offer, string path, CancellationToken token, IProgress<long>? progress)
     {
         using var response = await GetAsync(offer.AssetUrl, asset: true, token).ConfigureAwait(false);
         Require(response.Content.Headers.ContentLength is null || response.Content.Headers.ContentLength == offer.ArchiveBytes,
             "엔진 팩 다운로드 크기가 목록과 다릅니다.");
         await using (var body = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
         await using (var file = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, useAsync: true))
-            Require(await CopyBoundedAsync(body, file, offer.ArchiveBytes, token).ConfigureAwait(false) == offer.ArchiveBytes,
+            Require(await CopyBoundedAsync(body, file, offer.ArchiveBytes, token, progress).ConfigureAwait(false) == offer.ArchiveBytes,
                 "엔진 팩 다운로드가 끝나기 전에 연결이 종료되었습니다.");
         Require(await FileHashAsync(path, token).ConfigureAwait(false) == offer.ArchiveSha256, "엔진 팩 ZIP 해시가 목록과 다릅니다.");
     }
@@ -497,7 +497,7 @@ public sealed class EnginePackInstaller : IDisposable
             Directory.Delete(staging, recursive: true);
     }
 
-    private static async Task<long> CopyBoundedAsync(Stream input, Stream output, long limit, CancellationToken ct)
+    private static async Task<long> CopyBoundedAsync(Stream input, Stream output, long limit, CancellationToken ct, IProgress<long>? progress = null)
     {
         var buffer = new byte[65536];
         long count = 0;
@@ -507,6 +507,7 @@ public sealed class EnginePackInstaller : IDisposable
             count += read;
             Require(count <= limit, "엔진 팩 데이터가 허용된 크기를 초과했습니다.");
             await output.WriteAsync(buffer.AsMemory(0, read), ct).ConfigureAwait(false);
+            progress?.Report(count);
         }
         return count;
     }
