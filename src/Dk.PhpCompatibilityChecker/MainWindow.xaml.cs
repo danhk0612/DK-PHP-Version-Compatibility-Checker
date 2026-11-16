@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.IO;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Threading;
 using Dk.PhpCompatibilityChecker.Models;
@@ -16,13 +15,11 @@ public partial class MainWindow : Window
     private Task? _packLoadTask;
     private Task? _scanTask;
     private Task? _exportTask;
-    private Task? _downloadTask;
-    private CancellationTokenSource? _downloadCancellation;
     private readonly string? _bundledPackDirectory;
     private readonly string? _managedPackDirectory;
     private readonly EnginePackInstaller? _packInstaller;
+    private EnginePack? _activePack;
     private bool _installPendingRestart;
-    private bool _downloadAvailable;
     private bool _loadingPack;
     private bool _closing;
     private bool _allowClose;
@@ -53,8 +50,6 @@ public partial class MainWindow : Window
         _bundledPackDirectory = bundledPackDirectory;
         _managedPackDirectory = managedPackDirectory;
         _packInstaller = packInstaller;
-        _downloadAvailable = packInstaller is not null;
-        PackDownloadPanel.Visibility = packInstaller is null ? Visibility.Collapsed : Visibility.Visible;
         Loaded += OnDefaultLoaded;
     }
 
@@ -77,7 +72,7 @@ public partial class MainWindow : Window
         if (_closing || _allowClose)
             return Task.CompletedTask;
         if (_loadingPack || _scanTask is { IsCompleted: false } || _exportTask is { IsCompleted: false }
-            || _downloadCancellation is not null || !Presentation.CanEditInputs)
+            || !Presentation.CanEditInputs)
             throw new InvalidOperationException("팩 준비·검사 또는 결과 저장이 진행 중입니다.");
         _loadingPack = true;
         UpdateScanButton();
@@ -99,14 +94,21 @@ public partial class MainWindow : Window
             if (_closing)
                 return;
             _scanService = new ScanService(pack.RootDirectory);
+            _activePack = pack;
             Presentation.SetPack(pack);
+            EngineSummaryTextBlock.Text = "PHP " + string.Join(", ", pack.Targets.Select(t => t.Version))
+                + " · PHPCompatibility " + pack.EngineInfo.PhpCompatibilityVersion;
         }
         catch (OperationCanceledException) when (_closing) { }
         catch (Exception ex) when (ex is InvalidDataException or IOException or UnauthorizedAccessException
             or ArgumentException or InvalidOperationException or NotSupportedException)
         {
             if (!_closing)
+            {
+                _activePack = null;
+                EngineSummaryTextBlock.Text = "검사 엔진을 확인할 수 없습니다: " + ex.Message;
                 Presentation.SetPackFailure(ex.Message);
+            }
         }
         finally
         {
@@ -130,9 +132,7 @@ public partial class MainWindow : Window
     {
         ScanButton.IsEnabled = !_closing && !_loadingPack && _scanService is not null && Presentation.CanPrepareScan;
         ExportCsvButton.IsEnabled = ExportHtmlButton.IsEnabled = !_closing && !_loadingPack && Presentation.CanExport;
-        DownloadPackButton.IsEnabled = _downloadAvailable && !_installPendingRestart
-            && !_closing && !_loadingPack && Presentation.CanEditInputs;
-        CancelPackDownloadButton.IsEnabled = !_closing && _downloadCancellation is { IsCancellationRequested: false };
+        ManageEngineButton.IsEnabled = !_closing && !_loadingPack && _activePack is not null && Presentation.CanEditInputs;
     }
 
     private async void OnScan(object sender, RoutedEventArgs e)
@@ -191,8 +191,6 @@ public partial class MainWindow : Window
                 await _scanTask;
             if (_exportTask is not null)
                 await _exportTask;
-            if (_downloadTask is not null)
-                await _downloadTask;
             _allowClose = true;
             Close();
         }
@@ -269,71 +267,16 @@ public partial class MainWindow : Window
             Presentation.RemoveExclusion(path);
     }
 
-    private async void OnDownloadPack(object sender, RoutedEventArgs e)
+    private void OnEngineManagement(object sender, RoutedEventArgs e)
     {
-        if (_packInstaller is null || !DownloadPackButton.IsEnabled || _downloadTask is { IsCompleted: false })
+        if (_closing || _loadingPack || _activePack is null || !ManageEngineButton.IsEnabled)
             return;
-        _downloadTask = DownloadPackAsync(_packInstaller);
-        await _downloadTask;
-    }
-
-    private void OnCancelPackDownload(object sender, RoutedEventArgs e)
-    {
-        _downloadCancellation?.Cancel();
-        UpdateScanButton();
-    }
-
-    private async Task DownloadPackAsync(EnginePackInstaller installer)
-    {
-        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(_windowLifetime.Token);
-        _downloadCancellation = cancellation;
-        Presentation.SetPackDownloadInProgress(true);
-        var token = cancellation.Token;
-        try
-        {
-            var currentTargets = Presentation.Targets.Select(t => t.Version).ToHashSet(StringComparer.Ordinal);
-            PackDownloadStatus.Text = "검증된 엔진 팩 목록을 확인하는 중입니다.";
-            var offers = await installer.ReadCatalogAsync(token);
-            var offer = offers.FirstOrDefault(item =>
-                item.Targets.Count > currentTargets.Count && currentTargets.IsSubsetOf(item.Targets.Select(t => t.Version)));
-            if (offer is null)
-            {
-                PackDownloadStatus.Text = "현재 목표를 유지하면서 추가할 수 있는 검증된 팩이 없습니다.";
-                return;
-            }
-            var versions = string.Join(", ", offer.Targets.Select(t => t.Version));
-            var answer = MessageBox.Show(this, $"검증된 목표 PHP 버전 {versions} 팩을 다운로드하시겠습니까?",
-                "엔진 팩 다운로드", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if (answer != MessageBoxResult.Yes)
-            {
-                PackDownloadStatus.Text = "다운로드를 시작하지 않았습니다.";
-                return;
-            }
-            token.ThrowIfCancellationRequested();
-            PackDownloadStatus.Text = "엔진 팩을 다운로드하고 확인하는 중입니다.";
-            await installer.InstallAsync(offer, Presentation.SourceDirectory, token);
+        var dialog = new EngineManagementWindow(_activePack, _packInstaller,
+            Presentation.SourceDirectory, _bundledPackDirectory, _installPendingRestart) { Owner = this };
+        dialog.ShowDialog();
+        if (dialog.RestartRequired)
             _installPendingRestart = true;
-            PackDownloadStatus.Text = "엔진 팩을 설치했습니다. 프로그램을 다시 열면 새 목표를 사용할 수 있습니다.";
-        }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-            PackDownloadStatus.Text = "엔진 팩 다운로드를 중단했습니다.";
-        }
-        catch (OperationCanceledException)
-        {
-            PackDownloadStatus.Text = "엔진 팩 확인 또는 설치 제한 시간을 초과했습니다.";
-        }
-        catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException
-            or HttpRequestException or ArgumentException or InvalidOperationException or NotSupportedException)
-        {
-            PackDownloadStatus.Text = "엔진 팩을 설치하지 못했습니다. " + ex.Message;
-        }
-        finally
-        {
-            _downloadCancellation = null;
-            Presentation.SetPackDownloadInProgress(false);
-            UpdateScanButton();
-        }
+        UpdateScanButton();
     }
 
     private async void OnExportCsv(object sender, RoutedEventArgs e) => await StartExportAsync(html: false);
