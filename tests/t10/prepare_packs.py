@@ -14,8 +14,9 @@ require(not a.output.exists(), 'Preserve existing T10 packs; use fresh output')
 before = inventory(a.pack)
 base = validate(a.pack)
 verified = [t['version'] for t in base['targets']]
-require(verified[:2] == ['8.2', '8.3'] and len(verified) > 2, 'Missing baseline and expansion targets')
-for label, versions in [('reduced', verified[:2]), ('full', verified)]:
+require(all(v in verified for v in ('8.2', '8.3')) and len(verified) > 2, 'Missing baseline and expansion targets')
+# Keep the historical reduced test control independent of the expanded target order.
+for label, versions in [('reduced', ['8.2', '8.3']), ('full', verified)]:
     root = a.output / label
     shutil.copytree(a.pack, root)
     m = read(root / 'manifest.json')
