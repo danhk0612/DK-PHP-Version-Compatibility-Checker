@@ -244,7 +244,7 @@ T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 
 - 범위: 기본 검사 화면의 간략한 상태/관리 진입점, 별도 창에서 현재 팩·지원 PHP 목표·한계·업데이트 비교·수동 다운로드/검증/설치·재시작·복원/오류 안내.
 - 완료: 최신/업데이트/오프라인/실패/복원 상태 및 제어 검증, 검사 중 충돌 조작 금지, 한글·긴 정보·키보드·기본1120x800/최소760x560/배율별 가림 없음. 기존 검사·결과·내보내기 회귀.
 - 금지: 기본 화면 전면 개편, 추가 설정 기능, 엔진·검사 결과 형식 변경.
-- 상태: **별도 WPF 엔진 관리 UI 구현·Windows 빌드 및 기존 검사 회귀 통과, 전용 GUI T14 자동시험은 보완/재검증 중**. 이전 실행 [T14 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796)에서 확인 대화상자 자동 응답 단계 중단. Win32 IDYES 시험 수정 반영, [T19 진단](tests/t19/evidence/summary.json) 기록. 실 GUI 설치/재시작 통합시험 완료로 간주하지 않음.
+- 상태: **별도 WPF 엔진 관리 UI 구현·Windows 빌드 및 기존 검사 회귀 통과, 전용 GUI T14 자동시험은 보완/재검증 중**. 이전 실행 [T14 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796)에서 확인 대화상자 자동 응답 단계 중단. 최종 보완은 제품의 기본 Windows Yes/No 확인창을 유지하되 GUI 자동시험에서만 승인/거절 응답을 주입하는 방식으로 변경. [T19 진단](tests/t19/evidence/summary.json) 기록, 새 Windows CI 결과 대기. 실 GUI 설치/재시작 통합시험 완료로 간주하지 않음.
 
 ### T20 — GitHub 실채널 연결·Windows 통합 시험 및 배포 후보
 - 선행: T17~T19 실제 Windows 검증, T08/T09 고지·대응 소스·배포 관문.
