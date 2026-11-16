@@ -4,9 +4,20 @@
   "status": "candidate-paired-local-only",
   "workflow": {
     "name": "T20 engine channel and paired local candidate",
-    "runId": 43822271905,
+    "runId": 43825153850,
     "conclusion": "success",
-    "platform": "windows-2022"
+    "platform": "windows-2022",
+    "commit": "fef7c2646d176e0e9debe24dc152bc09b33075d2",
+    "checkedOutCommit": "78731826234916b25abef7e2666fde3951fb1f5f",
+    "details": {
+      "candidateTestFileCount": 849,
+      "bundledNoticesMatched": 40,
+      "engineFixtureCases": 54,
+      "annotationComparisons": 21,
+      "offlineComparisons": 54,
+      "sourceUnchanged": true,
+      "networklessEngineScan": true
+    }
   },
   "verified": [
     "Catalog format schemaVersion 2 with zero unapproved entries",
@@ -22,5 +33,5 @@
     "True engine library-version update and unchanged application EXE hash against public release",
     "Full distribution license/corresponding source final publication and continued availability"
   ],
-  "notes": "CI validated local paired candidate only; not release approval. T19 GUI integration remains a separate gate."
+  "notes": "Windows 2022 local paired candidate + source/notice checks passed at run 43825153850, including 54 fixture cases and 40 matched notices. No publication or real GitHub package download; T19 direct modal entry and Windows 11 visual/installation remain separate gates."
 }
