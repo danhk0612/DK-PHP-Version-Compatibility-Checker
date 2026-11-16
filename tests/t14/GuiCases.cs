@@ -80,6 +80,21 @@ internal static class GuiCases
                 manager.Show();
                 Stage("manager-visible");
                 Until(() => manager.IsVisible);
+                // The manager must remain usable at its documented minimum size.
+                // This is a WPF bounds check, not a substitute for human DPI/visual review.
+                manager.Width = manager.MinWidth;
+                manager.Height = manager.MinHeight;
+                manager.UpdateLayout();
+                var closeButton = (Button)manager.FindName("CloseEngineManagementButton");
+                var closeBounds = closeButton.TransformToAncestor(manager).TransformBounds(
+                    new Rect(0, 0, closeButton.ActualWidth, closeButton.ActualHeight));
+                if (closeButton.ActualWidth < 88 || closeBounds.Left < 0 || closeBounds.Top < 0
+                    || closeBounds.Right > manager.ActualWidth || closeBounds.Bottom > manager.ActualHeight)
+                    throw new InvalidOperationException("Engine manager close button is clipped at minimum window size.");
+                Stage("manager-minimum-layout");
+                manager.Width = 680;
+                manager.Height = 610;
+                manager.UpdateLayout();
                 if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(activePack.EngineInfo.PhpCompatibilityVersion)
                     || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
                     throw new InvalidOperationException("Current engine/version information is not visible.");
