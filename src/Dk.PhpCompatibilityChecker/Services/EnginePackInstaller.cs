@@ -161,6 +161,71 @@ public sealed class EnginePackInstaller : IDisposable
         return null;
     }
 
+    /// <summary>Finds the newest compatible validated offer, including engine-only updates.</summary>
+    public async Task<EnginePackOffer?> FindUpdateAsync(EnginePack active, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(active);
+        var offers = await ReadCatalogAsync(ct).ConfigureAwait(false);
+        var activeRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(active.RootDirectory));
+        var versionsRoot = Path.Combine(_managedRoot, "versions");
+        var isManaged = activeRoot.StartsWith(versionsRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+        long? activeSequence = isManaged ? null : 0L;
+        if (isManaged)
+        {
+            var state = await ReadActivationAsync(_managedRoot, ct).ConfigureAwait(false);
+            foreach (var entry in new[] { state?.Current, state?.Previous })
+            {
+                if (entry is null)
+                    continue;
+                var path = Path.Combine(versionsRoot, entry.ArchiveSha256, "runtime");
+                if (!string.Equals(activeRoot, path, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                activeSequence = entry.ReleaseSequence
+                    ?? offers.FirstOrDefault(row => row.PackId == active.PackId
+                        && row.ArchiveSha256 == entry.ArchiveSha256 && row.ManifestSha256 == entry.ManifestSha256)?.ReleaseSequence;
+                break;
+            }
+            Require(activeSequence is > 0, "현재 관리형 엔진 팩의 배포 순서를 확인할 수 없습니다.");
+        }
+        return offers.Where(row => row.ReleaseSequence > activeSequence!.Value
+                && active.Targets.All(target => row.Targets.Any(candidate => candidate.Version == target.Version)))
+            .OrderByDescending(row => row.ReleaseSequence).FirstOrDefault();
+    }
+
+    /// <summary>Restores the previous verified managed pack on next startup.</summary>
+    public async Task<EnginePack> RestorePreviousAsync(string sourceDirectory, CancellationToken ct = default)
+    {
+        var rootIdentity = CheckManagedRoot(_managedRoot, sourceDirectory);
+        Directory.CreateDirectory(_managedRoot);
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        var lockPath = Path.Combine(_managedRoot, ".install.lock");
+        SourceFileEnumerator.RejectReparseAncestors(lockPath);
+        using var installLock = new FileStream(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        var state = await ReadActivationAsync(_managedRoot, ct).ConfigureAwait(false);
+        Require(state?.Previous is not null, "복원할 이전 검증 엔진 팩이 없습니다.");
+        var pack = await TryLoadAsync(_managedRoot, state!.Previous, ct).ConfigureAwait(false);
+        Require(pack is not null, "이전 엔진 팩을 검증할 수 없어 복원하지 않았습니다.");
+        await ActivateAsync(new Activation(state.Previous, state.Current), rootIdentity, ct).ConfigureAwait(false);
+        return pack;
+    }
+
+    /// <summary>Selects the unchanged bundled pack on next startup, retaining downloaded pack files.</summary>
+    public async Task RestoreBundledAsync(string sourceDirectory, CancellationToken ct = default)
+    {
+        var rootIdentity = CheckManagedRoot(_managedRoot, sourceDirectory);
+        Directory.CreateDirectory(_managedRoot);
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        var lockPath = Path.Combine(_managedRoot, ".install.lock");
+        SourceFileEnumerator.RejectReparseAncestors(lockPath);
+        using var installLock = new FileStream(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        var pointer = Path.Combine(_managedRoot, "active.json");
+        SourceFileEnumerator.RejectReparseAncestors(pointer);
+        ct.ThrowIfCancellationRequested();
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        File.Delete(pointer);
+        await Task.CompletedTask;
+    }
+
     public void Dispose() => _http.Dispose();
 
     private EnginePackOffer ReadOffer(JsonElement entry)
