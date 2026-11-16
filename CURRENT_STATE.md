@@ -98,12 +98,14 @@ T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하�
 
 ## 엔진 관리 개편 T16~T20 (2026-11-16)
 
-사용자가 새 목표의 최저 PHP를 **7.4**로 확정하고 T16~T20 순차 진행을 승인했습니다. 신규 목표 7.4/8.0/8.1은 **Windows 후보 팩으로 실측 검증됐지만 main·공개 v0.1.0에 활성화되지는 않았습니다.** 현재 배포 기본 팩의 지원 목록은 8.2~8.5 그대로입니다. T16 문서 계약은 Draft PR #15에 있습니다. **T17은 Draft PR #16의 후보 팩으로 Windows Server 2022 x64 검증 통과**(7개 목표·54 fixture·21 annotation·54 오프라인 비교·T05 107/T06 27/T07 69/T10 12/T12 19 및 T14 회귀). [증거](tests/t17/evidence/summary.json). main·v0.1.0의 지원 범위는 여전히 8.2~8.5입니다. **T18은 Draft PR #17의 Windows Server 2022 x64 실측에서 15개 설치·갱신·복원 사례와 관련 회귀를 통과**했습니다([근거](tests/t18/evidence/summary.json)). 이는 새 엔진 라이브러리 버전 또는 공개 GitHub 실채널 검증이 아닙니다. T19 관리 GUI·T20 실제 GitHub 채널/Windows 11 배포 시험은 아직 진행 중입니다.
+**공개 제품:** `main`/`v0.1.0` 기본 팩 목표는 PHP 8.2~8.5이며 온라인 엔진 카탈로그 URL은 미설정입니다. 아래는 아직 병합/배포되지 않은 후속 개발입니다.
 
-T16 계약은 [요구사항](REQUIREMENTS.md), [아키텍처](ARCHITECTURE.md), [카탈로그 v2 설계](tools/engine-pack/DOWNLOAD-CATALOG.md)와 [TASKS](TASKS.md)에 정리합니다. 기본 팩/검사 원본 보호·오프라인 유지, 같은 목표로 엔진만 갱신하는 경로, 사용자 확인 및 이전/내장 팩 복원 기준을 유지합니다. v0.1.0은 카탈로그 URL이 미설정이므로 온라인 채널 사용에는 최초 앱 업데이트가 필요합니다. 공개 Release/tag/병합은 별도 승인 전에는 하지 않습니다.
+- **T16 (Draft PR #15):** PHP 7.4 최저 목표·7개 목표, 단일 활성 팩, 카탈로그 v2 `releaseSequence`, 동일 목표 엔진 갱신·복원/오프라인 유지 계약 문서화 완료.
+- **T17 (Draft PR #16):** Windows Server 2022 x64에서 7.4·8.0·8.1 신규 및 기존 8.2~8.5의 실제 엔진 팩 fixture 54건·오프라인 54건·기존 서비스/GUI/출력 회귀 통과. [실측](tests/t17/evidence/summary.json). PHPCompatibility 및 PHP CLI 구성은 기존 고정 버전 유지.
+- **T18 (Draft PR #17):** 카탈로그 v2 갱신·동일 목표 새 팩 설치·이전 버전 거부·이전/기본 팩 복원 구현, Windows T14 통합 15건 통과. [실측](tests/t18/evidence/summary.json). 실제 다른 라이브러리 버전 팩은 시험하지 않았습니다.
+- **T19 (Draft PR #18):** 별도 관리 WPF 창과 기본 화면의 엔진 상태/진입 버튼 구현. 사용자 승인 거절·승인/설치·다음 실행 목표 활성화는 [Windows T14 #43825153686](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43825153686)에서 통과. **추가한 기본 화면 모달 진입 및 최소 `520×440` 창 닫기 버튼 위치 자동검증은 최신 Windows CI 확인 전**, 깨끗한 Windows 11의 DPI별 시각 검증은 미실행. [T19 현황](tests/t19/evidence/summary.json).
+- **T20 (Draft PR #19):** 승인된 GitHub raw `main` 경로를 프로그램 카탈로그로 설정하고 `catalog-v2.json`을 **빈 팩 목록**으로 준비. Windows 로컬 앱/대응 소스·고지 ZIP 페어링은 [CI #43825153850](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43825153850) 통과([범위/미검증](tests/t20/evidence/summary.json)). **실제 Release 팩 공개·익명 다운로드·Windows 11 사용자 시험·재배포 소스 지속 제공·팩만 변경 시 EXE 해시 불변 실배포 검증은 미완료.**
 
+다음 관문: T19 모달 진입·최소 크기 회귀의 최신 Windows CI 결과 확인 → T20 후보 ZIP SHA·대응 소스/고지 대조 → 깨끗한 Windows 11 실제 GUI 검증 → 사용자의 별도 승인 아래 공개 팩/카탈로그 게시 및 실다운로드 검증. 기존 프로젝트 소스 수정·실행은 금지하고 정적 검사 한계를 계속 명시합니다.
 
-T19의 신규 관리 WPF 창은 구현됐지만 실제 다운로드 확인 대화상자 통합시험은 실패한 기록([T14 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796))이 있습니다. 기본 Windows Yes/No 대화상자는 제품에 유지하고, 자동시험에서는 승인·거절 응답을 직접 주입하도록 수정했습니다. 변경 후 Windows 통합시험은 아직 대기 중이므로 [T19 증거](tests/t19/evidence/summary.json)에 미완료로 기록합니다. T20 로컬 후보 패키징과 대응 소스·고지 페어링 CI는 [#43822271905](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822271905)에서 통과했습니다([범위·잔여 사항](tests/t20/evidence/summary.json)). 카탈로그는 아직 빈 목록이고 본 브랜치의 raw URL은 main 병합 전 공개 채널이 아닙니다. Windows 11 실사용/공개 팩·대응 소스 게시/익명 다운로드/EXE 불변 시험은 진행하지 않았습니다.
-
-
-T19의 관리 창 기본 업데이트 흐름은 [Windows T14 #43824938469](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43824938469)에서 T14 15건 및 검사·WPF·내보내기 회귀를 통과했습니다. 업데이트 거절/승인·설치·재실행 목표 반영을 확인했으며 [증거](tests/t19/evidence/summary.json)에 기록했습니다. 그 뒤에 추가한 메인 버튼→모달 진입 검증과 하단 최소 너비 레이아웃 수정의 CI 및 깨끗한 Windows 11 시각 검사는 아직 완료되지 않았습니다.
+**변경 금지:** 명시 승인 없는 `main` 병합, Release/tag 게시, 프로그램 자동 업데이트, 임의 외부 엔진 URL 채택. 이 단계의 기준은 `TASKS.md`, `REQUIREMENTS.md`, `tools/engine-pack/DOWNLOAD-CATALOG.md`입니다.
