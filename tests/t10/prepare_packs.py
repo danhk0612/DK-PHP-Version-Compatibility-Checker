@@ -16,7 +16,7 @@ base = validate(a.pack)
 verified = [t['version'] for t in base['targets']]
 require(all(v in verified for v in ('8.2', '8.3')) and len(verified) > 2, 'Missing baseline and expansion targets')
 # Keep the historical reduced test control independent of the expanded target order.
-for label, versions in [('reduced', ['8.2', '8.3']), ('full', verified)]:
+for label, versions in [('reduced', ['8.2', '8.3']), ('full', verified), ('full-updated', verified)]:
     root = a.output / label
     shutil.copytree(a.pack, root)
     m = read(root / 'manifest.json')
