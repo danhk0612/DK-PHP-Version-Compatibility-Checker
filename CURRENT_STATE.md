@@ -94,3 +94,10 @@ T08의 동봉 소스 재링크 및 ZIP 페어링 기술 검증은 통과했습�
 T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
 최신 후보의 PHP 실행 파일 2개는 승인된 공식 ZIP의 해시와 일치합니다. 동반 ZIP에 포함된 PHP SDK 아카이브를 고정 커밋에서 재생성해 CI 기록과 SHA-256을 대조했고, 그 안에서 빌드 도구 EXE 38개와 DLL 58개를 확인했습니다. 승인된 새 구성은 SDK 레시피·고지를 보존하고 96개 EXE·DLL을 제외합니다. Linux에서 원문 232개를 바이트 단위로 대조했습니다. 변경 기준 `768e3cc`의 [Windows 후보 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423443)에서 합성 페어링 24건, 실제 ZIP 페어링·고지 49개 일치, 앱 시작·종료 전후 1,250개 파일 불변을 확인했습니다. [Windows 격리 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423393)에서 SDK를 별도 확보해 원본/마커 빌드와 PHPCS 42사례 결과 일치·입력 불변을 확인했습니다. 후속 [Windows 스냅샷 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481996872)은 의존성 ZIP 39개를 고정하고 공식 x64 NTS 스냅샷 옵션(PGO 생략)으로 CLI와 코어 DLL을 재링크했습니다. 제품 PHP와 기본 로드 확장 27개 일치, PHPCS 42사례와 입력 불변, 실제 빌드 자료 75개씩 대조를 통과했습니다. [후보 ZIP 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481997013)도 통과했습니다. 과거 공식 의존성 ZIP 바이트·PGO 입력 및 공개 소스 지속 제공은 미확인입니다.
+
+
+## 엔진 관리 개편 T16~T20 (2026-11-16)
+
+사용자가 새 목표의 최저 PHP를 **7.4**로 확정하고 T16~T20 순차 진행을 승인했습니다. 신규 목표 7.4/8.0/8.1은 **실제 검증·활성화 전**이며 현재 배포/기본 팩의 지원 목록은 기존 8.2~8.5 그대로입니다. T16은 계약 문서 작업이고, T17 Windows 실측·T18 동일 목표 엔진 갱신·T19 관리 GUI·T20 실제 GitHub 채널/Windows 배포 시험은 아직 수행하지 않았습니다.
+
+T16 계약은 [요구사항](REQUIREMENTS.md), [아키텍처](ARCHITECTURE.md), [카탈로그 v2 설계](tools/engine-pack/DOWNLOAD-CATALOG.md)와 [TASKS](TASKS.md)에 정리합니다. 기본 팩/검사 원본 보호·오프라인 유지, 같은 목표로 엔진만 갱신하는 경로, 사용자 확인 및 이전/내장 팩 복원 기준을 유지합니다. v0.1.0은 카탈로그 URL이 미설정이므로 온라인 채널 사용에는 최초 앱 업데이트가 필요합니다. 공개 Release/tag/병합은 별도 승인 전에는 하지 않습니다.
