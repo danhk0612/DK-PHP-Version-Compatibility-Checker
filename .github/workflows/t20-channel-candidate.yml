@@ -1,0 +1,54 @@
+name: T20 engine channel and paired local candidate
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/t20-channel-candidate.yml'
+      - 'src/**'
+      - 'tools/engine-pack/**'
+      - 'tools/packaging/**'
+      - 'tools/license-audit/**'
+      - 'tests/t20/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          global-json-file: global.json
+      - name: Confirm catalog v2 is intentionally empty before approved publication
+        shell: pwsh
+        run: |
+          $catalog = Get-Content -Raw -LiteralPath tools/engine-pack/catalog-v2.json | ConvertFrom-Json
+          if ($catalog.schemaVersion -ne 2 -or $catalog.packs.Count -ne 0) {
+              throw 'T20 pending-release catalog must be schema 2 with no unapproved assets.'
+          }
+      - name: Build app and create paired candidate without Release or tag
+        shell: pwsh
+        run: |
+          ./tools/packaging/Prepare-LocalTest.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'Local packaging or source pairing failed.' }
+      - name: Inspect candidate/source pairing
+        shell: pwsh
+        run: |
+          $pair = Get-Content -Raw -LiteralPath artifacts/t09/evidence/paired-candidate.json | ConvertFrom-Json
+          if (-not $pair.scopePassed -or -not $pair.allSourceMembersVerified) {
+              throw 'Candidate/source pairing was not verified.'
+          }
+          Write-Output 'T20 local candidate/source pairing verified. NO PUBLICATION was performed.'
+      - name: Save only provenance and verification metadata
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t20-local-evidence
+          path: |
+            artifacts/t09/evidence/summary.json
+            artifacts/t09/evidence/paired-candidate.json
+          if-no-files-found: warn
+          retention-days: 7
