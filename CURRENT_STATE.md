@@ -104,3 +104,6 @@ T16 계약은 [요구사항](REQUIREMENTS.md), [아키텍처](ARCHITECTURE.md), 
 
 
 T19의 신규 관리 WPF 창은 구현됐지만 실제 다운로드 확인 대화상자 통합시험은 실패한 기록([T14 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796))이 있습니다. 기본 Windows Yes/No 대화상자는 제품에 유지하고, 자동시험에서는 승인·거절 응답을 직접 주입하도록 수정했습니다. 변경 후 Windows 통합시험은 아직 대기 중이므로 [T19 증거](tests/t19/evidence/summary.json)에 미완료로 기록합니다. T20 로컬 후보 패키징과 대응 소스·고지 페어링 CI는 [#43822271905](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822271905)에서 통과했습니다([범위·잔여 사항](tests/t20/evidence/summary.json)). 카탈로그는 아직 빈 목록이고 본 브랜치의 raw URL은 main 병합 전 공개 채널이 아닙니다. Windows 11 실사용/공개 팩·대응 소스 게시/익명 다운로드/EXE 불변 시험은 진행하지 않았습니다.
+
+
+T19의 관리 창 기본 업데이트 흐름은 [Windows T14 #43824938469](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43824938469)에서 T14 15건 및 검사·WPF·내보내기 회귀를 통과했습니다. 업데이트 거절/승인·설치·재실행 목표 반영을 확인했으며 [증거](tests/t19/evidence/summary.json)에 기록했습니다. 그 뒤에 추가한 메인 버튼→모달 진입 검증과 하단 최소 너비 레이아웃 수정의 CI 및 깨끗한 Windows 11 시각 검사는 아직 완료되지 않았습니다.
