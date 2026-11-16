@@ -39,19 +39,43 @@ internal static class GuiCases
             window.Show();
             Until(() => window.Presentation.Targets.Count > 0);
             var before = window.Presentation.Targets.Select(target => target.Version).ToArray();
-            var button = (Button)window.FindName("DownloadPackButton");
+            var button = (Button)window.FindName("ManageEngineButton");
             if (!button.IsEnabled || before.Length >= fixture.Pack.Targets.Count)
-                throw new InvalidOperationException("Reduced bundled pack and download action were not shown.");
-            var owner = new WindowInteropHelper(window).Handle;
-            var confirmation = Task.Run(() => ConfirmDownload(owner));
+                throw new InvalidOperationException("Reduced bundled pack and engine management entry were not shown.");
+            Exception? managerFailure = null;
+            // ShowDialog starts a nested dispatcher. Exercise its real controls on that dispatcher.
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                EngineManagementWindow? manager = null;
+                try
+                {
+                    manager = Application.Current.Windows.OfType<EngineManagementWindow>().Single(w => w.IsVisible);
+                    if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(fixture.Pack.EngineInfo.PhpCompatibilityVersion)
+                        || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
+                        throw new InvalidOperationException("Active engine and verified target information were not visible.");
+
+                    var confirmation = Task.Run(() => ConfirmDownload(new WindowInteropHelper(manager).Handle));
+                    ((Button)manager.FindName("CheckEngineUpdateButton"))
+                        .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    Until(() => confirmation.IsCompleted);
+                    confirmation.GetAwaiter().GetResult();
+                    var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
+                    Until(() => manager.RestartRequired || status.Text.Contains("못했습니다", StringComparison.Ordinal));
+                    if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
+                        || !before.SequenceEqual(window!.Presentation.Targets.Select(target => target.Version)))
+                        throw new InvalidOperationException("Management window update failed: " + status.Text);
+                    manager.Close();
+                }
+                catch (Exception ex)
+                {
+                    managerFailure = ex;
+                    if (manager?.IsVisible == true)
+                        manager.Close();
+                }
+            }));
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            Until(() => confirmation.IsCompleted);
-            confirmation.GetAwaiter().GetResult();
-            var status = (TextBlock)window.FindName("PackDownloadStatus");
-            Until(() => status.Text.Contains("다시 열면", StringComparison.Ordinal) || status.Text.Contains("못했습니다", StringComparison.Ordinal));
-            if (!status.Text.Contains("다시 열면", StringComparison.Ordinal)
-                || !before.SequenceEqual(window.Presentation.Targets.Select(target => target.Version)))
-                throw new InvalidOperationException("Installation failed or changed the current window: " + status.Text);
+            if (managerFailure is not null)
+                throw managerFailure;
             window.Close();
             Until(() => !window.IsVisible);
 
