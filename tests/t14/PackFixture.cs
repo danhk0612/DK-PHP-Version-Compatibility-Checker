@@ -9,9 +9,9 @@ using Dk.PhpCompatibilityChecker.Models;
 using Dk.PhpCompatibilityChecker.Services;
 
 internal sealed record PackFixture(string ArchivePath, string ArchiveHash, string ManifestHash, EnginePack Pack,
-    string RuntimeVersion, JsonElement EngineVersions, PackFixture.OfferTarget[] Targets)
+    long ReleaseSequence, string RuntimeVersion, JsonElement EngineVersions, PackFixture.OfferTarget[] Targets)
 {
-    private static readonly Uri CatalogUri = new("https://fixture.test/catalog-v1.json");
+    private static readonly Uri CatalogUri = new("https://fixture.test/catalog-v2.json");
     private static readonly Uri AssetUri = new("https://fixture.test/pack.zip");
 
     public EnginePackInstaller CreateInstaller(string managed) => CreateInstaller(managed, CreateTransport());
@@ -38,7 +38,7 @@ internal sealed record PackFixture(string ArchivePath, string ArchiveHash, strin
                 zip.CreateEntryFromFile(file, "runtime/" + relative, CompressionLevel.Fastest);
             }
         }
-        return new PackFixture(path, Hash(path), Hash(manifestPath), pack, runtimeVersion, engineVersions,
+        return new PackFixture(path, Hash(path), Hash(manifestPath), label switch { "reduced" => 1, "full" => 2, "full-updated" => 3, _ => throw new InvalidOperationException("Unknown development pack") }, pack, runtimeVersion, engineVersions,
             pack.Targets.Select(target => new OfferTarget(target.Version, target.Limitations)).ToArray());
     }
 
@@ -64,12 +64,13 @@ internal sealed record PackFixture(string ArchivePath, string ArchiveHash, strin
             {
                 var catalog = new
                 {
-                    schemaVersion = 1,
+                    schemaVersion = 2,
                     packs = new[]
                     {
                         new
                         {
                             packId = asset.Pack.PackId,
+                            releaseSequence = asset.ReleaseSequence,
                             packSchemaVersion = 1,
                             reportProfile = asset.Pack.ReportProfile,
                             assetUrl = AssetUri.AbsoluteUri,
