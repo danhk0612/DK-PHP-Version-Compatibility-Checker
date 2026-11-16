@@ -58,10 +58,15 @@ public sealed class EnginePackInstaller : IDisposable
             await CopyBoundedAsync(body, buffer, CatalogLimit, deadline.Token).ConfigureAwait(false);
         using var document = Parse(buffer.ToArray());
         var catalog = document.RootElement;
-        Require(ReadInt64(catalog, "schemaVersion") == 1, "지원하지 않는 엔진 팩 목록 형식입니다.");
+        Require(ReadInt64(catalog, "schemaVersion") == 2, "지원하지 않는 엔진 팩 목록 형식입니다.");
         var offers = ReadArray(catalog, "packs").EnumerateArray().Select(ReadOffer).ToArray();
         Require(offers.Select(offer => offer.PackId).Distinct(StringComparer.OrdinalIgnoreCase).Count() == offers.Length,
             "엔진 팩 목록에 중복 ID가 있습니다.");
+        Require(offers.Select(offer => offer.ReleaseSequence).Distinct().Count() == offers.Length,
+            "엔진 팩 목록에 중복된 배포 순서가 있습니다.");
+        Require(offers.Select(offer => offer.ArchiveSha256).Distinct(StringComparer.Ordinal).Count() == offers.Length
+            && offers.Select(offer => offer.ManifestSha256).Distinct(StringComparer.Ordinal).Count() == offers.Length,
+            "엔진 팩 목록에 동일한 팩 내용이 중복되어 있습니다.");
         var snapshot = Array.AsReadOnly(offers);
         Volatile.Write(ref _offers, snapshot);
         return snapshot;
@@ -93,7 +98,15 @@ public sealed class EnginePackInstaller : IDisposable
         }
         Require(previousPack is null || previousPack.Targets.All(target => offer.Targets.Any(row => row.Version == target.Version)),
             "설치된 엔진 팩의 검사 목표가 새 팩에서 누락되었습니다.");
-        var current = new ActivationEntry(offer.ArchiveSha256, offer.ManifestSha256);
+        if (previousPack is not null)
+        {
+            var priorSequence = previous?.ReleaseSequence
+                ?? Volatile.Read(ref _offers).FirstOrDefault(row => row.ArchiveSha256 == previous!.ArchiveSha256
+                    && row.ManifestSha256 == previous.ManifestSha256 && row.PackId == previousPack.PackId)?.ReleaseSequence;
+            Require(priorSequence is > 0 && offer.ReleaseSequence > priorSequence.Value,
+                "현재 엔진 팩의 배포 순서를 확인할 수 없거나 새 팩이 이전 버전입니다.");
+        }
+        var current = new ActivationEntry(offer.ArchiveSha256, offer.ManifestSha256, offer.ReleaseSequence);
         if (previous == current)
             previous = prior?.Previous == current ? null : prior?.Previous;
 
@@ -153,6 +166,8 @@ public sealed class EnginePackInstaller : IDisposable
     private EnginePackOffer ReadOffer(JsonElement entry)
     {
         var id = ReadText(entry, "packId");
+        var releaseSequence = ReadInt64(entry, "releaseSequence");
+        Require(releaseSequence > 0, "잘못된 엔진 팩 배포 순서입니다.");
         var assetUrl = ReadUrl(entry, "assetUrl");
         var sourceUrl = ReadUrl(entry, "sourceUrl");
         var archiveHash = ReadText(entry, "archiveSha256");
@@ -176,7 +191,7 @@ public sealed class EnginePackInstaller : IDisposable
         var versions = ReadObject(entry, "engineVersions").EnumerateObject()
             .ToDictionary(pair => pair.Name, pair => ReadString(pair.Value), StringComparer.Ordinal);
         Require(versions.Count > 0, "엔진 구성 버전이 없습니다.");
-        return new EnginePackOffer(id, 1, profile, assetUrl, sourceUrl, bytes, archiveHash, manifestHash,
+        return new EnginePackOffer(id, releaseSequence, 1, profile, assetUrl, sourceUrl, bytes, archiveHash, manifestHash,
             runtimeVersion, new ReadOnlyDictionary<string, string>(versions), Array.AsReadOnly(targets));
     }
 
@@ -356,8 +371,15 @@ public sealed class EnginePackInstaller : IDisposable
             ? archiveValue.GetString() : null;
         var manifest = value.TryGetProperty("manifestSha256", out var manifestValue) && manifestValue.ValueKind == JsonValueKind.String
             ? manifestValue.GetString() : null;
+        long? sequence = null;
+        if (value.TryGetProperty("releaseSequence", out var order))
+        {
+            if (order.ValueKind != JsonValueKind.Number || !order.TryGetInt64(out var number) || number <= 0)
+                return null;
+            sequence = number;
+        }
         return archive is not null && manifest is not null && Hash.IsMatch(archive) && Hash.IsMatch(manifest)
-            ? new ActivationEntry(archive, manifest) : null;
+            ? new ActivationEntry(archive, manifest, sequence) : null;
     }
 
     private static async Task<EnginePack?> TryLoadAsync(string managedRoot, ActivationEntry? entry, CancellationToken ct)
@@ -494,5 +516,5 @@ public sealed class EnginePackInstaller : IDisposable
     }
 
     private sealed record Activation(ActivationEntry? Current, ActivationEntry? Previous);
-    private sealed record ActivationEntry(string ArchiveSha256, string ManifestSha256);
+    private sealed record ActivationEntry(string ArchiveSha256, string ManifestSha256, long? ReleaseSequence);
 }
