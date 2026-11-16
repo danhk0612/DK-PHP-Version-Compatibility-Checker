@@ -1,7 +1,7 @@
 {
   "task": "T19",
   "date": "2026-11-16",
-  "status": "Core Windows GUI engine-management flow verified; follow-up modal-entry and window sizing changes await CI",
+  "status": "Windows x64 T14 manager approval, install and restart passed; added modal entry and footer layout recheck pending",
   "observed": {
     "failingRun": 43822264796,
     "failedStage": "manager-update-click-and-confirm",
@@ -27,10 +27,10 @@
     ]
   },
   "notVerified": [
-    "New T19 end-to-end Windows CI after test-only confirmation callback",
-    "Native Windows confirmation click in clean Windows 11 manual session",
-    "UI minimum-size/scaling visual review beyond WPF layout inspection",
-    "Real public GitHub engine pack installation"
+    "New direct MainWindow engine-management modal entry test (CI pending).",
+    "Minimum window width footer change (CI pending; clean Windows 11 visual review required).",
+    "Native production MessageBox interaction in a clean Windows 11 manual session.",
+    "Real published GitHub pack download and activation."
   ],
   "latestPassedRun": {
     "id": 43824938469,
@@ -57,5 +57,10 @@
     "Native production MessageBox interaction on a clean Windows 11 user desktop",
     "Visual Windows 11 100/125/150% scaling and min size",
     "Actual published GitHub engine release download"
-  ]
+  ],
+  "nextVerification": {
+    "requiredWorkflow": "T14 verified engine pack installation",
+    "requiredResult": "scopePassed=true, including main-engine-management-entry and restart-targets-confirmed",
+    "ciEvidence": "Previous verified 43824938469 (before entry/layout changes)"
+  }
 }
