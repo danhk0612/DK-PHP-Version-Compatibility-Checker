@@ -165,15 +165,17 @@
                         </StackPanel>
                     </Grid>
 
-                    <StackPanel x:Name="PackDownloadPanel" Visibility="Collapsed" Margin="0,0,0,10">
-                        <WrapPanel>
-                            <Button x:Name="DownloadPackButton" Content="검증된 엔진 팩 확인…" Click="OnDownloadPack"
-                                    Padding="8,4" Margin="0,0,6,0" />
-                            <Button x:Name="CancelPackDownloadButton" Content="중단" Click="OnCancelPackDownload"
-                                    IsEnabled="False" Padding="8,4" />
-                        </WrapPanel>
-                        <TextBlock x:Name="PackDownloadStatus" Style="{StaticResource OptionalText}" />
-                    </StackPanel>
+                    <Border x:Name="EngineManagementPanel" Background="{StaticResource TintBrush}"
+                            CornerRadius="8" Padding="9,6" Margin="0,0,0,10">
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="ManageEngineButton" DockPanel.Dock="Right"
+                                    Content="엔진 관리…" Click="OnEngineManagement" Padding="8,4" 
+                                    Margin="10,0,0,0" IsEnabled="False" />
+                            <TextBlock x:Name="EngineSummaryTextBlock" Text="검증된 검사 엔진을 확인하는 중입니다."
+                                       Foreground="{StaticResource MutedBrush}"
+                                       VerticalAlignment="Center" TextWrapping="Wrap" />
+                        </DockPanel>
+                    </Border>
 
                     <Expander x:Name="ExclusionSettingsExpander" Header="{Binding ExclusionSummary}" Margin="0,0,0,10">
                         <StackPanel>
