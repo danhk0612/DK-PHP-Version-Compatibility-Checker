@@ -14,6 +14,7 @@ public partial class EngineManagementWindow : Window
     private readonly EnginePackInstaller? _installer;
     private readonly string _sourceDirectory;
     private readonly string? _bundledRoot;
+    private readonly Func<EnginePackOffer, bool>? _confirmationForVerification;
     private CancellationTokenSource? _operation;
     private bool _busy;
     private bool _restartRequired;
@@ -21,12 +22,14 @@ public partial class EngineManagementWindow : Window
     public bool RestartRequired => _restartRequired;
 
     public EngineManagementWindow(EnginePack activePack, EnginePackInstaller? installer,
-        string sourceDirectory, string? bundledRoot, bool restartRequired = false)
+        string sourceDirectory, string? bundledRoot, bool restartRequired = false,
+        Func<EnginePackOffer, bool>? confirmationForVerification = null)
     {
         _activePack = activePack ?? throw new ArgumentNullException(nameof(activePack));
         _installer = installer;
         _sourceDirectory = sourceDirectory;
         _bundledRoot = bundledRoot;
+        _confirmationForVerification = confirmationForVerification;
         _restartRequired = restartRequired;
         InitializeComponent();
 
@@ -94,10 +97,14 @@ public partial class EngineManagementWindow : Window
                 + "PHPCompatibility: " + VersionOf(offer, "phpcompatibility/php-compatibility") + Environment.NewLine
                 + "PHP_CodeSniffer: " + VersionOf(offer, "squizlabs/php_codesniffer") + Environment.NewLine
                 + "다운로드: " + (offer.ArchiveBytes / 1048576d).ToString("F1") + " MiB";
-            var confirm = MessageBox.Show(this, EngineOfferTextBlock.Text + Environment.NewLine
-                + Environment.NewLine + "검증된 엔진 팩을 다운로드하여 다음 실행부터 사용하시겠습니까?",
-                "엔진 팩 업데이트", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if (confirm != MessageBoxResult.Yes)
+            // Production always shows the native confirmation; the Windows GUI
+            // verifier injects consent to avoid unreliable cross-thread dialog clicks.
+            var approved = _confirmationForVerification?.Invoke(offer) ??
+                (MessageBox.Show(this, EngineOfferTextBlock.Text + Environment.NewLine
+                    + Environment.NewLine + "검증된 엔진 팩을 다운로드하여 다음 실행부터 사용하시겠습니까?",
+                    "엔진 팩 업데이트", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No)
+                    == MessageBoxResult.Yes);
+            if (!approved)
             {
                 EngineUpdateStatusTextBlock.Text = "다운로드를 시작하지 않았습니다.";
                 return;
