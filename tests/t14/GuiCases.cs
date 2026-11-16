@@ -60,7 +60,8 @@ internal static class GuiCases
                     Until(() => confirmation.IsCompleted);
                     confirmation.GetAwaiter().GetResult();
                     var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
-                    Until(() => manager.RestartRequired || status.Text.Contains("못했습니다", StringComparison.Ordinal));
+                    Until(() => (manager.RestartRequired && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled)
+                        || (status.Text.Contains("못했습니다", StringComparison.Ordinal) && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled));
                     if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
                         || !before.SequenceEqual(window!.Presentation.Targets.Select(target => target.Version)))
                         throw new InvalidOperationException("Management window update failed: " + status.Text);
