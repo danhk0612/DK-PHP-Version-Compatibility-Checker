@@ -38,7 +38,7 @@ internal sealed record PackFixture(string ArchivePath, string ArchiveHash, strin
                 zip.CreateEntryFromFile(file, "runtime/" + relative, CompressionLevel.Fastest);
             }
         }
-        return new PackFixture(path, Hash(path), Hash(manifestPath), label switch { "reduced" => 1, "full" => 2, "full-updated" => 3, _ => throw new InvalidOperationException("Unknown development pack") }, pack, runtimeVersion, engineVersions,
+        return new PackFixture(path, Hash(path), Hash(manifestPath), pack, label switch { "reduced" => 1, "full" => 2, "full-updated" => 3, _ => throw new InvalidOperationException("Unknown development pack") }, runtimeVersion, engineVersions,
             pack.Targets.Select(target => new OfferTarget(target.Version, target.Limitations)).ToArray());
     }
 
