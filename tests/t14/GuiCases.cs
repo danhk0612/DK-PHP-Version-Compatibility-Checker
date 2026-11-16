@@ -121,6 +121,7 @@ internal static class GuiCases
 
     private static void ConfirmDownload(IntPtr owner)
     {
+        Console.WriteLine("T14_GUI_CONFIRM_SEARCH owner=" + owner + " pid=" + Environment.ProcessId);
         IntPtr dialog = IntPtr.Zero;
         var deadline = DateTime.UtcNow.AddSeconds(25);
         while (dialog == IntPtr.Zero && DateTime.UtcNow < deadline)
@@ -131,19 +132,38 @@ internal static class GuiCases
                 GetClassName(window, name, name.Capacity);
                 GetWindowThreadProcessId(window, out var processId);
                 if (IsWindowVisible(window) && processId == (uint)Environment.ProcessId && name.ToString() == "#32770")
-                { dialog = window; return false; }
+                {
+                    dialog = window;
+                    Console.WriteLine("T14_GUI_CONFIRM_FOUND hwnd=" + dialog + " owner=" + GetWindow(dialog, 4));
+                    return false;
+                }
                 return true;
             }, IntPtr.Zero);
             if (dialog == IntPtr.Zero) Thread.Sleep(25);
         }
         if (dialog == IntPtr.Zero)
-            throw new InvalidOperationException("Download confirmation did not appear.");
-        var yes = GetDlgItem(dialog, 6);
-        if (yes == IntPtr.Zero || !PostMessage(yes, 0x00f5, IntPtr.Zero, IntPtr.Zero))
         {
-            PostMessage(dialog, 0x0010, IntPtr.Zero, IntPtr.Zero);
-            throw new InvalidOperationException("Download confirmation Yes button could not be activated.");
+            Console.Error.WriteLine("T14_GUI_CONFIRM_MISSING visible process windows:");
+            EnumWindows((window, _) =>
+            {
+                GetWindowThreadProcessId(window, out var processId);
+                if (processId == (uint)Environment.ProcessId && IsWindowVisible(window))
+                {
+                    var name = new StringBuilder(96);
+                    GetClassName(window, name, name.Capacity);
+                    var title = new StringBuilder(192);
+                    GetWindowText(window, title, title.Capacity);
+                    Console.Error.WriteLine("T14_GUI_WINDOW hwnd=" + window + " class=" + name + " title=" + title);
+                }
+                return true;
+            }, IntPtr.Zero);
+            throw new InvalidOperationException("Download confirmation did not appear.");
         }
+        // Direct WM_COMMAND/IDYES is more reliable than a synthetic child-button
+        // BM_CLICK on Windows Server desktop runners; this is test-only automation.
+        if (!PostMessage(dialog, 0x0111, (IntPtr)6, IntPtr.Zero))
+            throw new InvalidOperationException("Unable to send IDYES to engine confirmation dialog.");
+        Console.WriteLine("T14_GUI_CONFIRM_SENT_YES");
     }
 
     private delegate bool EnumWindow(IntPtr hwnd, IntPtr state);
@@ -153,5 +173,6 @@ internal static class GuiCases
     [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
     [DllImport("user32.dll")] private static extern IntPtr GetDlgItem(IntPtr hwnd, int id);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hwnd, StringBuilder name, int size);
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetWindowText(IntPtr hwnd, StringBuilder text, int size);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern bool PostMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
 }
