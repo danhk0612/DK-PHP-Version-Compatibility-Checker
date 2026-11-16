@@ -26,8 +26,9 @@ public partial class MainWindow : Window
 
     public ScanPresentation Presentation { get; }
 
-    // Configure the approved catalog URL when the distribution channel is ready.
-    private static readonly Uri? ApprovedCatalog = null;
+    // The initial v2 catalog contains no release assets until verified publication is approved.
+    private static readonly Uri? ApprovedCatalog = new(
+        "https://raw.githubusercontent.com/danhk0612/DK-PHP-Version-Compatibility-Checker/main/tools/engine-pack/catalog-v2.json");
     private static string? GetManagedPackDirectory()
     {
         var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
