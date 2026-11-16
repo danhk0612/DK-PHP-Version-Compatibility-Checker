@@ -47,12 +47,26 @@ internal static class GuiCases
             if (!button.IsEnabled || before.Length >= fixture.Pack.Targets.Count)
                 throw new InvalidOperationException("Reduced bundled pack and engine management entry were not shown.");
 
-            // The modal MainWindow entry is wired in production; the verification
-            // exercises the same manager as a visible independent WPF window to
-            // avoid nesting the verification dispatcher inside ShowDialog.
+            // Exercise the real scanner entry and modal manager without relying
+            // on desktop automation. The callback is serviced by ShowDialog's
+            // nested dispatcher and closes the dialog before download testing.
+            var modalOpened = false;
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var dialog = Application.Current.Windows.OfType<EngineManagementWindow>()
+                    .SingleOrDefault(w => w.IsVisible && ReferenceEquals(w.Owner, window));
+                if (dialog is null)
+                    return;
+                modalOpened = true;
+                dialog.Close();
+            }));
+            Stage("main-engine-management-entry");
+            button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (!modalOpened)
+                throw new InvalidOperationException("Main window engine management button did not open its modal dialog.");
 
-            // Exercise the actual WPF manager controls as a separate visible
-            // window, without blocking the same verification dispatcher.
+            // Test the dialog's approval/installation controls separately to
+            // keep the release/confirmation checks independent of ShowDialog.
             using (var installer = fixture.CreateInstaller(managed))
             {
                 var confirmationCount = 0;
