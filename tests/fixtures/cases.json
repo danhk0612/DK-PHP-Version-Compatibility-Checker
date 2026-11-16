@@ -11,6 +11,21 @@
     {
       "file": "compatibility/mysql_removed.php",
       "targets": {
+        "7.4": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "8.0": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
+        "8.1": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
+          "line": 2
+        },
         "8.2": {
           "expectation": "finding",
           "source_prefix": "PHPCompatibility.FunctionUse.RemovedFunctions.mysql_query",
@@ -36,6 +51,15 @@
     {
       "file": "compatibility/mysql_control.php",
       "targets": {
+        "7.4": {
+          "expectation": "no_findings"
+        },
+        "8.0": {
+          "expectation": "no_findings"
+        },
+        "8.1": {
+          "expectation": "no_findings"
+        },
         "8.2": {
           "expectation": "no_findings"
         },
@@ -220,6 +244,48 @@
         },
         "8.5": {
           "expectation": "observe_only"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php74_named_argument.php",
+      "targets": {
+        "7.4": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.FunctionUse.NewNamedParameters.Found",
+          "line": 2,
+          "type": "ERROR"
+        },
+        "8.0": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php80_readonly_property.php",
+      "targets": {
+        "8.0": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.Classes.NewReadonlyProperties.Found",
+          "line": 3,
+          "type": "ERROR"
+        },
+        "8.1": {
+          "expectation": "no_findings"
+        }
+      }
+    },
+    {
+      "file": "compatibility/php81_readonly_class.php",
+      "targets": {
+        "8.1": {
+          "expectation": "finding",
+          "source_prefix": "PHPCompatibility.Classes.NewReadonlyClasses.Found",
+          "line": 2,
+          "type": "ERROR"
+        },
+        "8.2": {
+          "expectation": "no_findings"
         }
       }
     }
