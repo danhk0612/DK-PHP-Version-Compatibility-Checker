@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using Dk.PhpCompatibilityChecker;
 using Dk.PhpCompatibilityChecker.Models;
+using Dk.PhpCompatibilityChecker.Services;
 
 internal static class GuiCases
 {
@@ -42,41 +43,47 @@ internal static class GuiCases
             var button = (Button)window.FindName("ManageEngineButton");
             if (!button.IsEnabled || before.Length >= fixture.Pack.Targets.Count)
                 throw new InvalidOperationException("Reduced bundled pack and engine management entry were not shown.");
-            Exception? managerFailure = null;
-            // ShowDialog starts a nested dispatcher. Exercise its real controls on that dispatcher.
+
+            // The real MainWindow control must open a modal manager; close that
+            // dialog first to keep the separate download exercise deterministic.
+            var modalDisplayed = false;
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                EngineManagementWindow? manager = null;
-                try
-                {
-                    manager = Application.Current.Windows.OfType<EngineManagementWindow>().Single(w => w.IsVisible);
-                    if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(fixture.Pack.EngineInfo.PhpCompatibilityVersion)
-                        || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
-                        throw new InvalidOperationException("Active engine and verified target information were not visible.");
-
-                    var confirmation = Task.Run(() => ConfirmDownload(new WindowInteropHelper(manager).Handle));
-                    ((Button)manager.FindName("CheckEngineUpdateButton"))
-                        .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-                    Until(() => confirmation.IsCompleted);
-                    confirmation.GetAwaiter().GetResult();
-                    var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
-                    Until(() => (manager.RestartRequired && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled)
-                        || (status.Text.Contains("못했습니다", StringComparison.Ordinal) && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled));
-                    if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
-                        || !before.SequenceEqual(window!.Presentation.Targets.Select(target => target.Version)))
-                        throw new InvalidOperationException("Management window update failed: " + status.Text);
-                    manager.Close();
-                }
-                catch (Exception ex)
-                {
-                    managerFailure = ex;
-                    if (manager?.IsVisible == true)
-                        manager.Close();
-                }
+                var modal = Application.Current.Windows.OfType<EngineManagementWindow>().Single(w => w.IsVisible);
+                modalDisplayed = true;
+                modal.Close();
             }));
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            if (managerFailure is not null)
-                throw managerFailure;
+            if (!modalDisplayed)
+                throw new InvalidOperationException("Engine manager did not open modally from the scanner.");
+
+            // Exercise the actual WPF manager controls as a separate visible
+            // window, without blocking the same verification dispatcher.
+            var activePack = new EnginePackLoader().LoadAsync(bundled).GetAwaiter().GetResult();
+            using (var installer = fixture.CreateInstaller(managed))
+            {
+                var manager = new EngineManagementWindow(activePack, installer, "", bundled) { Owner = window };
+                manager.Show();
+                Until(() => manager.IsVisible);
+                if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(activePack.EngineInfo.PhpCompatibilityVersion)
+                    || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
+                    throw new InvalidOperationException("Current engine/version information is not visible.");
+
+                var confirmation = Task.Run(() => ConfirmDownload(new WindowInteropHelper(manager).Handle));
+                ((Button)manager.FindName("CheckEngineUpdateButton"))
+                    .RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Until(() => confirmation.IsCompleted);
+                confirmation.GetAwaiter().GetResult();
+
+                var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
+                Until(() => (manager.RestartRequired || status.Text.Contains("못했습니다", StringComparison.Ordinal))
+                    && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled);
+                if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
+                    || !before.SequenceEqual(window.Presentation.Targets.Select(target => target.Version)))
+                    throw new InvalidOperationException("Engine management download failed: " + status.Text);
+                manager.Close();
+                Until(() => !manager.IsVisible);
+            }
             window.Close();
             Until(() => !window.IsVisible);
 
