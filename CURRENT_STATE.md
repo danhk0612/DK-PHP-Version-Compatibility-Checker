@@ -104,3 +104,6 @@ T16 계약은 [요구사항](REQUIREMENTS.md), [아키텍처](ARCHITECTURE.md), 
 
 
 T19의 관리 전용 WPF 창은 구현되고 기본 검사 GUI·서비스 회귀는 통과했으나, 관리 창의 실제 업데이트 확인 대화상자를 거치는 T14 GUI 자동시험은 [실행 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796)에서 중단됐습니다. [T19 진단](tests/t19/evidence/summary.json)에 증거와 수정 상태를 기록했으며, 최종 통합시험 결과를 확인하기 전 완료로 표시하지 않습니다. Windows 네이티브 확인창은 유지하고 자동시험의 불안정한 클릭 방식을 승인·거절 응답 주입으로 전환했으며 검증은 대기 중입니다.
+
+
+T19의 관리 창 기본 업데이트 흐름은 [Windows T14 #43824938469](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43824938469)에서 T14 15건 및 검사·WPF·내보내기 회귀를 통과했습니다. 업데이트 거절/승인·설치·재실행 목표 반영을 확인했으며 [증거](tests/t19/evidence/summary.json)에 기록했습니다. 그 뒤에 추가한 메인 버튼→모달 진입 검증과 하단 최소 너비 레이아웃 수정의 CI 및 깨끗한 Windows 11 시각 검사는 아직 완료되지 않았습니다.
