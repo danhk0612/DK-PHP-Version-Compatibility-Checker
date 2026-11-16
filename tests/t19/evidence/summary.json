@@ -28,7 +28,7 @@
   },
   "notVerified": [
     "New direct MainWindow engine-management modal entry test (CI pending).",
-    "Minimum window width footer change (CI pending; clean Windows 11 visual review required).",
+    "Clean Windows 11 visual review for minimum-size footer, text overflow, and 100–150% scaling.",
     "Native production MessageBox interaction in a clean Windows 11 manual session.",
     "Real published GitHub pack download and activation."
   ],
@@ -62,5 +62,13 @@
     "requiredWorkflow": "T14 verified engine pack installation",
     "requiredResult": "scopePassed=true, including main-engine-management-entry and restart-targets-confirmed",
     "ciEvidence": "Previous verified 43824938469 (before entry/layout changes)"
+  },
+  "additionalPassedRun": {
+    "id": 43825153686,
+    "commit": "fef7c2646d176e0e9debe24dc152bc09b33075d2",
+    "platform": "windows-2022",
+    "scopePassed": true,
+    "passedCases": 15,
+    "remarks": "T19 manager consent/download/restart and T18 installation regressions succeeded with narrow-window footer Grid layout present; visual 100–150% Windows 11 scaling is not covered."
   }
 }
