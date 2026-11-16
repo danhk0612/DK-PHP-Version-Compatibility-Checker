@@ -18,10 +18,11 @@ internal static class GuiCases
         var fixture = await PackFixture.CreateAsync(packs, fixtureArea, "full");
         var managed = Path.Combine(output, "gui-managed");
         var bundled = Path.Combine(packs, "reduced");
+        var bundledPack = await new EnginePackLoader().LoadAsync(bundled);
         var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var thread = new Thread(() =>
         {
-            try { Run(fixture, bundled, managed); completion.SetResult(); }
+            try { Run(fixture, bundled, bundledPack, managed); completion.SetResult(); }
             catch (Exception ex) { completion.SetException(ex); }
         }) { IsBackground = true };
         thread.SetApartmentState(ApartmentState.STA);
@@ -29,7 +30,7 @@ internal static class GuiCases
         await completion.Task.WaitAsync(TimeSpan.FromMinutes(2));
     }
 
-    private static void Run(PackFixture fixture, string bundled, string managed)
+    private static void Run(PackFixture fixture, string bundled, EnginePack activePack, string managed)
     {
         var application = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
@@ -50,7 +51,6 @@ internal static class GuiCases
 
             // Exercise the actual WPF manager controls as a separate visible
             // window, without blocking the same verification dispatcher.
-            var activePack = new EnginePackLoader().LoadAsync(bundled).GetAwaiter().GetResult();
             using (var installer = fixture.CreateInstaller(managed))
             {
                 var manager = new EngineManagementWindow(activePack, installer, "", bundled) { Owner = window };
