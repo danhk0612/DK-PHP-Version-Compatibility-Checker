@@ -98,6 +98,9 @@ T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하�
 
 ## 엔진 관리 개편 T16~T20 (2026-11-16)
 
-사용자가 새 목표의 최저 PHP를 **7.4**로 확정하고 T16~T20 순차 진행을 승인했습니다. 신규 목표 7.4/8.0/8.1은 **실제 검증·활성화 전**이며 현재 배포/기본 팩의 지원 목록은 기존 8.2~8.5 그대로입니다. T16 문서 계약은 Draft PR #15에 있습니다. **T17은 Draft PR #16의 후보 팩으로 Windows Server 2022 x64 검증 통과**(7개 목표·54 fixture·21 annotation·54 오프라인 비교·T05 107/T06 27/T07 69/T10 12/T12 19 및 T14 회귀). [증거](tests/t17/evidence/summary.json). main·v0.1.0의 지원 범위는 여전히 8.2~8.5입니다. **T18은 Draft PR #17의 Windows Server 2022 x64 실측에서 15개 설치·갱신·복원 사례와 관련 회귀를 통과**했습니다([근거](tests/t18/evidence/summary.json)). 이는 새 엔진 라이브러리 버전 또는 공개 GitHub 실채널 검증이 아닙니다. T19 관리 GUI·T20 실제 GitHub 채널/Windows 11 배포 시험은 아직 진행 중입니다.
+사용자가 새 목표의 최저 PHP를 **7.4**로 확정하고 T16~T20 순차 진행을 승인했습니다. 신규 목표 7.4/8.0/8.1은 **Windows 후보 팩으로 실측 검증됐지만 main·공개 v0.1.0에 활성화되지는 않았습니다.** 현재 배포 기본 팩의 지원 목록은 8.2~8.5 그대로입니다. T16 문서 계약은 Draft PR #15에 있습니다. **T17은 Draft PR #16의 후보 팩으로 Windows Server 2022 x64 검증 통과**(7개 목표·54 fixture·21 annotation·54 오프라인 비교·T05 107/T06 27/T07 69/T10 12/T12 19 및 T14 회귀). [증거](tests/t17/evidence/summary.json). main·v0.1.0의 지원 범위는 여전히 8.2~8.5입니다. **T18은 Draft PR #17의 Windows Server 2022 x64 실측에서 15개 설치·갱신·복원 사례와 관련 회귀를 통과**했습니다([근거](tests/t18/evidence/summary.json)). 이는 새 엔진 라이브러리 버전 또는 공개 GitHub 실채널 검증이 아닙니다. T19 관리 GUI·T20 실제 GitHub 채널/Windows 11 배포 시험은 아직 진행 중입니다.
 
 T16 계약은 [요구사항](REQUIREMENTS.md), [아키텍처](ARCHITECTURE.md), [카탈로그 v2 설계](tools/engine-pack/DOWNLOAD-CATALOG.md)와 [TASKS](TASKS.md)에 정리합니다. 기본 팩/검사 원본 보호·오프라인 유지, 같은 목표로 엔진만 갱신하는 경로, 사용자 확인 및 이전/내장 팩 복원 기준을 유지합니다. v0.1.0은 카탈로그 URL이 미설정이므로 온라인 채널 사용에는 최초 앱 업데이트가 필요합니다. 공개 Release/tag/병합은 별도 승인 전에는 하지 않습니다.
+
+
+T19의 관리 전용 WPF 창은 구현되고 기본 검사 GUI·서비스 회귀는 통과했으나, 관리 창의 실제 업데이트 확인 대화상자를 거치는 T14 GUI 자동시험은 [실행 #43822264796](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43822264796)에서 중단됐습니다. [T19 진단](tests/t19/evidence/summary.json)에 증거와 수정 상태를 기록했으며, 최종 통합시험 결과를 확인하기 전 완료로 표시하지 않습니다.
