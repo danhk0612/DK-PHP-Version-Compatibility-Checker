@@ -1,7 +1,7 @@
 {
   "task": "T19",
   "date": "2026-11-16",
-  "status": "GUI integration CI pending after targeted repair",
+  "status": "UI scenario implementation updated; new Windows T14 CI queued, not yet verified",
   "observed": {
     "failingRun": 43822264796,
     "failedStage": "manager-update-click-and-confirm",
@@ -14,17 +14,28 @@
     ]
   },
   "repair": {
-    "description": "Tests now send Win32 WM_COMMAND/IDYES to the process-owned confirmation dialog and log its discovery; preceding WPF STA sync-over-async load was removed.",
-    "testOnly": true
+    "history": [
+      "Original WPF STA sync-over-async load removed",
+      "Win32 native dialog automation hung in Windows CI at manager-update-click-and-confirm",
+      "Replaced fragile cross-thread native confirmation clicks with explicit verification-only approval callback"
+    ],
+    "productionConsent": "Native MessageBox Yes/No remains the default; injected confirmation is passed only by tests/t14/GuiCases.cs.",
+    "verificationSteps": [
+      "Decline offer: no managed download directory or active pointer",
+      "Approve offer: install verified pack; retain original active scan until window restart",
+      "Reopen GUI: activate new supported targets without network"
+    ]
   },
   "nextVerification": {
-    "branch": "t20-engine-channel-candidate",
-    "queuedRun": 43823336917,
-    "requiredOutcome": "T14 verified engine pack installation workflow conclusion success including WPF download confirmation/restart"
+    "requiredWorkflow": "T14 verified engine pack installation",
+    "headBranch": "t19-engine-management-ui",
+    "requiredResult": "scopePassed=true including WPF approval/refusal and restart, plus T05/T06/T07/T12 regressions",
+    "unverifiedUntilCI": true
   },
   "notVerified": [
-    "Actual manager confirmation, download and restart end-to-end after latest fix",
-    "Clean Windows 11 visual clipping, scaling and user-level install",
-    "Public GitHub release download/catalog"
+    "New T19 end-to-end Windows CI after test-only confirmation callback",
+    "Native Windows confirmation click in clean Windows 11 manual session",
+    "UI minimum-size/scaling visual review beyond WPF layout inspection",
+    "Real public GitHub engine pack installation"
   ]
 }
