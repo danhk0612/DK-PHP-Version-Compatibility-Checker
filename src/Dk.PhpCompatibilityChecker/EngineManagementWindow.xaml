@@ -1,0 +1,88 @@
+<Window x:Class="Dk.PhpCompatibilityChecker.EngineManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="검사 엔진 관리" Width="680" Height="610" MinWidth="520" MinHeight="440"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        FontFamily="Segoe UI" FontSize="14" Foreground="#17223B" Background="#F4F6FB"
+        Icon="Assets/App.ico" UseLayoutRounding="True">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#17223B" />
+            <Setter Property="BorderBrush" Value="#D8DFEB" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+        <Style x:Key="Panel" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#D8DFEB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="18,14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="검사 엔진 관리" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <Border Style="{StaticResource Panel}">
+                    <StackPanel>
+                        <TextBlock Text="현재 사용 중인 엔진" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,8" />
+                        <TextBox x:Name="EngineDetailsTextBox" IsReadOnly="True" TextWrapping="Wrap"
+                                 IsReadOnlyCaretVisible="True" BorderThickness="0" Padding="0" 
+                                 ToolTip="엔진 구성 정보를 선택하거나 Ctrl+C로 복사할 수 있습니다." />
+                        <TextBlock Text="검증된 검사 목표 및 알려진 한계" FontWeight="SemiBold" Margin="0,12,0,5" />
+                        <TextBox x:Name="EngineTargetsTextBox" IsReadOnly="True" TextWrapping="Wrap"
+                                 IsReadOnlyCaretVisible="True" BorderThickness="0" Padding="0" />
+                        <TextBox x:Name="EngineLimitationsTextBox" IsReadOnly="True" TextWrapping="Wrap"
+                                 IsReadOnlyCaretVisible="True" BorderThickness="0" Padding="0" Margin="0,8,0,0"
+                                 MaxHeight="130" VerticalScrollBarVisibility="Auto" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Panel}">
+                    <StackPanel>
+                        <TextBlock Text="엔진 업데이트" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,5" />
+                        <TextBlock Text="새 목표 또는 기존 목표의 검사 엔진 개선판을 확인합니다. 검사는 인터넷 연결 없이 계속 사용할 수 있습니다."
+                                   TextWrapping="Wrap" Foreground="#4D5E79" Margin="0,0,0,9" />
+                        <TextBlock x:Name="EngineOfferTextBlock" TextWrapping="Wrap" Margin="0,0,0,9" />
+                        <WrapPanel>
+                            <Button x:Name="CheckEngineUpdateButton" Content="업데이트 확인…" Click="OnCheckUpdate" />
+                            <Button x:Name="CancelEngineUpdateButton" Content="중단" Click="OnCancelUpdate" IsEnabled="False" />
+                        </WrapPanel>
+                        <ProgressBar x:Name="EngineDownloadProgress" Minimum="0" Maximum="100" Height="8"
+                                     Visibility="Collapsed" Margin="0,8,0,2" />
+                        <TextBlock x:Name="EngineUpdateStatusTextBlock" TextWrapping="Wrap"
+                                   Foreground="#4D5E79" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Panel}">
+                    <StackPanel>
+                        <TextBlock Text="검증된 엔진 복원" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,5" />
+                        <TextBlock Text="이전 설치 팩이나 처음 포함된 기본 팩을 다음 프로그램 실행부터 사용하도록 선택합니다."
+                                   TextWrapping="Wrap" Foreground="#4D5E79" Margin="0,0,0,9" />
+                        <WrapPanel>
+                            <Button x:Name="RestorePreviousEngineButton" Content="이전 엔진으로 복원" Click="OnRestorePrevious" />
+                            <Button x:Name="RestoreBundledEngineButton" Content="기본 엔진으로 복원" Click="OnRestoreBundled" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Row="2" Margin="0,10,0,0" LastChildFill="False">
+            <TextBlock x:Name="EngineRestartNotice" TextWrapping="Wrap" VerticalAlignment="Center"
+                       Foreground="#3847A7" DockPanel.Dock="Left" MaxWidth="420" />
+            <Button x:Name="CloseEngineManagementButton" Content="닫기" Width="94" 
+                    Margin="10,0,0,0" DockPanel.Dock="Right" Click="OnClose" />
+        </DockPanel>
+    </Grid>
+</Window>
