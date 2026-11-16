@@ -100,6 +100,7 @@ public sealed class EnginePackInstaller : IDisposable
             "설치된 엔진 팩의 검사 목표가 새 팩에서 누락되었습니다.");
         if (previousPack is not null)
         {
+            Require(previousPack.PackId != offer.PackId, "이미 설치된 엔진 팩과 동일합니다.");
             var priorSequence = previous?.ReleaseSequence
                 ?? Volatile.Read(ref _offers).FirstOrDefault(row => row.ArchiveSha256 == previous!.ArchiveSha256
                     && row.ManifestSha256 == previous.ManifestSha256 && row.PackId == previousPack.PackId)?.ReleaseSequence;
@@ -188,6 +189,7 @@ public sealed class EnginePackInstaller : IDisposable
             Require(activeSequence is > 0, "현재 관리형 엔진 팩의 배포 순서를 확인할 수 없습니다.");
         }
         return offers.Where(row => row.ReleaseSequence > activeSequence!.Value
+                && row.PackId != active.PackId
                 && active.Targets.All(target => row.Targets.Any(candidate => candidate.Version == target.Version)))
             .OrderByDescending(row => row.ReleaseSequence).FirstOrDefault();
     }
