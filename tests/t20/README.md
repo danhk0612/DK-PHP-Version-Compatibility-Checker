@@ -35,7 +35,7 @@ T20 설치 통합시험은 설치·기본 팩 복원 후 **각각 새로운 .NET
 
 CI에서는 배포 승인 전 실행 ZIP 자체를 GitHub Actions artifact로 배포하지 않고 증거 메타데이터만 보존합니다. 따라서 사용자 PC에서 T20 **작업 브랜치**를 별도 폴더에 받아 후보 ZIP과 대응 소스·고지 ZIP을 생성합니다. 아래는 **준비용 PC**의 Windows x64 PowerShell 7에서 수행하며, 준비 도구를 검사 대상 PHP 프로젝트에 설치하지 않습니다.
 
-사전 도구: Git, Python 3.12 이상, .NET SDK 정확히 10.0.403, 네트워크. 패키지 준비의 방화벽 검증을 위해 **준비 단계에서만 관리자 권한**이 필요하며, 결과 앱의 실행/검사에서는 관리자 권한을 요구하지 않습니다.
+사전 도구: Git, Python 3.12 이상, .NET SDK 10.0.403 이상 같은 10.0.4xx 기능 밴드의 패치 버전(예: 10.0.404), 네트워크. `global.json`의 `latestPatch`가 동일 기능 밴드의 설치된 최신 패치를 선택하며, 다른 기능 밴드(예: 10.0.3xx)는 제외합니다. 패키지 준비의 방화벽 검증을 위해 **준비 단계에서만 관리자 권한**이 필요하며, 결과 앱의 실행/검사에서는 관리자 권한을 요구하지 않습니다.
 
 ```powershell
 git clone --branch t20-engine-channel-candidate --single-branch https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker.git DK-PHP-T20-Test
