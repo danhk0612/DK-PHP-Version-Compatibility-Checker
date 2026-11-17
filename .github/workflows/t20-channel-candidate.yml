@@ -21,7 +21,12 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
-          global-json-file: global.json
+          dotnet-version: '10.0.404'
+      - name: Confirm .NET 10.0.404 patch SDK is used in T20 packaging CI
+        shell: pwsh
+        run: |
+          $sdkVersion = (& dotnet --version).Trim()
+          if ($sdkVersion -ne '10.0.404') { throw "Expected 10.0.404 in T20 CI; resolved $sdkVersion" }
       - name: Confirm catalog v2 is intentionally empty before approved publication
         shell: pwsh
         run: |
