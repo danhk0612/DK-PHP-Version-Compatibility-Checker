@@ -13,6 +13,41 @@ T16~T19에서 작성한 엔진 팩 관리 기능의 **배포 채널 준비** 단
 
 `.github/workflows/t20-channel-candidate.yml`의 Windows x64 단계에서 카탈로그 v2가 비어 있는 것을 확인하고 `tools/packaging/Prepare-LocalTest.ps1`을 통해 프로그램 후보 ZIP·대응 소스/고지 ZIP·paired-candidate.json을 생성 및 대조합니다. 산출 ZIP 자체는 공개하거나 임의 Actions artifact로 배포하지 않고 검사 결과 메타데이터만 제한적으로 보존합니다.
 
+## Windows 11 검사용 ZIP을 직접 준비하는 절차
+
+CI에서는 배포 승인 전 실행 ZIP 자체를 GitHub Actions artifact로 배포하지 않고 증거 메타데이터만 보존합니다. 따라서 사용자 PC에서 T20 **작업 브랜치**를 별도 폴더에 받아 후보 ZIP과 대응 소스·고지 ZIP을 생성합니다. 아래는 **준비용 PC**의 Windows x64 PowerShell 7에서 수행하며, 준비 도구를 검사 대상 PHP 프로젝트에 설치하지 않습니다.
+
+사전 도구: Git, Python 3.12 이상, .NET SDK 정확히 10.0.403, 네트워크. 패키지 준비의 방화벽 검증을 위해 **준비 단계에서만 관리자 권한**이 필요하며, 결과 앱의 실행/검사에서는 관리자 권한을 요구하지 않습니다.
+
+```powershell
+git clone --branch t20-engine-channel-candidate --single-branch https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker.git DK-PHP-T20-Test
+Set-Location ./DK-PHP-T20-Test
+$testedCommit = (git rev-parse HEAD).Trim()
+if ((git status --porcelain)) { throw '새로운 빈 checkout에서만 준비하세요.' }
+pwsh -NoProfile -File ./tools/packaging/Prepare-LocalTest.ps1
+if ($LASTEXITCODE -ne 0) { throw 'T20 로컬 후보 생성 실패' }
+$pair = Get-Content -LiteralPath ./artifacts/t09/evidence/paired-candidate.json -Raw | ConvertFrom-Json
+if (-not $pair.scopePassed -or -not $pair.candidateForUserTesting -or $pair.publicReleaseApproved) {
+    throw '사용자 시험 가능한 비공개 후보가 아닙니다.'
+}
+$binary = Join-Path (Resolve-Path ./artifacts/t09).Path $pair.binaryArchive
+$source = Join-Path (Resolve-Path ./artifacts/t08-source-sidecar).Path $pair.sourceArchive
+if ((Get-FileHash -LiteralPath $binary -Algorithm SHA256).Hash -ne $pair.binaryArchiveSha256) {
+    throw '실행 ZIP 해시 불일치'
+}
+if ((Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash -ne $pair.sourceArchiveSha256) {
+    throw '대응 소스·고지 ZIP 해시 불일치'
+}
+Write-Output "시험 커밋: $testedCommit"
+Write-Output "실행 ZIP: $binary"
+Write-Output "대응 소스·고지 ZIP: $source"
+Write-Output "검증 기록: $((Resolve-Path ./artifacts/t09/evidence/paired-candidate.json).Path)"
+```
+
+**주의:** 후보 생성 시 소스/도구 다운로드가 일어나며, 준비 결과 ZIP은 `artifacts/`에만 생성됩니다. 공개 업로드나 Release 게시를 하지 않습니다. 실행 ZIP, 대응 소스·고지 ZIP, `paired-candidate.json`, 시험 커밋 SHA를 한 세트로 보관합니다. 생성 단계에서 일부 파일을 만들었거나 실패했다면 기존 내용을 덮어쓰지 말고 새로운 checkout에서 재시도합니다.
+
+준비가 끝나면 **검사 대상 PHP 원본과 별개의 Windows 11 PC/VM**에서 일반 사용자로 ZIP을 풀어 아래 체크리스트를 수행합니다. 개발 도구/관리자 권한은 앱 사용에 필요한 전제가 아닙니다. 대응 소스 ZIP은 실행 시 함께 압축 해제할 필요가 없지만 같은 빌드의 자료로 보존해야 합니다.
+
 ## Windows 11 최종 사용자 시험 인계 (실행 전 체크리스트)
 
 기존 [T09 Windows 11 사용자 확인 절차](../t09/WINDOWS11_TEST.md)의 해시 대조·일반 사용자 권한·오프라인·읽기 전용 검사·고지 항목을 재사용합니다. **이 단계를 CI 서버 시험으로 완료 처리하지 않습니다.** 릴리스된 `v0.1.0`이 아니라 *T20 후보 커밋과 쌍을 이룬 ZIP*을 사용해야 합니다.
