@@ -179,6 +179,41 @@ internal static class Program
         Check(inputBefore.SequenceEqual(Snapshot(packs)), "Derived input packs changed");
         passed.Add("Source and derived input packs remain byte-identical");
 
+        // T18: same target coverage, but a new verified pack identity and release sequence.
+        var sameTargets = await PackFixture.CreateAsync(packs, output, "full-updated");
+        using (var newerInstaller = sameTargets.CreateInstaller(managed))
+        {
+            var update = await newerInstaller.FindUpdateAsync(next);
+            Check(update is not null && update.ReleaseSequence == 3
+                && update.Targets.Select(t => t.Version).SequenceEqual(Targets(next)),
+                "Engine-only update was not offered with unchanged target count");
+            var sameTargetInstalled = await newerInstaller.InstallAsync(update, subject);
+            Check(sameTargetInstalled.PackId == sameTargets.Pack.PackId,
+                "Same-target update installed the wrong pack");
+            await VerifyStartupAsync(managed, sameTargets.Pack);
+            passed.Add("T18 same-target verified pack update changes identity without updating the application");
+
+            using (var olderInstaller = full.CreateInstaller(managed))
+            {
+                var active = await EnginePackInstaller.LoadInstalledAsync(managed)
+                    ?? throw new InvalidOperationException("Updated managed pack missing");
+                Check(await olderInstaller.FindUpdateAsync(active) is null,
+                    "An older sequence was proposed as a newer pack");
+                var oldOffer = (await olderInstaller.ReadCatalogAsync()).Single();
+                await ExpectAsync<InvalidDataException>(() => olderInstaller.InstallAsync(oldOffer, subject),
+                    "same-target rollback as a normal update");
+            }
+            passed.Add("T18 same-target older pack is not offered or installed as an update");
+
+            var restored = await newerInstaller.RestorePreviousAsync(subject);
+            Check(restored.PackId == full.Pack.PackId, "Previous verified pack was not selected");
+            await VerifyStartupAsync(managed, full.Pack);
+            await newerInstaller.RestoreBundledAsync(subject);
+            Check(await EnginePackInstaller.LoadInstalledAsync(managed) is null,
+                "Bundled restore left a managed pack active");
+            passed.Add("T18 explicit previous and bundled pack restoration preserve installed assets");
+        }
+
         async Task RejectAsync(PackFixture asset, string label)
         {
             await ExpectAsync<InvalidDataException>(() => InstallAsync(asset, managed, subject), label);

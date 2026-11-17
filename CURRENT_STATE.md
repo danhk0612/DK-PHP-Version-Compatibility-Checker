@@ -94,3 +94,18 @@ T08의 동봉 소스 재링크 및 ZIP 페어링 기술 검증은 통과했습�
 T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하는 사용자 지시를 반영했습니다. 남은 배포 조건을 확인하지 않고 T08/T09/T10 전체 완료나 공개 배포 가능으로 표시하지 않습니다.
 
 최신 후보의 PHP 실행 파일 2개는 승인된 공식 ZIP의 해시와 일치합니다. 동반 ZIP에 포함된 PHP SDK 아카이브를 고정 커밋에서 재생성해 CI 기록과 SHA-256을 대조했고, 그 안에서 빌드 도구 EXE 38개와 DLL 58개를 확인했습니다. 승인된 새 구성은 SDK 레시피·고지를 보존하고 96개 EXE·DLL을 제외합니다. Linux에서 원문 232개를 바이트 단위로 대조했습니다. 변경 기준 `768e3cc`의 [Windows 후보 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423443)에서 합성 페어링 24건, 실제 ZIP 페어링·고지 49개 일치, 앱 시작·종료 전후 1,250개 파일 불변을 확인했습니다. [Windows 격리 재링크](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43472423393)에서 SDK를 별도 확보해 원본/마커 빌드와 PHPCS 42사례 결과 일치·입력 불변을 확인했습니다. 후속 [Windows 스냅샷 검증](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481996872)은 의존성 ZIP 39개를 고정하고 공식 x64 NTS 스냅샷 옵션(PGO 생략)으로 CLI와 코어 DLL을 재링크했습니다. 제품 PHP와 기본 로드 확장 27개 일치, PHPCS 42사례와 입력 불변, 실제 빌드 자료 75개씩 대조를 통과했습니다. [후보 ZIP 페어링](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43481997013)도 통과했습니다. 과거 공식 의존성 ZIP 바이트·PGO 입력 및 공개 소스 지속 제공은 미확인입니다.
+
+
+## 엔진 관리 개편 T16~T20 (2026-11-17 검증 반영)
+
+**공개 버전:** `main`과 `v0.1.0`은 여전히 PHP 8.2~8.5용 기본 팩이며, 온라인 카탈로그 주소는 활성화되지 않았습니다. 아래 결과는 **아직 병합되지 않은 검토용 브랜치** 기준입니다.
+
+- T16 (Draft PR #15): PHP 7.4 이상, 카탈로그 v2/동일 목표 엔진 갱신 및 단일 활성 팩·복원 계약 문서화.
+- T17 (Draft PR #16): PHP 7.4~8.5 7개 목표, Windows Server 2022 x64 fixture 54건·오프라인 비교 54건, 기존 서비스/GUI/내보내기 회귀 통과. [근거](tests/t17/evidence/summary.json).
+- T18 (Draft PR #17): 엔진 팩 새 순서 비교, 같은 목표 팩 업데이트·구버전 거부·이전/기본 팩 복원 Windows T14 회귀 15건 통과. [근거](tests/t18/evidence/summary.json).
+- T19 (Draft PR #18): **최신 브랜치 커밋 기준 Windows x64 통합 CI 통과** ([T14 #43829767002](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43829767002)). 메인 버튼→모달 진입, 최소 `520×440` 닫기 버튼 경계 확인(`manager-minimum-layout`), 업데이트 승인/거절, 검증 팩 설치 및 다음 실행 적용, T14 15건·서비스/화면/내보내기 회귀 모두 성공. [근거](tests/t19/evidence/summary.json).
+- T20 (Draft PR #19): 실제 공개 팩 **미게시**, 카탈로그는 의도적으로 `packs=[]`입니다. 최초 새 앱 후보와 소스/고지 ZIP의 로컬 페어링 CI는 통과했으나 Windows 11 실사용, 공개 GitHub 팩 다운로드/복원, 새 라이브러리 버전 적용, EXE 불변 실배포, 대응 소스 지속 제공은 미검증입니다.
+
+**남은 관문:** 깨끗한 Windows 11에서 사용자 권한·화면 배율 100/125/150%·한글/긴 진단·기본 오프라인 검사 확인 → 최종 배포 팩/대응 소스·고지·SHA 재검토 → 사용자 별도 승인 아래 GitHub 카탈로그/엔진 Release 게시 및 익명 실다운로드 시험. Windows Server CI를 Windows 11 직접 시험으로 표시하지 않습니다.
+
+**금지:** 승인 없는 `main` 병합·태그/Release 게시, 프로그램 자동 업데이트, 임의 원격 엔진 URL, 검사 대상 파일 변경.
