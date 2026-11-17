@@ -255,3 +255,9 @@ T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 
 - **A안 출시 범위 사용자 확정 (2026-11-17):** PHP 7.4~8.5 내장 기본 검사 앱을 먼저 출시합니다. 기존 제외·분할 검사·CSV/HTML·엔진 관리 WPF 기반은 유지하고 `catalog-v2.json`은 `packs=[]`로 게시해 **온라인 신규 엔진 다운로드는 아직 제공하지 않습니다.** 동일 `packId`의 엔진 단독 ZIP을 신규 팩으로 게시하지 않습니다. T20의 온라인 실채널·팩 단독 업데이트는 **후속 미완료 관문**으로 보존합니다.
 - **Windows 11 사용자 후보 준비 실측 (2026-11-17):** 한글 상위 경로에서 임시 PHP/Composer 상대 경로 적용 후, SDK `10.0.404`, PHP 7.4~8.5 엔진 fixture 54건·오프라인 54건·원본 불변, WPF 창 자동 표시/종료, ZIP·동반 소스/고지 페어링 40개 고지 매칭까지 **로컬 준비 성공**(사용자 제공 콘솔 로그). 앱 ZIP SHA-256 `2006b8138ec4351abeeac699119e50e09de1ca3f044db72c423641ba12715fc2`, 빌드 경고 `CS8603` 1건/오류 0건. [한글 경로 Windows CI #44016561785](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/44016561785)도 성공. 그러나 `releaseGatePassed=false`, 실제 압축 해제한 앱의 일반 사용자 GUI 수동 검사·DPI·읽기 전용 위치/CRT 부족 사례는 **미실행**.
 - **A안 공개 전 잔여:** [T08 동반 소스 재링크 CI #44001059330](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/44001059330)은 소스 수집·후보 페어링·54개 비교 사례 통과이나 `redistributionCleared=false`/`releaseGatePassed=false` 유지. 전체 재배포 적합성·고지/소스 지속 제공 최종 대조, 깨끗한 Windows 11 x64 일반 사용자·오프라인·DPI 검증, 최종 동일 커밋 ZIP 페어링 및 새 버전/태그·`main` 병합·공개 Release 별도 승인 필요. [A안 배포 절차](tests/t20/README.md#첫-신규-앱-출시-범위--a안-확정-2026-11-17).
+
+## Windows 11 GUI 사용자 피드백 후속 — Draft PR #20 (PR #19 기반)
+- 요청: 상단 내부 스크롤/가림 개선, 제외 경로 목록의 최소 높이, 검사 결과 행 우클릭에서 파일 열기·위치 열기 등.
+- 범위: `MainWindow.xaml`과 `MainWindow.xaml.cs`의 배치·사용자 명령만. 필수 입력은 항상 표시, 기존 설정 Expander를 열면 작은 창의 최소 높이 조정. 결과 제외 목록은 비어 있어도 최소 높이 56과 빈 상태 안내 표시. 우클릭은 메모장 열기(소스 실행 금지), 탐색기에서 해당 파일 선택, 파일 경로 복사.
+- 완료 확인: Windows 11 WPF 빌드·시작, 1120×800 및 760×560(설정 펼침/접힘), DPI 100·125·150%에서 가림 없음, 한글/공백/드라이브/네트워크 파일 경로와 우클릭 행 선택, 경로 복사, 원본 불변, 기존 엔진·제외·CSV/HTML 회귀.
+- 상태: Draft [PR #20](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/20)에 구현 반영, **Windows GUI 수동시험·최종 회귀 판정 대기**. 선행 PR #19 및 공개 배포 게이트는 미완료. 직접 병합·Release/tag 금지.
