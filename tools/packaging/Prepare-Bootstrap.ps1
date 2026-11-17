@@ -20,14 +20,18 @@ extension=openssl
 extension=curl
 extension=zip
 '@
-# Use an absolute extension directory; working directory may be anywhere.
-$ini=$ini.Replace('extension_dir="ext"', 'extension_dir="' + (Join-Path $root 'php/ext').Replace('\','/') + '"')
 [IO.File]::WriteAllText((Join-Path $root 'php/php.ini'),$ini,[Text.UTF8Encoding]::new($false))
 $phar=Join-Path $root 'composer.phar'
 Invoke-WebRequest $composer.url -OutFile $phar
 if ((Get-FileHash -LiteralPath $phar -Algorithm SHA256).Hash.ToLowerInvariant() -ne $composer.sha256) { throw 'Preparation Composer hash mismatch.' }
 $wrapper=@'
-& "$PSScriptRoot/php/php.exe" -c "$PSScriptRoot/php/php.ini" "$PSScriptRoot/composer.phar" @args
-exit $LASTEXITCODE
+Push-Location (Join-Path $PSScriptRoot 'php')
+try {
+    & "$PSScriptRoot/php/php.exe" -c "$PSScriptRoot/php/php.ini" "$PSScriptRoot/composer.phar" @args
+    $phpExitCode = $LASTEXITCODE
+} finally {
+    Pop-Location
+}
+exit $phpExitCode
 '@
 [IO.File]::WriteAllText((Join-Path $root 'composer.ps1'),$wrapper,[Text.UTF8Encoding]::new($false))
