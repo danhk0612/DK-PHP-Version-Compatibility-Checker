@@ -8,7 +8,10 @@ $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Windows x64 PowerShell is required.' }
 $repo=(Resolve-Path $RepoRoot).Path
-if ((& dotnet --version).Trim() -ne '10.0.403') { throw 'Approved SDK 10.0.403 required.' }
+$sdkVersion = (& dotnet --version).Trim()
+if ($LASTEXITCODE -ne 0 -or $sdkVersion -notmatch '^10\.0\.4\d{2}$' -or [version]$sdkVersion -lt [version]'10.0.403') {
+    throw "Approved .NET SDK 10.0.403 or a newer 10.0.4xx patch is required. Resolved SDK: $sdkVersion"
+}
 if (-not (& dotnet --list-runtimes | Where-Object { $_ -match '^Microsoft\.WindowsDesktop\.App 10\.0\.\d+ \[' })) {
     throw 'Install .NET Desktop Runtime 10 x64 from https://dotnet.microsoft.com/en-us/download/dotnet/10.0.'
 }
@@ -93,6 +96,6 @@ try {
 }
 & python (Join-Path $repo 'tests/t09/check_package.py') --stage $extract --zip $zip --output $evidence --post-launch
 if ($LASTEXITCODE -ne 0) { throw 'Packaged files changed during app launch.' }
-$report=[ordered]@{ scopePassed=$true; platform=[Environment]::OSVersion.VersionString; sdk='10.0.403'; selfContained=$false; desktopRuntimeRequired='Microsoft.WindowsDesktop.App 10.0 (x64)'; localUserTestingPrepared=$true; licenseElectionMade=$true; windowShown=$shown; normalExit=$true; archive=(Split-Path $zip -Leaf); archiveSha256=(Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant(); redistributionCleared=$false; releaseGatePassed=$false; limits=@('Windows Server runner is not clean Windows 11','No CRT-missing machine tested','No scanner GUI interaction in this packaging test','T08/T10 and durable matching-source delivery remain gates') }
+$report=[ordered]@{ scopePassed=$true; platform=[Environment]::OSVersion.VersionString; sdk=$sdkVersion; selfContained=$false; desktopRuntimeRequired='Microsoft.WindowsDesktop.App 10.0 (x64)'; localUserTestingPrepared=$true; licenseElectionMade=$true; windowShown=$shown; normalExit=$true; archive=(Split-Path $zip -Leaf); archiveSha256=(Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant(); redistributionCleared=$false; releaseGatePassed=$false; limits=@('Windows Server runner is not clean Windows 11','No CRT-missing machine tested','No scanner GUI interaction in this packaging test','T08/T10 and durable matching-source delivery remain gates') }
 [IO.File]::WriteAllText((Join-Path $evidence 'summary.json'), (($report | ConvertTo-Json -Depth 8)+"`n"),[Text.UTF8Encoding]::new($false))
 Write-Output ($report | ConvertTo-Json -Depth 8)
