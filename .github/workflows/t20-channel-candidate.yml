@@ -56,6 +56,10 @@ jobs:
         run: |
           dotnet run --project tests/t20/T20.InstallVerification.csproj -c Release -- "$pwd/tools/runtime" "$pwd/artifacts/t20/engine-candidate" "$pwd/artifacts/t20/local-install"
           if ($LASTEXITCODE -ne 0) { throw 'Actual installer rejected the local engine ZIP.' }
+      - name: Verify the paired packaged WPF app exits and starts in a new OS process
+        shell: pwsh
+        run: |
+          ./tests/t20/Verify-PackagedRestart.ps1 -PackageRoot 'artifacts/t09/한글 package & 실행' -Archive 'artifacts/t09/DK-PHP-Compatibility-audit-only.zip' -OutputDirectory 'artifacts/t20/app-restart'
       - name: Save only provenance and verification metadata
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -66,5 +70,7 @@ jobs:
             artifacts/t09/evidence/paired-candidate.json
             artifacts/t20/engine-candidate/engine-candidate.json
             artifacts/t20/local-install/summary.json
+            artifacts/t20/app-restart/summary.json
+            artifacts/t20/app-restart/post-launch-files.json
           if-no-files-found: warn
           retention-days: 7
