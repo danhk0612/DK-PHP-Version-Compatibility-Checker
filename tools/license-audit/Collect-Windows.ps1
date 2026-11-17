@@ -6,7 +6,10 @@ $out = Join-Path $repo 'artifacts/t08'
 $pack = Join-Path $repo 'tools/runtime'
 $project = Join-Path $repo 'src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj'
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Actual Windows x64 PowerShell is required.' }
-if ((& dotnet --version).Trim() -ne '10.0.403') { throw 'The approved SDK 10.0.403 is required.' }
+$sdkVersion = (& dotnet --version).Trim()
+if ($LASTEXITCODE -ne 0 -or $sdkVersion -notmatch '^10\.0\.4\d{2}$' -or [version]$sdkVersion -lt [version]'10.0.403') {
+    throw "Approved .NET SDK 10.0.403 or a newer 10.0.4xx patch is required. Resolved SDK: $sdkVersion"
+}
 if (-not (Test-Path (Join-Path $pack 'manifest.json'))) { throw 'Prepare the verified T04 runtime first.' }
 if (Test-Path $out) { throw 'artifacts/t08 already exists; preserve it and collect in a fresh checkout.' }
 New-Item $out -ItemType Directory | Out-Null
