@@ -1,6 +1,9 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Dk.PhpCompatibilityChecker.Models;
 using Dk.PhpCompatibilityChecker.Services;
@@ -278,6 +281,67 @@ public partial class MainWindow : Window
         if (dialog.RestartRequired)
             _installPendingRestart = true;
         UpdateScanButton();
+    }
+
+    private void OnIssueRowRightClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is DataGridRow row)
+            row.IsSelected = true;
+    }
+
+    private void OnOpenIssueInNotepad(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is not ScanIssue issue)
+            return;
+        if (!File.Exists(issue.FilePath))
+        {
+            MessageBox.Show(this, "파일을 찾을 수 없습니다: " + issue.FilePath, "파일 열기",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+        try
+        {
+            var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "notepad.exe"))
+            {
+                UseShellExecute = true
+            };
+            start.ArgumentList.Add(issue.FilePath);
+            Process.Start(start);
+        }
+        catch (Exception ex) when (ex is IOException or Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, ex.Message, "파일 열기 실패", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+    private void OnRevealIssueFile(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is not ScanIssue issue)
+            return;
+        if (!File.Exists(issue.FilePath))
+        {
+            MessageBox.Show(this, "파일을 찾을 수 없습니다: " + issue.FilePath, "파일 위치 열기",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+        try
+        {
+            Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "explorer.exe"))
+            {
+                UseShellExecute = true,
+                Arguments = "/select,\"" + issue.FilePath + "\""
+            });
+        }
+        catch (Exception ex) when (ex is IOException or Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, ex.Message, "파일 위치 열기 실패", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+    private void OnCopyIssuePath(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is ScanIssue issue)
+            Clipboard.SetText(issue.FilePath);
     }
 
     private async void OnExportCsv(object sender, RoutedEventArgs e) => await StartExportAsync(html: false);
