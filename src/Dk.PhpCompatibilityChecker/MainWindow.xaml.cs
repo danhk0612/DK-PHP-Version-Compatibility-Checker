@@ -27,6 +27,7 @@ public partial class MainWindow : Window
     private bool _closing;
     private bool _allowClose;
     private double? _heightBeforeExpandedSettings;
+    private double? _heightAfterExpandedSettings;
 
     public ScanPresentation Presentation { get; }
 
@@ -286,22 +287,41 @@ public partial class MainWindow : Window
 
     private void OnExclusionSettingsExpanded(object sender, RoutedEventArgs e)
     {
-        const double expandedMinHeight = 700;
-        if (WindowState == WindowState.Normal && Height < expandedMinHeight)
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
         {
-            _heightBeforeExpandedSettings = Height;
-            Height = expandedMinHeight;
-        }
-        MinHeight = expandedMinHeight;
+            if (_closing || !ExclusionSettingsExpander.IsExpanded || WindowState != WindowState.Normal)
+                return;
+
+            // Reserve all input controls, the summary panel and a minimum results grid.
+            // The input panel is an Auto row, not an independently scrolling viewport.
+            var windowOverhead = Math.Max(0, Height - MainLayout.ActualHeight);
+            var neededHeight = Math.Ceiling(windowOverhead
+                + MainLayout.RowDefinitions[0].ActualHeight
+                + InputPanel.DesiredSize.Height
+                + MainLayout.RowDefinitions[2].ActualHeight
+                + MainLayout.RowDefinitions[3].MinHeight
+                + Math.Max(MainLayout.RowDefinitions[4].MinHeight, SummaryPanel.DesiredSize.Height)
+                + 4);
+
+            if (Height < neededHeight)
+            {
+                _heightBeforeExpandedSettings = Height;
+                Height = neededHeight;
+                _heightAfterExpandedSettings = Height;
+            }
+            MinHeight = Math.Max(560, neededHeight);
+        }));
     }
 
     private void OnExclusionSettingsCollapsed(object sender, RoutedEventArgs e)
     {
         MinHeight = 560;
-        if (_heightBeforeExpandedSettings is double height && WindowState == WindowState.Normal
-            && Math.Abs(Height - 700) < 1)
-            Height = height;
+        if (_heightBeforeExpandedSettings is double previous
+            && _heightAfterExpandedSettings is double expanded
+            && WindowState == WindowState.Normal && Math.Abs(Height - expanded) < 1)
+            Height = previous;
         _heightBeforeExpandedSettings = null;
+        _heightAfterExpandedSettings = null;
     }
 
     private void OnIssueRowRightClick(object sender, MouseButtonEventArgs e)
