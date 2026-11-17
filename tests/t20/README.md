@@ -25,6 +25,8 @@ Get-Content -Raw artifacts/t20/engine-candidate/engine-candidate.json
 
 여기서 만든 `DK-PHP-engine-unpublished.zip`은 사용자가 직접 설치하는 앱 ZIP이 **아니며**, GitHub Actions나 Release에 게시하지 않습니다. 제품 설치기의 `runtime/` ZIP 구성과 manifest SHA를 준비 단계에서 검증하기 위한 후보입니다. 대응 소스는 앞서 생성한 쌍 ZIP을 그대로 참조합니다. `engine-candidate.json`에는 임의의 GitHub Release URL이나 `releaseSequence`를 넣지 않습니다. 이 값들은 정식 게시 승인과 고정 자산 검증을 거친 뒤 확정해야 합니다. CI에도 이 로컬 검증을 추가하지만 ZIP 자체는 artifact로 업로드하지 않고 검증 메타데이터만 보존합니다.
 
+로컬 엔진 ZIP의 실제 설치 가능 여부도 같은 Windows CI에서 격리된 `EnginePackInstaller`로 확인합니다. 허구의 공개 URL이나 네트워크 접속을 쓰지 않고, 검증된 ZIP을 실제 설치 서비스에 전달한 뒤 새로운 로더가 해당 팩을 다시 읽는지 확인합니다. 통과 시 `artifacts/t20/local-install/summary.json`에 결과를 기록하며, **공개 GitHub 채널 시험을 대신하지는 않습니다.**
+
 ## Windows 11 검사용 ZIP을 직접 준비하는 절차
 
 CI에서는 배포 승인 전 실행 ZIP 자체를 GitHub Actions artifact로 배포하지 않고 증거 메타데이터만 보존합니다. 따라서 사용자 PC에서 T20 **작업 브랜치**를 별도 폴더에 받아 후보 ZIP과 대응 소스·고지 ZIP을 생성합니다. 아래는 **준비용 PC**의 Windows x64 PowerShell 7에서 수행하며, 준비 도구를 검사 대상 PHP 프로젝트에 설치하지 않습니다.

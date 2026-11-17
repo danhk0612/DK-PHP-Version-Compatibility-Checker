@@ -51,6 +51,11 @@ jobs:
           if (-not $engine.scopePassed -or $engine.catalogReady -or $engine.publicReleaseApproved) {
               throw 'Unpublished engine ZIP candidate metadata is incorrect.'
           }
+      - name: Verify actual installer consumes the unpublished engine ZIP
+        shell: pwsh
+        run: |
+          dotnet run --project tests/t20/T20.InstallVerification.csproj -c Release -- "$pwd/tools/runtime" "$pwd/artifacts/t20/engine-candidate" "$pwd/artifacts/t20/local-install"
+          if ($LASTEXITCODE -ne 0) { throw 'Actual installer rejected the local engine ZIP.' }
       - name: Save only provenance and verification metadata
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -60,5 +65,6 @@ jobs:
             artifacts/t09/evidence/summary.json
             artifacts/t09/evidence/paired-candidate.json
             artifacts/t20/engine-candidate/engine-candidate.json
+            artifacts/t20/local-install/summary.json
           if-no-files-found: warn
           retention-days: 7

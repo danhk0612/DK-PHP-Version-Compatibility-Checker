@@ -51,6 +51,11 @@
     "publiclyUploaded": false,
     "releaseSequenceSet": false,
     "appRuntimeBytesMatched": "Verification added; latest Windows CI result pending",
-    "sourceInPairedCompanion": "Preparation script included by tools/ source inventory"
+    "sourceInPairedCompanion": "Preparation script included by tools/ source inventory",
+    "localInstallerVerification": {
+      "project": "tests/t20/T20.InstallVerification.csproj",
+      "status": "implemented; Windows CI pending",
+      "network": "controlled local handler, no public GitHub requests"
+    }
   }
 }

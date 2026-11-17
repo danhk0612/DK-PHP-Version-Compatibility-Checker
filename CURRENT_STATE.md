@@ -110,4 +110,6 @@ T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하�
 
 T20 로컬 검증에 검증 팩 ZIP(`runtime/`)과 대응 소스 ZIP의 SHA를 대조하는 **엔진 단독 미게시 후보 생성 단계**를 추가했습니다. 새 Windows CI 검증 결과 전에는 이 추가 단계를 통과로 표시하지 않습니다. ZIP은 GitHub에 공개하거나 Actions artifact로 업로드하지 않으며, 게시 URL/순서는 여전히 미확정입니다.
 
+T20의 엔진 전용 후보에 실제 `EnginePackInstaller` 격리 설치 및 새 로더에서의 활성화 확인을 추가했으며 검증 결과는 아직 대기 중입니다. 공개 GitHub 네트워크 수신 검증과 혼동하지 않습니다.
+
 **변경 금지:** 명시 승인 없는 `main` 병합, Release/tag 게시, 프로그램 자동 업데이트, 임의 외부 엔진 URL 채택. 이 단계의 기준은 `TASKS.md`, `REQUIREMENTS.md`, `tools/engine-pack/DOWNLOAD-CATALOG.md`입니다.
