@@ -1,0 +1,150 @@
+{
+  "task": "T20",
+  "date": "2026-11-17",
+  "status": "Windows Server 2022 x64 private paired app/engine candidate, fresh OS process WPF managed/restore selection and actual packaged WPF EXE restart passed; public GitHub and clean Windows 11 gates pending",
+  "workflow": {
+    "name": "T20 engine channel and paired local candidate",
+    "runId": 43991708381,
+    "conclusion": "success",
+    "platform": "Windows Server 2022 x64",
+    "commit": "6af018a51a4261ddc1398c00bcd93d03808891cc",
+    "prHeadCommit": "b9ab01c740ff8c79103ff19c762e50925f462994",
+    "checks": [
+      "Catalog schemaVersion=2 with packs=[]",
+      "Paired app/source-and-notices ZIP generated and verified; allSourceMembersVerified",
+      "Unpublished engine-only ZIP 802 files and matching app runtime bytes",
+      "Real EnginePackInstaller installed controlled local ZIP and reloaded all seven PHP targets",
+      "Separate OS process verified managed installed pack and bundled restoration",
+      "No public GitHub HTTP, tag, Release or asset publication"
+    ]
+  },
+  "verified": [
+    "Catalog v2 intentionally empty pending publication",
+    "Windows paired app ZIP and source/notice ZIP: scopePassed, allSourceMembersVerified",
+    "Unpublished engine-only ZIP: 802 files; SHA-256 02cc99dbb5c361b9ee94a631b1533bb2509a6cb85d8dd97febaa088084e286ea (CI #43991708381 only)",
+    "Controlled local EnginePackInstaller installed and reloaded all seven PHP 7.4–8.5 targets",
+    "A separate .NET OS process loaded the managed installed pack, then confirmed restored bundled pack after RestoreBundledAsync",
+    "T14 installation regression #43991708486 and T08 minimal CLI/core source #43991708443 succeeded",
+    "Windows Server 2022 actual unpublished packaged WPF EXE launched, showed responsive main window, and exited normally in two distinct OS processes (T20 CI #43997446311)",
+    "Packaged WPF EXE SHA-256 unchanged across both launches; extracted ZIP contents unchanged in T09 post-launch verification (run #43997446311)",
+    "T20 CI #44001059120: separately launched .NET WPF MainWindow in fresh OS process after managed pack install and after bundled restore; verified active pack root, packId, targets and UI engine label"
+  ],
+  "notVerified": [
+    "Published approved catalog at main URL: main not merged",
+    "Any publicly downloadable engine pack Release asset and independent SHA/manifest comparison",
+    "Actual anonymous HTTP install, restart and restoration against public GitHub",
+    "Clean Windows 11 x64 user installation, .NET/CRT prerequisites and offline source immutability",
+    "True engine library-version update and unchanged application EXE hash against public release",
+    "Full distribution license/corresponding source final publication and continued availability",
+    "Installed managed pack activated in the actual packaged WPF apphost EXE after a real update and restart (verified only in test-hosted WPF MainWindow)"
+  ],
+  "notes": "Windows Server 2022 x64 T20 #43991708381 succeeded at PR merge checkout 6af018a (PR head b9ab01c). T20_LOCAL_INSTALL_JSON confirms freshProcessInstalledVerified=true, freshProcessBundledRestoredVerified=true, appRestartVerified=false, publicReleaseVerified=false. Controlled local HTTP handler only. Existing non-blocking CS8603 warning; no product code change.",
+  "competingRegressions": {
+    "t14": {
+      "runId": 43991708486,
+      "conclusion": "success",
+      "passedCases": 15,
+      "scopePassed": true
+    },
+    "t13": {
+      "runId": 43991708524,
+      "conclusion": "success"
+    }
+  },
+  "engineOnlyCandidate": {
+    "implementation": "tools/engine-pack/prepare_unpublished_candidate.py",
+    "workflow": ".github/workflows/t20-channel-candidate.yml",
+    "status": "Windows x64 CI passed: generation, app byte comparison, local install, separate-process managed load and bundled restore",
+    "archive": "DK-PHP-engine-unpublished.zip",
+    "metadata": "artifacts/t20/engine-candidate/engine-candidate.json",
+    "publiclyUploaded": false,
+    "releaseSequenceSet": false,
+    "appRuntimeBytesMatched": true,
+    "sourceInPairedCompanion": "Preparation script included by tools/ source inventory",
+    "localInstallerVerification": {
+      "project": "tests/t20/T20.InstallVerification.csproj",
+      "status": "passed: actual installer, new loader, separate OS process installed load and bundled restore, 7 targets; controlled local transport; WPF app restart not tested",
+      "network": "controlled local handler, no public GitHub requests",
+      "result": {
+        "scopePassed": true,
+        "installedAndReloaded": true,
+        "freshProcessInstalledVerified": true,
+        "freshProcessBundledRestoredVerified": true,
+        "restoredBundledWithoutChangingTargets": true,
+        "appRestartVerified": false,
+        "publicReleaseVerified": false
+      }
+    },
+    "archiveSha256": "02cc99dbb5c361b9ee94a631b1533bb2509a6cb85d8dd97febaa088084e286ea",
+    "manifestSha256": "024212e9c65807141193806df3eb60b08b6ee3d102ebd0d1fe17aac5df4bce40",
+    "sourceArchiveSha256": "d30b2834b1a0770fdf657e1f96403b4036f934fffb3648fa2bc71b542d4a4c6b",
+    "archiveFileCount": 802,
+    "runId": 43991708381
+  },
+  "packagedApplicationRestart": {
+    "runId": 43997446311,
+    "conclusion": "success",
+    "test": "tests/t20/Verify-PackagedRestart.ps1",
+    "platform": "Windows Server 2022 x64",
+    "prHeadCommit": "63d45ac3365fe22572c5f107efdf819dc326f010",
+    "appProcessIds": [
+      4520,
+      7704
+    ],
+    "windowShownBoth": true,
+    "normalExitBoth": true,
+    "exeSha256": "a4eb416db3d2068b0dc04a4c1f99955bff5544c5f7eb9cbb55e68cabcf866432",
+    "packageBytesUnchanged": true,
+    "bundledTargets": [
+      "7.4",
+      "8.0",
+      "8.1",
+      "8.2",
+      "8.3",
+      "8.4",
+      "8.5"
+    ],
+    "managedEngineUpdateAfterAppRestartVerified": false,
+    "cleanWindows11Verified": false,
+    "publicReleaseVerified": false,
+    "testedLocalEngineCandidateSha256": "5a43da451a2beac24ffc2f239a566fa1d99211889851482d624be58d7a371c3f",
+    "testedCorrespondingSourceSha256": "850a2a655b6d4b99f75f7e4b80b1df5624d264f38d6d6562f1e0ad1436ce185a",
+    "note": "Actual WPF packaged EXE launch/exit twice; not an engine-install-then-WPF-restart integration or Windows 11 visual test. Build-time ZIP hashes are specific to CI run 43997446311."
+  },
+  "wpfManagedPackSelection": {
+    "runId": 44001059120,
+    "conclusion": "success",
+    "platform": "Windows Server 2022 x64",
+    "prHeadCommit": "e452319fdca62c74a6a07e1df421a5894d1a3bcb",
+    "ciCheckoutCommit": "0ae77c9",
+    "test": "tests/t20/InstallVerification.cs",
+    "checks": {
+      "freshProcessInstalledVerified": true,
+      "freshProcessBundledRestoredVerified": true,
+      "freshProcessWpfManagedPackVerified": true,
+      "freshProcessWpfBundledRestoreVerified": true,
+      "appRestartVerified": false,
+      "publicReleaseVerified": false
+    },
+    "verifiedTargets": [
+      "7.4",
+      "8.0",
+      "8.1",
+      "8.2",
+      "8.3",
+      "8.4",
+      "8.5"
+    ],
+    "localTransportOnly": true,
+    "realPackagedExeWithManagedUpdateVerified": false,
+    "engineArchiveSha256": "e4b27bc44dc9ab4f2c3a75a80d843627c2d70f24334f73f798452aaffd87db32",
+    "engineManifestSha256": "2085e95808a39e3f28a204826699f427f45f08c4404f4bcb4926b1d92117fe36",
+    "sourceArchiveSha256": "e833e3e54fd29c14485b45ede9972ab79ea8f37e744de7e50a37924bf62678a1",
+    "packagedExeRestartSameRun": {
+      "passed": true,
+      "exeSha256": "bf3f9a936125dbdf70eada818519c0c3a5eb6eb5aa4e4b32a3148d45dc935e68",
+      "packageBytesUnchanged": true
+    },
+    "limits": "WPF child is test-hosted MainWindow using a controlled injected managed root. Not the production apphost EXE performing install then restart. No public download or clean Windows 11."
+  }
+}

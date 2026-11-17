@@ -1,0 +1,90 @@
+{
+  "task": "T19",
+  "date": "2026-11-16",
+  "status": "T19 Windows Server 2022 x64 automated acceptance passed; Windows 11 manual visual check pending",
+  "observed": {
+    "failingRun": 43822264796,
+    "failedStage": "manager-update-click-and-confirm",
+    "error": "T14 WPF stage timed out; full verify stage failed, but service/WPF/export regressions passed",
+    "stable": [
+      "Real Windows x64 WPF main window loaded",
+      "Engine management dialog displayed",
+      "Engine info checked before confirmation attempt",
+      "T18 installer and restoration service checks passed"
+    ]
+  },
+  "repair": {
+    "history": [
+      "Original WPF STA sync-over-async load removed",
+      "Win32 native dialog automation hung in Windows CI at manager-update-click-and-confirm",
+      "Replaced fragile cross-thread native confirmation clicks with explicit verification-only approval callback"
+    ],
+    "productionConsent": "Native MessageBox Yes/No remains the default; injected confirmation is passed only by tests/t14/GuiCases.cs.",
+    "verificationSteps": [
+      "Decline offer: no managed download directory or active pointer",
+      "Approve offer: install verified pack; retain original active scan until window restart",
+      "Reopen GUI: activate new supported targets without network"
+    ]
+  },
+  "notVerified": [
+    "Clean Windows 11 GUI 100%, 125%, 150% real visual review and native Yes/No manual click",
+    "Actual public GitHub engine-pack download/restore and source companion",
+    "Release-specific source/license and EXE unchanged pack-only update checks"
+  ],
+  "latestPassedRun": {
+    "id": 43829767002,
+    "commit": "180c86c54abbb4c62748bc199e17ff2a631275b2",
+    "platform": "Windows Server 2022 x64",
+    "scopePassed": true,
+    "t14PassCount": 15,
+    "otherRegressions": "T05/T06/T07/T12 and T13 successful",
+    "observed": [
+      "Main window opens engine manager modally",
+      "Minimum 520x440 close button bounds assertion reached: manager-minimum-layout",
+      "Verified pack detail shown",
+      "Explicit update decline prevents download",
+      "Approved verified pack download/install succeeds",
+      "Existing scanner targets preserved until next startup",
+      "Restart picks newly installed verified pack targets",
+      "Same-target update/restore/ZIP guarding regression succeeded"
+    ]
+  },
+  "pending": [
+    "Clean Windows 11 GUI 100%, 125%, 150% real visual review and native Yes/No manual click",
+    "Actual public GitHub engine-pack download/restore and source companion",
+    "Release-specific source/license and EXE unchanged pack-only update checks"
+  ],
+  "nextVerification": {
+    "required": "T20 clean Windows 11 acceptance and approved public GitHub release integration",
+    "lastSuccessfulWindowsCI": 43829767002
+  },
+  "additionalPassedRun": {
+    "id": 43825153686,
+    "commit": "fef7c2646d176e0e9debe24dc152bc09b33075d2",
+    "platform": "windows-2022",
+    "scopePassed": true,
+    "passedCases": 15,
+    "remarks": "T19 manager consent/download/restart and T18 installation regressions succeeded with narrow-window footer Grid layout present; visual 100–150% Windows 11 scaling is not covered."
+  },
+  "modalEntryPassedRun": {
+    "runId": 43826807010,
+    "platform": "Windows Server 2022 x64",
+    "passed": 15,
+    "scopePassed": true,
+    "steps": [
+      "main-engine-management-entry",
+      "manager-visible",
+      "manager-approval-declined",
+      "manager-approved-and-installing",
+      "manager-update-applied",
+      "restart-targets-confirmed"
+    ]
+  },
+  "followupT20RegressionRun": {
+    "runId": 43829851717,
+    "conclusion": "success",
+    "platform": "Windows Server 2022 x64",
+    "scopePassed": true,
+    "passedCases": 15
+  }
+}

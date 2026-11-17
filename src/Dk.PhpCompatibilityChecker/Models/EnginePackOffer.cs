@@ -2,6 +2,7 @@ namespace Dk.PhpCompatibilityChecker.Models;
 
 public sealed record EnginePackOffer(
     string PackId,
+    long ReleaseSequence,
     int PackSchemaVersion,
     string ReportProfile,
     Uri AssetUrl,

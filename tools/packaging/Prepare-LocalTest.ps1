@@ -9,7 +9,10 @@ Set-StrictMode -Version Latest
 if (-not $IsWindows -or -not [Environment]::Is64BitProcess) { throw 'Windows x64 PowerShell 7 required.' }
 $repo=(Resolve-Path $RepoRoot).Path
 foreach ($command in @('dotnet','python','git')) { Get-Command $command -ErrorAction Stop | Out-Null }
-if ((& dotnet --version).Trim() -ne '10.0.403') { throw 'Install .NET SDK 10.0.403 before preparation.' }
+$sdkVersion = (& dotnet --version).Trim()
+if ($LASTEXITCODE -ne 0 -or $sdkVersion -notmatch '^10\.0\.4\d{2}$' -or [version]$sdkVersion -lt [version]'10.0.403') {
+    throw "Install .NET SDK 10.0.403 or a newer 10.0.4xx patch SDK before preparation. Resolved SDK: $sdkVersion"
+}
 foreach ($path in @('artifacts/t08','artifacts/t08-core-source','artifacts/t08-build-source','artifacts/t08-source-sidecar','artifacts/t09')) {
     if (Test-Path -LiteralPath (Join-Path $repo $path)) { throw "Preserve previous output and use a fresh checkout: $path" }
 }

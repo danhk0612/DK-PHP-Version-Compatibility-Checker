@@ -58,16 +58,21 @@ public sealed class EnginePackInstaller : IDisposable
             await CopyBoundedAsync(body, buffer, CatalogLimit, deadline.Token).ConfigureAwait(false);
         using var document = Parse(buffer.ToArray());
         var catalog = document.RootElement;
-        Require(ReadInt64(catalog, "schemaVersion") == 1, "지원하지 않는 엔진 팩 목록 형식입니다.");
+        Require(ReadInt64(catalog, "schemaVersion") == 2, "지원하지 않는 엔진 팩 목록 형식입니다.");
         var offers = ReadArray(catalog, "packs").EnumerateArray().Select(ReadOffer).ToArray();
         Require(offers.Select(offer => offer.PackId).Distinct(StringComparer.OrdinalIgnoreCase).Count() == offers.Length,
             "엔진 팩 목록에 중복 ID가 있습니다.");
+        Require(offers.Select(offer => offer.ReleaseSequence).Distinct().Count() == offers.Length,
+            "엔진 팩 목록에 중복된 배포 순서가 있습니다.");
+        Require(offers.Select(offer => offer.ArchiveSha256).Distinct(StringComparer.Ordinal).Count() == offers.Length
+            && offers.Select(offer => offer.ManifestSha256).Distinct(StringComparer.Ordinal).Count() == offers.Length,
+            "엔진 팩 목록에 동일한 팩 내용이 중복되어 있습니다.");
         var snapshot = Array.AsReadOnly(offers);
         Volatile.Write(ref _offers, snapshot);
         return snapshot;
     }
 
-    public async Task<EnginePack> InstallAsync(EnginePackOffer offer, string sourceDirectory, CancellationToken ct = default)
+    public async Task<EnginePack> InstallAsync(EnginePackOffer offer, string sourceDirectory, CancellationToken ct = default, IProgress<long>? progress = null)
     {
         ArgumentNullException.ThrowIfNull(offer);
         Require(Volatile.Read(ref _offers).Any(row => ReferenceEquals(row, offer)), "현재 목록에서 확인한 엔진 팩을 선택하세요.");
@@ -93,7 +98,16 @@ public sealed class EnginePackInstaller : IDisposable
         }
         Require(previousPack is null || previousPack.Targets.All(target => offer.Targets.Any(row => row.Version == target.Version)),
             "설치된 엔진 팩의 검사 목표가 새 팩에서 누락되었습니다.");
-        var current = new ActivationEntry(offer.ArchiveSha256, offer.ManifestSha256);
+        if (previousPack is not null)
+        {
+            Require(previousPack.PackId != offer.PackId, "이미 설치된 엔진 팩과 동일합니다.");
+            var priorSequence = previous?.ReleaseSequence
+                ?? Volatile.Read(ref _offers).FirstOrDefault(row => row.ArchiveSha256 == previous!.ArchiveSha256
+                    && row.ManifestSha256 == previous.ManifestSha256 && row.PackId == previousPack.PackId)?.ReleaseSequence;
+            Require(priorSequence is > 0 && offer.ReleaseSequence > priorSequence.Value,
+                "현재 엔진 팩의 배포 순서를 확인할 수 없거나 새 팩이 이전 버전입니다.");
+        }
+        var current = new ActivationEntry(offer.ArchiveSha256, offer.ManifestSha256, offer.ReleaseSequence);
         if (previous == current)
             previous = prior?.Previous == current ? null : prior?.Previous;
 
@@ -104,7 +118,7 @@ public sealed class EnginePackInstaller : IDisposable
         try
         {
             var archivePath = Path.Combine(staging, "pack.zip");
-            await DownloadAsync(offer, archivePath, token).ConfigureAwait(false);
+            await DownloadAsync(offer, archivePath, token, progress).ConfigureAwait(false);
             var payload = Path.Combine(staging, "payload");
             Directory.CreateDirectory(payload);
             await ExtractAsync(archivePath, payload, token).ConfigureAwait(false);
@@ -148,11 +162,79 @@ public sealed class EnginePackInstaller : IDisposable
         return null;
     }
 
+    /// <summary>Finds the newest compatible validated offer, including engine-only updates.</summary>
+    public async Task<EnginePackOffer?> FindUpdateAsync(EnginePack active, CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(active);
+        var offers = await ReadCatalogAsync(ct).ConfigureAwait(false);
+        var activeRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(active.RootDirectory));
+        var versionsRoot = Path.Combine(_managedRoot, "versions");
+        var isManaged = activeRoot.StartsWith(versionsRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+        long? activeSequence = isManaged ? null : 0L;
+        if (isManaged)
+        {
+            var state = await ReadActivationAsync(_managedRoot, ct).ConfigureAwait(false);
+            foreach (var entry in new[] { state?.Current, state?.Previous })
+            {
+                if (entry is null)
+                    continue;
+                var path = Path.Combine(versionsRoot, entry.ArchiveSha256, "runtime");
+                if (!string.Equals(activeRoot, path, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                activeSequence = entry.ReleaseSequence
+                    ?? offers.FirstOrDefault(row => row.PackId == active.PackId
+                        && row.ArchiveSha256 == entry.ArchiveSha256 && row.ManifestSha256 == entry.ManifestSha256)?.ReleaseSequence;
+                break;
+            }
+            Require(activeSequence is > 0, "현재 관리형 엔진 팩의 배포 순서를 확인할 수 없습니다.");
+        }
+        return offers.Where(row => row.ReleaseSequence > activeSequence!.Value
+                && row.PackId != active.PackId
+                && active.Targets.All(target => row.Targets.Any(candidate => candidate.Version == target.Version)))
+            .OrderByDescending(row => row.ReleaseSequence).FirstOrDefault();
+    }
+
+    /// <summary>Restores the previous verified managed pack on next startup.</summary>
+    public async Task<EnginePack> RestorePreviousAsync(string sourceDirectory, CancellationToken ct = default)
+    {
+        var rootIdentity = CheckManagedRoot(_managedRoot, sourceDirectory);
+        Directory.CreateDirectory(_managedRoot);
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        var lockPath = Path.Combine(_managedRoot, ".install.lock");
+        SourceFileEnumerator.RejectReparseAncestors(lockPath);
+        using var installLock = new FileStream(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        var state = await ReadActivationAsync(_managedRoot, ct).ConfigureAwait(false);
+        Require(state?.Previous is not null, "복원할 이전 검증 엔진 팩이 없습니다.");
+        var pack = await TryLoadAsync(_managedRoot, state!.Previous, ct).ConfigureAwait(false);
+        Require(pack is not null, "이전 엔진 팩을 검증할 수 없어 복원하지 않았습니다.");
+        await ActivateAsync(new Activation(state.Previous, state.Current), rootIdentity, ct).ConfigureAwait(false);
+        return pack;
+    }
+
+    /// <summary>Selects the unchanged bundled pack on next startup, retaining downloaded pack files.</summary>
+    public async Task RestoreBundledAsync(string sourceDirectory, CancellationToken ct = default)
+    {
+        var rootIdentity = CheckManagedRoot(_managedRoot, sourceDirectory);
+        Directory.CreateDirectory(_managedRoot);
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        var lockPath = Path.Combine(_managedRoot, ".install.lock");
+        SourceFileEnumerator.RejectReparseAncestors(lockPath);
+        using var installLock = new FileStream(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+        var pointer = Path.Combine(_managedRoot, "active.json");
+        SourceFileEnumerator.RejectReparseAncestors(pointer);
+        ct.ThrowIfCancellationRequested();
+        RequireRootIdentity(_managedRoot, rootIdentity);
+        File.Delete(pointer);
+        await Task.CompletedTask;
+    }
+
     public void Dispose() => _http.Dispose();
 
     private EnginePackOffer ReadOffer(JsonElement entry)
     {
         var id = ReadText(entry, "packId");
+        var releaseSequence = ReadInt64(entry, "releaseSequence");
+        Require(releaseSequence > 0, "잘못된 엔진 팩 배포 순서입니다.");
         var assetUrl = ReadUrl(entry, "assetUrl");
         var sourceUrl = ReadUrl(entry, "sourceUrl");
         var archiveHash = ReadText(entry, "archiveSha256");
@@ -176,18 +258,18 @@ public sealed class EnginePackInstaller : IDisposable
         var versions = ReadObject(entry, "engineVersions").EnumerateObject()
             .ToDictionary(pair => pair.Name, pair => ReadString(pair.Value), StringComparer.Ordinal);
         Require(versions.Count > 0, "엔진 구성 버전이 없습니다.");
-        return new EnginePackOffer(id, 1, profile, assetUrl, sourceUrl, bytes, archiveHash, manifestHash,
+        return new EnginePackOffer(id, releaseSequence, 1, profile, assetUrl, sourceUrl, bytes, archiveHash, manifestHash,
             runtimeVersion, new ReadOnlyDictionary<string, string>(versions), Array.AsReadOnly(targets));
     }
 
-    private async Task DownloadAsync(EnginePackOffer offer, string path, CancellationToken token)
+    private async Task DownloadAsync(EnginePackOffer offer, string path, CancellationToken token, IProgress<long>? progress)
     {
         using var response = await GetAsync(offer.AssetUrl, asset: true, token).ConfigureAwait(false);
         Require(response.Content.Headers.ContentLength is null || response.Content.Headers.ContentLength == offer.ArchiveBytes,
             "엔진 팩 다운로드 크기가 목록과 다릅니다.");
         await using (var body = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false))
         await using (var file = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, useAsync: true))
-            Require(await CopyBoundedAsync(body, file, offer.ArchiveBytes, token).ConfigureAwait(false) == offer.ArchiveBytes,
+            Require(await CopyBoundedAsync(body, file, offer.ArchiveBytes, token, progress).ConfigureAwait(false) == offer.ArchiveBytes,
                 "엔진 팩 다운로드가 끝나기 전에 연결이 종료되었습니다.");
         Require(await FileHashAsync(path, token).ConfigureAwait(false) == offer.ArchiveSha256, "엔진 팩 ZIP 해시가 목록과 다릅니다.");
     }
@@ -356,8 +438,15 @@ public sealed class EnginePackInstaller : IDisposable
             ? archiveValue.GetString() : null;
         var manifest = value.TryGetProperty("manifestSha256", out var manifestValue) && manifestValue.ValueKind == JsonValueKind.String
             ? manifestValue.GetString() : null;
+        long? sequence = null;
+        if (value.TryGetProperty("releaseSequence", out var order))
+        {
+            if (order.ValueKind != JsonValueKind.Number || !order.TryGetInt64(out var number) || number <= 0)
+                return null;
+            sequence = number;
+        }
         return archive is not null && manifest is not null && Hash.IsMatch(archive) && Hash.IsMatch(manifest)
-            ? new ActivationEntry(archive, manifest) : null;
+            ? new ActivationEntry(archive, manifest, sequence) : null;
     }
 
     private static async Task<EnginePack?> TryLoadAsync(string managedRoot, ActivationEntry? entry, CancellationToken ct)
@@ -408,7 +497,7 @@ public sealed class EnginePackInstaller : IDisposable
             Directory.Delete(staging, recursive: true);
     }
 
-    private static async Task<long> CopyBoundedAsync(Stream input, Stream output, long limit, CancellationToken ct)
+    private static async Task<long> CopyBoundedAsync(Stream input, Stream output, long limit, CancellationToken ct, IProgress<long>? progress = null)
     {
         var buffer = new byte[65536];
         long count = 0;
@@ -418,6 +507,7 @@ public sealed class EnginePackInstaller : IDisposable
             count += read;
             Require(count <= limit, "엔진 팩 데이터가 허용된 크기를 초과했습니다.");
             await output.WriteAsync(buffer.AsMemory(0, read), ct).ConfigureAwait(false);
+            progress?.Report(count);
         }
         return count;
     }
@@ -494,5 +584,5 @@ public sealed class EnginePackInstaller : IDisposable
     }
 
     private sealed record Activation(ActivationEntry? Current, ActivationEntry? Previous);
-    private sealed record ActivationEntry(string ArchiveSha256, string ManifestSha256);
+    private sealed record ActivationEntry(string ArchiveSha256, string ManifestSha256, long? ReleaseSequence);
 }

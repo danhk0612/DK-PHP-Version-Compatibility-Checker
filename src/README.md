@@ -1,6 +1,6 @@
 # 제품 소스와 빌드
 
-단일 WPF 앱은 `Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj`입니다. .NET SDK **10.0.403**을 설치한 Windows x64에서 저장소 루트로부터 실행합니다. `global.json`은 다른 SDK로 자동 전환하지 않습니다.
+단일 WPF 앱은 `Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj`입니다. Windows x64에 .NET SDK **10.0.403 또는 같은 10.0.4xx 기능 밴드의 최신 패치 SDK**를 설치하고 저장소 루트에서 실행합니다. `global.json`의 `latestPatch`는 같은 기능 밴드에서만 패치 버전을 올리며 다른 기능 밴드로는 전환하지 않습니다.
 
 ```powershell
 dotnet restore src/Dk.PhpCompatibilityChecker/Dk.PhpCompatibilityChecker.csproj

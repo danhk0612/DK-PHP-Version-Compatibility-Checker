@@ -1,0 +1,106 @@
+name: T20 engine channel and paired local candidate
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/t20-channel-candidate.yml'
+      - 'src/**'
+      - 'tools/engine-pack/**'
+      - 'tools/packaging/**'
+      - 'tools/license-audit/**'
+      - 'tests/t20/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: '10.0.404'
+      - name: Confirm .NET 10.0.404 patch SDK is used in T20 packaging CI
+        shell: pwsh
+        run: |
+          $sdkVersion = (& dotnet --version).Trim()
+          if ($sdkVersion -ne '10.0.404') { throw "Expected 10.0.404 in T20 CI; resolved $sdkVersion" }
+      - name: Confirm catalog v2 is intentionally empty before approved publication
+        shell: pwsh
+        run: |
+          $catalog = Get-Content -Raw -LiteralPath tools/engine-pack/catalog-v2.json | ConvertFrom-Json
+          if ($catalog.schemaVersion -ne 2 -or $catalog.packs.Count -ne 0) {
+              throw 'T20 pending-release catalog must be schema 2 with no unapproved assets.'
+          }
+      - name: Verify bootstrap Composer extensions under Korean directory
+        shell: pwsh
+        run: |
+          $bootstrap = Join-Path $env:RUNNER_TEMP ('dk-한글 준비-' + [guid]::NewGuid().ToString('N'))
+          try {
+            ./tools/packaging/Prepare-Bootstrap.ps1 -OutputDirectory $bootstrap
+            Push-Location (Join-Path $bootstrap 'php')
+            try {
+              $modules = & ./php.exe -c ./php.ini -m
+              $moduleExitCode = $LASTEXITCODE
+              Write-Output "Bootstrap PHP modules: $($modules -join ', ')"
+              & ./php.exe -c ./php.ini --ini
+              & ./php.exe -c ./php.ini -i | Select-String -Pattern '^(extension_dir|Loaded Configuration File) =>'
+              if ($moduleExitCode -ne 0 -or $modules -notcontains 'openssl' -or $modules -notcontains 'curl' -or $modules -notcontains 'zip') {
+                throw 'PHP bootstrap extensions did not load from Korean directory.'
+              }
+            } finally {
+              Pop-Location
+            }
+            $engine = (Resolve-Path tools/engine-pack).Path
+            & (Join-Path $bootstrap 'composer.ps1') --working-dir=$engine validate --no-check-publish
+            if ($LASTEXITCODE -ne 0) { throw 'Bootstrap Composer validation failed in Korean directory.' }
+          } finally {
+            if (Test-Path -LiteralPath $bootstrap) { Remove-Item -LiteralPath $bootstrap -Recurse -Force }
+          }
+      - name: Build app and create paired candidate without Release or tag
+        shell: pwsh
+        run: |
+          ./tools/packaging/Prepare-LocalTest.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'Local packaging or source pairing failed.' }
+      - name: Inspect candidate/source pairing
+        shell: pwsh
+        run: |
+          $pair = Get-Content -Raw -LiteralPath artifacts/t09/evidence/paired-candidate.json | ConvertFrom-Json
+          if (-not $pair.scopePassed -or -not $pair.allSourceMembersVerified) {
+              throw 'Candidate/source pairing was not verified.'
+          }
+          Write-Output 'T20 local candidate/source pairing verified. NO PUBLICATION was performed.'
+      - name: Verify local engine-only pack and corresponding source companion
+        shell: pwsh
+        run: |
+          python tools/engine-pack/prepare_unpublished_candidate.py --runtime tools/runtime --sidecar artifacts/t08-source-sidecar --package artifacts/t09 --output artifacts/t20/engine-candidate
+          if ($LASTEXITCODE -ne 0) { throw 'Local engine-only ZIP or companion verification failed.' }
+          $engine = Get-Content -Raw -LiteralPath artifacts/t20/engine-candidate/engine-candidate.json | ConvertFrom-Json
+          if (-not $engine.scopePassed -or $engine.catalogReady -or $engine.publicReleaseApproved) {
+              throw 'Unpublished engine ZIP candidate metadata is incorrect.'
+          }
+      - name: Verify actual installer consumes the unpublished engine ZIP
+        shell: pwsh
+        run: |
+          dotnet run --project tests/t20/T20.InstallVerification.csproj -c Release -- "$pwd/tools/runtime" "$pwd/artifacts/t20/engine-candidate" "$pwd/artifacts/t20/local-install"
+          if ($LASTEXITCODE -ne 0) { throw 'Actual installer rejected the local engine ZIP.' }
+      - name: Verify the paired packaged WPF app exits and starts in a new OS process
+        shell: pwsh
+        run: |
+          ./tests/t20/Verify-PackagedRestart.ps1 -PackageRoot 'artifacts/t09/한글 package & 실행' -Archive 'artifacts/t09/DK-PHP-Compatibility-audit-only.zip' -OutputDirectory 'artifacts/t20/app-restart'
+      - name: Save only provenance and verification metadata
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: t20-local-evidence
+          path: |
+            artifacts/t09/evidence/summary.json
+            artifacts/t09/evidence/paired-candidate.json
+            artifacts/t20/engine-candidate/engine-candidate.json
+            artifacts/t20/local-install/summary.json
+            artifacts/t20/app-restart/summary.json
+            artifacts/t20/app-restart/post-launch-files.json
+          if-no-files-found: warn
+          retention-days: 7

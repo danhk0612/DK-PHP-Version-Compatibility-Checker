@@ -7,14 +7,17 @@
     "metadataUrl": "https://downloads.php.net/~windows/releases/releases.json"
   },
   "targets": [
+    "7.4",
+    "8.0",
+    "8.1",
     "8.2",
     "8.3",
     "8.4",
     "8.5"
   ],
-  "packId": "dk-php84-alpha2-target85-20261113",
+  "packId": "dk-php84-alpha2-target74-85-20261116",
   "minimalCli": {
-    "packId": "dk-php84-alpha2-minimalcli-target85-20261113",
+    "packId": "dk-php84-alpha2-minimalcli-target74-85-20261116",
     "selectionFile": "minimal-cli.json"
   }
 }

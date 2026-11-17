@@ -1,0 +1,41 @@
+{
+  "status": "windows-ci-verified",
+  "reviewPR": 17,
+  "reviewBranch": "t18-engine-pack-update",
+  "codeHead": "25946cacb99135194921508437360c9ea7a48820",
+  "environment": {
+    "os": "Windows Server 2022 x64",
+    "sdk": "10.0.403",
+    "runtime": "PHP 8.4.27",
+    "tests": "T14 controlled HTTP catalog v2; T05/T06/T07/T10/T12/T13 regressions"
+  },
+  "runs": {
+    "installer": 43815057609,
+    "packExchange": 43815057487,
+    "service": 43815057588,
+    "gui": 43815057536,
+    "realGui": 43815057441,
+    "expandedTargets": 43815057442,
+    "export": 43815057558
+  },
+  "installer": {
+    "scopePassed": true,
+    "passed": 15,
+    "failures": 0,
+    "observed": [
+      "Same target list distinct verified pack update succeeds",
+      "Older sequence not offered nor installed",
+      "Previous verified managed pack restored",
+      "Bundled pack selected by deleting active pointer",
+      "Wrong archive/manifest SHA and unsafe paths refused",
+      "Cancellation and corrupt current pack preserve/fall back"
+    ]
+  },
+  "limits": [
+    "Same-target version update used a derived distinct verified pack; no new upstream library version introduced.",
+    "Controlled HTTPS responses, no published GitHub catalog or real-world download.",
+    "Windows Server 2022 CI, not clean Windows 11.",
+    "GUI dedicated management screen and WPF verification belong to T19.",
+    "Distribution source and license compliance for a new public release belong to T20/T08."
+  ]
+}

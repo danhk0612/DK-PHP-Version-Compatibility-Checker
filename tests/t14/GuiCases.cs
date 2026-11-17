@@ -1,15 +1,15 @@
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Threading;
 using Dk.PhpCompatibilityChecker;
 using Dk.PhpCompatibilityChecker.Models;
+using Dk.PhpCompatibilityChecker.Services;
 
 internal static class GuiCases
 {
+    private static string _stage = "not started";
+    private static void Stage(string value) { Volatile.Write(ref _stage, value); Console.WriteLine("T14_GUI_STAGE=" + value); }
     internal static async Task Verify(string packs, string output)
     {
         var fixtureArea = Path.Combine(output, "gui-fixture");
@@ -17,43 +17,113 @@ internal static class GuiCases
         var fixture = await PackFixture.CreateAsync(packs, fixtureArea, "full");
         var managed = Path.Combine(output, "gui-managed");
         var bundled = Path.Combine(packs, "reduced");
+        var bundledPack = await new EnginePackLoader().LoadAsync(bundled);
         var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var thread = new Thread(() =>
         {
-            try { Run(fixture, bundled, managed); completion.SetResult(); }
+            try { Run(fixture, bundled, bundledPack, managed); completion.SetResult(); }
             catch (Exception ex) { completion.SetException(ex); }
         }) { IsBackground = true };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
-        await completion.Task.WaitAsync(TimeSpan.FromMinutes(2));
+        try { await completion.Task.WaitAsync(TimeSpan.FromMinutes(2)); }
+        catch (TimeoutException ex) { throw new TimeoutException("T14 WPF stage timed out: " + Volatile.Read(ref _stage), ex); }
     }
 
-    private static void Run(PackFixture fixture, string bundled, string managed)
+    private static void Run(PackFixture fixture, string bundled, EnginePack activePack, string managed)
     {
         var application = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
         SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
         MainWindow? window = null;
         try
         {
+            Stage("main-window-start");
             window = new MainWindow(new ScanPresentation(), bundled, managed, fixture.CreateInstaller(managed));
             window.Show();
             Until(() => window.Presentation.Targets.Count > 0);
+            Stage("main-window-loaded");
             var before = window.Presentation.Targets.Select(target => target.Version).ToArray();
-            var button = (Button)window.FindName("DownloadPackButton");
+            var button = (Button)window.FindName("ManageEngineButton");
             if (!button.IsEnabled || before.Length >= fixture.Pack.Targets.Count)
-                throw new InvalidOperationException("Reduced bundled pack and download action were not shown.");
-            var owner = new WindowInteropHelper(window).Handle;
-            var confirmation = Task.Run(() => ConfirmDownload(owner));
+                throw new InvalidOperationException("Reduced bundled pack and engine management entry were not shown.");
+
+            // Exercise the real scanner entry and modal manager without relying
+            // on desktop automation. The callback is serviced by ShowDialog's
+            // nested dispatcher and closes the dialog before download testing.
+            var modalOpened = false;
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var dialog = Application.Current.Windows.OfType<EngineManagementWindow>()
+                    .SingleOrDefault(w => w.IsVisible && ReferenceEquals(w.Owner, window));
+                if (dialog is null)
+                    return;
+                modalOpened = true;
+                dialog.Close();
+            }));
+            Stage("main-engine-management-entry");
             button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            Until(() => confirmation.IsCompleted);
-            confirmation.GetAwaiter().GetResult();
-            var status = (TextBlock)window.FindName("PackDownloadStatus");
-            Until(() => status.Text.Contains("다시 열면", StringComparison.Ordinal) || status.Text.Contains("못했습니다", StringComparison.Ordinal));
-            if (!status.Text.Contains("다시 열면", StringComparison.Ordinal)
-                || !before.SequenceEqual(window.Presentation.Targets.Select(target => target.Version)))
-                throw new InvalidOperationException("Installation failed or changed the current window: " + status.Text);
+            if (!modalOpened)
+                throw new InvalidOperationException("Main window engine management button did not open its modal dialog.");
+
+            // Test the dialog's approval/installation controls separately to
+            // keep the release/confirmation checks independent of ShowDialog.
+            using (var installer = fixture.CreateInstaller(managed))
+            {
+                var confirmationCount = 0;
+                var manager = new EngineManagementWindow(activePack, installer, "", bundled,
+                    confirmationForVerification: offer =>
+                    {
+                        if (offer.PackId != fixture.Pack.PackId)
+                            throw new InvalidOperationException("Unexpected unverified engine offer in manager.");
+                        return ++confirmationCount > 1;
+                    }) { Owner = window };
+                manager.Show();
+                Stage("manager-visible");
+                Until(() => manager.IsVisible);
+                // The manager must remain usable at its documented minimum size.
+                // This is a WPF bounds check, not a substitute for human DPI/visual review.
+                manager.Width = manager.MinWidth;
+                manager.Height = manager.MinHeight;
+                manager.UpdateLayout();
+                var closeButton = (Button)manager.FindName("CloseEngineManagementButton");
+                var closeBounds = closeButton.TransformToAncestor(manager).TransformBounds(
+                    new Rect(0, 0, closeButton.ActualWidth, closeButton.ActualHeight));
+                if (closeButton.ActualWidth < 88 || closeBounds.Left < 0 || closeBounds.Top < 0
+                    || closeBounds.Right > manager.ActualWidth || closeBounds.Bottom > manager.ActualHeight)
+                    throw new InvalidOperationException("Engine manager close button is clipped at minimum window size.");
+                Stage("manager-minimum-layout");
+                manager.Width = 680;
+                manager.Height = 610;
+                manager.UpdateLayout();
+                if (!((TextBox)manager.FindName("EngineDetailsTextBox")).Text.Contains(activePack.EngineInfo.PhpCompatibilityVersion)
+                    || !((TextBox)manager.FindName("EngineTargetsTextBox")).Text.Contains(before[0]))
+                    throw new InvalidOperationException("Current engine/version information is not visible.");
+
+                var updateButton = (Button)manager.FindName("CheckEngineUpdateButton");
+                var status = (TextBlock)manager.FindName("EngineUpdateStatusTextBlock");
+                Stage("manager-approval-declined");
+                updateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Until(() => status.Text == "다운로드를 시작하지 않았습니다." && updateButton.IsEnabled);
+                if (confirmationCount != 1 || Directory.Exists(managed))
+                    throw new InvalidOperationException("Unapproved engine download was not refused.");
+
+                Stage("manager-approved-and-installing");
+                updateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                Until(() => (manager.RestartRequired || status.Text.Contains("못했습니다", StringComparison.Ordinal))
+                    && ((Button)manager.FindName("CloseEngineManagementButton")).IsEnabled);
+                if (confirmationCount != 2)
+                    throw new InvalidOperationException("Approved update was not confirmed exactly once.");
+                if (!manager.RestartRequired || !status.Text.Contains("다시 실행", StringComparison.Ordinal)
+                    || !before.SequenceEqual(window.Presentation.Targets.Select(target => target.Version)))
+                    throw new InvalidOperationException("Engine management download failed: " + status.Text);
+                Stage("manager-update-applied");
+                manager.Close();
+                Until(() => !manager.IsVisible);
+                Stage("manager-closed");
+            }
             window.Close();
             Until(() => !window.IsVisible);
+            Stage("first-main-closed");
 
             // Omit the installer (no catalog transport exists) to verify offline startup.
             window = new MainWindow(new ScanPresentation(), bundled, managed, null);
@@ -62,6 +132,7 @@ internal static class GuiCases
             if (!window.Presentation.Targets.Select(target => target.Version)
                 .SequenceEqual(fixture.Pack.Targets.Select(target => target.Version)))
                 throw new InvalidOperationException("A new window did not activate the installed verified targets.");
+            Stage("restart-targets-confirmed");
         }
         finally
         {
@@ -83,37 +154,4 @@ internal static class GuiCases
         if (!condition()) throw new TimeoutException("T14 GUI did not reach the expected state.");
     }
 
-    private static void ConfirmDownload(IntPtr owner)
-    {
-        IntPtr dialog = IntPtr.Zero;
-        var deadline = DateTime.UtcNow.AddSeconds(25);
-        while (dialog == IntPtr.Zero && DateTime.UtcNow < deadline)
-        {
-            EnumWindows((window, _) =>
-            {
-                var name = new StringBuilder(32);
-                GetClassName(window, name, name.Capacity);
-                if (IsWindowVisible(window) && GetWindow(window, 4) == owner && name.ToString() == "#32770")
-                { dialog = window; return false; }
-                return true;
-            }, IntPtr.Zero);
-            if (dialog == IntPtr.Zero) Thread.Sleep(25);
-        }
-        if (dialog == IntPtr.Zero)
-            throw new InvalidOperationException("Download confirmation did not appear.");
-        var yes = GetDlgItem(dialog, 6);
-        if (yes == IntPtr.Zero || !PostMessage(yes, 0x00f5, IntPtr.Zero, IntPtr.Zero))
-        {
-            PostMessage(dialog, 0x0010, IntPtr.Zero, IntPtr.Zero);
-            throw new InvalidOperationException("Download confirmation Yes button could not be activated.");
-        }
-    }
-
-    private delegate bool EnumWindow(IntPtr hwnd, IntPtr state);
-    [DllImport("user32.dll")] private static extern bool EnumWindows(EnumWindow callback, IntPtr state);
-    [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr hwnd);
-    [DllImport("user32.dll")] private static extern IntPtr GetWindow(IntPtr hwnd, uint command);
-    [DllImport("user32.dll")] private static extern IntPtr GetDlgItem(IntPtr hwnd, int id);
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hwnd, StringBuilder name, int size);
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern bool PostMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
 }
