@@ -34,6 +34,27 @@ jobs:
           if ($catalog.schemaVersion -ne 2 -or $catalog.packs.Count -ne 0) {
               throw 'T20 pending-release catalog must be schema 2 with no unapproved assets.'
           }
+      - name: Verify bootstrap Composer extensions under Korean directory
+        shell: pwsh
+        run: |
+          $bootstrap = Join-Path $env:RUNNER_TEMP ('dk-한글 준비-' + [guid]::NewGuid().ToString('N'))
+          try {
+            ./tools/packaging/Prepare-Bootstrap.ps1 -OutputDirectory $bootstrap
+            Push-Location (Join-Path $bootstrap 'php')
+            try {
+              $modules = & ./php.exe -c (Join-Path $bootstrap 'php/php.ini') -m
+              if ($LASTEXITCODE -ne 0 -or $modules -notcontains 'openssl' -or $modules -notcontains 'curl' -or $modules -notcontains 'zip') {
+                throw 'PHP bootstrap extensions did not load from Korean directory.'
+              }
+            } finally {
+              Pop-Location
+            }
+            $engine = (Resolve-Path tools/engine-pack).Path
+            & (Join-Path $bootstrap 'composer.ps1') --working-dir=$engine validate --no-check-publish
+            if ($LASTEXITCODE -ne 0) { throw 'Bootstrap Composer validation failed in Korean directory.' }
+          } finally {
+            if (Test-Path -LiteralPath $bootstrap) { Remove-Item -LiteralPath $bootstrap -Recurse -Force }
+          }
       - name: Build app and create paired candidate without Release or tag
         shell: pwsh
         run: |
