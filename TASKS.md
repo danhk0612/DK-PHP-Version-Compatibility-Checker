@@ -244,11 +244,11 @@ T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 
 - 범위: 기본 검사 화면의 간략한 상태/관리 진입점, 별도 창에서 현재 팩·지원 PHP 목표·한계·업데이트 비교·수동 다운로드/검증/설치·재시작·복원/오류 안내.
 - 완료: 최신/업데이트/오프라인/실패/복원 상태 및 제어 검증, 검사 중 충돌 조작 금지, 한글·긴 정보·키보드·기본1120x800/최소760x560/배율별 가림 없음. 기존 검사·결과·내보내기 회귀.
 - 금지: 기본 화면 전면 개편, 추가 설정 기능, 엔진·검사 결과 형식 변경.
-- 상태: **Windows Server 2022 x64 T14 15건 및 기존 검사·WPF·내보내기 회귀 통과**. [메인 버튼→모달·업데이트 거절/승인·설치·재실행 목표 반영 검증 #43826807010](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43826807010). 최소 `520×440` 창 닫기 버튼 좌표 시험은 최신 CI 결과 대기. Windows 11 DPI별 실화면 검증 및 공개 엔진 팩 다운로드는 T20의 별도 배포 관문. [근거](tests/t19/evidence/summary.json).
+- 상태: **T19 최신 Windows Server 2022 x64 통합 CI 통과** ([#43829767002](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43829767002)). 메인 버튼→모달, 최소 `520×440` 닫기 버튼 경계, 승인/거절·설치·다음 실행 적용 및 기존 회귀 15건 성공. Windows 11 수동 실화면/DPI와 공개 GitHub 실다운로드는 T20에서 별도 검증. [근거](tests/t19/evidence/summary.json).
 
 ### T20 — GitHub 실채널 연결·Windows 통합 시험 및 배포 후보
 - 선행: T17~T19 실제 Windows 검증, T08/T09 고지·대응 소스·배포 관문.
 - 범위: 승인한 raw 카탈로그와 고정 태그 Release ZIP 연결, 최초 온라인 기능을 활성화하는 새 앱 후보, 이후 팩만 갱신되는 경로·배포 자료·실제 Windows 11 시험.
 - 완료: 깨끗한 Windows 11의 앱 시작/기본 오프라인/실 GitHub 조회·다운로드·검증·설치·재시작·복원, 새 목표 및 동일 목표 엔진 갱신, 이후 팩 갱신 시 EXE 해시 불변, 원본 불변·회귀 및 대응 소스/고지 일치.
 - 금지: 라이선스 관문 미충족 공개 배포, 승인 없는 태그/Release/병합, 전용 앱 자가 갱신·원본 변경.
-- 상태: **빈 카탈로그 v2/승인 raw URL 연동 및 Windows 로컬 앱·대응 소스 ZIP 페어링 검증 통과**([T20 CI #43825153850](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43825153850), [증거](tests/t20/evidence/summary.json)). 원격 ZIP은 아직 게시되지 않았고, 깨끗한 Windows 11·익명 실다운로드·팩 단독 업그레이드·고지/대응 소스 지속 제공·사용자 배포 승인은 미완료. 공개 자산 없이 빈 카탈로그 유지.
+- 상태: **빈 카탈로그 v2/승인 raw URL 연결 및 최신 Windows x64 로컬 실행 ZIP·대응 소스 ZIP 페어링 검증 통과** ([T20 CI #43829851811](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43829851811), [근거](tests/t20/evidence/summary.json)). 후보 메인 GUI·검사 회귀는 [T14 #43829851717](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/43829851717)에서 성공. 실제 공개 Release 팩/익명 HTTP 다운로드/업데이트·복원, Windows 11 사용자·DPI 검증, 재배포 소스 지속 제공·별도 승인 전에는 T20 전체 완료가 아님.

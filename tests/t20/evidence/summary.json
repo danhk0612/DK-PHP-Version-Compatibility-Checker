@@ -1,23 +1,19 @@
 {
   "task": "T20",
   "date": "2026-11-16",
-  "status": "candidate-paired-local-only",
+  "status": "Windows 2022 local paired candidate and T14/T13 regressions passed; external publication and Windows 11 acceptance pending",
   "workflow": {
     "name": "T20 engine channel and paired local candidate",
-    "runId": 43825153850,
+    "runId": 43829851811,
     "conclusion": "success",
-    "platform": "windows-2022",
-    "commit": "fef7c2646d176e0e9debe24dc152bc09b33075d2",
-    "checkedOutCommit": "78731826234916b25abef7e2666fde3951fb1f5f",
-    "details": {
-      "candidateTestFileCount": 849,
-      "bundledNoticesMatched": 40,
-      "engineFixtureCases": 54,
-      "annotationComparisons": 21,
-      "offlineComparisons": 54,
-      "sourceUnchanged": true,
-      "networklessEngineScan": true
-    }
+    "platform": "Windows Server 2022 x64",
+    "commit": "0444d92c52b6580a1638ec9eea158a713225311d",
+    "checks": [
+      "Catalog schemaVersion=2 with packs=[]",
+      "Local paired application and source/notice ZIP validation",
+      "Corresponding source members verified",
+      "No publication/tag/Release performed"
+    ]
   },
   "verified": [
     "Catalog format schemaVersion 2 with zero unapproved entries",
@@ -33,5 +29,17 @@
     "True engine library-version update and unchanged application EXE hash against public release",
     "Full distribution license/corresponding source final publication and continued availability"
   ],
-  "notes": "Windows 2022 local paired candidate + source/notice checks passed at run 43825153850, including 54 fixture cases and 40 matched notices. No publication or real GitHub package download; T19 direct modal entry and Windows 11 visual/installation remain separate gates."
+  "notes": "Local pairing validated at 43829851811 for the current T20 PR head; no published GitHub engine ZIP yet. Do not conflate Windows Server CI with clean Windows 11 or public anonymous download.",
+  "competingRegressions": {
+    "t14": {
+      "runId": 43829851717,
+      "conclusion": "success",
+      "passedCases": 15,
+      "scopePassed": true
+    },
+    "t13": {
+      "runId": 43829851733,
+      "conclusion": "success"
+    }
+  }
 }
