@@ -77,7 +77,8 @@ var summary = new
     packId = installed.PackId,
     targets = expectedTargets,
     archiveSha256 = candidate.GetProperty("archiveSha256").GetString(),
-    installedAndRestarted = true,
+    installedAndReloaded = true,
+    processRestartVerified = false,
     restoredBundledWithoutChangingTargets = true
 };
 await File.WriteAllTextAsync(Path.Combine(output, "summary.json"),
