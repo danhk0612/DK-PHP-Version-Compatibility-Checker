@@ -101,13 +101,13 @@
             <MenuItem Header="파일 경로 복사" Click="OnCopyIssuePath" />
         </ContextMenu>
     </Window.Resources>
-    <Grid Margin="20,16">
+    <Grid x:Name="MainLayout" Margin="20,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" MinHeight="92" />
-            <RowDefinition Height="*" MinHeight="78" MaxHeight="150" />
+            <RowDefinition Height="Auto" MinHeight="176" MaxHeight="240" />
         </Grid.RowDefinitions>
 
         <Grid Margin="0,0,0,12">
@@ -126,10 +126,8 @@
             </Border>
         </Grid>
 
-        <Border Grid.Row="1" Style="{StaticResource Panel}" Padding="12,8" Margin="0,0,0,8">
-            <ScrollViewer x:Name="InputSectionScrollViewer"
-                          HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
-                <StackPanel>
+        <Border x:Name="InputPanel" Grid.Row="1" Style="{StaticResource Panel}" Padding="12,8" Margin="0,0,0,8">
+            <StackPanel>
                     <Grid Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="116" />
@@ -202,8 +200,7 @@
                         </StackPanel>
                     </Expander>
 
-                </StackPanel>
-            </ScrollViewer>
+            </StackPanel>
         </Border>
 
         <UniformGrid Grid.Row="2" Columns="4" Margin="0,0,0,8">
@@ -279,25 +276,39 @@
             </DataGrid>
         </Border>
 
-        <Border Grid.Row="4" Style="{StaticResource Panel}" Padding="12,5" Margin="0,8,0,0">
-            <ScrollViewer MaxHeight="128" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock x:Name="SummaryTextBlock" Text="{Binding SummaryText}" Style="{StaticResource OptionalText}" Margin="0,3,0,0" />
-                    <TextBox x:Name="FailureTextBlock" Text="{Binding FailureText, Mode=OneWay}" Style="{StaticResource OptionalFailureText}" Margin="0,3,0,0"
-                             Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
-                             AutomationProperties.Name="검사 실패 상세 내용" ToolTip="오류 내용을 선택한 뒤 Ctrl+C로 복사할 수 있습니다." />
-                    <Expander Header="제외된 경로" IsExpanded="True" Margin="0,6,0,0">
-                        <Grid>
-                            <ListBox x:Name="ExcludedPathsList" ItemsSource="{Binding ExcludedPaths}" MinHeight="56" MaxHeight="58"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Border x:Name="SummaryPanel" Grid.Row="4" Style="{StaticResource Panel}" Padding="12,8" Margin="0,8,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="SummaryTextBlock" Grid.Row="0" Text="{Binding SummaryText}"
+                           Style="{StaticResource OptionalText}" Margin="0,3,0,0" />
+                <TextBox x:Name="FailureTextBlock" Grid.Row="1" Text="{Binding FailureText, Mode=OneWay}"
+                         Style="{StaticResource OptionalFailureText}" Margin="0,3,0,0" MaxHeight="64"
+                         VerticalScrollBarVisibility="Auto"
+                         Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
+                         AutomationProperties.Name="검사 실패 상세 내용"
+                         ToolTip="오류 내용을 선택한 뒤 Ctrl+C로 복사할 수 있습니다." />
+                <Expander Grid.Row="2" Header="제외된 경로" IsExpanded="True" Margin="0,6,0,6">
+                    <Border Background="{StaticResource TintBrush}" BorderBrush="{StaticResource StrokeBrush}"
+                            BorderThickness="1" CornerRadius="6" Padding="5">
+                        <Grid MinHeight="60">
+                            <ListBox x:Name="ExcludedPathsList" ItemsSource="{Binding ExcludedPaths}"
+                                     MinHeight="60" MaxHeight="76" BorderThickness="0" Background="Transparent"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}" TextWrapping="Wrap" ToolTip="{Binding}" />
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <TextBlock Text="제외된 경로가 없습니다." Margin="8,6" Foreground="{StaticResource MutedBrush}"
-                                       VerticalAlignment="Center" IsHitTestVisible="False">
+                            <TextBlock Text="제외된 경로가 없습니다." Margin="8,6"
+                                       Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"
+                                       IsHitTestVisible="False">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Collapsed" />
@@ -310,11 +321,14 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </Grid>
-                    </Expander>
+                    </Border>
+                </Expander>
+                <ScrollViewer Grid.Row="3" MaxHeight="78" HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto">
                     <TextBlock x:Name="LimitationsTextBlock" Text="{Binding LimitationsText}" TextWrapping="Wrap"
-                               Foreground="{StaticResource MutedBrush}" Margin="0,6,0,3" />
-                </StackPanel>
-            </ScrollViewer>
+                               Foreground="{StaticResource MutedBrush}" Margin="0,0,0,3" />
+                </ScrollViewer>
+            </Grid>
         </Border>
     </Grid>
 </Window>
