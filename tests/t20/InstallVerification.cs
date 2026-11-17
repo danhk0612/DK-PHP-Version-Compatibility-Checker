@@ -5,6 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using Dk.PhpCompatibilityChecker;
+using Dk.PhpCompatibilityChecker.Models;
 using Dk.PhpCompatibilityChecker.Services;
 
 if (args.Length == 4 && args[0] == "--check-installed")
@@ -22,6 +27,23 @@ if (args.Length == 4 && args[0] == "--check-restored")
     var bundledAfterRestore = await new EnginePackLoader().LoadAsync(args[2]);
     if (bundledAfterRestore.PackId != args[3])
         throw new InvalidDataException("A separate process cannot load the unchanged bundled engine.");
+    return;
+}
+if (args.Length == 6 && (args[0] == "--check-wpf-installed" || args[0] == "--check-wpf-restored"))
+{
+    var completion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+    var worker = new Thread(() =>
+    {
+        try
+        {
+            VerifyWpfStartup(args[1], args[2], args[3], args[4], args[5].Split(','));
+            completion.SetResult();
+        }
+        catch (Exception ex) { completion.SetException(ex); }
+    });
+    worker.SetApartmentState(ApartmentState.STA);
+    worker.Start();
+    await completion.Task.WaitAsync(TimeSpan.FromMinutes(1));
     return;
 }
 if (args.Length != 3)
@@ -79,6 +101,8 @@ if (restarted is null || restarted.PackId != offer.packId ||
     !restarted.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Installed candidate was not available on a new loader.");
 await VerifyInSeparateProcessAsync("--check-installed", managed, offer.packId!, string.Join(",", expectedTargets));
+await VerifyInSeparateProcessAsync("--check-wpf-installed", managed, args[0], installed.RootDirectory,
+    installed.PackId, string.Join(",", expectedTargets));
 var bundled = await new EnginePackLoader().LoadAsync(args[0]);
 if (!bundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Bundled PHP targets differ from the verified candidate.");
@@ -90,6 +114,8 @@ if (restoredBundled.PackId != bundled.PackId ||
     !restoredBundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Bundled engine changed during install or restore.");
 await VerifyInSeparateProcessAsync("--check-restored", managed, args[0], bundled.PackId);
+await VerifyInSeparateProcessAsync("--check-wpf-restored", managed, args[0], bundled.RootDirectory,
+    bundled.PackId, string.Join(",", expectedTargets));
 var summary = new
 {
     scopePassed = true,
@@ -101,12 +127,64 @@ var summary = new
     installedAndReloaded = true,
     freshProcessInstalledVerified = true,
     freshProcessBundledRestoredVerified = true,
+    freshProcessWpfManagedPackVerified = true,
+    freshProcessWpfBundledRestoreVerified = true,
     appRestartVerified = false,
     restoredBundledWithoutChangingTargets = true
 };
 await File.WriteAllTextAsync(Path.Combine(output, "summary.json"),
     JsonSerializer.Serialize(summary, new JsonSerializerOptions { WriteIndented = true }) + "\n");
 Console.WriteLine("T20_LOCAL_INSTALL_JSON=" + JsonSerializer.Serialize(summary));
+
+// Exercise the real MainWindow pack-selection code on an independent WPF STA
+// process, using a test-only managed root; this is NOT the packaged apphost EXE.
+static void VerifyWpfStartup(string managedRoot, string bundledRoot, string expectedRoot,
+    string expectedPackId, string[] expectedTargets)
+{
+    var application = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+    SynchronizationContext.SetSynchronizationContext(
+        new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
+    MainWindow? window = null;
+    try
+    {
+        window = new MainWindow(new ScanPresentation(), bundledRoot, managedRoot, null);
+        window.Show();
+        var deadline = DateTime.UtcNow.AddSeconds(40);
+        while (window.Presentation.Targets.Count != expectedTargets.Length
+            && DateTime.UtcNow < deadline)
+        {
+            var frame = new DispatcherFrame();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,
+                new Action(() => frame.Continue = false));
+            Dispatcher.PushFrame(frame);
+            Thread.Sleep(15);
+        }
+        if (!window.IsVisible || !window.Presentation.Targets.Select(x => x.Version)
+                .SequenceEqual(expectedTargets))
+            throw new InvalidDataException("WPF startup did not show the verified target list.");
+
+        var loadedPack = typeof(MainWindow).GetField("_activePack",
+            BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(window) as EnginePack;
+        if (loadedPack is null || loadedPack.PackId != expectedPackId
+            || !string.Equals(Path.GetFullPath(loadedPack.RootDirectory),
+                Path.GetFullPath(expectedRoot), StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("WPF startup chose the wrong managed or bundled engine root.");
+
+        var summary = (System.Windows.Controls.TextBlock)window.FindName("EngineSummaryTextBlock");
+        if (!summary.Text.Contains(loadedPack.EngineInfo.PhpCompatibilityVersion,
+                StringComparison.Ordinal))
+            throw new InvalidDataException("WPF main screen did not display the loaded engine information.");
+        Console.WriteLine("T20_WPF_STARTUP_JSON=" + JsonSerializer.Serialize(new {
+            loadedPack.PackId, loadedPack.RootDirectory,
+            targets = expectedTargets, managerEnabled = window.IsVisible
+        }));
+    }
+    finally
+    {
+        window?.Close();
+        application.Shutdown();
+    }
+}
 
 static async Task VerifyInSeparateProcessAsync(params string[] childArgs)
 {
