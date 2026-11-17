@@ -153,6 +153,31 @@ PDB와 생성 헤더에서 확인할 수 있는 범위는 모듈 이름과 구�
 
 이 검증으로 배포할 소스 ZIP에서 수정 libiconv를 사용한 PHP 재링크가 가능한 것을 확인했습니다. 공식 빌드의 PGO 입력과 과거 의존성 ZIP 바이트의 동일성은 미확인입니다. 이 실행은 공개 승인 전 후보를 대상으로 했습니다. 릴리스 기준 커밋에서 실행 ZIP·소스 ZIP·페어링 JSON을 생성해 [동시 제공 절차](tools/license-audit/README.md#릴리스와-대응-소스-동시-제공)에 따라 게시하고 공개 다운로드를 확인해야 합니다.
 
+## 2026-11-17 A안 출시 자체 검토 — 자료 적합성 조건부 확인
+
+**사용자 결정:** (1) 새 앱 실행 ZIP과 정확히 대응하는 소스·고지 ZIP 및 SHA-256 파일을 **동일한 공개 GitHub Release에서 지속 제공**, (2) 별도 외부 법률 검토 대신 현재 저장소 근거를 사용한 **자체 라이선스 검토**로 진행하는 데 동의했습니다. 앞서 승인한 자체 MIT와 PHP v4 / Zend v3 적용 범위는 유지합니다. 배포 자산·빌드 커밋이 달라질 때마다 대응 관계를 다시 확인해야 합니다.
+
+**자체 검토에서 확인한 증거와 한계:**
+
+| 범위 | 근거·확인 | 판정 |
+| --- | --- | --- |
+| 자체 앱·외부 PHP/Zend | 루트 `LICENSE`, `THIRD-PARTY-NOTICES.md`, `license-election.json` 및 원문 고지. PHP 공식 [라이선스 페이지](https://www.php.net/license/)의 구버전 후속 선택·Zend Engine v3 안내와 대조 | 기존 선택 유지. 별도 소스·고지의 독립 조건을 재허가하지 않음 |
+| PHPCompatibility / PHPCSUtils (LGPL-3.0-or-later) | 고정 소스 checkout 2개와 번들 vendor 244/58개 파일의 바이트 대조 및 소스 ZIP·LGPL/GPL 원문 수록을 [T08](tests/t08/evidence/summary.json)·[동반 소스 절차](tools/license-audit/README.md)에 기록 | 준비 자료 확인. 수정/재결합·디버깅 권리 제한 금지 유지 |
+| 공식 PHP 최소 CLI 및 네이티브 소스 | `php.exe`/`php8.dll`의 승인 ZIP 해시 및 [공식 아티팩트 연결](tests/t08-minimal/evidence/official-artifact-identity.json), [5개 정적 의존성 PDB↔소스 매핑](tests/t08-minimal/evidence/official-native-source-map.json), PHP·네이티브 소스 6개와 Windows 설정 헤더·원문 고지 | 수집·출처·동봉 원문 근거 확인. 공식 빌드의 과거 의존성 ZIP 바이트 및 완전 빌드 프로파일 동일성은 **미확인** |
+| PHP 내장 LGPL-2.1 및 libiconv 재링크 | [동봉 원문 재링크 결과](tests/t08-minimal/evidence/php-relink/source-companion.json)와 [T08 동반 소스 최신 CI #44001059330](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/44001059330): 동일 후보 소스로 원본·변경 libiconv PHP 재링크, 스냅샷 정적 확장 27개·54개 검사 fixture 비교 통과 | 라이브러리 수정·재링크 가능성에 **실증 근거 있음**. `fullProductProfileVerified=false`와 공식 PGO/과거 바이너리 동등성 미확인은 명시적으로 보존 |
+| Microsoft·사용자 환경 | 프레임워크 종속 ZIP으로 별도 `.NET Desktop Runtime 10 x64` 사용자 설치; 자체 apphost MIT/고지 동봉, PHP CRT 설치 프로그램은 미동봉 | 불필요한 .NET 런타임/CRT 재배포 권리 주장 없이 기존 배포 구성 유지 |
+
+[GNU LGPL v2.1 §6](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)과 [LGPL v3 §4](https://www.gnu.org/licenses/lgpl-3.0.en.html)의 대응 소스·수정 라이브러리 재링크 요구를 근거로, **기존 바이너리의 bit-for-bit 복제만을 새로운 별도의 배포 필요조건으로 정하지는 않습니다.** 그렇다고 재링크 시험만으로 실제 배포물의 모든 정적 코드·고지·대응 소스 충분성이 자동 확인되는 것은 아닙니다.
+
+**자체 검토 판단:** 현재 고정 기본 팩은 *실행 ZIP과 대응 소스 ZIP을 같은 최종 커밋에서 다시 생성·실물 대조하여 동시에 공개한다는 조건 아래* **출시 자료 준비를 계속 진행할 수 있음**. 이는 외부 법률 의견이나 공개 재배포 적합성의 무조건적 확인이 아닙니다. 위 실측과 독립적 라이선스 원문의 적용 범위를 보존합니다.
+
+**공개 판정 전 실제로 수행해야 할 항목(사용자 추가 선택 불필요):**
+1. PR #19/#20 통합 후 최종 릴리스 커밋과 버전을 고정하고, `README.md`·`THIRD-PARTY-NOTICES.md`의 기존 `v0.1.0` 전용 링크를 새 릴리스 대상과 실제 대응 소스 링크로 갱신합니다.
+2. **그 최종 커밋**에서 앱 ZIP, 대응 소스·고지 ZIP, `paired-candidate.json`을 다시 만들어 각 SHA 및 포함 파일·고지·소스 매핑을 재검증합니다. 이전 로컬/CI의 ZIP SHA를 최종 릴리스로 재사용하지 않습니다. 불일치나 미대응 구성요소가 나오면 배포 중단·보완합니다.
+3. 같은 Release에 세 산출물을 지속 제공하고 익명 다운로드·파일명·SHA-256 일치를 검증합니다. 해당 바이너리를 제공하는 동안 대응 소스를 임의 삭제하지 않습니다. 실제 공개 이전에는 이 항목을 완료 처리하지 않습니다.
+
+이 문서 갱신은 사용자의 **자체 검토 방식 및 소스 지속 공개 동의**를 기록한 것으로, 자동 기록의 `redistributionCleared=false`/후보 `releaseGatePassed=false`를 임의로 `true`로 바꾸지 않습니다. 최종 자산 대조·게시/익명 다운로드가 끝나기 전까지 공개 성공으로 표시하지 않습니다.
+
 ## 재현과 공식 근거
 
 공식 빌드와 승인 바이너리의 직접 연결은 [artifact 대조](tests/t08-minimal/evidence/official-artifact-identity.json)의 절차·해시로 재확인할 수 있습니다. 이 실측은 기존 빌드 조사 당시의 미확인 부분만 보완하며 과거 실행 기록을 소급 수정하지 않습니다.
