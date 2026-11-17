@@ -260,4 +260,4 @@ T08의 builder/SDK 소스 수집과 소스 동반 ZIP 생성, T10 개발용 새 
 - 요청: 상단 내부 스크롤/가림 개선, 제외 경로 목록의 최소 높이, 검사 결과 행 우클릭에서 파일 열기·위치 열기 등.
 - 범위: `MainWindow.xaml`과 `MainWindow.xaml.cs`의 배치·사용자 명령만. 필수 입력은 항상 표시, 기존 설정 Expander를 열면 작은 창의 최소 높이 조정. 결과 제외 목록은 비어 있어도 최소 높이 56과 빈 상태 안내 표시. 우클릭은 메모장 열기(소스 실행 금지), 탐색기에서 해당 파일 선택, 파일 경로 복사.
 - 완료 확인: Windows 11 WPF 빌드·시작, 1120×800 및 760×560(설정 펼침/접힘), DPI 100·125·150%에서 가림 없음, 한글/공백/드라이브/네트워크 파일 경로와 우클릭 행 선택, 경로 복사, 원본 불변, 기존 엔진·제외·CSV/HTML 회귀.
-- 상태: Draft [PR #20](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/20)에 구현 반영, **Windows GUI 수동시험·최종 회귀 판정 대기**. 선행 PR #19 및 공개 배포 게이트는 미완료. 직접 병합·Release/tag 금지.
+- 상태: Draft [PR #20](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/pull/20)에 구현 반영. [Windows Server 2022 CI #44020124364](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/44020124364)에서 SDK 10.0.404, 앱 패키징·대응 소스 페어링, 검증된 팩 설치, 실제 WPF 앱 별도 프로세스 실행/종료까지 통과. **Windows 11 수동 GUI 우클릭·기본/최소 크기·DPI별 시각 검증은 미실행**. 선행 PR #19 및 공개 배포 게이트는 미완료. 직접 병합·Release/tag 금지.
