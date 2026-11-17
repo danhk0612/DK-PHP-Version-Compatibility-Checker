@@ -42,11 +42,11 @@ jobs:
             ./tools/packaging/Prepare-Bootstrap.ps1 -OutputDirectory $bootstrap
             Push-Location (Join-Path $bootstrap 'php')
             try {
-              $modules = & ./php.exe -c (Join-Path $bootstrap 'php/php.ini') -m
+              $modules = & ./php.exe -c ./php.ini -m
               $moduleExitCode = $LASTEXITCODE
               Write-Output "Bootstrap PHP modules: $($modules -join ', ')"
-              & ./php.exe -c (Join-Path $bootstrap 'php/php.ini') --ini
-              & ./php.exe -c (Join-Path $bootstrap 'php/php.ini') -i | Select-String -Pattern '^(extension_dir|Loaded Configuration File) =>'
+              & ./php.exe -c ./php.ini --ini
+              & ./php.exe -c ./php.ini -i | Select-String -Pattern '^(extension_dir|Loaded Configuration File) =>'
               if ($moduleExitCode -ne 0 -or $modules -notcontains 'openssl' -or $modules -notcontains 'curl' -or $modules -notcontains 'zip') {
                 throw 'PHP bootstrap extensions did not load from Korean directory.'
               }
