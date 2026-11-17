@@ -1,10 +1,29 @@
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using Dk.PhpCompatibilityChecker.Services;
 
+if (args.Length == 4 && args[0] == "--check-installed")
+{
+    var active = await EnginePackInstaller.LoadInstalledAsync(args[1]);
+    if (active is null || active.PackId != args[2] ||
+        !active.Targets.Select(x => x.Version).SequenceEqual(args[3].Split(',')))
+        throw new InvalidDataException("A separate process did not load the installed engine pack.");
+    return;
+}
+if (args.Length == 4 && args[0] == "--check-restored")
+{
+    if (await EnginePackInstaller.LoadInstalledAsync(args[1]) is not null)
+        throw new InvalidDataException("A separate process still sees the managed engine after restore.");
+    var bundledAfterRestore = await new EnginePackLoader().LoadAsync(args[2]);
+    if (bundledAfterRestore.PackId != args[3])
+        throw new InvalidDataException("A separate process cannot load the unchanged bundled engine.");
+    return;
+}
 if (args.Length != 3)
     throw new ArgumentException("Usage: T20.InstallVerification <runtime> <engine-candidate> <output>");
 var manifestPath = Path.Combine(args[0], "manifest.json");
@@ -59,6 +78,7 @@ var restarted = await EnginePackInstaller.LoadInstalledAsync(managed);
 if (restarted is null || restarted.PackId != offer.packId ||
     !restarted.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Installed candidate was not available on a new loader.");
+await VerifyInSeparateProcessAsync("--check-installed", managed, offer.packId!, string.Join(",", expectedTargets));
 var bundled = await new EnginePackLoader().LoadAsync(args[0]);
 if (!bundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Bundled PHP targets differ from the verified candidate.");
@@ -69,6 +89,7 @@ var restoredBundled = await new EnginePackLoader().LoadAsync(args[0]);
 if (restoredBundled.PackId != bundled.PackId ||
     !restoredBundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Bundled engine changed during install or restore.");
+await VerifyInSeparateProcessAsync("--check-restored", managed, args[0], bundled.PackId);
 var summary = new
 {
     scopePassed = true,
@@ -78,12 +99,34 @@ var summary = new
     targets = expectedTargets,
     archiveSha256 = candidate.GetProperty("archiveSha256").GetString(),
     installedAndReloaded = true,
-    processRestartVerified = false,
+    freshProcessInstalledVerified = true,
+    freshProcessBundledRestoredVerified = true,
+    appRestartVerified = false,
     restoredBundledWithoutChangingTargets = true
 };
 await File.WriteAllTextAsync(Path.Combine(output, "summary.json"),
     JsonSerializer.Serialize(summary, new JsonSerializerOptions { WriteIndented = true }) + "\n");
 Console.WriteLine("T20_LOCAL_INSTALL_JSON=" + JsonSerializer.Serialize(summary));
+
+static async Task VerifyInSeparateProcessAsync(params string[] childArgs)
+{
+    var start = new ProcessStartInfo("dotnet")
+    {
+        UseShellExecute = false,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true
+    };
+    start.ArgumentList.Add(Assembly.GetExecutingAssembly().Location);
+    foreach (var argument in childArgs)
+        start.ArgumentList.Add(argument);
+    using var child = Process.Start(start) ?? throw new IOException("Cannot start the verification process.");
+    var stdout = child.StandardOutput.ReadToEndAsync();
+    var stderr = child.StandardError.ReadToEndAsync();
+    await child.WaitForExitAsync();
+    if (child.ExitCode != 0)
+        throw new InvalidDataException("Separate-process verification failed: " +
+            await stdout + " " + await stderr);
+}
 
 internal sealed class LocalTransport(string catalog, string zipPath) : HttpMessageHandler
 {
