@@ -1,6 +1,9 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Dk.PhpCompatibilityChecker.Models;
 using Dk.PhpCompatibilityChecker.Services;
@@ -23,6 +26,8 @@ public partial class MainWindow : Window
     private bool _loadingPack;
     private bool _closing;
     private bool _allowClose;
+    private double? _heightBeforeExpandedSettings;
+    private double? _heightAfterExpandedSettings;
 
     public ScanPresentation Presentation { get; }
 
@@ -278,6 +283,106 @@ public partial class MainWindow : Window
         if (dialog.RestartRequired)
             _installPendingRestart = true;
         UpdateScanButton();
+    }
+
+    private void OnExclusionSettingsExpanded(object sender, RoutedEventArgs e)
+    {
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+        {
+            if (_closing || !ExclusionSettingsExpander.IsExpanded || WindowState != WindowState.Normal)
+                return;
+
+            // Reserve all input controls, the summary panel and a minimum results grid.
+            // The input panel is an Auto row, not an independently scrolling viewport.
+            var windowOverhead = Math.Max(0, Height - MainLayout.ActualHeight);
+            var neededHeight = Math.Ceiling(windowOverhead
+                + MainLayout.RowDefinitions[0].ActualHeight
+                + InputPanel.DesiredSize.Height
+                + MainLayout.RowDefinitions[2].ActualHeight
+                + MainLayout.RowDefinitions[3].MinHeight
+                + Math.Max(MainLayout.RowDefinitions[4].MinHeight, SummaryPanel.DesiredSize.Height)
+                + 4);
+
+            if (Height < neededHeight)
+            {
+                _heightBeforeExpandedSettings = Height;
+                Height = neededHeight;
+                _heightAfterExpandedSettings = Height;
+            }
+            MinHeight = Math.Max(560, neededHeight);
+        }));
+    }
+
+    private void OnExclusionSettingsCollapsed(object sender, RoutedEventArgs e)
+    {
+        MinHeight = 560;
+        if (_heightBeforeExpandedSettings is double previous
+            && _heightAfterExpandedSettings is double expanded
+            && WindowState == WindowState.Normal && Math.Abs(Height - expanded) < 1)
+            Height = previous;
+        _heightBeforeExpandedSettings = null;
+        _heightAfterExpandedSettings = null;
+    }
+
+    private void OnIssueRowRightClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is DataGridRow row)
+            row.IsSelected = true;
+    }
+
+    private void OnOpenIssueInNotepad(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is not ScanIssue issue)
+            return;
+        if (!File.Exists(issue.FilePath))
+        {
+            MessageBox.Show(this, "파일을 찾을 수 없습니다: " + issue.FilePath, "파일 열기",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+        try
+        {
+            var start = new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "notepad.exe"))
+            {
+                UseShellExecute = true
+            };
+            start.ArgumentList.Add(issue.FilePath);
+            Process.Start(start);
+        }
+        catch (Exception ex) when (ex is IOException or Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, ex.Message, "파일 열기 실패", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+    private void OnRevealIssueFile(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is not ScanIssue issue)
+            return;
+        if (!File.Exists(issue.FilePath))
+        {
+            MessageBox.Show(this, "파일을 찾을 수 없습니다: " + issue.FilePath, "파일 위치 열기",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+        try
+        {
+            Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "explorer.exe"))
+            {
+                UseShellExecute = true,
+                Arguments = "/select,\"" + issue.FilePath + "\""
+            });
+        }
+        catch (Exception ex) when (ex is IOException or Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, ex.Message, "파일 위치 열기 실패", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+    }
+
+    private void OnCopyIssuePath(object sender, RoutedEventArgs e)
+    {
+        if (IssuesGrid.SelectedItem is ScanIssue issue)
+            Clipboard.SetText(issue.FilePath);
     }
 
     private async void OnExportCsv(object sender, RoutedEventArgs e) => await StartExportAsync(html: false);
