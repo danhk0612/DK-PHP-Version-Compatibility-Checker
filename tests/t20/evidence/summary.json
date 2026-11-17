@@ -1,7 +1,7 @@
 {
   "task": "T20",
   "date": "2026-11-17",
-  "status": "Windows Server 2022 x64 private paired app/engine candidate, separate-process managed install/restoration and actual packaged WPF EXE two-process restart passed; public GitHub and clean Windows 11 gates pending",
+  "status": "Windows Server 2022 x64 private paired app/engine candidate, fresh OS process WPF managed/restore selection and actual packaged WPF EXE restart passed; public GitHub and clean Windows 11 gates pending",
   "workflow": {
     "name": "T20 engine channel and paired local candidate",
     "runId": 43991708381,
@@ -26,7 +26,8 @@
     "A separate .NET OS process loaded the managed installed pack, then confirmed restored bundled pack after RestoreBundledAsync",
     "T14 installation regression #43991708486 and T08 minimal CLI/core source #43991708443 succeeded",
     "Windows Server 2022 actual unpublished packaged WPF EXE launched, showed responsive main window, and exited normally in two distinct OS processes (T20 CI #43997446311)",
-    "Packaged WPF EXE SHA-256 unchanged across both launches; extracted ZIP contents unchanged in T09 post-launch verification (run #43997446311)"
+    "Packaged WPF EXE SHA-256 unchanged across both launches; extracted ZIP contents unchanged in T09 post-launch verification (run #43997446311)",
+    "T20 CI #44001059120: separately launched .NET WPF MainWindow in fresh OS process after managed pack install and after bundled restore; verified active pack root, packId, targets and UI engine label"
   ],
   "notVerified": [
     "Published approved catalog at main URL: main not merged",
@@ -35,7 +36,7 @@
     "Clean Windows 11 x64 user installation, .NET/CRT prerequisites and offline source immutability",
     "True engine library-version update and unchanged application EXE hash against public release",
     "Full distribution license/corresponding source final publication and continued availability",
-    "Real WPF application restarted after a newly installed managed engine pack and activated that update (packaged EXE restarts here use bundled pack)"
+    "Installed managed pack activated in the actual packaged WPF apphost EXE after a real update and restart (verified only in test-hosted WPF MainWindow)"
   ],
   "notes": "Windows Server 2022 x64 T20 #43991708381 succeeded at PR merge checkout 6af018a (PR head b9ab01c). T20_LOCAL_INSTALL_JSON confirms freshProcessInstalledVerified=true, freshProcessBundledRestoredVerified=true, appRestartVerified=false, publicReleaseVerified=false. Controlled local HTTP handler only. Existing non-blocking CS8603 warning; no product code change.",
   "competingRegressions": {
@@ -109,5 +110,41 @@
     "testedLocalEngineCandidateSha256": "5a43da451a2beac24ffc2f239a566fa1d99211889851482d624be58d7a371c3f",
     "testedCorrespondingSourceSha256": "850a2a655b6d4b99f75f7e4b80b1df5624d264f38d6d6562f1e0ad1436ce185a",
     "note": "Actual WPF packaged EXE launch/exit twice; not an engine-install-then-WPF-restart integration or Windows 11 visual test. Build-time ZIP hashes are specific to CI run 43997446311."
+  },
+  "wpfManagedPackSelection": {
+    "runId": 44001059120,
+    "conclusion": "success",
+    "platform": "Windows Server 2022 x64",
+    "prHeadCommit": "e452319fdca62c74a6a07e1df421a5894d1a3bcb",
+    "ciCheckoutCommit": "0ae77c9",
+    "test": "tests/t20/InstallVerification.cs",
+    "checks": {
+      "freshProcessInstalledVerified": true,
+      "freshProcessBundledRestoredVerified": true,
+      "freshProcessWpfManagedPackVerified": true,
+      "freshProcessWpfBundledRestoreVerified": true,
+      "appRestartVerified": false,
+      "publicReleaseVerified": false
+    },
+    "verifiedTargets": [
+      "7.4",
+      "8.0",
+      "8.1",
+      "8.2",
+      "8.3",
+      "8.4",
+      "8.5"
+    ],
+    "localTransportOnly": true,
+    "realPackagedExeWithManagedUpdateVerified": false,
+    "engineArchiveSha256": "e4b27bc44dc9ab4f2c3a75a80d843627c2d70f24334f73f798452aaffd87db32",
+    "engineManifestSha256": "2085e95808a39e3f28a204826699f427f45f08c4404f4bcb4926b1d92117fe36",
+    "sourceArchiveSha256": "e833e3e54fd29c14485b45ede9972ab79ea8f37e744de7e50a37924bf62678a1",
+    "packagedExeRestartSameRun": {
+      "passed": true,
+      "exeSha256": "bf3f9a936125dbdf70eada818519c0c3a5eb6eb5aa4e4b32a3148d45dc935e68",
+      "packageBytesUnchanged": true
+    },
+    "limits": "WPF child is test-hosted MainWindow using a controlled injected managed root. Not the production apphost EXE performing install then restart. No public download or clean Windows 11."
   }
 }
