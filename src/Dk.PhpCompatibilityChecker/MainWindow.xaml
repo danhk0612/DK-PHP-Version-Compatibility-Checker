@@ -94,6 +94,12 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <ContextMenu x:Key="IssueRowContextMenu">
+            <MenuItem Header="메모장으로 파일 열기" Click="OnOpenIssueInNotepad" />
+            <MenuItem Header="탐색기에서 파일 위치 열기" Click="OnRevealIssueFile" />
+            <Separator />
+            <MenuItem Header="파일 경로 복사" Click="OnCopyIssuePath" />
+        </ContextMenu>
     </Window.Resources>
     <Grid Margin="20,16">
         <Grid.RowDefinitions>
@@ -240,16 +246,7 @@
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnIssueRowRightClick" />
-                        <Setter Property="ContextMenu">
-                            <Setter.Value>
-                                <ContextMenu>
-                                    <MenuItem Header="메모장으로 파일 열기" Click="OnOpenIssueInNotepad" />
-                                    <MenuItem Header="탐색기에서 파일 위치 열기" Click="OnRevealIssueFile" />
-                                    <Separator />
-                                    <MenuItem Header="파일 경로 복사" Click="OnCopyIssuePath" />
-                                </ContextMenu>
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="ContextMenu" Value="{StaticResource IssueRowContextMenu}" />
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.ColumnHeaderStyle>
