@@ -25,6 +25,8 @@ Get-Content -Raw artifacts/t20/engine-candidate/engine-candidate.json
 
 여기서 만든 `DK-PHP-engine-unpublished.zip`은 사용자가 직접 설치하는 앱 ZIP이 **아니며**, GitHub Actions나 Release에 게시하지 않습니다. 제품 설치기의 `runtime/` ZIP 구성과 manifest SHA를 준비 단계에서 검증하기 위한 후보입니다. 대응 소스는 앞서 생성한 쌍 ZIP을 그대로 참조합니다. `engine-candidate.json`에는 임의의 GitHub Release URL이나 `releaseSequence`를 넣지 않습니다. 이 값들은 정식 게시 승인과 고정 자산 검증을 거친 뒤 확정해야 합니다. CI에도 이 로컬 검증을 추가하지만 ZIP 자체는 artifact로 업로드하지 않고 검증 메타데이터만 보존합니다.
 
+T20 Windows Server CI에는 실제 **비공개 앱 ZIP을 한글·공백 경로에 압축 해제한 실행 파일**을 두 번의 별도 OS 프로세스로 시작하고, 응답하는 WPF 메인 창의 표시 및 정상 종료를 확인한 후 ZIP과 압축 해제된 전체 파일을 다시 대조하는 검증도 포함합니다. 절차는 [Verify-PackagedRestart.ps1](Verify-PackagedRestart.ps1)에 있습니다. 이는 실제 패키지 EXE의 기본 시작·종료·재시작에 한정되며, **온라인 엔진 팩 설치 후 WPF 앱을 재시작하여 갱신 엔진을 활성화하는 실사용 경로, 깨끗한 Windows 11, DPI별 사용자 조작은 검증하지 않습니다.** CI가 통과하기 전에는 이 추가 검증도 미검증입니다.
+
 로컬 엔진 ZIP의 실제 설치 가능 여부도 같은 Windows CI에서 격리된 `EnginePackInstaller`로 확인합니다. 허구의 공개 URL이나 네트워크 접속을 쓰지 않고, 검증된 ZIP을 실제 설치 서비스에 전달한 뒤 새로운 로더가 해당 팩을 다시 읽는지 확인합니다. 통과 시 `artifacts/t20/local-install/summary.json`에 결과를 기록하며, **공개 GitHub 채널 시험을 대신하지는 않습니다.**
 
 ## Windows 11 검사용 ZIP을 직접 준비하는 절차
