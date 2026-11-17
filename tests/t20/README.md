@@ -15,10 +15,10 @@ T16~T19에서 작성한 엔진 팩 관리 기능의 **배포 채널 준비** 단
 
 ## 공개 게시 전 엔진 단독 ZIP의 로컬 후보
 
-기존 [T09 쌍 ZIP 검증](../t09/check_pair.py)까지 완료된 준비 폴더에서 다음 명령을 실행하면, `runtime/`이 최상위인 **엔진 전용 ZIP**과 `engine-candidate.json`을 추가로 생성합니다. 기존 앱 ZIP·소스/고지 ZIP을 덮어쓰지 않고, 서로의 SHA-256을 다시 대조합니다.
+기존 [T09 쌍 ZIP 검증](../t09/check_pair.py)까지 완료된 준비 폴더에서 다음 명령을 실행하면, `runtime/`이 최상위인 **엔진 전용 ZIP**과 `engine-candidate.json`을 추가로 생성합니다. 기존 앱 ZIP·소스/고지 ZIP을 덮어쓰지 않고, 서로의 SHA-256과 프로그램 ZIP 내부 `tools/runtime/`의 실제 파일 바이트까지 다시 대조합니다.
 
 ```powershell
-python tests/t20/prepare_engine_candidate.py --runtime tools/runtime --sidecar artifacts/t08-source-sidecar --package artifacts/t09 --output artifacts/t20/engine-candidate
+python tools/engine-pack/prepare_unpublished_candidate.py --runtime tools/runtime --sidecar artifacts/t08-source-sidecar --package artifacts/t09 --output artifacts/t20/engine-candidate
 if ($LASTEXITCODE -ne 0) { throw 'T20 엔진 단독 후보 생성 실패' }
 Get-Content -Raw artifacts/t20/engine-candidate/engine-candidate.json
 ```

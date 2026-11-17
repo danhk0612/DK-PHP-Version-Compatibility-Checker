@@ -63,6 +63,15 @@ for file in sorted(runtime.rglob("*")):
     member_names.append((file, "runtime/" + relative))
 require(any(name == "runtime/manifest.json" for _, name in member_names),
         "Engine pack manifest not included")
+# Both the standalone pack and the paired application must carry identical
+# verified engine bytes. An otherwise valid pair could describe another pack.
+with zipfile.ZipFile(binary) as app_zip:
+    app_members = set(app_zip.namelist())
+    for file, name in member_names:
+        app_name = "tools/" + name
+        require(app_name in app_members, "Paired application is missing engine file: " + app_name)
+        require(app_zip.read(app_name) == file.read_bytes(),
+                "Engine ZIP differs from paired application: " + app_name)
 require(not args.output.exists(), "Preserve previous engine candidate; use a new output directory")
 args.output.mkdir(parents=True)
 
@@ -95,6 +104,7 @@ metadata = {
     "manifestSha256": digest(manifest_path),
     "fileCount": len(member_names),
     "pairedAppSha256": pair["binaryArchiveSha256"],
+    "appRuntimeBytesMatched": True,
     "sourceArchive": source.name,
     "sourceArchiveSha256": pair["sourceArchiveSha256"],
     "catalogReady": False,
