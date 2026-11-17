@@ -26,6 +26,7 @@ public partial class MainWindow : Window
     private bool _loadingPack;
     private bool _closing;
     private bool _allowClose;
+    private double? _heightBeforeExpandedSettings;
 
     public ScanPresentation Presentation { get; }
 
@@ -281,6 +282,26 @@ public partial class MainWindow : Window
         if (dialog.RestartRequired)
             _installPendingRestart = true;
         UpdateScanButton();
+    }
+
+    private void OnExclusionSettingsExpanded(object sender, RoutedEventArgs e)
+    {
+        const double expandedMinHeight = 700;
+        if (WindowState == WindowState.Normal && Height < expandedMinHeight)
+        {
+            _heightBeforeExpandedSettings = Height;
+            Height = expandedMinHeight;
+        }
+        MinHeight = expandedMinHeight;
+    }
+
+    private void OnExclusionSettingsCollapsed(object sender, RoutedEventArgs e)
+    {
+        MinHeight = 560;
+        if (_heightBeforeExpandedSettings is double height && WindowState == WindowState.Normal
+            && Math.Abs(Height - 700) < 1)
+            Height = height;
+        _heightBeforeExpandedSettings = null;
     }
 
     private void OnIssueRowRightClick(object sender, MouseButtonEventArgs e)
