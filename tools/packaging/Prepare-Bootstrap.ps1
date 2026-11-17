@@ -27,7 +27,7 @@ if ((Get-FileHash -LiteralPath $phar -Algorithm SHA256).Hash.ToLowerInvariant() 
 $wrapper=@'
 Push-Location (Join-Path $PSScriptRoot 'php')
 try {
-    & "$PSScriptRoot/php/php.exe" -c "$PSScriptRoot/php/php.ini" "$PSScriptRoot/composer.phar" @args
+    & ./php.exe -c ./php.ini ../composer.phar @args
     $phpExitCode = $LASTEXITCODE
 } finally {
     Pop-Location
