@@ -59,6 +59,16 @@ var restarted = await EnginePackInstaller.LoadInstalledAsync(managed);
 if (restarted is null || restarted.PackId != offer.packId ||
     !restarted.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
     throw new InvalidDataException("Installed candidate was not available on a new loader.");
+var bundled = await new EnginePackLoader().LoadAsync(args[0]);
+if (!bundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
+    throw new InvalidDataException("Bundled PHP targets differ from the verified candidate.");
+await installer.RestoreBundledAsync("");
+if (await EnginePackInstaller.LoadInstalledAsync(managed) is not null)
+    throw new InvalidDataException("Restoring the bundled engine left a managed pack active.");
+var restoredBundled = await new EnginePackLoader().LoadAsync(args[0]);
+if (restoredBundled.PackId != bundled.PackId ||
+    !restoredBundled.Targets.Select(x => x.Version).SequenceEqual(expectedTargets))
+    throw new InvalidDataException("Bundled engine changed during install or restore.");
 var summary = new
 {
     scopePassed = true,
@@ -67,7 +77,8 @@ var summary = new
     packId = installed.PackId,
     targets = expectedTargets,
     archiveSha256 = candidate.GetProperty("archiveSha256").GetString(),
-    installedAndRestarted = true
+    installedAndRestarted = true,
+    restoredBundledWithoutChangingTargets = true
 };
 await File.WriteAllTextAsync(Path.Combine(output, "summary.json"),
     JsonSerializer.Serialize(summary, new JsonSerializerOptions { WriteIndented = true }) + "\n");
