@@ -88,6 +88,8 @@ Write-Output "검증 기록: $((Resolve-Path ./artifacts/t09/evidence/paired-can
 - **기본 검사 앱 우선 출시:** PHP 7.4~8.5가 내장된 새 앱 ZIP을 준비하되 `catalog-v2.json`은 `packs=[]`로 유지합니다. 기본 오프라인 검사와 수동 업데이트 화면의 기반은 제공하지만, **현재 다운로드 가능한 새 엔진 업데이트는 없습니다.** 온라인 채널 실서버 검증은 계속 미완료로 기록합니다.
 - **온라인 업데이트까지 함께 출시:** 기본 내장 팩과 다른 `packId`의 **별도로 검증된 실제 엔진 팩** 및 그 대응 소스·고지가 먼저 필요합니다. 현재 `prepare_unpublished_candidate.py`의 엔진 ZIP은 내장 `tools/runtime/`과 바이트 일치하는 같은 팩입니다. 설치기 `FindUpdateAsync`는 같은 `packId`를 업데이트 후보에서 제외하므로 이 ZIP을 공개하기만 해서는 엔진 갱신 흐름을 실증할 수 없습니다. 숫자·해시만 바꾼 가짜 신규 팩은 만들지 않습니다.
 
+최신 [T08 대응 소스·고지·재링크 Windows CI #44001059330](https://github.com/danhk0612/DK-PHP-Version-Compatibility-Checker/actions/runs/44001059330)에서 6개 PHP/네이티브 원본 아카이브 수집(31,375 tracked 파일), 소스·고지 ZIP, 후보 페어링, 동반 소스 기반 PHP/libiconv 재링크와 **54개 비교 사례**가 통과했습니다. 동일 실행의 `PHP_CORE_SOURCE_JSON.redistributionCleared=false` 및 후보 패키지의 `releaseGatePassed=false`는 유지합니다. 즉, **기술적 대응 소스 준비 검증 성공과 최종 법적/배포 승인 판정은 별개**입니다.
+
 **어느 출시 범위든 먼저 필요한 관문:**
 1. T08: 실제 배포 바이너리와 동봉 라이선스·고지·대응 소스·빌드/재링크 자료의 충분성을 최종 대조합니다. `tools/license-audit/license-election.json`의 `redistributionCleared=false`는 전체 적합성 완료 판정이 아님을 나타냅니다. 최종 판정 없이 공개하지 않습니다.
 2. T09/T20: 검증할 정확한 커밋의 **깨끗한 Windows 11 x64 일반 사용자 환경**에서 .NET Desktop Runtime/VC++ 전제, 한글·공백 및 읽기 전용 경로, 기본 7개 목표·오프라인 검사·원본 불변, 관리 GUI의 100%/125%/150% DPI를 기록합니다. Windows Server CI는 이를 대신하지 않습니다.
