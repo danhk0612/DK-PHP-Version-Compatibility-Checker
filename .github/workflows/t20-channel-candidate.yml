@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - '.github/workflows/t20-channel-candidate.yml'
+      - 'README.md'
+      - 'LICENSE'
+      - 'LICENSING.md'
+      - 'THIRD-PARTY-NOTICES.md'
+      - 'global.json'
       - 'src/**'
       - 'tools/engine-pack/**'
       - 'tools/packaging/**'
@@ -59,19 +64,22 @@ jobs:
           } finally {
             if (Test-Path -LiteralPath $bootstrap) { Remove-Item -LiteralPath $bootstrap -Recurse -Force }
           }
-      - name: Build app and create paired candidate without Release or tag
+      - name: Build v0.2.0 paired candidate without Release or tag
         shell: pwsh
         run: |
-          ./tools/packaging/Prepare-LocalTest.ps1
+          ./tools/packaging/Prepare-LocalTest.ps1 -ReleaseVersion v0.2.0
           if ($LASTEXITCODE -ne 0) { throw 'Local packaging or source pairing failed.' }
       - name: Inspect candidate/source pairing
         shell: pwsh
         run: |
           $pair = Get-Content -Raw -LiteralPath artifacts/t09/evidence/paired-candidate.json | ConvertFrom-Json
-          if (-not $pair.scopePassed -or -not $pair.allSourceMembersVerified) {
-              throw 'Candidate/source pairing was not verified.'
+          if (-not $pair.scopePassed -or -not $pair.allSourceMembersVerified -or
+              $pair.binaryArchive -ne 'DK-PHP-Compatibility-v0.2.0-win-x64.zip') {
+              throw 'v0.2.0 candidate/source pairing was not verified.'
           }
-          Write-Output 'T20 local candidate/source pairing verified. NO PUBLICATION was performed.'
+          Write-Output "Paired binary: $($pair.binaryArchive) SHA256 $($pair.binaryArchiveSha256)"
+          Write-Output "Paired source: $($pair.sourceArchive) SHA256 $($pair.sourceArchiveSha256)"
+          Write-Output 'v0.2.0 candidate/source pairing verified. NO PUBLICATION was performed.'
       - name: Verify local engine-only pack and corresponding source companion
         shell: pwsh
         run: |
@@ -89,7 +97,8 @@ jobs:
       - name: Verify the paired packaged WPF app exits and starts in a new OS process
         shell: pwsh
         run: |
-          ./tests/t20/Verify-PackagedRestart.ps1 -PackageRoot 'artifacts/t09/한글 package & 실행' -Archive 'artifacts/t09/DK-PHP-Compatibility-audit-only.zip' -OutputDirectory 'artifacts/t20/app-restart'
+          $pair = Get-Content -Raw -LiteralPath artifacts/t09/evidence/paired-candidate.json | ConvertFrom-Json
+          ./tests/t20/Verify-PackagedRestart.ps1 -PackageRoot 'artifacts/t09/한글 package & 실행' -Archive (Join-Path 'artifacts/t09' $pair.binaryArchive) -OutputDirectory 'artifacts/t20/app-restart'
       - name: Save only provenance and verification metadata
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
