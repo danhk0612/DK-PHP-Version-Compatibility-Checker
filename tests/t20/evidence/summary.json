@@ -41,5 +41,14 @@
       "runId": 43829851733,
       "conclusion": "success"
     }
+  },
+  "engineOnlyCandidate": {
+    "implementation": "tests/t20/prepare_engine_candidate.py",
+    "workflow": ".github/workflows/t20-channel-candidate.yml",
+    "status": "implemented; new Windows CI pending",
+    "archive": "DK-PHP-engine-unpublished.zip",
+    "metadata": "artifacts/t20/engine-candidate/engine-candidate.json",
+    "publiclyUploaded": false,
+    "releaseSequenceSet": false
   }
 }

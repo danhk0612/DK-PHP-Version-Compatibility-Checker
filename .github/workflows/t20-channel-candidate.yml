@@ -42,6 +42,15 @@ jobs:
               throw 'Candidate/source pairing was not verified.'
           }
           Write-Output 'T20 local candidate/source pairing verified. NO PUBLICATION was performed.'
+      - name: Verify local engine-only pack and corresponding source companion
+        shell: pwsh
+        run: |
+          python tests/t20/prepare_engine_candidate.py --runtime tools/runtime --sidecar artifacts/t08-source-sidecar --package artifacts/t09 --output artifacts/t20/engine-candidate
+          if ($LASTEXITCODE -ne 0) { throw 'Local engine-only ZIP or companion verification failed.' }
+          $engine = Get-Content -Raw -LiteralPath artifacts/t20/engine-candidate/engine-candidate.json | ConvertFrom-Json
+          if (-not $engine.scopePassed -or $engine.catalogReady -or $engine.publicReleaseApproved) {
+              throw 'Unpublished engine ZIP candidate metadata is incorrect.'
+          }
       - name: Save only provenance and verification metadata
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -50,5 +59,6 @@ jobs:
           path: |
             artifacts/t09/evidence/summary.json
             artifacts/t09/evidence/paired-candidate.json
+            artifacts/t20/engine-candidate/engine-candidate.json
           if-no-files-found: warn
           retention-days: 7

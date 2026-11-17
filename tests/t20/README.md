@@ -13,6 +13,18 @@ T16~T19에서 작성한 엔진 팩 관리 기능의 **배포 채널 준비** 단
 
 `.github/workflows/t20-channel-candidate.yml`의 Windows x64 단계에서 카탈로그 v2가 비어 있는 것을 확인하고 `tools/packaging/Prepare-LocalTest.ps1`을 통해 프로그램 후보 ZIP·대응 소스/고지 ZIP·paired-candidate.json을 생성 및 대조합니다. 산출 ZIP 자체는 공개하거나 임의 Actions artifact로 배포하지 않고 검사 결과 메타데이터만 제한적으로 보존합니다.
 
+## 공개 게시 전 엔진 단독 ZIP의 로컬 후보
+
+기존 [T09 쌍 ZIP 검증](../t09/check_pair.py)까지 완료된 준비 폴더에서 다음 명령을 실행하면, `runtime/`이 최상위인 **엔진 전용 ZIP**과 `engine-candidate.json`을 추가로 생성합니다. 기존 앱 ZIP·소스/고지 ZIP을 덮어쓰지 않고, 서로의 SHA-256을 다시 대조합니다.
+
+```powershell
+python tests/t20/prepare_engine_candidate.py --runtime tools/runtime --sidecar artifacts/t08-source-sidecar --package artifacts/t09 --output artifacts/t20/engine-candidate
+if ($LASTEXITCODE -ne 0) { throw 'T20 엔진 단독 후보 생성 실패' }
+Get-Content -Raw artifacts/t20/engine-candidate/engine-candidate.json
+```
+
+여기서 만든 `DK-PHP-engine-unpublished.zip`은 사용자가 직접 설치하는 앱 ZIP이 **아니며**, GitHub Actions나 Release에 게시하지 않습니다. 제품 설치기의 `runtime/` ZIP 구성과 manifest SHA를 준비 단계에서 검증하기 위한 후보입니다. 대응 소스는 앞서 생성한 쌍 ZIP을 그대로 참조합니다. `engine-candidate.json`에는 임의의 GitHub Release URL이나 `releaseSequence`를 넣지 않습니다. 이 값들은 정식 게시 승인과 고정 자산 검증을 거친 뒤 확정해야 합니다. CI에도 이 로컬 검증을 추가하지만 ZIP 자체는 artifact로 업로드하지 않고 검증 메타데이터만 보존합니다.
+
 ## Windows 11 검사용 ZIP을 직접 준비하는 절차
 
 CI에서는 배포 승인 전 실행 ZIP 자체를 GitHub Actions artifact로 배포하지 않고 증거 메타데이터만 보존합니다. 따라서 사용자 PC에서 T20 **작업 브랜치**를 별도 폴더에 받아 후보 ZIP과 대응 소스·고지 ZIP을 생성합니다. 아래는 **준비용 PC**의 Windows x64 PowerShell 7에서 수행하며, 준비 도구를 검사 대상 PHP 프로젝트에 설치하지 않습니다.

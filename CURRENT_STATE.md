@@ -108,4 +108,6 @@ T11→T12→T13→T14 기능 보강을 배포 마무리보다 먼저 진행하�
 
 다음 관문: T20 최종 후보 ZIP SHA·대응 소스/고지 대조 → 깨끗한 Windows 11 실제 GUI 검증 → 사용자의 별도 승인 아래 공개 팩/카탈로그 게시 및 실다운로드 검증. 기존 프로젝트 소스 수정·실행은 금지하고 정적 검사 한계를 계속 명시합니다.
 
+T20 로컬 검증에 검증 팩 ZIP(`runtime/`)과 대응 소스 ZIP의 SHA를 대조하는 **엔진 단독 미게시 후보 생성 단계**를 추가했습니다. 새 Windows CI 검증 결과 전에는 이 추가 단계를 통과로 표시하지 않습니다. ZIP은 GitHub에 공개하거나 Actions artifact로 업로드하지 않으며, 게시 URL/순서는 여전히 미확정입니다.
+
 **변경 금지:** 명시 승인 없는 `main` 병합, Release/tag 게시, 프로그램 자동 업데이트, 임의 외부 엔진 URL 채택. 이 단계의 기준은 `TASKS.md`, `REQUIREMENTS.md`, `tools/engine-pack/DOWNLOAD-CATALOG.md`입니다.
