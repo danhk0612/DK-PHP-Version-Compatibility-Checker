@@ -7,7 +7,7 @@
     "runId": 43990066249,
     "conclusion": "success",
     "platform": "Windows Server 2022 x64",
-    "commit": "3717a66e24dbbe9f49ea9228e2b0d6fcdf347bf5",
+    "commit": "ca0297a542bbc46feafa56cf048dcf80e5575ee9",
     "checks": [
       "Catalog schemaVersion=2 with packs=[]",
       "Local paired application and source/notice ZIP validation",
@@ -15,7 +15,8 @@
       "No publication/tag/Release performed",
       "Unpublished engine ZIP verified against paired application runtime bytes",
       "Actual EnginePackInstaller installed candidate and a new loader read it"
-    ]
+    ],
+    "prHeadCommit": "3717a66e24dbbe9f49ea9228e2b0d6fcdf347bf5"
   },
   "verified": [
     "Catalog format schemaVersion 2 with zero unapproved entries",
@@ -33,7 +34,7 @@
     "True engine library-version update and unchanged application EXE hash against public release",
     "Full distribution license/corresponding source final publication and continued availability"
   ],
-  "notes": "Windows Server 2022 x64 run 43990066249 succeeded at commit 3717a66. Unpublished ZIP/local injected transport only; no GitHub public HTTP, clean Windows 11 or distribution clearance. Compiler reports an existing non-blocking CS8603 warning in EnginePackInstaller.cs(211).",
+  "notes": "Windows Server 2022 x64 run 43990066249 succeeded on GitHub PR merge checkout ca0297a (PR head 3717a66). Unpublished ZIP/local injected transport only; no GitHub public HTTP, clean Windows 11 or distribution clearance. Compiler reports an existing non-blocking CS8603 warning in EnginePackInstaller.cs(211).",
   "competingRegressions": {
     "t14": {
       "runId": 43829851717,
