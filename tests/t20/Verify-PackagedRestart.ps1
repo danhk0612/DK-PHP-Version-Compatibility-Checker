@@ -1,9 +1,9 @@
 <# T20: restart the actual unpublished, paired WPF application without publishing it. #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)] [string]$PackageRoot,
-    [Parameter(Mandatory)] [string]$Archive,
-    [Parameter(Mandatory)] [string]$OutputDirectory
+    [Parameter(Mandatory = $true)] [string]$PackageRoot,
+    [Parameter(Mandatory = $true)] [string]$Archive,
+    [Parameter(Mandatory = $true)] [string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
